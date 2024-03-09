@@ -26,5 +26,22 @@ namespace Domain.User
         {
             throw new NotImplementedException();
         }
+        public bool MakeComplaint(Complaint complaint)
+        {
+            throw new NotImplementedException();
+        }
+        public List<Complaint> ListComplaints()
+        {
+            throw new NotImplementedException();
+        }
+        // probably will be implemented using json patch document class as argument
+        public bool EditComplaint(int complaintID) 
+        {
+            throw new NotImplementedException(); 
+        }
+        public bool RemoveComplaint(int complaintID)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
