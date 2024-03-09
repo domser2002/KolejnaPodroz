@@ -52,5 +52,13 @@ namespace Domain.User
         {
             throw new NotImplementedException();
         }
+        public Statistics? GetStatistics() 
+        {
+            throw new NotImplementedException();
+        }
+        public Ranking? GetRanking() 
+        {
+            throw new NotImplementedException();
+        }
     }
 }
