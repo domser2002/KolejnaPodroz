@@ -37,11 +37,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Admin\Admin.cs" />
+    <Compile Include="Common\Base.cs" />
     <Compile Include="Server\Server.cs" />
     <Compile Include="User\User.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Common\" />
     <Folder Include="Services\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
