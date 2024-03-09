@@ -9,5 +9,10 @@ namespace Domain.User
 {
     public class User : Base
     {
+        public User() { }
+        public Ticket? BuyTicket()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
