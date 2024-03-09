@@ -43,5 +43,14 @@ namespace Domain.User
         {
             throw new NotImplementedException();
         }
+        public AccountInfo? GetAccountInfo() 
+        {
+            throw new NotImplementedException();        
+        }
+        // probably will be implemented using json patch document class as argument
+        public bool UpdateAccountInfo()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
