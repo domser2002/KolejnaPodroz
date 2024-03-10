@@ -10,7 +10,7 @@ namespace Domain.Common
     {
         public List<string> Stations = new();
         public List<DateTime> DepartureTimes = new();
-        public DateTime ArrivalTime;
+        public List<DateTime> ArrivalTimes = new();
         public List<Provider> Providers = new();
     }
 }
