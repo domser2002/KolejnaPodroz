@@ -3,15 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Domain.Common;
 
-namespace Domain.Common
+namespace Domain.User
 {
     public class Ticket : Base
     {
         public int OwnerID;
-        public string Source;
-        public string Destination;
-        public DateTime DepartureTime;
-        public DateTime ArrivalTime;
+        public List<string> Stations = new();
+        public List<DateTime> Departures = new(); // last is arrival time
     }
 }
