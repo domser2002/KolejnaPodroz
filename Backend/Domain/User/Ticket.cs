@@ -10,7 +10,6 @@ namespace Domain.User
     public class Ticket : Base
     {
         public int OwnerID;
-        public List<string> Stations = new();
-        public List<DateTime> Departures = new(); // last is arrival time
+        public Connection Connection = new();
     }
 }
