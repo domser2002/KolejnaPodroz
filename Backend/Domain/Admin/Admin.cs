@@ -51,5 +51,21 @@ namespace Domain.Admin
         {
             throw new NotImplementedException();
         }
+        public bool DeleteUser(int userID) 
+        {
+            throw new NotImplementedException();
+        }
+        public void BackupUserDB()
+        {
+            throw new NotImplementedException();
+        }
+        public void BackupProviderDB() 
+        {
+            throw new NotImplementedException();
+        }
+        public void BackupConnectionDB()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
