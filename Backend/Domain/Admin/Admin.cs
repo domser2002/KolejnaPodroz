@@ -9,6 +9,7 @@ namespace Domain.Admin
 {
     public class Admin : Base
     {
+        public bool Accepted;
         public Admin() { }
         public bool AddProvider(Provider provider)
         {
@@ -36,6 +37,18 @@ namespace Domain.Admin
         }
         public CommonAccountInfo? CheckUserAccount(int userID)
         { 
+            throw new NotImplementedException();
+        }
+        public List<Admin> ListAdminCandidates()
+        {
+            throw new NotImplementedException();
+        }
+        public void AcceptNewAdmin(int adminID)
+        {
+            throw new NotImplementedException();
+        }
+        public void RejectNewAdmin(int adminID) 
+        {
             throw new NotImplementedException();
         }
     }
