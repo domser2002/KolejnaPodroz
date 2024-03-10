@@ -25,6 +25,13 @@ namespace Domain.Admin
         {
             throw new NotImplementedException();
         }
-
+        public List<Complaint> ListComplaints() 
+        {
+            throw new NotImplementedException();
+        }
+        public void AnswerComplaint(Complaint complaint, string answer) 
+        {
+            throw new NotImplementedException();
+        }
     }
 }
