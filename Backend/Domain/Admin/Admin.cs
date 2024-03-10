@@ -9,6 +9,7 @@ namespace Domain.Admin
 {
     public class Admin : Base
     {
+        public Admin() { }
         public bool AddProvider(Provider provider)
         {
             throw new NotImplementedException();
@@ -31,6 +32,10 @@ namespace Domain.Admin
         }
         public void AnswerComplaint(Complaint complaint, string answer) 
         {
+            throw new NotImplementedException();
+        }
+        public CommonAccountInfo? CheckUserAccount(int userID)
+        { 
             throw new NotImplementedException();
         }
     }
