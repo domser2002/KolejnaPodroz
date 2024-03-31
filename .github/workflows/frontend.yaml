@@ -22,7 +22,7 @@ jobs:
       - name: Get Flutter dependencies
         run: flutter pub get
 
-        name: Change directory
+      - name: Change directory
         run: cd ../Frontend/webapp
 
       - name: Run Flutter tests
