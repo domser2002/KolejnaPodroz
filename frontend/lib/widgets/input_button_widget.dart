@@ -2,20 +2,20 @@ import 'package:flutter/material.dart';
 
 class InputButton extends StatelessWidget {
   final TextEditingController controller;
-  final String labelText;
   final Icon icon;
   final String prefixText;
   final Color backgroundColor;
   final String hintText;
+  final bool obscureText;
 
   const InputButton({
     Key? key,
     required this.controller,
     required this.icon,
-    required this.prefixText,
+    this.prefixText= '',
     required this.backgroundColor,
-    required this.labelText,
     this.hintText = '',
+    this.obscureText = false,
   }) : super(key: key);
 
   @override
@@ -27,16 +27,17 @@ class InputButton extends StatelessWidget {
         borderRadius: BorderRadius.circular(30.0),
       ),
       child: TextFormField(
+        obscureText: obscureText,
         controller: controller,
         style: const TextStyle(color: Colors.black),
         textAlignVertical: TextAlignVertical.center, // Dla wyśrodkowania tekstu pionowo
         decoration: InputDecoration(
           icon: Padding(
-            padding: const EdgeInsets.only(right: 8.0), // Padding for icon
+            padding: const EdgeInsets.only(right: 7.0), // Padding for icon
             child: icon,
           ),
           hintText: hintText,
-          hintStyle: TextStyle(color: Colors.grey[600]),
+          hintStyle: TextStyle(color: Colors.grey[600],),
           labelStyle: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
           border: InputBorder.none,
           // Customowy widget dla prefix'u
@@ -55,7 +56,7 @@ class InputButton extends StatelessWidget {
             ),
           ),
           // Brak paddingu z lewej strony, więc tekst wpisywany będzie się zaczynał zaraz za prefixIcon
-          contentPadding: EdgeInsets.only(bottom: 12, left: 0),
+          contentPadding: EdgeInsets.symmetric(vertical: 20, horizontal: 100),
         ),
         cursorColor: Colors.black,
       ),

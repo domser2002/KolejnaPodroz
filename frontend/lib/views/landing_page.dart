@@ -1,5 +1,8 @@
 // landing_page.dart
 import 'package:flutter/material.dart';
+import 'package:frontend/views/login_page.dart';
+import 'package:frontend/views/offers_page.dart';
+import 'package:frontend/views/register_page.dart';
 import 'package:frontend/widgets/date_picker_widget.dart';
 import 'package:frontend/widgets/destination_input_wdget.dart';
 import 'package:frontend/widgets/button_widget.dart';
@@ -19,18 +22,24 @@ class LandingPage extends StatelessWidget {
       bottomNavigationBar: const  BottomAppBar(
         color: Colors.white, 
         height: 50,
-        child: Stack(fit: StackFit.passthrough,children: [
-          Icon( Icons.train, color: Colors.black, size: 20,),
+        child: Center(child: Stack(fit: StackFit.passthrough,children: [
           Text("©Kolejna Podróż 2024", style: TextStyle(color: Colors.black)),
+          Icon( Icons.train, color: Colors.black, size: 20,),
           ],
-        )),
+        ))),
       appBar: AppBar(
         toolbarHeight: 50,
         backgroundColor: Colors.white,
         elevation: 0,
         actions: [
           TextButton(
-            onPressed: () {},
+            onPressed: () {
+                     Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => LoginPage(),
+                        ),
+                      );
+            },
             child: const  Text(
               'Zaloguj się',
               style: TextStyle(color: Colors.black),
@@ -38,7 +47,13 @@ class LandingPage extends StatelessWidget {
           ),
           const VerticalDivider(color: Colors.black, thickness: 1, width: 20, indent: 18, endIndent: 16),
           TextButton(
-            onPressed: () {},
+            onPressed: () {
+               Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => RegistrationPage(),
+                    ),
+                  );
+            },
             child: const Text(
               'Zarejestruj się',
               style: TextStyle(color: Colors.black),
@@ -71,7 +86,6 @@ class LandingPage extends StatelessWidget {
                       style: TextStyle(fontSize: 24, fontWeight: FontWeight.w600, color: Colors.white),
                     ),
                     InputButton(
-                      labelText: 'Z',
                       icon: const Icon(Icons.output, color: Colors.black),
                       controller: departureController,
                       prefixText: 'Z',
@@ -79,17 +93,15 @@ class LandingPage extends StatelessWidget {
                     ),
                     const SizedBox(height: 16),
                   InputButton(
-                      labelText: 'DO',
                       icon: const Icon(Icons.input, color: Colors.black),
-                      controller: departureController,
+                      controller: destinationController,
                       prefixText: 'DO',
                       backgroundColor: Colors.white,
                     ),
                     const SizedBox(height: 16),
                   InputButton(
-                      labelText: 'KIEDY',
                       icon: const Icon(Icons.calendar_month, color: Colors.black),
-                      controller: departureController,
+                      controller: dateController,
                       prefixText: 'KIEDY',
                       backgroundColor: Colors.white,
                     ),
@@ -99,7 +111,13 @@ class LandingPage extends StatelessWidget {
                       children: [
 
                         ButtonWidget(onPressed: (){}, title: 'Opcje dodatkowe'),
-                        ButtonWidget(onPressed: () {}, title: 'Wyszukaj'),
+                        ButtonWidget(onPressed: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => ViewOffersPage(),
+                              ),
+                            );
+                        }, title: 'Wyszukaj'),
                       ],
                     ),
                   ],
