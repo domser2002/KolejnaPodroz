@@ -1,0 +1,36 @@
+name: Test and Deploy Backend
+
+on: 
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+jobs:
+  deploy-backend:
+    name: deploy-backend
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v2
+      with:
+        dotnet-version: 7.0.x
+  
+    - name: Restore dependencies
+      run: dotnet restore
+      
+    - name: Build
+      run: dotnet build --no-restore
+      
+    - name: Test
+      run: dotnet test --no-build --verbosity normal
+
+    - name: Publish
+      run: dotnet publish Backend/Api/Api.csproj -c Release --nologo -o artifacts
+
+    - name: Upload Build Artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: BackendFiles
+        path: /home/runner/work/KolejNaPodroz/KolejNaPodroz/artifacts
