@@ -18,13 +18,13 @@ jobs:
         dotnet-version: 7.0.x
   
     - name: Restore dependencies
-      run: dotnet restore
+      run: dotnet restore Backend
       
     - name: Build
-      run: dotnet build --no-restore
+      run: dotnet build --no-restore Backend
       
     - name: Test
-      run: dotnet test --no-build --verbosity normal
+      run: dotnet test --no-build --verbosity normal Backend
 
     - name: Publish
       run: dotnet publish Backend/Api/Api.csproj -c Release --nologo -o artifacts
