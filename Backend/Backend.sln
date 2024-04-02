@@ -5,7 +5,7 @@ VisualStudioVersion = 17.7.34221.43
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "Domain\Domain.csproj", "{C3078A1F-0FF6-4B31-AD25-BEBAE67CC20E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Api", "Api\Api.csproj", "{1773648D-88D2-4553-8B8E-DF7829791C64}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Api", "Api\Api.csproj", "{1773648D-88D2-4553-8B8E-DF7829791C64}"
 	ProjectSection(ProjectDependencies) = postProject
 		{C3078A1F-0FF6-4B31-AD25-BEBAE67CC20E} = {C3078A1F-0FF6-4B31-AD25-BEBAE67CC20E}
 	EndProjectSection
