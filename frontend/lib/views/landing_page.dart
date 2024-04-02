@@ -24,7 +24,6 @@ class LandingPage extends StatelessWidget {
         height: 50,
         child: Center(child: Stack(fit: StackFit.passthrough,children: [
           Text("©Kolejna Podróż 2024", style: TextStyle(color: Colors.black)),
-          Icon( Icons.train, color: Colors.black, size: 20,),
           ],
         ))),
       appBar: AppBar(

@@ -33,7 +33,7 @@ class LoginPage extends StatelessWidget {
           Container(
             decoration: const BoxDecoration(
               image: DecorationImage(
-                image: AssetImage('lib/assets/photos/background.jpg'), 
+                image: AssetImage('lib/assets/photos/background2.jpg'), 
                 fit: BoxFit.cover,
               ),
             ),
