@@ -163,7 +163,7 @@
               ),
               const   Text('Klasa 1: od 90,00 zł', style: TextStyle(fontSize: 25, color: Colors.white)),
               const Text('Klasa 2: od 58,65 zł', style: TextStyle(fontSize: 25, color: Colors.white)),
-              const SizedBox(height: 80),
+              const SizedBox(height: 50),
               ElevatedButton(
                 onPressed: () {},
                 child:  Text('Wybierz'),
