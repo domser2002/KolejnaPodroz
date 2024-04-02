@@ -5,8 +5,7 @@ on:
   push:
     branches: [ main ]
 jobs:
-  deploy-backend:
-    name: deploy-backend
+  build_and_test:
     runs-on: ubuntu-latest
 
     steps:
