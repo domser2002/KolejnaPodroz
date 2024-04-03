@@ -38,7 +38,7 @@ namespace Test
         }
 
         [Test]
-        public void CanExecute_EditComplaint_Executes()
+        public void CanExecute_EditComplaint_ReturnsTrue()
         {
             throw new NotImplementedException();
         }

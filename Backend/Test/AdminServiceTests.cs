@@ -62,7 +62,7 @@ namespace Test
         }
 
         [Test]
-        public void CanExecute_GiveAdminPermissions_Executes()
+        public void CanExecute_GiveAdminPermissions_ReturnsTrue()
         {
             throw new NotImplementedException();
         }

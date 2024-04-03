@@ -8,49 +8,49 @@
         }
 
         [Test]
-        public void CanReturn_BuyTicket_Ticket()
+        public void CanReturn_Ticket_ReturnsTrue()
         {
             throw new NotImplementedException();
         }
 
         [Test]
-        public void CanReturn_ExchangeTicket_Ticket()
+        public void CanReturn_ExchangeTicket_ReturnsTrue()
         {
             throw new NotImplementedException();
         }
 
         [Test]
-        public void CanReturn_DropTicket_True()
+        public void CanReturn_DropTicket_ReturnsTrue()
         {
             throw new NotImplementedException();
         }
 
         [Test]
-        public void CanReturn_DropTicket_False()
+        public void CanReturn_DropTicket_ReturnsFalse()
         {
             throw new NotImplementedException();
         }
 
         [Test]
-        public void CanReturn_MakeComplaint_True()
+        public void CanReturn_MakeComplaint_ReturnsTrue()
         {
             throw new NotImplementedException();
         }
 
         [Test]
-        public void CanReturn_MakeComplaint_False()
+        public void CanReturn_MakeComplaint_ReturnsFalse()
         {
             throw new NotImplementedException();
         }
 
         [Test]
-        public void CanReturn_RemoveComplaint_True()
+        public void CanReturn_RemoveComplaint_ReturnsTrue()
         {
             throw new NotImplementedException();
         }
 
         [Test]
-        public void CanReturn_RemoveComplaint_False()
+        public void CanReturn_RemoveComplaint_ReturnsFalse()
         {
             throw new NotImplementedException();
         }

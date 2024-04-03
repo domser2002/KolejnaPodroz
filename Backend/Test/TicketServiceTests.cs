@@ -20,7 +20,7 @@
         }
 
         [Test]
-        public void Generate_Ticket_GeneratesTicket()
+        public void CanGenerate_Ticket_ReturnsTrue()
         {
             throw new NotImplementedException();
         }

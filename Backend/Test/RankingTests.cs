@@ -8,7 +8,7 @@
         }
 
         [Test]
-        public void CanReturn_GetByUser_ListOfUsers()
+        public void CanGetInfo_User_ReturnsTrue()
         {
             throw new NotImplementedException();
         }

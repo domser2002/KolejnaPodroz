@@ -8,49 +8,49 @@ namespace Test
         }
 
         [Test]
-        public void Add_NewProvider_ShouldAddProvider()
+        public void CanAdd_NewProvider_ReturnsTrue()
         {
             throw new NotImplementedException();
         }
 
         [Test]
-        public void Add_EmptyProvider_ThrowsException()
+        public void CanAdd_EmptyProvider_ThrowsException()
         {
             throw new NotImplementedException ();
         }
 
         [Test]
-        public void CanReturn_ListProviders_ReturnsListOfProviders()
+        public void CanReturn_ListProviders_ReturnsTrue()
         {
             throw new NotImplementedException ();
         }
 
         [Test]
-        public void CanExecute_AnswerComplaint_Executes()
+        public void CanExecute_AnswerComplaint_ReturnsTrue()
         {
             throw new NotImplementedException () ;
         }
 
         [Test]
-        public void CanCheck_CheckUserAccount_Checks()
+        public void CanCheck_CheckUserAccount_ReturnsTrue()
         {
             throw new NotImplementedException() ;
         }
 
         [Test]
-        public void CanDelete_User_DeletesUser()
+        public void CanDelete_User_ReturnsTrue()
         {
             throw new NotImplementedException();
         }
 
         [Test]
-        public void CanAdd_User_AddsUser()
+        public void CanAdd_User_ReturnsTrue()
         {
             throw new NotImplementedException();
         }
 
         [Test]
-        public void Can_BackupDb_BackupsDb()
+        public void CanBackup_Database_ReturnsTrue()
         {
             throw new NotImplementedException();
         }
