@@ -11,6 +11,7 @@ namespace Domain.Common
 {
     public partial class DomainDBContext : DbContext
     {
+        public DomainDBContext() { }
         public DomainDBContext(DbContextOptions
         <DomainDBContext> options)
             : base(options)
