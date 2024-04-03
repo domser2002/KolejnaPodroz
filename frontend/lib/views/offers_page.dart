@@ -3,11 +3,20 @@
   import 'package:frontend/views/register_page.dart';
 
   class ViewOffersPage extends StatelessWidget {
+  const ViewOffersPage({super.key});
+
     @override
     Widget build(BuildContext context) {
       final PageController controller = PageController(viewportFraction: 0.4);
 
       return Scaffold(
+        bottomNavigationBar: const  BottomAppBar(
+        color: Colors.white, 
+        height: 50,
+        child: Center(child: Stack(fit: StackFit.passthrough,children: [
+          Text("©Kolejna Podróż 2024", style: TextStyle(color: Colors.black)),
+          ],
+        ))),
         appBar: AppBar(
           title: const Text('Wybierz pociąg!'),
           actions: <Widget>[
@@ -57,12 +66,12 @@
               aspectRatio: 2.0,
               child: PageView.builder(
                 controller: controller,
-                itemCount: 5, // Liczba kart, zwiększona o dwie dla efektu bocznych kart
+                itemCount: 5, 
                 itemBuilder: (context, index) {
                   return AnimatedBuilder(
                     animation: controller,
                     builder: (context, child) {
-                      double value = 3.0;
+                      double value = 1.0;
                       if (controller.position.haveDimensions) {
                         value = controller.page! - index;
                         value = (1 - (value.abs() * .3)).clamp(0.5, 1.0);
@@ -166,7 +175,6 @@
               const SizedBox(height: 50),
               ElevatedButton(
                 onPressed: () {},
-                child:  Text('Wybierz'),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.orange, // Background color
                   foregroundColor: Colors.white, // Text Color
@@ -174,6 +182,7 @@
                     borderRadius: BorderRadius.circular(18.0),
                   ),
                 ),
+                child: const Text('Wybierz'),
               ),
             ],
           ),

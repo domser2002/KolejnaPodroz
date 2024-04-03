@@ -5,7 +5,7 @@ class DatePickerWidget extends StatelessWidget {
   final TextEditingController controller;
   final String hintText;
 
-  DatePickerWidget({
+  const DatePickerWidget({
     Key? key,
     required this.controller,
     required this.hintText,
@@ -24,7 +24,7 @@ class DatePickerWidget extends StatelessWidget {
         DateTime? pickedDate = await showDatePicker(
           context: context,
           initialDate: DateTime.now(),
-          firstDate: DateTime.now().subtract(Duration(days: 0)),
+          firstDate: DateTime.now().subtract(const Duration(days: 0)),
           lastDate: DateTime(2101),
         );
         if (pickedDate != null) {

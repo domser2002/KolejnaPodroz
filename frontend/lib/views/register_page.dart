@@ -99,7 +99,6 @@ class RegistrationPage extends StatelessWidget {
                         ),
                         const SizedBox(height: 20),
                         ElevatedButton(
-                          child: const Text('Zarejestruj się'),
                           onPressed: () {
                             // Handle registration action
                           },
@@ -107,6 +106,7 @@ class RegistrationPage extends StatelessWidget {
                             foregroundColor: Colors.white,
                             backgroundColor: Colors.orange,
                           ),
+                          child: const Text('Zarejestruj się'),
                         ),
                         TextButton(
                           child: const Text(

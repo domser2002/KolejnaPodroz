@@ -93,7 +93,6 @@ class LoginPage extends StatelessWidget {
                         const SizedBox(height: 10),
                         const SizedBox(height: 20),
                         ElevatedButton(
-                          child: const Text('Zaloguj się'),
                           onPressed: () {
                              
                           },
@@ -101,6 +100,7 @@ class LoginPage extends StatelessWidget {
                             foregroundColor: Colors.white,
                             backgroundColor: Colors.orange,
                           ),
+                          child: const Text('Zaloguj się'),
                         ),
                         TextButton(
                           child: const Text(

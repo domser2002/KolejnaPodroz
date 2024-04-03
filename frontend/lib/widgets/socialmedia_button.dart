@@ -25,7 +25,7 @@ class SocialButton extends StatelessWidget {
       style: ElevatedButton.styleFrom(
         backgroundColor: color,
         foregroundColor: textColor,
-        minimumSize: Size(double.infinity, 50),
+        minimumSize:const  Size(double.infinity, 50),
       ),
     );
   }

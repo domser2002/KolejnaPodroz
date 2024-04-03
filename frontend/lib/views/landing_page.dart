@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:frontend/views/login_page.dart';
 import 'package:frontend/views/offers_page.dart';
 import 'package:frontend/views/register_page.dart';
-import 'package:frontend/widgets/date_picker_widget.dart';
-import 'package:frontend/widgets/destination_input_wdget.dart';
+import 'package:frontend/views/user_profile_page.dart';
 import 'package:frontend/widgets/button_widget.dart';
 
 import '../widgets/input_button_widget.dart';
@@ -63,27 +62,47 @@ class LandingPage extends StatelessWidget {
       extendBodyBehindAppBar: true,
       body: Stack(
         children: [
-          Image.network(
-            'https://i.ytimg.com/vi/9Y2uVin0ywg/maxresdefault.jpg',
-            fit: BoxFit.cover,
-            height: double.infinity,
-            width: double.infinity,
-            alignment: Alignment.center,
+              Container(
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage('lib/assets/photos/background2.jpg'), 
+                fit: BoxFit.cover,
+              ),
+            ),
           ),
           Center(
-            child: Card(
-              elevation: 8,
-              color: Colors.blue[700]?.withOpacity(0.9),
-              margin: const EdgeInsets.symmetric(horizontal: 300),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 150),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.symmetric(vertical: 200, horizontal: 300),
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      Colors.blueAccent.shade700.withOpacity(0.9),
+                      Colors.blueAccent.shade400.withOpacity(0.9),
+                      Colors.blueAccent.shade200.withOpacity(0.9),
+                      Colors.blueAccent.shade100.withOpacity(0.9),
+                    ],
+                  ),
+                ),
+                child: Card(
+                  color: Colors.transparent,
+                  elevation: 8,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(40),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 100, vertical: 50),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
                     const Text(
                       'Wybierz trasę!',
                       style: TextStyle(fontSize: 24, fontWeight: FontWeight.w600, color: Colors.white),
                     ),
+                    const SizedBox(height: 20), 
                     InputButton(
                       icon: const Icon(Icons.output, color: Colors.black),
                       controller: departureController,
@@ -109,17 +128,25 @@ class LandingPage extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
 
-                        ButtonWidget(onPressed: (){}, title: 'Opcje dodatkowe'),
+                        ButtonWidget(onPressed: (){
+                               Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => const UserProfilePage(),
+                              ),
+                            );
+                        }, title: 'Opcje dodatkowe'),
                         ButtonWidget(onPressed: () {
                             Navigator.of(context).push(
                               MaterialPageRoute(
-                                builder: (context) => ViewOffersPage(),
+                                builder: (context) => const ViewOffersPage(),
                               ),
                             );
                         }, title: 'Wyszukaj'),
                       ],
                     ),
                   ],
+                ),
+                  ),
                 ),
               ),
             ),

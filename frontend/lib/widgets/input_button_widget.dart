@@ -41,9 +41,9 @@ class InputButton extends StatelessWidget {
           labelStyle: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
           border: InputBorder.none,
           // Customowy widget dla prefix'u
-          prefixIconConstraints: BoxConstraints(minWidth: 0, minHeight: 0),
+          prefixIconConstraints: const BoxConstraints(minWidth: 0, minHeight: 0),
           prefixIcon: Padding(
-            padding: EdgeInsets.only(right: 4), // Mały odstęp między ikoną a tekstem
+            padding: const EdgeInsets.only(right: 4), // Mały odstęp między ikoną a tekstem
             child: Row(
               mainAxisSize: MainAxisSize.min, // Wykorzystujemy minimalną przestrzeń
               children: [
@@ -56,7 +56,7 @@ class InputButton extends StatelessWidget {
             ),
           ),
           // Brak paddingu z lewej strony, więc tekst wpisywany będzie się zaczynał zaraz za prefixIcon
-          contentPadding: EdgeInsets.symmetric(vertical: 20, horizontal: 100),
+          contentPadding: const EdgeInsets.symmetric(vertical: 20, horizontal: 100),
         ),
         cursorColor: Colors.black,
       ),

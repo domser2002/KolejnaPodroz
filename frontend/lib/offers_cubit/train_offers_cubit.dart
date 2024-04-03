@@ -10,7 +10,7 @@ class TrainOffersCubit extends Cubit<TrainOffersState> {
     // symulacja ładowania ofert
     emit(TrainOffersLoading());
     // Tutaj dodałbyś logikę pobierania danych z backendu
-    Future.delayed(Duration(seconds: 2), () {
+    Future.delayed(const Duration(seconds: 2), () {
       // symulacja ładowania danych
       emit(TrainOffersLoaded([/* Lista ofert pociągów */]));
     });
