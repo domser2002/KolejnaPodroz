@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Domain.Common;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,6 +14,21 @@ namespace Domain
             throw new NotImplementedException();
         }
         public static void Backup()
+        {
+            throw new NotImplementedException();
+        }
+
+        public static bool InsertProvider(Provider provider) 
+        {
+            throw new NotImplementedException();
+        }
+
+        public static bool UpdateProvider(int id, Provider provider)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static bool RemoveProvider(int provider) 
         {
             throw new NotImplementedException();
         }
