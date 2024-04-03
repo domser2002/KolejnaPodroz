@@ -1,0 +1,1 @@
+ C:\\Studia\\IO\\frontend\\webapp\\.dart_tool\\flutter_gen\\gen_l10n\\app_localizations_en.dart C:\\Studia\\IO\\frontend\\webapp\\.dart_tool\\flutter_gen\\gen_l10n\\app_localizations.dart:  C:\\Studia\\IO\\frontend\\webapp\\l10n.yaml C:\\Studia\\IO\\frontend\\webapp\\lib/src/localization\\app_en.arb
