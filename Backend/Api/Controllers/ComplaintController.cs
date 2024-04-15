@@ -27,6 +27,19 @@ namespace Api.Controllers
                 return StatusCode(500);
             }
         }
+        [HttpPut("edit/{complaintId}")]
+        public ActionResult EditComplaint(int complaintId, Complaint complaint)
+        {
+            try
+            {
+                var edited = _complaintService.EditComplaint(complaintId, complaint);
+                return edited ? Ok() : NotFound();
+            }
+            catch (Exception)
+            {
+                return StatusCode(500);
+            }
+        }
         [HttpDelete("delete/{complaintId}")]
         public ActionResult DeleteComplaint(int complaintId)
         {
@@ -34,19 +47,6 @@ namespace Api.Controllers
             {
                 var removed = _complaintService.RemoveComplaint(complaintId);
                 return removed ? Ok() : NotFound();
-            }
-            catch (Exception)
-            {
-                return StatusCode(500);
-            }
-        }
-        [HttpPatch("edit/{complaintId}")]
-        public ActionResult EditComplaint(int complaintId, Complaint complaint)
-        {
-            try
-            {
-                var edited = _complaintService.EditComplaint(complaintId, complaint);
-                return edited ? Ok() : NotFound();
             }
             catch (Exception)
             {
