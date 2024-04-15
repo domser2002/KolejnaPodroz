@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Domain.Common;
-using Microsoft.EntityFrameworkCore;
+﻿using Domain.Common;
 
 namespace Domain.User
 {
@@ -19,7 +13,7 @@ namespace Domain.User
         {
             throw new NotImplementedException();
         }
-        public Ticket? ExchangeTicket(string newName,string newSurname)
+        public Ticket? ExchangeTicket(string newName, string newSurname)
         {
             throw new NotImplementedException();
         }
