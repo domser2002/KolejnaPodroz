@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Api.Services;
+using Domain.User;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
 {
@@ -6,10 +8,10 @@ namespace Api.Controllers
     [Route("Payment")]
     public class UserController : ControllerBase
     {
-        [HttpGet("{userId}")]
-        public OkResult GetTicketById()
+        private readonly UserService _userService;
+        public UserController(UserService userService)
         {
-            return Ok();
+            _userService = userService;
         }
     }
 }

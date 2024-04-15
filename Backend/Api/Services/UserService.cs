@@ -12,11 +12,11 @@ namespace Api.Services
         { 
             throw new NotImplementedException();
         }
-        public bool VerifyUserAccount(User user)
+        public bool VerifyUserAccount(int userID)
         {
             throw new NotImplementedException();
         }
-        public bool AuthoriseUser(User user)
+        public bool AuthoriseUser(int userID)
         {
             throw new NotImplementedException();
         }
