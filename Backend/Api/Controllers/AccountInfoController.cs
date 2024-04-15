@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Api.Services;
+using Domain.User;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
 {
@@ -6,14 +8,44 @@ namespace Api.Controllers
     [Route("AccountInfo")]
     public class AccountInfoController : ControllerBase
     {
-        //private readonly AccountService _accountService;
+        private readonly AccountService _accountService;
 
-        public AccountInfoController() { }
+        public AccountInfoController(AccountService accountService) 
+        {
+            _accountService = accountService;
+        }
 
         [HttpGet("{userId}")]
-        public OkResult GetInfoByUserId()
+        public ActionResult<AccountInfo> GetInfoByUserId(int userId)
         {
-            return Ok();
+            try
+            {
+                var accountInfo = _accountService.GetAccountInfo(userId);
+
+                if (accountInfo == null)
+                    return NotFound();
+
+                return Ok(accountInfo);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500);
+            }
+        }
+
+        [HttpPut("{userId}")]
+        public ActionResult UpdateAccountInfo(int userId, AccountInfo accountInfo)
+        {
+            try
+            {
+                bool updated = _accountService.UpdateAccountInfo(userId, accountInfo);
+
+                return updated ? Ok() : BadRequest();
+            }
+            catch (Exception)
+            {
+                return StatusCode(500);
+            }
         }
     }
 }
