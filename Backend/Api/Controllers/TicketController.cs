@@ -61,7 +61,7 @@ namespace Api.Controllers
         {
             try
             {
-                bool edited = _ticketService.ChangeDetails(ticket);
+                var edited = _ticketService.ChangeDetails(ticket);
                 return edited ? Ok() : BadRequest();
             }
             catch (Exception)
@@ -70,5 +70,18 @@ namespace Api.Controllers
             }
         }
 
+        [HttpDelete("delete/{ticketId}")]
+        public ActionResult RemoveTicket(int ticketId)
+        {
+            try
+            {
+                var removed = _ticketService.Remove(ticketId);
+                return removed ? Ok() : NotFound();
+            }
+            catch (Exception)
+            {
+                return StatusCode(500);
+            }
+        }
     }
 }
