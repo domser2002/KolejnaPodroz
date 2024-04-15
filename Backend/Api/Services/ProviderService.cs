@@ -2,10 +2,6 @@
 
 namespace Api.Services
 {
-    public enum EditProviderOption
-    {
-        Add, Edit, Remove
-    }
     public class ProviderService
     {
         private readonly DatabaseService _databaseService;
@@ -36,41 +32,19 @@ namespace Api.Services
 
             return true;
         }
-        public void EditProvider(int providerID, EditProviderOption option)
-        { 
-            switch(option) 
-            {
-                case EditProviderOption.Add:
-                    EditAddProvider();
-                    break;
-                case EditProviderOption.Edit:
-                    EditEditProvider(providerID);
-                    break;
-                case EditProviderOption.Remove:
-                    EditRemoveProvider(providerID);
-                    break;
-            }
-        }
-
-        private void EditAddProvider()
+        private void AddProvider()
         {
             Provider provider = new Provider();
             FillForm(provider);
             AddProvider(provider);
         }
 
-        private void EditEditProvider(int providerId)
+        public bool EditProvider(int providerId, Provider newProvider)
         {
             Provider provider = GetProviderById(providerId);
             FillForm(provider);
-            _databaseService.UpdateProvider(providerId, provider);
+            return _databaseService.UpdateProvider(providerId, provider);
         }
-
-        private void EditRemoveProvider(int providerId)
-        {
-            RemoveProvider(providerId);
-        }
-
         private void FillForm(Provider provider)
         {
             throw new NotImplementedException();

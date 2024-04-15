@@ -20,11 +20,16 @@ namespace Api.Services
         {
             throw new NotImplementedException();
         }
-        public bool Add(Ticket ticket) 
+        public int? Add(Ticket ticket) 
+        {
+            throw new NotImplementedException();
+            // return ticketId
+        }
+        public bool ChangeDetails(Ticket ticket)
         {
             throw new NotImplementedException();
         }
-        public bool ChangeDetails(Ticket ticket)
+        public Ticket? GetTicketById(int ticketID)
         {
             throw new NotImplementedException();
         }

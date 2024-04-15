@@ -20,7 +20,7 @@ namespace Api.Controllers
             try
             {
                 var rankings = _rankingService.GetByUser(userId);
-                return rankings == null ? Ok(rankings) : NotFound();
+                return rankings != null ? Ok(rankings) : NotFound();
             }
             catch(Exception)
             {
