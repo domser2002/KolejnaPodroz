@@ -4,6 +4,10 @@ namespace Api.Services
 {
     public class ComplaintService
     {
+        public Complaint GetComplaint(int complaintID)
+        {
+            throw new NotImplementedException();
+        }
         public bool MakeComplaint(Complaint complaint)
         {
             throw new NotImplementedException();
@@ -12,7 +16,7 @@ namespace Api.Services
         {
             throw new NotImplementedException();
         }
-        public void EditComplaint(int complaintID)
+        public bool EditComplaint(int complaintID, Complaint complaint)
         {
             throw new NotImplementedException();
         }

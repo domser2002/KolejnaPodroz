@@ -9,7 +9,7 @@ namespace Api.Services
         {
             throw new NotImplementedException();
         }
-        public bool UpdateAccountInfo(int userID) 
+        public bool UpdateAccountInfo(int userID, AccountInfo accountInfo) 
         { 
             throw new NotImplementedException();
         }
