@@ -8,7 +8,7 @@ namespace Api.Services
         {
             throw new NotImplementedException();
         }
-        public bool Update(int userID,Ranking ranking) 
+        public bool Update(int userID, Ranking ranking) 
         {
             throw new NotImplementedException();
         }
