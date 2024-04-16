@@ -68,7 +68,8 @@ namespace Api.Services.Implementations
 
         public Provider GetProviderById(int id)
         {
-            throw new NotImplementedException();
+            Provider provider = _databaseService.GetProvider(id);
+            return provider;
         }
     }
 }
