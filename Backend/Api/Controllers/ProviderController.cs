@@ -1,7 +1,6 @@
-﻿using Api.Services;
+﻿using Api.Services.Implementations;
 using Domain.Common;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace Api.Controllers
 {

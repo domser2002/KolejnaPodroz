@@ -1,6 +1,6 @@
 ﻿using Domain.Common;
 
-namespace Api.Services
+namespace Api.Services.Implementations
 {
     public class RankingService
     {
@@ -8,7 +8,7 @@ namespace Api.Services
         {
             throw new NotImplementedException();
         }
-        public bool Update(int userID, Ranking ranking) 
+        public bool Update(int userID, Ranking ranking)
         {
             throw new NotImplementedException();
         }

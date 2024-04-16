@@ -1,6 +1,6 @@
 ﻿using Domain.User;
 
-namespace Api.Services
+namespace Api.Services.Implementations
 {
     public class TicketService
     {
@@ -12,7 +12,7 @@ namespace Api.Services
         {
             throw new NotImplementedException();
         }
-        public void Generate(Ticket ticket) 
+        public void Generate(Ticket ticket)
         {
             throw new NotImplementedException();
         }
@@ -20,7 +20,7 @@ namespace Api.Services
         {
             throw new NotImplementedException();
         }
-        public int? Add(Ticket ticket) 
+        public bool Add(Ticket ticket)
         {
             throw new NotImplementedException();
             // return ticketId
