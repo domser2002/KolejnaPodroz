@@ -1,42 +1,42 @@
 ﻿using Domain.Common;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Domain.Services
+namespace Api.Services
 {
     public enum EditProviderOption
     {
         Add, Edit, Remove
     }
-    public static class ProviderService
+    public class ProviderService
     {
-        public static bool AddProvider(Provider provider)
+        private readonly DatabaseService _databaseService;
+        public ProviderService(DatabaseService databaseService)
+        {
+            _databaseService = databaseService;
+        }
+        public bool AddProvider(Provider provider)
         {
             if(provider is null)
             {
                 return false;
             }
 
-            if(!DatabaseService.InsertProvider(provider))
+            if(!_databaseService.InsertProvider(provider))
             {
                 return false;
             }
 
             return true;
         }
-        public static bool RemoveProvider(int providerID) 
+        public bool RemoveProvider(int providerID) 
         {
-            if(!DatabaseService.RemoveProvider(providerID))
+            if(!_databaseService.RemoveProvider(providerID))
             {
                 return false;
             }
 
             return true;
         }
-        public static void EditProvider(int providerID, EditProviderOption option)
+        public void EditProvider(int providerID, EditProviderOption option)
         { 
             switch(option) 
             {
@@ -52,31 +52,31 @@ namespace Domain.Services
             }
         }
 
-        private static void EditAddProvider()
+        private void EditAddProvider()
         {
             Provider provider = new Provider();
             FillForm(provider);
             AddProvider(provider);
         }
 
-        private static void EditEditProvider(int providerId)
+        private void EditEditProvider(int providerId)
         {
             Provider provider = GetProviderById(providerId);
             FillForm(provider);
-            DatabaseService.UpdateProvider(providerId, provider);
+            _databaseService.UpdateProvider(providerId, provider);
         }
 
-        private static void EditRemoveProvider(int providerId)
+        private void EditRemoveProvider(int providerId)
         {
             RemoveProvider(providerId);
         }
 
-        private static void FillForm(Provider provider)
+        private void FillForm(Provider provider)
         {
             throw new NotImplementedException();
         }
 
-        public static Provider GetProviderById(int id)
+        public Provider GetProviderById(int id)
         {
             throw new NotImplementedException();
         }
