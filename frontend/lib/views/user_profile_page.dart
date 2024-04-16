@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:frontend/classes/complaint.dart';
-import 'package:frontend/views/complaint_page.dart';
+import 'package:frontend/views/complaint/complaint_page.dart';
 import 'package:frontend/widgets/complaint_item_widget.dart';
 
 class UserProfilePage extends StatefulWidget {
@@ -44,8 +44,12 @@ class _UserProfilePageState extends State<UserProfilePage>
             ],
           ))),
       appBar: AppBar(
-        title: const Center(child: Text('Moje konto')),
-        backgroundColor: Colors.transparent,
+        title: const  Stack(
+          alignment: AlignmentDirectional.centerEnd,
+          children:[ 
+          Icon(Icons.person, size: 40, color: Colors.black),
+          ]),
+        backgroundColor: Colors.white,
         elevation: 0,
       ),
       extendBodyBehindAppBar: true,
@@ -86,44 +90,64 @@ class _UserProfilePageState extends State<UserProfilePage>
                       borderRadius: BorderRadius.circular(40)),
                   child: Column(
                     children: [
-                      // Pionowy pasek z zakładkami
+                     const Text("Moje konto",
+                          style: TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.white)),
+                      SizedBox(height: MediaQuery.of(context).size.height * 0.05),
                       Container(
-                        height: 60,
+                       decoration:  BoxDecoration(
+                            borderRadius:
+                               const BorderRadius.all(Radius.circular(10)),
+                               gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      Colors.grey.shade500,
+                      Colors.grey.shade400.withOpacity(0.9),
+                    ],
+                  ),
+                ),
+                        height: 65,
                         width: 800,
-
-                        color: Colors.grey[400], // Tło dla zakładek Tab
                         child: TabBar(
+                          indicatorWeight: 4,
+                          padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 2),
+                          dividerHeight: 0,
                           controller: _tabController,
-                          tabs: [
+                          indicatorColor: Colors.orange.shade800,
+                          labelColor: Colors.orange.shade800,
+                          tabs:  [
                             Tab(
                                 text: 'Dane użytkownika',
                                 icon: Icon(
                                   Icons.person,
-                                  color: Colors.white,
+                                  color: Colors.grey.shade300.withOpacity(0.9),
                                 )),
                             Tab(
                                 text: 'Bilety',
                                 icon: Icon(
-                                  Icons.airplane_ticket,
-                                  color: Colors.white,
+                                  Icons.train,
+                                  color: Colors.grey.shade300.withOpacity(0.9),
                                 )),
                             Tab(
                                 text: 'Reklamacje',
                                 icon: Icon(
                                   Icons.sentiment_very_dissatisfied,
-                                  color: Colors.white,
+                                  color: Colors.grey.shade300.withOpacity(0.9),
                                 )),
                             Tab(
                                 text: 'Statystyki',
                                 icon: Icon(
                                   Icons.bar_chart,
-                                  color: Colors.white,
+                                  color: Colors.grey.shade300.withOpacity(0.9),
                                 )),
                             Tab(
-                                text: 'Osiągnięcia',
+                                text: 'Osiągnięcia' ,
                                 icon: Icon(
                                   Icons.star,
-                                  color: Colors.white,
+                                  color: Colors.grey.shade300.withOpacity(0.9),
                                 )),
                           ],
                         ),
@@ -133,12 +157,21 @@ class _UserProfilePageState extends State<UserProfilePage>
                         child: Container(
                           // Mniejsza wysokość tła
                           padding: const EdgeInsets.all(20),
-                          //height: MediaQuery.of(context).size.height * 0.5,
+                          height: MediaQuery.of(context).size.height * 0.5,
                           decoration: BoxDecoration(
-                            color: Colors.grey[400], // Szare tło dla TabBarView
                             borderRadius:
-                                const BorderRadius.all(Radius.circular(20)),
-                          ),
+                               const BorderRadius.all(Radius.circular(15)),
+                               gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      Colors.grey.shade400.withOpacity(0.9),
+                      Colors.grey.shade300.withOpacity(0.9),
+                      Colors.grey.shade400.withOpacity(0.9),
+                      Colors.grey.shade500.withOpacity(0.9),
+                    ],
+                  ),
+                ),
                           child: TabBarView(
                             controller: _tabController,
                             children: [
@@ -168,26 +201,33 @@ class ComplaintsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      children: [
-        Container(
-          margin: EdgeInsets.only(top: 50, bottom: 20),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                "Wszystkie reklamacje",
-                style: TextStyle(fontSize: 30, fontWeight: FontWeight.w500),
-              ),
-            ],
+    return Scaffold( 
+      appBar: AppBar(
+        title: const Center(child:  Text('Reklamacje')),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+      ),
+      body:
+      ListView(
+        children: [
+          Container(
+            margin: const EdgeInsets.only(top: 50, bottom: 20),
+            child: const Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  "Wszystkie reklamacje",
+                  style: TextStyle(fontSize: 30, fontWeight: FontWeight.w500),
+                ),
+              ],
+            ),
           ),
-        ),
-        for (Complaint c in cmps) complaint_item(complaint: c),
-        SizedBox(
-          height: 75,
-        ),
-      ],
-    );
+          for (Complaint c in cmps) complaint_item(complaint: c),
+        const  SizedBox(
+            height: 75,
+          ),
+        ],
+      ));
   }
 }
 

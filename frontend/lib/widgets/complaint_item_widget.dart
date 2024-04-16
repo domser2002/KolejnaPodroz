@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:frontend/classes/complaint.dart';
-import 'package:frontend/views/complaint_view_page.dart';
+import 'package:frontend/views/complaint/complaint_view_page.dart';
 
 class complaint_item extends StatelessWidget {
   final Complaint complaint;

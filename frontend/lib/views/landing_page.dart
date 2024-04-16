@@ -1,8 +1,10 @@
 // landing_page.dart
 import 'package:flutter/material.dart';
-import 'package:frontend/views/login_page.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:frontend/cubits/search_cubit/search_cubit.dart';
+import 'package:frontend/views/auth/login_page.dart';
 import 'package:frontend/views/offers_page.dart';
-import 'package:frontend/views/register_page.dart';
+import 'package:frontend/views/auth/register_page.dart';
 import 'package:frontend/views/user_profile_page.dart';
 import 'package:frontend/widgets/button_widget.dart';
 
@@ -136,6 +138,11 @@ class LandingPage extends StatelessWidget {
                             );
                         }, title: 'Opcje dodatkowe'),
                         ButtonWidget(onPressed: () {
+                          context.read<SearchCubit>().searchTrains(
+                            departureController.text,
+                            destinationController.text,
+                            dateController.text,
+                          );
                             Navigator.of(context).push(
                               MaterialPageRoute(
                                 builder: (context) => const ViewOffersPage(),

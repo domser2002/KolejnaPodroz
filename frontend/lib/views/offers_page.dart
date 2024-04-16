@@ -1,6 +1,6 @@
   import 'package:flutter/material.dart';
-  import 'package:frontend/views/login_page.dart';
-  import 'package:frontend/views/register_page.dart';
+  import 'package:frontend/views/auth/login_page.dart';
+  import 'package:frontend/views/auth/register_page.dart';
 
   class ViewOffersPage extends StatelessWidget {
   const ViewOffersPage({super.key});
