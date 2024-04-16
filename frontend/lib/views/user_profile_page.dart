@@ -1,5 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
+import 'package:flutter/widgets.dart';
+import 'package:frontend/classes/complaint.dart';
+import 'package:frontend/views/complaint_page.dart';
+import 'package:frontend/widgets/complaint_item_widget.dart';
 
 class UserProfilePage extends StatefulWidget {
   const UserProfilePage({super.key});
@@ -9,13 +13,14 @@ class UserProfilePage extends StatefulWidget {
   _UserProfilePageState createState() => _UserProfilePageState();
 }
 
-class _UserProfilePageState extends State<UserProfilePage> with TickerProviderStateMixin {
+class _UserProfilePageState extends State<UserProfilePage>
+    with TickerProviderStateMixin {
   late TabController _tabController;
 
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 4, vsync: this);
+    _tabController = TabController(length: 5, vsync: this);
   }
 
   @override
@@ -27,13 +32,17 @@ class _UserProfilePageState extends State<UserProfilePage> with TickerProviderSt
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-            bottomNavigationBar: const  BottomAppBar(
-        color: Colors.white, 
-        height: 50,
-        child: Center(child: Stack(fit: StackFit.passthrough,children: [
-          Text("©Kolejna Podróż 2024", style: TextStyle(color: Colors.black)),
-          ],
-        ))),
+      bottomNavigationBar: const BottomAppBar(
+          color: Colors.white,
+          height: 50,
+          child: Center(
+              child: Stack(
+            fit: StackFit.passthrough,
+            children: [
+              Text("©Kolejna Podróż 2024",
+                  style: TextStyle(color: Colors.black)),
+            ],
+          ))),
       appBar: AppBar(
         title: const Center(child: Text('Moje konto')),
         backgroundColor: Colors.transparent,
@@ -52,7 +61,8 @@ class _UserProfilePageState extends State<UserProfilePage> with TickerProviderSt
           // Zawartość główna
           Center(
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 300, vertical: 100),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 300, vertical: 100),
               child: Container(
                 width: MediaQuery.of(context).size.width,
                 constraints: const BoxConstraints(maxWidth: 1200),
@@ -72,19 +82,49 @@ class _UserProfilePageState extends State<UserProfilePage> with TickerProviderSt
                 child: Card(
                   color: Colors.transparent,
                   elevation: 8,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
-                  child: Row(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(40)),
+                  child: Column(
                     children: [
                       // Pionowy pasek z zakładkami
                       Container(
-                        width: 200,
+                        height: 60,
+                        width: 800,
+
                         color: Colors.grey[400], // Tło dla zakładek Tab
-                        child: const Column(
-                          children:  [
-                            Tab(text: 'Dane użytkownika', icon: Icon(Icons.person,color: Colors.white,)),
-                            Tab(text: 'Bilety', icon: Icon(Icons.airplane_ticket, color: Colors.white,)),
-                            Tab(text: 'Statystyki', icon: Icon(Icons.bar_chart, color: Colors.white,)),
-                            Tab(text: 'Osiągnięcia', icon: Icon(Icons.star, color: Colors.white,)),
+                        child: TabBar(
+                          controller: _tabController,
+                          tabs: [
+                            Tab(
+                                text: 'Dane użytkownika',
+                                icon: Icon(
+                                  Icons.person,
+                                  color: Colors.white,
+                                )),
+                            Tab(
+                                text: 'Bilety',
+                                icon: Icon(
+                                  Icons.airplane_ticket,
+                                  color: Colors.white,
+                                )),
+                            Tab(
+                                text: 'Reklamacje',
+                                icon: Icon(
+                                  Icons.sentiment_very_dissatisfied,
+                                  color: Colors.white,
+                                )),
+                            Tab(
+                                text: 'Statystyki',
+                                icon: Icon(
+                                  Icons.bar_chart,
+                                  color: Colors.white,
+                                )),
+                            Tab(
+                                text: 'Osiągnięcia',
+                                icon: Icon(
+                                  Icons.star,
+                                  color: Colors.white,
+                                )),
                           ],
                         ),
                       ),
@@ -93,24 +133,24 @@ class _UserProfilePageState extends State<UserProfilePage> with TickerProviderSt
                         child: Container(
                           // Mniejsza wysokość tła
                           padding: const EdgeInsets.all(20),
-                          height: MediaQuery.of(context).size.height * 0.5,
+                          //height: MediaQuery.of(context).size.height * 0.5,
                           decoration: BoxDecoration(
                             color: Colors.grey[400], // Szare tło dla TabBarView
-                            borderRadius: const  BorderRadius.only(
-                              topRight: Radius.circular(20),
-                              bottomRight: Radius.circular(40),
-                            ),
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(20)),
                           ),
                           child: TabBarView(
                             controller: _tabController,
-                            children: const [
+                            children: [
                               UserInfoPage(),
                               TicketsPage(),
+                              ComplaintsPage(),
                               StatisticsPage(),
                               AchievementsPage(),
                             ],
                           ),
-                        ),                   ),
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -119,6 +159,34 @@ class _UserProfilePageState extends State<UserProfilePage> with TickerProviderSt
           ),
         ],
       ),
+    );
+  }
+}
+
+class ComplaintsPage extends StatelessWidget {
+  const ComplaintsPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView(
+      children: [
+        Container(
+          margin: EdgeInsets.only(top: 50, bottom: 20),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                "Wszystkie reklamacje",
+                style: TextStyle(fontSize: 30, fontWeight: FontWeight.w500),
+              ),
+            ],
+          ),
+        ),
+        for (Complaint c in cmps) complaint_item(complaint: c),
+        SizedBox(
+          height: 75,
+        ),
+      ],
     );
   }
 }
@@ -133,11 +201,26 @@ class UserInfoPage extends StatelessWidget {
 }
 
 class TicketsPage extends StatelessWidget {
-  const TicketsPage({super.key});
+  TicketsPage({super.key});
 
+  String ticket = "Bilet nr2137";
   @override
   Widget build(BuildContext context) {
-    return const Center(child: Text('Bilety'));
+    return Center(
+        child: ListView(
+      children: [
+        TextButton(
+          child: Text(ticket),
+          onPressed: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => ComplaintPage(ticketId: ticket),
+              ),
+            );
+          },
+        )
+      ],
+    ));
   }
 }
 
@@ -158,3 +241,9 @@ class AchievementsPage extends StatelessWidget {
     return const Center(child: Text('Osiągnięcia'));
   }
 }
+
+List<Complaint> cmps = [
+  Complaint(ticketId: "1", description: "lol", reviewed: true),
+  Complaint(ticketId: "2", description: "lol2", reviewed: false),
+  Complaint(ticketId: "3", description: "lol3", reviewed: false)
+];
