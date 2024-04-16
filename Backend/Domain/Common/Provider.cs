@@ -12,12 +12,12 @@ namespace Domain.Common
     {
         [Required]
         [MaxLength(50)]
-        public string Name = string.Empty;
+        public string Name {  get; set; }
         [MaxLength(250)]
-        public string AdditionalInfo = string.Empty;
+        public string AdditionalInfo {  get; set; }
         [Required]
         [MaxLength(50)]
-        public string Email = string.Empty;
+        public string Email {  get; set; }
         // may need additional fields
     }
 }

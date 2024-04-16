@@ -5,7 +5,7 @@ namespace Api.Services.Implementations
 {
     public class AccountService
     {
-        public AccountInfo GetAccountInfo(int userID)
+        public User GetAccountInfo(int userID)
         {
             throw new NotImplementedException();
         }

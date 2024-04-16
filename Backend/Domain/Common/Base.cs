@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Common
 {
-    public class Base : DbContext
+    public class Base
     {
         [Key]
         public int ID;
