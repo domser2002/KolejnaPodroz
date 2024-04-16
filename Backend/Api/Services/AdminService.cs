@@ -12,11 +12,11 @@ namespace Api.Services
         {
             throw new NotImplementedException();
         }
-        public bool VerifyAdminAccount(Admin admin)
+        public bool VerifyAdminAccount(int adminID)
         {
             throw new NotImplementedException();
         }
-        public bool AuthoriseAdmin(Admin admin)
+        public bool AuthoriseAdmin(int adminID)
         {
             throw new NotImplementedException();
         }

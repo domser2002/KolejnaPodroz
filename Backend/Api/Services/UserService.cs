@@ -20,5 +20,9 @@ namespace Api.Services
         {
             throw new NotImplementedException();
         }
+        public User GetUserByID(int userID)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

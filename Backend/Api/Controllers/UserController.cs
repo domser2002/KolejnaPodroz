@@ -5,13 +5,80 @@ using Microsoft.AspNetCore.Mvc;
 namespace Api.Controllers
 {
     [ApiController]
-    [Route("Payment")]
+    [Route("User")]
     public class UserController : ControllerBase
     {
         private readonly UserService _userService;
         public UserController(UserService userService)
         {
             _userService = userService;
+        }
+
+        [HttpGet("{userID}")]
+        public ActionResult<User> GetUserByID(int userID)
+        {
+            try
+            {
+                var user = _userService.GetUserByID(userID);
+                return user != null ? Ok(user) : NotFound();
+            }
+            catch
+            {
+                return StatusCode(500);
+            }
+        }
+
+        [HttpPost("create")]
+        public ActionResult CreateAccount(User user)
+        {
+            try
+            {
+                var created = _userService.CreateUserAccount(user);
+                return created ? Ok() : BadRequest();
+            }
+            catch (Exception) 
+            {
+                return StatusCode(500);
+            }
+        }
+        [HttpPost("verify/{userID}")]
+        public ActionResult VerifyAccount(int userID)
+        {
+            try
+            {
+                var verified = _userService.VerifyUserAccount(userID);
+                return verified ? Ok() : BadRequest();
+            }
+            catch
+            {
+                return StatusCode(500);
+            }
+        }
+        [HttpPost("authorise/{userID}")]
+        public ActionResult AuthoriseUser(int userID)
+        {
+            try
+            {
+                var authorised = _userService.AuthoriseUser(userID);
+                return authorised ? Ok() : BadRequest();
+            }
+            catch
+            {
+                return StatusCode(500);
+            }
+        }
+        [HttpDelete("delete/{userID}")]
+        public ActionResult DeleteAccount(int userID) 
+        { 
+            try
+            {
+                var removed = _userService.RemoveUserAccount(userID);
+                return removed ? Ok() : BadRequest();
+            }
+            catch
+            {
+                return StatusCode(500);
+            }
         }
     }
 }
