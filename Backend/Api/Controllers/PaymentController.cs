@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Api.Services.Implementations;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
 {
@@ -6,8 +7,13 @@ namespace Api.Controllers
     [Route("Payment")]
     public class PaymentController : ControllerBase
     {
-        [HttpGet("process/{paymentId}")]
-        public OkResult Post()
+        private readonly PaymentService _paymentService;
+        public PaymentController(PaymentService paymentService) 
+        {
+            _paymentService = paymentService;
+        }
+        [HttpPost("process/paymentId")]
+        public ActionResult ProcessPayment()
         {
             return Ok();
         }

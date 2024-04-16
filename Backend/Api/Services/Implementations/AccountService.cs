@@ -9,8 +9,8 @@ namespace Api.Services.Implementations
         {
             throw new NotImplementedException();
         }
-        public bool UpdateAccountInfo(int userID)
-        {
+        public bool UpdateAccountInfo(int userID, AccountInfo accountInfo) 
+        { 
             throw new NotImplementedException();
         }
         public CommonAccountInfo CheckUserAccount(int userID)

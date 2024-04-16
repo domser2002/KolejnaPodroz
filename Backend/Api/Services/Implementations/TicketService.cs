@@ -23,8 +23,13 @@ namespace Api.Services.Implementations
         public bool Add(Ticket ticket)
         {
             throw new NotImplementedException();
+            // return ticketId
         }
         public bool ChangeDetails(Ticket ticket)
+        {
+            throw new NotImplementedException();
+        }
+        public Ticket? GetTicketById(int ticketID)
         {
             throw new NotImplementedException();
         }
