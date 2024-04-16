@@ -27,5 +27,10 @@ namespace Api.Services.Implementations
         {
             throw new NotImplementedException();
         }
+
+        public Provider GetProvider(int provider)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
