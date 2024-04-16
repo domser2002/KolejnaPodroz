@@ -14,9 +14,9 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddSingleton<DatabaseService>();
 
-builder.Services.AddSingleton<AccountService>();
 builder.Services.AddSingleton<AdminService>();
-builder.Services.AddSingleton<IComplaintService, ComplaintService>();
+//builder.Services.AddSingleton<IComplaintService, ComplaintService>(sp => new ComplaintService(sp.GetRequiredService<DomainDBContext>()));
+builder.Services.AddScoped<IComplaintService,ComplaintService>();
 builder.Services.AddSingleton<DatabaseService>();
 builder.Services.AddSingleton<PaymentService>();
 builder.Services.AddSingleton<ProviderService>();

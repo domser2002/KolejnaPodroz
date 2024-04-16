@@ -1,40 +1,71 @@
-﻿namespace Test
+﻿using Api.Services.Implementations;
+using Domain.Common;
+
+namespace Test
 {
     public class ComplaintServiceTests
     {
+        ComplaintService _complaintService;
         [SetUp]
         public void Setup()
         {
+            _complaintService = new ComplaintService(new Domain.Common.DomainDBContext());
         }
 
         [Test]
         public void CanReturn_MakeComplaint_ReturnsTrue() 
         {
-            throw new NotImplementedException();
+            // Arrange
+            Complaint complaint = new();
+            // Act
+            _complaintService.MakeComplaint(complaint);
+            Complaint complaint1 = _complaintService.GetComplaintByID(complaint.ID);
+            // Assert
+            Assert.AreEqual(complaint, complaint1);
         }
 
         [Test]
         public void CanReturn_MakeComplaint_ReturnsFalse()
         {
-            throw new NotImplementedException();
+            // Arrange
+            Complaint complaint = null;
+            // Act
+            bool returnValue = _complaintService.MakeComplaint(complaint);
+            // Assert
+            Assert.AreEqual(false, returnValue);
         }
 
         [Test]
         public void CanReturn_RemoveComplaint_ReturnsTrue()
         {
-            throw new NotImplementedException();
+            // Arrange
+            int id = 1;
+            // Act
+            bool returnValue = _complaintService.RemoveComplaint(id);
+            // Assert
+            Assert.AreEqual(true, returnValue);
         }
 
         [Test]
         public void CanReturn_RemoveComplaint_ReturnsFalse()
         {
-            throw new NotImplementedException();
+            // Arrange
+            int id = -1;
+            // Act
+            bool returnValue = _complaintService.RemoveComplaint(id);
+            // Assert
+            Assert.AreEqual(false, returnValue);
         }
 
         [Test]
         public void CanExecute_EditComplaint_ReturnsTrue()
         {
-            throw new NotImplementedException();
+            // Arrange
+            int id = 1;
+            // Act
+            _complaintService.EditComplaint(id);
+            // Assert
+            //Assert.DoesNotThrow(Exception );
         }
 
     }
