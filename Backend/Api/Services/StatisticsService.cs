@@ -4,9 +4,15 @@ namespace Api.Services
 {
     public class StatisticsService
     {
-        public List<Statistics> GetByUser(int userID)
+        DomainDBContext ddbContext = new DomainDBContext();
+        public Statistics GetByUser(int userID)
         {
-            throw new NotImplementedException();
+            Statistics statistics = new Statistics();
+         Domain.User.User u =   ddbContext.User.Find(userID);
+         var ls = u.ListTickets();
+         int NumOfRides = ls.Count;
+            statistics.statistics.Add(("ilość przejazdów", NumOfRides));
+        return statistics;
         }
         public bool Update(int userID, Statistics statistics)
         {

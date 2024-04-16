@@ -8,6 +8,6 @@ namespace Domain.Common
 {
     public class Statistics
     {
-        public List<string> statistics = new();
+        public List<(string category,int num)> statistics = new();
     }
 }

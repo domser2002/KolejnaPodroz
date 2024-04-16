@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Domain.Common
 {
-    public class Ranking
+    public class PersonalRanking
     {
-        public List<(int userId, int num)> ranking = new();
+        public List<(string category, int rank)>personalRanking = new();
     }
 }

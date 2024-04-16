@@ -24,6 +24,7 @@ namespace Domain.Common
         public virtual DbSet<AccountInfo> AccountInfo { get; set; }
         public virtual DbSet<Ticket> Ticket { get; set; }
         public virtual DbSet<User.User> User { get; set; }
+        public virtual DbSet<Ranking> Ranking { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Admin.Admin>(entity => {
