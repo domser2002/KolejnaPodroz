@@ -1,6 +1,6 @@
 ﻿using Domain.Common;
 
-namespace Api.Services
+namespace Api.Services.Implementations
 {
     public class StatisticsService
     {
@@ -10,7 +10,7 @@ namespace Api.Services
         }
         public bool Update(int userID, Statistics statistics)
         {
-            throw new NotImplementedException(); 
+            throw new NotImplementedException();
         }
     }
 }
