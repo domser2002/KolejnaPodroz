@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Domain.Common;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Domain.Common;
-using Microsoft.EntityFrameworkCore;
 
 namespace Domain.User
 {

@@ -6,6 +6,10 @@ namespace Api.Controllers
     [Route("AccountInfo")]
     public class AccountInfoController : ControllerBase
     {
+        //private readonly AccountService _accountService;
+
+        public AccountInfoController() { }
+
         [HttpGet("{userId}")]
         public OkResult GetInfoByUserId()
         {
