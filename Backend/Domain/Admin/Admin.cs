@@ -12,7 +12,7 @@ namespace Domain.Admin
     public class Admin : Base
     {
         [Required]
-        public bool Accepted;
+        public bool Accepted { get; set; }
         public Admin() { }
         public bool AddProvider(Provider provider)
         {
