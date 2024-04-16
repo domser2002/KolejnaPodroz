@@ -1,59 +1,34 @@
 ﻿using Domain.Common;
+using System.ComponentModel.DataAnnotations;
 
 namespace Domain.User
 {
-    public class User : Base
+    public enum SeatTypes
     {
-        public User() { }
-        public Ticket? BuyTicket(int ticketID)
-        {
-            throw new NotImplementedException();
-        }
-        public List<Ticket> ListTickets()
-        {
-            throw new NotImplementedException();
-        }
-        public Ticket? ExchangeTicket(string newName, string newSurname)
-        {
-            throw new NotImplementedException();
-        }
-        public bool DropTicket(int ticketID)
-        {
-            throw new NotImplementedException();
-        }
-        public bool MakeComplaint(Complaint complaint)
-        {
-            throw new NotImplementedException();
-        }
-        public List<Complaint> ListComplaints()
-        {
-            throw new NotImplementedException();
-        }
-        // probably will be implemented using json patch document class as argument
-        public bool EditComplaint(int complaintID) 
-        {
-            throw new NotImplementedException(); 
-        }
-        public bool RemoveComplaint(int complaintID)
-        {
-            throw new NotImplementedException();
-        }
-        public AccountInfo? GetAccountInfo() 
-        {
-            throw new NotImplementedException();        
-        }
-        // probably will be implemented using json patch document class as argument
-        public bool UpdateAccountInfo()
-        {
-            throw new NotImplementedException();
-        }
-        public Statistics? GetStatistics() 
-        {
-            throw new NotImplementedException();
-        }
-        public Ranking? GetRanking() 
-        {
-            throw new NotImplementedException();
-        }
+
+    }
+    public enum SeatLocations
+    {
+
+    }
+    public enum DiscountTypes
+    {
+
+    }
+    public class User : CommonAccountInfo
+    {
+        public DateTime? BirthDate {  get; set; }
+        public SeatTypes PreferedSeatType { get; set; }
+        public SeatLocations PreferedSeatLocation { get; set; }
+        public List<Discount> Discounts { get; set; }
+    }
+
+    public class Discount : Base
+    {
+        [Key]
+        public int Id { get; set; }
+        public DiscountTypes Type { get; set; }
+        public int Percentage {  get; set; }
+        public List<User> Users { get; set; }
     }
 }

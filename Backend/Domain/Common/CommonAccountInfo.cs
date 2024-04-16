@@ -13,16 +13,16 @@ namespace Domain.Common
     {
         [Required]
         [ForeignKey("userID")]
-        public int UserID;
+        public int UserID { get; set; }
         [Required]
         [MaxLength(50)]
-        public string FirstName = string.Empty;
+        public string FirstName {  get; set; }
         [Required]
         [MaxLength(100)]
-        public string LastName = string.Empty;
+        public string LastName {  get; set; }
         [Required]
         [MaxLength(50)]
-        public string Email = string.Empty;
+        public string Email {  get; set; }
         public List<int> TicketIDs = new();
     }
 }
