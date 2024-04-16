@@ -1,7 +1,7 @@
 ﻿using Domain.Common;
 using Domain.User;
 
-namespace Api.Services
+namespace Api.Services.Implementations
 {
     public class AccountService
     {
@@ -9,8 +9,8 @@ namespace Api.Services
         {
             throw new NotImplementedException();
         }
-        public bool UpdateAccountInfo(int userID) 
-        { 
+        public bool UpdateAccountInfo(int userID)
+        {
             throw new NotImplementedException();
         }
         public CommonAccountInfo CheckUserAccount(int userID)

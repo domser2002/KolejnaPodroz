@@ -1,6 +1,6 @@
 ﻿using Domain.User;
 
-namespace Api.Services
+namespace Api.Services.Implementations
 {
     public class UserService
     {
@@ -9,7 +9,7 @@ namespace Api.Services
             throw new NotImplementedException();
         }
         public bool RemoveUserAccount(int userID)
-        { 
+        {
             throw new NotImplementedException();
         }
         public bool VerifyUserAccount(User user)

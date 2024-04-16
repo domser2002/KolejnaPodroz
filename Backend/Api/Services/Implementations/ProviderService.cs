@@ -1,6 +1,6 @@
 ﻿using Domain.Common;
 
-namespace Api.Services
+namespace Api.Services.Implementations
 {
     public enum EditProviderOption
     {
@@ -15,21 +15,21 @@ namespace Api.Services
         }
         public bool AddProvider(Provider provider)
         {
-            if(provider is null)
+            if (provider is null)
             {
                 return false;
             }
 
-            if(!_databaseService.InsertProvider(provider))
+            if (!_databaseService.InsertProvider(provider))
             {
                 return false;
             }
 
             return true;
         }
-        public bool RemoveProvider(int providerID) 
+        public bool RemoveProvider(int providerID)
         {
-            if(!_databaseService.RemoveProvider(providerID))
+            if (!_databaseService.RemoveProvider(providerID))
             {
                 return false;
             }
@@ -37,8 +37,8 @@ namespace Api.Services
             return true;
         }
         public void EditProvider(int providerID, EditProviderOption option)
-        { 
-            switch(option) 
+        {
+            switch (option)
             {
                 case EditProviderOption.Add:
                     EditAddProvider();
