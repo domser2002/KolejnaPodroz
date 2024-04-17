@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:frontend/classes/complaint.dart';
 import 'package:frontend/views/complaint/make_complaint_view_page.dart';
 
