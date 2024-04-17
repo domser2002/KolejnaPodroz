@@ -1,8 +1,12 @@
 class Complaint {
+  int userId;
+  String title;
   String ticketId;
-  String description;
-  bool reviewed;
+  String response;
+  String content;
+  bool isResponded;
 
   Complaint(
-      {required this.ticketId, this.description = "", this.reviewed = false});
+      {required this.ticketId, this.content = "", this.isResponded = false,
+       this.title = "", this.response = "", this.userId = 1});
 }

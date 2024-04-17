@@ -1,8 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:frontend/classes/complaint.dart';
-import 'package:frontend/views/complaint/complaint_page.dart';
+import 'package:frontend/cubits/complaints_cubit/complaints_cubit.dart';
+import 'package:frontend/views/complaint/make_complaint_page.dart';
 import 'package:frontend/widgets/complaint_item_widget.dart';
 
 class UserProfilePage extends StatefulWidget {
@@ -104,8 +104,8 @@ class _UserProfilePageState extends State<UserProfilePage>
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
                     colors: [
-                      Colors.grey.shade500,
-                      Colors.grey.shade400.withOpacity(0.9),
+                      Colors.white,
+                      Colors.grey.shade100.withOpacity(0.9),
                     ],
                   ),
                 ),
@@ -116,38 +116,38 @@ class _UserProfilePageState extends State<UserProfilePage>
                           padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 2),
                           dividerHeight: 0,
                           controller: _tabController,
-                          indicatorColor: Colors.orange.shade800,
-                          labelColor: Colors.orange.shade800,
+                          indicatorColor: Colors.orange[700],
+                          labelColor: Colors.orange[700],
                           tabs:  [
                             Tab(
                                 text: 'Dane użytkownika',
                                 icon: Icon(
                                   Icons.person,
-                                  color: Colors.grey.shade300.withOpacity(0.9),
+                                  color: Colors.grey.shade500.withOpacity(0.9),
                                 )),
                             Tab(
                                 text: 'Bilety',
                                 icon: Icon(
                                   Icons.train,
-                                  color: Colors.grey.shade300.withOpacity(0.9),
+                                  color: Colors.grey.shade500.withOpacity(0.9),
                                 )),
                             Tab(
                                 text: 'Reklamacje',
                                 icon: Icon(
                                   Icons.sentiment_very_dissatisfied,
-                                  color: Colors.grey.shade300.withOpacity(0.9),
+                                  color: Colors.grey.shade500.withOpacity(0.9),
                                 )),
                             Tab(
                                 text: 'Statystyki',
                                 icon: Icon(
                                   Icons.bar_chart,
-                                  color: Colors.grey.shade300.withOpacity(0.9),
+                                  color: Colors.grey.shade500.withOpacity(0.9),
                                 )),
                             Tab(
                                 text: 'Osiągnięcia' ,
                                 icon: Icon(
                                   Icons.star,
-                                  color: Colors.grey.shade300.withOpacity(0.9),
+                                  color: Colors.grey.shade500.withOpacity(0.9),
                                 )),
                           ],
                         ),
@@ -165,10 +165,8 @@ class _UserProfilePageState extends State<UserProfilePage>
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
                     colors: [
-                      Colors.grey.shade400.withOpacity(0.9),
-                      Colors.grey.shade300.withOpacity(0.9),
-                      Colors.grey.shade400.withOpacity(0.9),
-                      Colors.grey.shade500.withOpacity(0.9),
+                      Colors.grey.shade100.withOpacity(0.9),
+                      Colors.white
                     ],
                   ),
                 ),
@@ -253,10 +251,10 @@ class TicketsPage extends StatelessWidget {
           child: Text(ticket),
           onPressed: () {
             Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) => ComplaintPage(ticketId: ticket),
-              ),
-            );
+                MaterialPageRoute(
+                  builder: (context) => MakeComplaintPage(ticketId: ticket),
+                  ),
+                );
           },
         )
       ],
@@ -283,7 +281,7 @@ class AchievementsPage extends StatelessWidget {
 }
 
 List<Complaint> cmps = [
-  Complaint(ticketId: "1", description: "lol", reviewed: true),
-  Complaint(ticketId: "2", description: "lol2", reviewed: false),
-  Complaint(ticketId: "3", description: "lol3", reviewed: false)
+  Complaint(ticketId: "1", content: "lol", isResponded: true),
+  Complaint(ticketId: "2", content: "lol2", isResponded: false),
+  Complaint(ticketId: "3", content: "lol3", isResponded: false)
 ];
