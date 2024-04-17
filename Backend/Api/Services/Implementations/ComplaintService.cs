@@ -37,7 +37,8 @@ namespace Api.Services.Implementations
         }
         public List<Complaint> GetComplaintsByUserID(int complaintUserID)
         {
-            return (List<Complaint>)ddbContext.Complaint.Where(c => c.UserID == complaintUserID);
+            return ddbContext.Complaint.Where(c => c.UserID == complaintUserID).ToList();
+
         }
     }
 }

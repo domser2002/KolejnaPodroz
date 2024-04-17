@@ -201,14 +201,8 @@ class ComplaintsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Załóżmy, że userId uzyskujemy z innego miejsca w aplikacji, np. zalogowanego użytkownika.
-    final String userId = "1";
-    return Scaffold(
-      appBar: AppBar(
-        title: const Center(child: Text('Reklamacje')),
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-      ),
-      body: BlocProvider<ComplaintsCubit>(
+    const String userId = "1";
+    return  BlocProvider<ComplaintsCubit>(
         create: (context) => ComplaintsCubit(host:"https://localhost:7006")..getComplaintsByUser(userId),
         child: BlocBuilder<ComplaintsCubit, ComplaintState>(
           builder: (context, state) {
@@ -230,7 +224,11 @@ class ComplaintsPage extends StatelessWidget {
                         IconButton(
                           icon: const Icon(Icons.edit),
                           onPressed: () {
-                            // Implementacja nawigacji do strony edycji
+                               Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => MakeComplaintPage(ticketId: "1"),
+                                ),
+                              );
                           },
                         ),
                         IconButton(
@@ -250,8 +248,7 @@ class ComplaintsPage extends StatelessWidget {
             }
           },
         ),
-      ),
-    );
+      );
   }}
 
 class UserInfoPage extends StatelessWidget {
