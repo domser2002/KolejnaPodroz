@@ -25,7 +25,7 @@ class MainApp extends StatelessWidget {
            BlocProvider<SearchCubit>(
             create: (context) => SearchCubit()),
         ],
-        child:   LandingPage(),
+        child:  LandingPage(),
     ));
   }
 }

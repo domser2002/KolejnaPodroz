@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:frontend/classes/complaint.dart';
-import 'package:frontend/views/complaint/complaint_view_page.dart';
+import 'package:frontend/views/complaint/make_complaint_view_page.dart';
 
 class complaint_item extends StatelessWidget {
   final Complaint complaint;
@@ -18,8 +18,8 @@ class complaint_item extends StatelessWidget {
             MaterialPageRoute(
               builder: (context) => ComplaintViewPage(
                 ticketId: complaint.ticketId,
-                description: complaint.description,
-                reviewed: complaint.reviewed,
+                description: complaint.content,
+                reviewed: complaint.isResponded,
               ),
             ),
           );
@@ -27,7 +27,7 @@ class complaint_item extends StatelessWidget {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 7),
         tileColor: Theme.of(context).colorScheme.secondary,
-        leading: Icon(complaint.reviewed
+        leading: Icon(complaint.isResponded
             ? Icons.check_box
             : Icons.check_box_outline_blank),
         title: Text(
