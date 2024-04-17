@@ -241,7 +241,7 @@ class UserInfoPage extends StatelessWidget {
 class TicketsPage extends StatelessWidget {
   TicketsPage({super.key});
 
-  String ticket = "Bilet nr2137";
+  String ticket = "Bilet nr 2137";
   @override
   Widget build(BuildContext context) {
     return Center(
