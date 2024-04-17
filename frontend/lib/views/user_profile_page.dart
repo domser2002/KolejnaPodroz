@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:frontend/classes/complaint.dart';
+import 'package:frontend/cubits/complaints_cubit/complaints_cubit.dart';
+import 'package:frontend/cubits/complaints_cubit/complaints_state.dart';
 import 'package:frontend/views/complaint/make_complaint_page.dart';
 import 'package:frontend/widgets/complaint_item_widget.dart';
 
@@ -197,35 +200,59 @@ class ComplaintsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold( 
+    // Załóżmy, że userId uzyskujemy z innego miejsca w aplikacji, np. zalogowanego użytkownika.
+    final String userId = "1";
+    return Scaffold(
       appBar: AppBar(
-        title: const Center(child:  Text('Reklamacje')),
+        title: const Center(child: Text('Reklamacje')),
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),
-      body:
-      ListView(
-        children: [
-          Container(
-            margin: const EdgeInsets.only(top: 50, bottom: 20),
-            child: const Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  "Wszystkie reklamacje",
-                  style: TextStyle(fontSize: 30, fontWeight: FontWeight.w500),
-                ),
-              ],
-            ),
-          ),
-          for (Complaint c in cmps) complaint_item(complaint: c),
-        const  SizedBox(
-            height: 75,
-          ),
-        ],
-      ));
-  }
-}
+      body: BlocProvider<ComplaintsCubit>(
+        create: (context) => ComplaintsCubit(host:"https://localhost:7006")..getComplaintsByUser(userId),
+        child: BlocBuilder<ComplaintsCubit, ComplaintState>(
+          builder: (context, state) {
+            if (state.loading) {
+              return const Center(child: CircularProgressIndicator());
+            } else if (state.error.isNotEmpty) {
+              return Center(child: Text(state.error));
+            } else if (state.complaints != null) {
+              return ListView.builder(
+                itemCount: state.complaints!.length,
+                itemBuilder: (context, index) {
+                  final complaint = state.complaints![index];
+                  return ListTile(
+                    title: Text(complaint['title']),
+                    subtitle: Text(complaint['content']),
+                    trailing: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        IconButton(
+                          icon: const Icon(Icons.edit),
+                          onPressed: () {
+                            // Implementacja nawigacji do strony edycji
+                          },
+                        ),
+                        IconButton(
+                          icon: const Icon(Icons.delete),
+                          onPressed: () {
+                            // Implementacja usunięcia skargi
+                            context.read<ComplaintsCubit>().removeComplaint(complaint['id'].toString());
+                          },
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              );
+            } else {
+              return const Center(child: Text('Brak reklamacji do wyświetlenia'));
+            }
+          },
+        ),
+      ),
+    );
+  }}
 
 class UserInfoPage extends StatelessWidget {
   const UserInfoPage({super.key});
