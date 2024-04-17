@@ -174,7 +174,9 @@
               const Text('Klasa 2: od 58,65 zł', style: TextStyle(fontSize: 25, color: Colors.white)),
               const SizedBox(height: 50),
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                    
+                },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.orange, // Background color
                   foregroundColor: Colors.white, // Text Color
