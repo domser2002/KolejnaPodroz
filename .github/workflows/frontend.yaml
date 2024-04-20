@@ -1,0 +1,58 @@
+name: Test and Deploy Frontend App to Firebase
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build_and_test:
+    runs-on: ubuntu-latest
+
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.19.0'
+
+      - name: Get Flutter dependencies
+        run: flutter pub get
+
+        name: Change directory
+        run: cd ../Frontend/webapp
+
+      - name: Run Flutter tests
+        run: flutter test
+
+      - name: Build Flutter app
+        run: flutter build web --release
+
+  # deploy:
+  #   needs: build_and_test
+  #   runs-on: ubuntu-latest
+
+  #   steps:
+  #     - name: Checkout repository
+  #       uses: actions/checkout@v2
+
+  #     - name: Set up Flutter
+  #       uses: subosito/flutter-action@v2
+  #       with:
+  #         flutter-version: '2.8.0'
+
+  #     - name: Get Flutter dependencies
+  #       run: flutter pub get
+
+  #     - name: Build Flutter app
+  #       run: flutter build web --release
+
+  #     - name: Deploy to Firebase Hosting
+  #       uses: w9jds/firebase-action@v2
+  #       with:
+  #         args: deploy --only hosting
+  #       env:
+  #         FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
