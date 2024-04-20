@@ -1,28 +1,28 @@
-name: Test and Deploy Frontend App to Firebase
+name: Test and Deploy Frontend App 
 
 on:
+  workflow_dispatch:
   push:
-    branches:
-      - main
-
+    branches: [ main ]
 jobs:
   build_and_test:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: Frontend/webapp
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
+      - name: Clone repository
+        uses: actions/checkout@v4
 
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.19.0'
+          channel: stable
+      - run: flutter --version
 
       - name: Get Flutter dependencies
         run: flutter pub get
-
-      - name: Change directory
-        run: cd ../Frontend/webapp
 
       - name: Run Flutter tests
         run: flutter test
