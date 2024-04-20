@@ -1,6 +1,6 @@
 ﻿using Domain.User;
 
-namespace Api.Services
+namespace Api.Services.Implementations
 {
     public class UserService
     {
@@ -9,14 +9,18 @@ namespace Api.Services
             throw new NotImplementedException();
         }
         public bool RemoveUserAccount(int userID)
-        { 
-            throw new NotImplementedException();
-        }
-        public bool VerifyUserAccount(User user)
         {
             throw new NotImplementedException();
         }
-        public bool AuthoriseUser(User user)
+        public bool VerifyUserAccount(int userID)
+        {
+            throw new NotImplementedException();
+        }
+        public bool AuthoriseUser(int userID)
+        {
+            throw new NotImplementedException();
+        }
+        public User GetUserByID(int userID)
         {
             throw new NotImplementedException();
         }

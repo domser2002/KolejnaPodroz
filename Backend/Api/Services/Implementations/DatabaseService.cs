@@ -1,26 +1,29 @@
-﻿using Domain.Admin;
+﻿using Domain.Common;
 
-namespace Api.Services
+namespace Api.Services.Implementations
 {
-    public class AdminService
+    public class DatabaseService
     {
-        public bool CreateAdminAccount(Admin admin)
+        public void ExecuteSQL(string sql)
         {
             throw new NotImplementedException();
         }
-        public bool RemoveAdminAccount(int adminID)
+        public void Backup()
         {
             throw new NotImplementedException();
         }
-        public bool VerifyAdminAccount(Admin admin)
+
+        public bool InsertProvider(Provider provider)
         {
             throw new NotImplementedException();
         }
-        public bool AuthoriseAdmin(Admin admin)
+
+        public bool UpdateProvider(int id, Provider provider)
         {
             throw new NotImplementedException();
         }
-        public void GiveAdminPermissions(Admin admin)
+
+        public bool RemoveProvider(int provider)
         {
             throw new NotImplementedException();
         }

@@ -1,5 +1,6 @@
 using Api;
-using Api.Services;
+using Api.Services.Implementations;
+using Api.Services.Interfaces;
 using Domain.Common;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,9 +12,11 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddSingleton<DatabaseService>();
+
 builder.Services.AddSingleton<AccountService>();
 builder.Services.AddSingleton<AdminService>();
-builder.Services.AddSingleton<ComplaintService>();
+builder.Services.AddSingleton<IComplaintService, ComplaintService>();
 builder.Services.AddSingleton<DatabaseService>();
 builder.Services.AddSingleton<PaymentService>();
 builder.Services.AddSingleton<ProviderService>();

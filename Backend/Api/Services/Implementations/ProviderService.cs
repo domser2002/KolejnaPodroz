@@ -1,11 +1,7 @@
 ﻿using Domain.Common;
 
-namespace Api.Services
+namespace Api.Services.Implementations
 {
-    public enum EditProviderOption
-    {
-        Add, Edit, Remove
-    }
     public class ProviderService
     {
         private readonly DatabaseService _databaseService;
@@ -15,21 +11,21 @@ namespace Api.Services
         }
         public bool AddProvider(Provider provider)
         {
-            if(provider is null)
+            if (provider is null)
             {
                 return false;
             }
 
-            if(!_databaseService.InsertProvider(provider))
+            if (!_databaseService.InsertProvider(provider))
             {
                 return false;
             }
 
             return true;
         }
-        public bool RemoveProvider(int providerID) 
+        public bool RemoveProvider(int providerID)
         {
-            if(!_databaseService.RemoveProvider(providerID))
+            if (!_databaseService.RemoveProvider(providerID))
             {
                 return false;
             }
@@ -37,8 +33,8 @@ namespace Api.Services
             return true;
         }
         public void EditProvider(int providerID, EditProviderOption option)
-        { 
-            switch(option) 
+        {
+            switch (option)
             {
                 case EditProviderOption.Add:
                     EditAddProvider();
@@ -59,18 +55,12 @@ namespace Api.Services
             AddProvider(provider);
         }
 
-        private void EditEditProvider(int providerId)
+        public bool EditProvider(int providerId, Provider newProvider)
         {
             Provider provider = GetProviderById(providerId);
             FillForm(provider);
-            _databaseService.UpdateProvider(providerId, provider);
+            return _databaseService.UpdateProvider(providerId, provider);
         }
-
-        private void EditRemoveProvider(int providerId)
-        {
-            RemoveProvider(providerId);
-        }
-
         private void FillForm(Provider provider)
         {
             throw new NotImplementedException();
