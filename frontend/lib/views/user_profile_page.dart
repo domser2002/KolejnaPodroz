@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:frontend/classes/complaint.dart';
-import 'package:frontend/cubits/complaints_cubit/complaints_cubit.dart';
 import 'package:frontend/views/complaint/make_complaint_page.dart';
 import 'package:frontend/widgets/complaint_item_widget.dart';
 
