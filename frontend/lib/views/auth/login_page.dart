@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/views/register_page.dart';
+import 'package:frontend/views/auth/register_page.dart';
 import 'package:frontend/widgets/input_button_widget.dart';
 import 'package:frontend/widgets/socialmedia_button.dart';
 
