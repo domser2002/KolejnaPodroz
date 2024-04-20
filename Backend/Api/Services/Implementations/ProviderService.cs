@@ -32,22 +32,6 @@ namespace Api.Services.Implementations
 
             return true;
         }
-        public void EditProvider(int providerID, EditProviderOption option)
-        {
-            switch (option)
-            {
-                case EditProviderOption.Add:
-                    EditAddProvider();
-                    break;
-                case EditProviderOption.Edit:
-                    EditEditProvider(providerID);
-                    break;
-                case EditProviderOption.Remove:
-                    EditRemoveProvider(providerID);
-                    break;
-            }
-        }
-
         private void EditAddProvider()
         {
             Provider provider = new Provider();

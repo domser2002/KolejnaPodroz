@@ -14,13 +14,14 @@ class UserProfilePage extends StatefulWidget {
   _UserProfilePageState createState() => _UserProfilePageState();
 }
 
-class _UserProfilePageState extends State<UserProfilePage> with TickerProviderStateMixin {
+class _UserProfilePageState extends State<UserProfilePage>
+    with TickerProviderStateMixin {
   late TabController _tabController;
 
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 4, vsync: this);
+    _tabController = TabController(length: 5, vsync: this);
   }
 
   @override
@@ -32,13 +33,17 @@ class _UserProfilePageState extends State<UserProfilePage> with TickerProviderSt
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-            bottomNavigationBar: const  BottomAppBar(
-        color: Colors.white, 
-        height: 50,
-        child: Center(child: Stack(fit: StackFit.passthrough,children: [
-          Text("©Kolejna Podróż 2024", style: TextStyle(color: Colors.black)),
-          ],
-        ))),
+      bottomNavigationBar: const BottomAppBar(
+          color: Colors.white,
+          height: 50,
+          child: Center(
+              child: Stack(
+            fit: StackFit.passthrough,
+            children: [
+              Text("©Kolejna Podróż 2024",
+                  style: TextStyle(color: Colors.black)),
+            ],
+          ))),
       appBar: AppBar(
         title: const  Stack(
           alignment: AlignmentDirectional.centerEnd,
@@ -61,7 +66,8 @@ class _UserProfilePageState extends State<UserProfilePage> with TickerProviderSt
           // Zawartość główna
           Center(
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 300, vertical: 100),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 300, vertical: 100),
               child: Container(
                 width: MediaQuery.of(context).size.width,
                 constraints: const BoxConstraints(maxWidth: 1200),
@@ -81,8 +87,9 @@ class _UserProfilePageState extends State<UserProfilePage> with TickerProviderSt
                 child: Card(
                   color: Colors.transparent,
                   elevation: 8,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
-                  child: Row(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(40)),
+                  child: Column(
                     children: [
                      const Text("Moje konto",
                           style: TextStyle(
@@ -166,14 +173,16 @@ class _UserProfilePageState extends State<UserProfilePage> with TickerProviderSt
                 ),
                           child: TabBarView(
                             controller: _tabController,
-                            children: const [
+                            children: [
                               UserInfoPage(),
                               TicketsPage(),
+                              ComplaintsPage(),
                               StatisticsPage(),
                               AchievementsPage(),
                             ],
                           ),
-                        ),                   ),
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -252,7 +261,7 @@ class UserInfoPage extends StatelessWidget {
 }
 
 class TicketsPage extends StatelessWidget {
-  const TicketsPage({super.key});
+  TicketsPage({super.key});
 
   String ticket = "Bilet nr 2137";
   @override
