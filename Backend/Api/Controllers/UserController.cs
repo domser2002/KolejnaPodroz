@@ -1,85 +1,83 @@
-﻿using Logic.Services;
+﻿using Domain.User;
 using Logic.Services.Implementations;
-using Domain.User;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Api.Controllers
+namespace Api.Controllers;
+
+[ApiController]
+[Route("User")]
+public class UserController : ControllerBase
 {
-    [ApiController]
-    [Route("User")]
-    public class UserController : ControllerBase
+    private readonly UserService _userService;
+    public UserController(UserService userService)
     {
-        private readonly UserService _userService;
-        public UserController(UserService userService)
-        {
-            _userService = userService;
-        }
+        _userService = userService;
+    }
 
-        [HttpGet("{userID}")]
-        public ActionResult<User> GetUserByID(int userID)
+    [HttpGet("{userID}")]
+    public ActionResult<User> GetUserByID(int userID)
+    {
+        try
         {
-            try
-            {
-                var user = _userService.GetUserByID(userID);
-                return user != null ? Ok(user) : NotFound();
-            }
-            catch
-            {
-                return StatusCode(500);
-            }
+            var user = _userService.GetUserByID(userID);
+            return user != null ? Ok(user) : NotFound();
         }
+        catch
+        {
+            return StatusCode(500);
+        }
+    }
 
-        [HttpPost("create")]
-        public ActionResult CreateAccount(User user)
+    [HttpPost("create")]
+    public ActionResult CreateAccount(User user)
+    {
+        try
         {
-            try
-            {
-                var created = _userService.CreateUserAccount(user);
-                return created ? Ok() : BadRequest();
-            }
-            catch (Exception) 
-            {
-                return StatusCode(500);
-            }
+            var created = _userService.CreateUserAccount(user);
+            return created ? Ok() : BadRequest();
         }
-        [HttpPost("verify/{userID}")]
-        public ActionResult VerifyAccount(int userID)
+        catch (Exception) 
         {
-            try
-            {
-                var verified = _userService.VerifyUserAccount(userID);
-                return verified ? Ok() : BadRequest();
-            }
-            catch
-            {
-                return StatusCode(500);
-            }
+            return StatusCode(500);
         }
-        [HttpPost("authorise/{userID}")]
-        public ActionResult AuthoriseUser(int userID)
+    }
+    [HttpPost("verify/{userID}")]
+    public ActionResult VerifyAccount(int userID)
+    {
+        try
         {
-            try
-            {
-                var authorised = _userService.AuthoriseUser(userID);
-                return authorised ? Ok() : BadRequest();
-            }
-            catch
-            {
-                return StatusCode(500);
-            }
+            var verified = _userService.VerifyUserAccount(userID);
+            return verified ? Ok() : BadRequest();
         }
-        [HttpDelete("delete/{userID}")]
-        public ActionResult DeleteAccount(int userID) 
-        { 
-            try
-            {
-                var removed = _userService.RemoveUserAccount(userID);
-                return removed ? Ok() : BadRequest();
-            }
-            catch
-            {
-                return StatusCode(500);
-            }
+        catch
+        {
+            return StatusCode(500);
+        }
+    }
+    [HttpPost("authorise/{userID}")]
+    public ActionResult AuthoriseUser(int userID)
+    {
+        try
+        {
+            var authorised = _userService.AuthoriseUser(userID);
+            return authorised ? Ok() : BadRequest();
+        }
+        catch
+        {
+            return StatusCode(500);
+        }
+    }
+    [HttpDelete("delete/{userID}")]
+    public ActionResult DeleteAccount(int userID) 
+    { 
+        try
+        {
+            var removed = _userService.RemoveUserAccount(userID);
+            return removed ? Ok() : BadRequest();
+        }
+        catch
+        {
+            return StatusCode(500);
         }
     }
 }

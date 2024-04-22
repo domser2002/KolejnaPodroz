@@ -1,10 +1,9 @@
-﻿namespace Logic.Services.Implementations
+﻿namespace Logic.Services.Implementations;
+
+public class PaymentService
 {
-    public class PaymentService
+    public void ProceedPayment()
     {
-        public void ProceedPayment()
-        {
-            throw new NotImplementedException();
-        }
+        throw new NotImplementedException();
     }
 }

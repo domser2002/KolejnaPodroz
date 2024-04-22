@@ -2,69 +2,68 @@
 using Domain.Admin;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Api.Controllers
-{
-    [ApiController]
-    [Route("Admin")]
-    public class AdminController : ControllerBase
-    {
-        private readonly AdminService _adminService;
-        public AdminController(AdminService adminService)
-        {
-            _adminService = adminService;
-        }
+namespace Api.Controllers;
 
-        [HttpPost("create")]
-        public ActionResult CreateAccount(Admin admin)
+[ApiController]
+[Route("Admin")]
+public class AdminController : ControllerBase
+{
+    private readonly AdminService _adminService;
+    public AdminController(AdminService adminService)
+    {
+        _adminService = adminService;
+    }
+
+    [HttpPost("create")]
+    public ActionResult CreateAccount(Admin admin)
+    {
+        try
         {
-            try
-            {
-                var created = _adminService.CreateAdminAccount(admin);
-                return created ? Ok() : BadRequest();
-            }
-            catch (Exception)
-            {
-                return StatusCode(500);
-            }
+            var created = _adminService.CreateAdminAccount(admin);
+            return created ? Ok() : BadRequest();
         }
-        [HttpPost("verify/{adminID}")]
-        public ActionResult VerifyAdminAccount(int adminID)
+        catch (Exception)
         {
-            try
-            {
-                var verified = _adminService.VerifyAdminAccount(adminID);
-                return verified ? Ok() : BadRequest();
-            }
-            catch
-            {
-                return StatusCode(500);
-            }
+            return StatusCode(500);
         }
-        [HttpPost("authorise/{adminID}")]
-        public ActionResult AuthoriseAdmin(int adminID)
+    }
+    [HttpPost("verify/{adminID}")]
+    public ActionResult VerifyAdminAccount(int adminID)
+    {
+        try
         {
-            try
-            {
-                var authorised = _adminService.AuthoriseAdmin(adminID);
-                return authorised ? Ok() : BadRequest();
-            }
-            catch
-            {
-                return StatusCode(500);
-            }
+            var verified = _adminService.VerifyAdminAccount(adminID);
+            return verified ? Ok() : BadRequest();
         }
-        [HttpDelete("delete/{adminID}")]
-        public ActionResult DeleteAccount(int adminID)
+        catch
         {
-            try
-            {
-                var removed = _adminService.RemoveAdminAccount(adminID);
-                return removed ? Ok() : BadRequest();
-            }
-            catch
-            {
-                return StatusCode(500);
-            }
+            return StatusCode(500);
+        }
+    }
+    [HttpPost("authorise/{adminID}")]
+    public ActionResult AuthoriseAdmin(int adminID)
+    {
+        try
+        {
+            var authorised = _adminService.AuthoriseAdmin(adminID);
+            return authorised ? Ok() : BadRequest();
+        }
+        catch
+        {
+            return StatusCode(500);
+        }
+    }
+    [HttpDelete("delete/{adminID}")]
+    public ActionResult DeleteAccount(int adminID)
+    {
+        try
+        {
+            var removed = _adminService.RemoveAdminAccount(adminID);
+            return removed ? Ok() : BadRequest();
+        }
+        catch
+        {
+            return StatusCode(500);
         }
     }
 }

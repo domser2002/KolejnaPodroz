@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace Domain.Common;
 
-namespace Domain.Common
+public class Statistics
 {
-    public class Statistics
-    {
-        public List<string> statistics = new();
-    }
+    // Why? Do we store it as JSON?
+    public List<string> StatStrings { get; set; } = new();
 }

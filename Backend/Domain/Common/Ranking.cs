@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace Domain.Common;
 
-namespace Domain.Common
+public class Ranking
 {
-    public class Ranking
-    {
-        public List<string> ranking = new();
-    }
+    public List<string> RankingsStrings { get; set; } = new();
 }

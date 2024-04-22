@@ -1,34 +1,22 @@
 ﻿using Domain.Common;
+using Domain.Enums;
 using System.ComponentModel.DataAnnotations;
 
-namespace Domain.User
+namespace Domain.User;
+
+public class User : CommonAccountInfo
 {
-    public enum SeatTypes
-    {
+    public DateTime? BirthDate {  get; set; }
+    public SeatType PreferedSeatType { get; set; }
+    public SeatLocation PreferedSeatLocation { get; set; }
+    public List<Discount> Discounts { get; set; }
+}
 
-    }
-    public enum SeatLocations
-    {
-
-    }
-    public enum DiscountTypes
-    {
-
-    }
-    public class User : CommonAccountInfo
-    {
-        public DateTime? BirthDate {  get; set; }
-        public SeatTypes PreferedSeatType { get; set; }
-        public SeatLocations PreferedSeatLocation { get; set; }
-        public List<Discount> Discounts { get; set; }
-    }
-
-    public class Discount : Base
-    {
-        [Key]
-        public int Id { get; set; }
-        public DiscountTypes Type { get; set; }
-        public int Percentage {  get; set; }
-        public List<User> Users { get; set; }
-    }
+public class Discount : Base
+{
+    [Key]
+    public int Id { get; set; }
+    public DiscountType Type { get; set; }
+    public int Percentage {  get; set; }
+    public List<User> Users { get; set; }
 }

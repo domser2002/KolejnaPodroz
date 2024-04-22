@@ -1,37 +1,36 @@
 ﻿using Domain.User;
 
-namespace Logic.Services.Implementations
+namespace Logic.Services.Implementations;
+
+public class TicketService
 {
-    public class TicketService
+    public bool Buy(Ticket ticket)
     {
-        public bool Buy(Ticket ticket)
-        {
-            throw new NotImplementedException();
-        }
-        public List<Ticket> ListByUser(int userID)
-        {
-            throw new NotImplementedException();
-        }
-        public void Generate(Ticket ticket)
-        {
-            throw new NotImplementedException();
-        }
-        public bool Remove(int ticketID)
-        {
-            throw new NotImplementedException();
-        }
-        public bool Add(Ticket ticket)
-        {
-            throw new NotImplementedException();
-            // return ticketId
-        }
-        public bool ChangeDetails(Ticket ticket)
-        {
-            throw new NotImplementedException();
-        }
-        public Ticket? GetTicketById(int ticketID)
-        {
-            throw new NotImplementedException();
-        }
+        throw new NotImplementedException();
+    }
+    public List<Ticket> ListByUser(int userID)
+    {
+        throw new NotImplementedException();
+    }
+    public void Generate(Ticket ticket)
+    {
+        throw new NotImplementedException();
+    }
+    public bool Remove(int ticketID)
+    {
+        throw new NotImplementedException();
+    }
+    public bool Add(Ticket ticket)
+    {
+        throw new NotImplementedException();
+        // return ticketId
+    }
+    public bool ChangeDetails(Ticket ticket)
+    {
+        throw new NotImplementedException();
+    }
+    public Ticket? GetTicketById(int ticketID)
+    {
+        throw new NotImplementedException();
     }
 }
