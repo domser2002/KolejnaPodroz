@@ -1,5 +1,5 @@
-﻿using Api.Services;
-using Api.Services.Implementations;
+﻿using Logic.Services;
+using Logic.Services.Implementations;
 using Domain.User;
 using Microsoft.AspNetCore.Mvc;
 

@@ -1,4 +1,4 @@
-﻿using Api.Services.Implementations;
+﻿using Logic.Services.Implementations;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers

@@ -1,26 +1,26 @@
-﻿using Domain.Admin;
+﻿using Domain.User;
 
-namespace Api.Services.Implementations
+namespace Logic.Services.Implementations
 {
-    public class AdminService
+    public class UserService
     {
-        public bool CreateAdminAccount(Admin admin)
+        public bool CreateUserAccount(User user)
         {
             throw new NotImplementedException();
         }
-        public bool RemoveAdminAccount(int adminID)
+        public bool RemoveUserAccount(int userID)
         {
             throw new NotImplementedException();
         }
-        public bool VerifyAdminAccount(int adminID)
+        public bool VerifyUserAccount(int userID)
         {
             throw new NotImplementedException();
         }
-        public bool AuthoriseAdmin(int adminID)
+        public bool AuthoriseUser(int userID)
         {
             throw new NotImplementedException();
         }
-        public void GiveAdminPermissions(Admin admin)
+        public User GetUserByID(int userID)
         {
             throw new NotImplementedException();
         }

@@ -1,4 +1,4 @@
-﻿using Api.Services.Interfaces;
+﻿using Logic.Services.Interfaces;
 using Domain.Common;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Mime;

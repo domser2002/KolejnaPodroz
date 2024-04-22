@@ -1,4 +1,4 @@
-﻿namespace Api.Services.Implementations
+﻿namespace Logic.Services.Implementations
 {
     public class PaymentService
     {

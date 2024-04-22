@@ -1,7 +1,7 @@
 ﻿using Domain.Common;
 using Microsoft.EntityFrameworkCore;
 
-namespace Api.Services.Implementations
+namespace Logic.Services.Implementations
 {
     public class ComplaintService : Interfaces.IComplaintService
     {

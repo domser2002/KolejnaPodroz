@@ -1,6 +1,5 @@
-using Api;
-using Api.Services.Implementations;
-using Api.Services.Interfaces;
+using Logic.Services.Implementations;
+using Logic.Services.Interfaces;
 using Domain.Common;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,7 +15,7 @@ builder.Services.AddSingleton<DatabaseService>();
 
 builder.Services.AddSingleton<AdminService>();
 //builder.Services.AddSingleton<IComplaintService, ComplaintService>(sp => new ComplaintService(sp.GetRequiredService<DomainDBContext>()));
-builder.Services.AddScoped<IComplaintService,ComplaintService>();
+builder.Services.AddScoped<IComplaintService, ComplaintService>();
 builder.Services.AddSingleton<DatabaseService>();
 builder.Services.AddSingleton<PaymentService>();
 builder.Services.AddSingleton<ProviderService>();

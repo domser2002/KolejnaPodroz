@@ -1,6 +1,6 @@
 ﻿using Domain.Common;
 
-namespace Api.Services.Interfaces
+namespace Logic.Services.Interfaces
 {
     public interface IComplaintService
     {

@@ -1,6 +1,6 @@
 ﻿using Domain.Common;
 
-namespace Api.Services.Implementations
+namespace Logic.Services.Implementations
 {
     public class StatisticsService
     {
