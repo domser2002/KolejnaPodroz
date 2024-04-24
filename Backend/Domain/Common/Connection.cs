@@ -1,16 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace Domain.Common;
 
-namespace Domain.Common
+public class Connection
 {
-    public class Connection
-    {
-        public List<string> Stations = new();
-        public List<DateTime> DepartureTimes = new();
-        public List<DateTime> ArrivalTimes = new();
-        public List<Provider> Providers = new();
-    }
+    public List<string> Stations { get; set; } = new();
+    public List<DateTime> DepartureTimes { get; set; } = new();
+    public List<DateTime> ArrivalTimes { get; set; } = new();
+    public List<Provider> Providers { get; set; } = new();
 }

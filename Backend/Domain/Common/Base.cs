@@ -1,16 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace Domain.Common
+namespace Domain.Common;
+
+public class Base
 {
-    public class Base
-    {
-        [Key]
-        public int ID;
-    }
+    [Key]
+    public int ID { get; set; }
 }

@@ -1,9 +1,9 @@
-﻿namespace Domain.Server
+﻿namespace Domain.Server;
+
+public class AdminSession
 {
-    public class AdminSession
-    {
-        public string Token = string.Empty;
-        public int AdminID;
-        public DateTime LoginTime;
-    }
+    // Same comment as in UserSession.
+    public int AdminID { get; set; }
+    public string Token { get; set; } = string.Empty;
+    public DateTime LoginTime { get; set; }
 }

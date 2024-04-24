@@ -1,87 +1,86 @@
-﻿using Api.Services.Implementations;
+﻿using Logic.Services.Implementations;
 using Domain.User;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Api.Controllers
+namespace Api.Controllers;
+
+[ApiController]
+[Route("Ticket")]
+public class TicketController : ControllerBase
 {
-    [ApiController]
-    [Route("Ticket")]
-    public class TicketController : ControllerBase
+    private readonly TicketService _ticketService;
+    public TicketController(TicketService ticketService) 
     {
-        private readonly TicketService _ticketService;
-        public TicketController(TicketService ticketService) 
-        {
-            _ticketService = ticketService;
-        }
+        _ticketService = ticketService;
+    }
 
-        [HttpGet("{ticketId}")]
-        public ActionResult<Ticket> GetTicketById(int ticketId)
+    [HttpGet("{ticketId}")]
+    public ActionResult<Ticket> GetTicketById(int ticketId)
+    {
+        try
         {
-            try
-            {
-                var ticket = _ticketService.GetTicketById(ticketId);
-                return ticket != null ? Ok(ticket) : NotFound();
-            }
-            catch (Exception)
-            {
-                return StatusCode(500);
-            }
+            var ticket = _ticketService.GetTicketById(ticketId);
+            return ticket != null ? Ok(ticket) : NotFound();
         }
+        catch (Exception)
+        {
+            return StatusCode(500);
+        }
+    }
 
-        [HttpGet("byUser/{ticketId}")]
-        public ActionResult<List<Ticket>> GetTicketByUserId(int userId)
+    [HttpGet("byUser/{ticketId}")]
+    public ActionResult<List<Ticket>> GetTicketByUserId(int userId)
+    {
+        try
         {
-            try
-            {
-                var tickets = _ticketService.ListByUser(userId);
-                return tickets != null ? Ok(tickets) : NotFound();
-            }
-            catch (Exception)
-            {
-                return StatusCode(500);
-            }
-        }        
-        
-        [HttpPost("create")]
-        public ActionResult<int> AddTicket(Ticket ticket)
-        {
-            try
-            {
-                var ticketId = _ticketService.Add(ticket);
-                return ticketId != null ? Ok(ticketId) : BadRequest();
-            }
-            catch (Exception)
-            {
-                return StatusCode(500);
-            }
+            var tickets = _ticketService.ListByUser(userId);
+            return tickets != null ? Ok(tickets) : NotFound();
         }
-        
-        [HttpPut("edit")]
-        public ActionResult EditTicket(Ticket ticket)
+        catch (Exception)
         {
-            try
-            {
-                var edited = _ticketService.ChangeDetails(ticket);
-                return edited ? Ok() : BadRequest();
-            }
-            catch (Exception)
-            {
-                return StatusCode(500);
-            }
+            return StatusCode(500);
         }
+    }        
+    
+    [HttpPost("create")]
+    public ActionResult<int> AddTicket(Ticket ticket)
+    {
+        try
+        {
+            var ticketId = _ticketService.Add(ticket);
+            return ticketId != null ? Ok(ticketId) : BadRequest();
+        }
+        catch (Exception)
+        {
+            return StatusCode(500);
+        }
+    }
+    
+    [HttpPut("edit")]
+    public ActionResult EditTicket(Ticket ticket)
+    {
+        try
+        {
+            var edited = _ticketService.ChangeDetails(ticket);
+            return edited ? Ok() : BadRequest();
+        }
+        catch (Exception)
+        {
+            return StatusCode(500);
+        }
+    }
 
-        [HttpDelete("delete/{ticketId}")]
-        public ActionResult RemoveTicket(int ticketId)
+    [HttpDelete("delete/{ticketId}")]
+    public ActionResult RemoveTicket(int ticketId)
+    {
+        try
         {
-            try
-            {
-                var removed = _ticketService.Remove(ticketId);
-                return removed ? Ok() : NotFound();
-            }
-            catch (Exception)
-            {
-                return StatusCode(500);
-            }
+            var removed = _ticketService.Remove(ticketId);
+            return removed ? Ok() : NotFound();
+        }
+        catch (Exception)
+        {
+            return StatusCode(500);
         }
     }
 }
