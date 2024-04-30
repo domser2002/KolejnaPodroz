@@ -1,5 +1,5 @@
-﻿using Api.Services.Implementations;
-using Domain.Common;
+﻿using Domain.Common;
+using Logic.Services.Implementations;
 
 namespace Test
 {
