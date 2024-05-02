@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Api.Services.Implementations;
-using Domain.Common;
+﻿using Domain.Common;
+using Logic.Services.Implementations;
 
 namespace Test
 {
