@@ -1,9 +1,11 @@
 ﻿using Domain.User;
+using Infrastructure.Interfaces;
 
 namespace Logic.Services.Implementations;
 
-public class UserService
+public class UserService(IDataRepository repository)
 {
+    private readonly IDataRepository _repository = repository;
     public bool CreateUserAccount(User user)
     {
         throw new NotImplementedException();

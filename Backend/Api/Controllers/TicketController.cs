@@ -14,12 +14,12 @@ public class TicketController : ControllerBase
         _ticketService = ticketService;
     }
 
-    [HttpGet("{ticketId}")]
-    public ActionResult<Ticket> GetTicketById(int ticketId)
+    [HttpGet("{ticketID}")]
+    public ActionResult<Ticket> GetTicketByID(int ticketID)
     {
         try
         {
-            var ticket = _ticketService.GetTicketById(ticketId);
+            var ticket = _ticketService.GetTicketByID(ticketID);
             return ticket != null ? Ok(ticket) : NotFound();
         }
         catch (Exception)
@@ -28,12 +28,12 @@ public class TicketController : ControllerBase
         }
     }
 
-    [HttpGet("byUser/{ticketId}")]
-    public ActionResult<List<Ticket>> GetTicketByUserId(int userId)
+    [HttpGet("byUser/{ticketID}")]
+    public ActionResult<List<Ticket>> GetTicketByUserID(int userID)
     {
         try
         {
-            var tickets = _ticketService.ListByUser(userId);
+            var tickets = _ticketService.ListByUser(userID);
             return tickets != null ? Ok(tickets) : NotFound();
         }
         catch (Exception)
@@ -47,8 +47,8 @@ public class TicketController : ControllerBase
     {
         try
         {
-            var ticketId = _ticketService.Add(ticket);
-            return ticketId != null ? Ok(ticketId) : BadRequest();
+            var ticketID = _ticketService.Add(ticket);
+            return ticketID != null ? Ok(ticketID) : BadRequest();
         }
         catch (Exception)
         {
@@ -70,12 +70,12 @@ public class TicketController : ControllerBase
         }
     }
 
-    [HttpDelete("delete/{ticketId}")]
-    public ActionResult RemoveTicket(int ticketId)
+    [HttpDelete("delete/{ticketID}")]
+    public ActionResult RemoveTicket(int ticketID)
     {
         try
         {
-            var removed = _ticketService.Remove(ticketId);
+            var removed = _ticketService.Remove(ticketID);
             return removed ? Ok() : NotFound();
         }
         catch (Exception)

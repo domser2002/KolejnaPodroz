@@ -14,12 +14,12 @@ public class RankingController : ControllerBase
         _rankingService = rankingService;
     }
 
-    [HttpGet("byUser/{userId}")]
-    public ActionResult<List<Ranking>> Get(int userId)
+    [HttpGet("byUser/{userID}")]
+    public ActionResult<List<Ranking>> Get(int userID)
     {
         try
         {
-            var rankings = _rankingService.GetByUser(userId);
+            var rankings = _rankingService.GetByUser(userID);
             return rankings != null ? Ok(rankings) : NotFound();
         }
         catch(Exception)
@@ -27,12 +27,12 @@ public class RankingController : ControllerBase
             return StatusCode(500);
         }
     }
-    [HttpPut("update/byUser/{userId}")]
-    public ActionResult Update(int userId, Ranking ranking)
+    [HttpPut("update/byUser/{userID}")]
+    public ActionResult Update(int userID, Ranking ranking)
     {
         try
         {
-            var updated = _rankingService.Update(userId, ranking);
+            var updated = _rankingService.Update(userID, ranking);
             return updated ? Ok() : NotFound();
         }
         catch (Exception)

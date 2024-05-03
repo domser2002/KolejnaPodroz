@@ -4,15 +4,16 @@ namespace Domain.Common;
 
 public class Complaint : Base
 {
-    public int UserID { get; set; }
+    [Required]
+    public int ComplainantID { get; set; }
     [Required]
     [MaxLength(50)]
-    public string Title { get; set; }   
+    public string Title { get; set; } = string.Empty;  
     [Required]
     [MaxLength(250)]
-    public string Content {  get; set; }
+    public string Content {  get; set; } = string.Empty;
     [MaxLength(250)]
-    public string Response { get; set; }
+    public string Response { get; set; } = string.Empty;
     [Required]
     public bool IsResponded { get; set; }
 }

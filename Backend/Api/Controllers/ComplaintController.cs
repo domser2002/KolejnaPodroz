@@ -63,12 +63,12 @@ public class ComplaintController : ControllerBase
         return Ok(result);
     }
 
-    [HttpGet("getByUser/{userId}")]
+    [HttpGet("getByUser/{userID}")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<Complaint>))]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public ActionResult GetComplaintsByUserID(int userId)
+    public ActionResult GetComplaintsByUserID(int userID)
     {
-        var result = _complaintService.GetComplaintsByUserID(userId);
+        var result = _complaintService.GetComplaintsByUserID(userID);
         if (result == null)
         {
             return NotFound();

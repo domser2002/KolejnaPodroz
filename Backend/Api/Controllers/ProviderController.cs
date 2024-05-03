@@ -14,12 +14,12 @@ public class ProviderController : ControllerBase
         _providerService = providerService;
     }
 
-    [HttpGet("{providerId}")]
-    public ActionResult<Provider> GetProviderById(int providerId)
+    [HttpGet("{providerID}")]
+    public ActionResult<Provider> GetProviderByID(int providerID)
     {
         try
         {
-            var provider = _providerService.GetProviderById(providerId);
+            var provider = _providerService.GetProviderByID(providerID);
             return provider != null ? Ok(provider) : NotFound();
         }
         catch(Exception)
@@ -27,7 +27,7 @@ public class ProviderController : ControllerBase
             return StatusCode(500);
         }
     }
-    [HttpPost("add/{providerId}")]
+    [HttpPost("add/{providerID}")]
     public ActionResult AddProvider(Provider provider)
     {
         try
@@ -41,12 +41,12 @@ public class ProviderController : ControllerBase
         }
     }
 
-    [HttpPut("edit/{providerId}")]
-    public ActionResult EditProvider(int providerId, Provider provider)
+    [HttpPut("edit")]
+    public ActionResult EditProvider(Provider provider)
     {
         try
         {
-            var edited = _providerService.EditProvider(providerId, provider);
+            var edited = _providerService.EditProvider(provider);
             return edited ? Ok() : BadRequest();
         }
         catch (Exception)
@@ -55,12 +55,12 @@ public class ProviderController : ControllerBase
         }
     }
 
-    [HttpDelete("delete/{providerId}")]
-    public ActionResult RemoveProvider(int providerId)
+    [HttpDelete("delete/{providerID}")]
+    public ActionResult RemoveProvider(int providerID)
     {
         try
         {
-            var removed = _providerService.RemoveProvider(providerId);
+            var removed = _providerService.RemoveProvider(providerID);
             return removed ? Ok() : BadRequest();
         }
         catch (Exception)
