@@ -1,5 +1,6 @@
 ﻿using Domain.Common;
 using Logic.Services.Implementations;
+using Infrastructure.FakeDataRepositories;
 
 namespace Test;
 
@@ -9,7 +10,8 @@ public class ComplaintServiceTests
     [SetUp]
     public void Setup()
     {
-        _complaintService = new ComplaintService(new DomainDBContext());
+        FakeDataRepository fakeDataRepository = new();
+        _complaintService = new ComplaintService(fakeDataRepository);
     }
 
     [Test]
