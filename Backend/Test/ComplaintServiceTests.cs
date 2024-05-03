@@ -1,5 +1,7 @@
-﻿using Domain.Common;
-using Logic.Services.Implementations;
+﻿using Logic.Services.Implementations;
+using Infrastructure.DataContexts;
+using Infrastructure.FakeDataRepositories;
+using Domain.Common;
 
 namespace Test
 {
@@ -9,7 +11,7 @@ namespace Test
         [SetUp]
         public void Setup()
         {
-            _complaintService = new ComplaintService(new Domain.Common.DomainDBContext());
+            _complaintService = new ComplaintService(new FakeDataRepository());
         }
 
         [Test]

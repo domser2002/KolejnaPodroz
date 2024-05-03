@@ -1,22 +1,29 @@
 using Logic.Services.Implementations;
 using Logic.Services.Interfaces;
-using Domain.Common;
+using Infrastructure.DataContexts;
 using Microsoft.EntityFrameworkCore;
+using Infrastructure.DataRepositories;
+using Infrastructure.FakeDataRepositories;
+using Infrastructure.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
 
-builder.Services.AddDbContext<DomainDBContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddSingleton(serviceProvider =>
+{
+    var optionsBuilder = new DbContextOptionsBuilder<DomainDBContext>();
+    optionsBuilder.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+    return new DomainDBContext(optionsBuilder.Options);
+});
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddSingleton<DatabaseService>();
 
-builder.Services.AddSingleton<AdminService>();
-//builder.Services.AddSingleton<IComplaintService, ComplaintService>(sp => new ComplaintService(sp.GetRequiredService<DomainDBContext>()));
-builder.Services.AddScoped<IComplaintService, ComplaintService>();
+builder.Services.AddSingleton<IDataRepository, DataRepository>();
 builder.Services.AddSingleton<DatabaseService>();
+builder.Services.AddSingleton<AdminService>();
+builder.Services.AddSingleton<IComplaintService, ComplaintService>();
 builder.Services.AddSingleton<PaymentService>();
 builder.Services.AddSingleton<ProviderService>();
 builder.Services.AddSingleton<RankingService>();

@@ -12,7 +12,7 @@ public class PaymentController : ControllerBase
     {
         _paymentService = paymentService;
     }
-    [HttpPost("process/paymentId")]
+    [HttpPost("process/paymentID")]
     public ActionResult ProcessPayment()
     {
         return Ok();

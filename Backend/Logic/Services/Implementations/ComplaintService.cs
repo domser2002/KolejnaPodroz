@@ -1,42 +1,41 @@
 ﻿using Domain.Common;
+using Infrastructure.Interfaces;
 
 namespace Logic.Services.Implementations;
 
-public class ComplaintService : Interfaces.IComplaintService
+public class ComplaintService(IDataRepository repository) : Interfaces.IComplaintService
 {
-    DomainDBContext ddbContext;
-    public ComplaintService(DomainDBContext dbContext) 
-    {
-        ddbContext = dbContext;
-    }
+    private readonly IDataRepository _repository = repository;
+
     public bool MakeComplaint(Complaint complaint)
     {
-        ddbContext.Complaint.Add(complaint);
-        if(ddbContext.SaveChanges() != 1) return false;
+        _repository.ComplaintRepository.Add(complaint);
         return true;
     }
     public bool RemoveComplaint(int complaintID)
     {
-        Complaint complaint = ddbContext.Complaint.Find(complaintID);
-        ddbContext.Complaint.Remove(complaint);
-        if (ddbContext.SaveChanges() != 1) return false;
+        Complaint? complaint = _repository.ComplaintRepository.GetByID(complaintID);
+        if (complaint == null) return false;
+        _repository.ComplaintRepository.Delete(complaint);
         return true;
     }
     public void EditComplaint(int complaintID)
     {
-        Complaint complaint = ddbContext.Complaint.Find(complaintID);
-        ddbContext.Complaint.Remove(complaint);
-        // perform edition
-        ddbContext.Complaint.Add(complaint);
-        ddbContext.SaveChanges();
+        Complaint? complaint = _repository.ComplaintRepository.GetByID(complaintID);
+        if (complaint != null)
+        {
+            _repository.ComplaintRepository.Delete(complaint);
+            // perform edition
+            _repository.ComplaintRepository.Add(complaint);
+        }
     }
-    public Complaint GetComplaintByID(int complaintID)
+    public Complaint? GetComplaintByID(int complaintID)
     {
-        return ddbContext.Complaint.Find(complaintID);
+        return _repository.ComplaintRepository.GetByID(complaintID);
     }
     public List<Complaint> GetComplaintsByUserID(int complaintUserID)
     {
-        return ddbContext.Complaint.Where(c => c.UserID == complaintUserID).ToList();
-
+        IEnumerable<Complaint> complaints = _repository.ComplaintRepository.GetAll();
+        return complaints.Where(c => c.ComplainantID == complaintUserID).ToList();
     }
 }

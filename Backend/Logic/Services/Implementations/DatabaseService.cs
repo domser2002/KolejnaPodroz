@@ -1,9 +1,11 @@
 ﻿using Domain.Common;
+using Infrastructure.Interfaces;
 
 namespace Logic.Services.Implementations;
 
-public class DatabaseService
+public class DatabaseService(IDataRepository repository)
 {
+    private readonly IDataRepository _repository = repository;
     public void ExecuteSQL(string sql)
     {
         throw new NotImplementedException();

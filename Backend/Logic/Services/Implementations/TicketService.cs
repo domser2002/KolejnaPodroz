@@ -1,9 +1,11 @@
 ﻿using Domain.User;
+using Infrastructure.Interfaces;
 
 namespace Logic.Services.Implementations;
 
-public class TicketService
+public class TicketService(IDataRepository repository)
 {
+    private readonly IDataRepository _repository = repository;
     public bool Buy(Ticket ticket)
     {
         throw new NotImplementedException();
@@ -23,13 +25,13 @@ public class TicketService
     public bool Add(Ticket ticket)
     {
         throw new NotImplementedException();
-        // return ticketId
+        // return ticketID
     }
     public bool ChangeDetails(Ticket ticket)
     {
         throw new NotImplementedException();
     }
-    public Ticket? GetTicketById(int ticketID)
+    public Ticket? GetTicketByID(int ticketID)
     {
         throw new NotImplementedException();
     }
