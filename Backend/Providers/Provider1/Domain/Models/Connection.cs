@@ -1,4 +1,4 @@
-﻿namespace Domain;
+﻿namespace Domain.Models;
 
 public class Connection
 {
@@ -6,9 +6,11 @@ public class Connection
     public int ID { get; } = ++_idCounter;
     public int TrainID { get; set; }
     public List<(int, DateTime)>? StationIDsTimes { get; set; }
-    public Connection(int trainID, List<(int, DateTime)>? stationIDsTimes = null)
+    public List<Seat>? Seats { get; set; }
+    public Connection(int trainID, List<(int, DateTime)>? stationIDsTimes = null, List<Seat>? seats = null)
     {
         TrainID = trainID;
         StationIDsTimes = stationIDsTimes;
+        Seats = seats;
     }
 }
