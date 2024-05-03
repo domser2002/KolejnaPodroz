@@ -15,8 +15,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure", "Infrastru
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApiTests", "Tests\ApiTests\ApiTests.csproj", "{A9A92D5B-0070-4A6A-AF68-5701A62227F4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DomainTests", "Tests\DomainTests\DomainTests.csproj", "{595271AA-0D34-460A-B3D5-78D2576B109B}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LogicTests", "Tests\LogicTests\LogicTests.csproj", "{441970D7-2995-4174-9E79-83EFE6820453}"
 EndProject
 Global
@@ -45,10 +43,6 @@ Global
 		{A9A92D5B-0070-4A6A-AF68-5701A62227F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A9A92D5B-0070-4A6A-AF68-5701A62227F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A9A92D5B-0070-4A6A-AF68-5701A62227F4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{595271AA-0D34-460A-B3D5-78D2576B109B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{595271AA-0D34-460A-B3D5-78D2576B109B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{595271AA-0D34-460A-B3D5-78D2576B109B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{595271AA-0D34-460A-B3D5-78D2576B109B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{441970D7-2995-4174-9E79-83EFE6820453}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{441970D7-2995-4174-9E79-83EFE6820453}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{441970D7-2995-4174-9E79-83EFE6820453}.Release|Any CPU.ActiveCfg = Release|Any CPU
