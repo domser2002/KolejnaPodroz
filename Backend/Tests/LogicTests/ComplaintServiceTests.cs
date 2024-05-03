@@ -1,17 +1,25 @@
 ﻿using Domain.Common;
 using Logic.Services.Implementations;
 using Infrastructure.FakeDataRepositories;
+using Infrastructure.DataContexts;
+using Infrastructure.DataRepositories;
+using Microsoft.EntityFrameworkCore;
 
 namespace Test;
 
 public class ComplaintServiceTests
 {
-    ComplaintService _complaintService;
+    ComplaintService fakeComplaintService;
+    ComplaintService complaintService;
+    readonly string connectionString = "Server=DESKTOP-OEFV9O5,1433;Initial Catalog=Domain;Persist Security Info=False;User ID=KolejnaPodroz;Password=lubiepociagi123;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;"; // to be changed when moved to Azure, tests will fail on github
     [SetUp]
     public void Setup()
     {
-        FakeDataRepository fakeDataRepository = new();
-        _complaintService = new ComplaintService(fakeDataRepository);
+        fakeComplaintService = new ComplaintService(new FakeDataRepository());
+        var optionsBuilder = new DbContextOptionsBuilder<DomainDBContext>();
+        optionsBuilder.UseSqlServer(connectionString);
+        DataRepository dataRepository = new(new DomainDBContext(optionsBuilder.Options));
+        complaintService = new ComplaintService(dataRepository);
     }
 
     [Test]
@@ -20,8 +28,8 @@ public class ComplaintServiceTests
         // Arrange
         Complaint complaint = new();
         // Act
-        _complaintService.MakeComplaint(complaint);
-        Complaint complaint1 = _complaintService.GetComplaintByID(complaint.ID);
+        fakeComplaintService.MakeComplaint(complaint);
+        Complaint complaint1 = fakeComplaintService.GetComplaintByID(complaint.ID);
         // Assert
         Assert.AreEqual(complaint, complaint1);
     }
@@ -32,7 +40,7 @@ public class ComplaintServiceTests
         // Arrange
         Complaint? complaint = null;
         // Act
-        bool returnValue = _complaintService.MakeComplaint(complaint);
+        bool returnValue = fakeComplaintService.MakeComplaint(complaint);
         // Assert
         Assert.AreEqual(false, returnValue);
     }
@@ -43,7 +51,7 @@ public class ComplaintServiceTests
         // Arrange
         int id = 1;
         // Act
-        bool returnValue = _complaintService.RemoveComplaint(id);
+        bool returnValue = fakeComplaintService.RemoveComplaint(id);
         // Assert
         Assert.AreEqual(true, returnValue);
     }
@@ -54,7 +62,7 @@ public class ComplaintServiceTests
         // Arrange
         int id = -1;
         // Act
-        bool returnValue = _complaintService.RemoveComplaint(id);
+        bool returnValue = fakeComplaintService.RemoveComplaint(id);
         // Assert
         Assert.AreEqual(false, returnValue);
     }
@@ -65,7 +73,7 @@ public class ComplaintServiceTests
         // Arrange
         int id = 1;
         // Act
-        _complaintService.EditComplaint(id);
+        fakeComplaintService.EditComplaint(id);
         // Assert
         //Assert.DoesNotThrow(Exception );
     }

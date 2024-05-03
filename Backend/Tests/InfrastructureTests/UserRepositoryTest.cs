@@ -8,6 +8,10 @@ namespace InfrastructureTests
 {
     public class UserRepositoryTest
     {
+        [SetUp]
+        public void Setup()
+        {
 
+        }
     }
 }
