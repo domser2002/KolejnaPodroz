@@ -6,9 +6,9 @@ namespace Logic.Services.Implementations;
 public class StatisticsService(IDataRepository repository)
 {
     private readonly IDataRepository _repository = repository;
-    public List<Statistics> GetByUser(int userID)
+    public Statistics? GetByUser(int userID)
     {
-        throw new NotImplementedException();
+        return _repository.StatisticsRepository.GetByUser(userID);
     }
     public bool Update(int userID, Statistics statistics)
     {
