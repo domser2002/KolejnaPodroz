@@ -8,7 +8,7 @@ public class RankingService(IDataRepository repository)
     private readonly IDataRepository _repository = repository;
     public List<Ranking> GetByUser(int userID)
     {
-        throw new NotImplementedException();
+        _repository.Ran
     }
     public bool Update(int userID, Ranking ranking)
     {

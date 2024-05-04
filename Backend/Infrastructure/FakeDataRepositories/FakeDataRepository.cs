@@ -16,5 +16,8 @@ namespace Infrastructure.FakeDataRepositories
         public IProviderRepository ProviderRepository { get; set; } = new FakeProviderRepository();
         public ITicketRepository TicketRepository { get; set; } = new FakeTicketRepository();
         public IUserRepository UserRepository { get; set; } = new FakeUserRepository();
+        public IRankingRepository RankingRepository { get; set; } = new FakeRankingRepository();
+        public IPersonalRankingRepository PersonalRankingRepository { get; set; } = new FakePersonalRankingRepository();
+        public IStatisticsRepository StatisticsRepository { get; set; } = new FakeStatisticsRepository();
     }
 }

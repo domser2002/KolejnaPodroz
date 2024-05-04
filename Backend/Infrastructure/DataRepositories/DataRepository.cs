@@ -16,5 +16,8 @@ namespace Infrastructure.DataRepositories
         public IProviderRepository ProviderRepository { get; set; } = new ProviderRepository(context);
         public ITicketRepository TicketRepository { get; set; } = new TicketRepository(context);
         public IUserRepository UserRepository { get; set; } = new UserRepository(context);
+        public IRankingRepository RankingRepository { get; set; } = new RankingRepository(context);
+        public IPersonalRankingRepository PersonalRankingRepository { get; set; } = new PersonalRankingRepository(context);
+        public IStatisticsRepository StatisticsRepository { get; set; } = new StatisticsRepository(context);
     }
 }
