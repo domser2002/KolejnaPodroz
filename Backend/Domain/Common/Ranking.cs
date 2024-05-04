@@ -1,6 +1,17 @@
-﻿namespace Domain.Common;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-public class Ranking
+namespace Domain.Common
 {
-    public List<string> RankingsStrings { get; set; } = new();
+    public class Ranking : Base
+    {
+        [Required]
+        [MaxLength(50)]
+        public string category = "";
+        public List<(int UserID, int num)> ranking { get; set; } = new();
+    }
 }

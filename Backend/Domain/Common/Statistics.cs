@@ -1,7 +1,12 @@
-﻿namespace Domain.Common;
+﻿using System.ComponentModel.DataAnnotations;
 
-public class Statistics
+namespace Domain.Common;
+
+public class Statistics: Base
 {
-    // Why? Do we store it as JSON?
-    public List<string> StatStrings { get; set; } = new();
+        [Required]
+        public int UserID {  get; set; }
+        public List<(string category, int num)> statistics { get; set; } = new();
+    
+
 }

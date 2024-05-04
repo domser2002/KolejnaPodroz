@@ -23,3 +23,8 @@ public class UserDiscount : Base
     public int DiscountID { get; set; }
 }
 
+public class PersonalRanking : Base
+{
+    public int UserID { get; set; }
+    public List<(string category, int rank)> personalRanking { get; set; } = new();
+}
