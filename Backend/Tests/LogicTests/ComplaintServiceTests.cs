@@ -23,15 +23,15 @@ public class ComplaintServiceTests
     }
 
     [Test]
-    public void CanReturn_MakeComplaint_ReturnsTrue() 
+    public void CanReturn_MakeComplaint_ReturnsTrue_UnitTest() 
     {
         // Arrange
         Complaint complaint = new();
         // Act
         fakeComplaintService.MakeComplaint(complaint);
-        Complaint complaint1 = fakeComplaintService.GetComplaintByID(complaint.ID);
+        Complaint? complaint1 = fakeComplaintService.GetComplaintByID(complaint.ID);
         // Assert
-        Assert.AreEqual(complaint, complaint1);
+        Assert.That(complaint1, Is.EqualTo(complaint));
     }
 
     [Test]
