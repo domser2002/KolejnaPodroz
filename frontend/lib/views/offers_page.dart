@@ -1,6 +1,4 @@
   import 'package:flutter/material.dart';
-  import 'package:frontend/views/login_page.dart';
-  import 'package:frontend/views/register_page.dart';
 
   class ViewOffersPage extends StatelessWidget {
   const ViewOffersPage({super.key});
@@ -174,7 +172,6 @@
               const Text('Klasa 2: od 58,65 zł', style: TextStyle(fontSize: 25, color: Colors.white)),
               const SizedBox(height: 50),
               ElevatedButton(
-                onPressed: () {},
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.orange, // Background color
                   foregroundColor: Colors.white, // Text Color

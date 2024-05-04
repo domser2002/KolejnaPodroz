@@ -1,15 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Logic.Services.Implementations;
+using Domain.Common;
+using Microsoft.AspNetCore.Mvc;
 
-namespace Api.Controllers
+[ApiController]
+[Route("Provider")]
+public class ProviderController : ControllerBase
 {
-    [ApiController]
-    [Route("Provider")]
-    public class ProviderController : ControllerBase
     {
-        [HttpGet("{providerId}")]
-        public OkResult GetProviderById()
-        {
-            return Ok();
         }
     }
 }

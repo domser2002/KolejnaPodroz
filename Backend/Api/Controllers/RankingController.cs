@@ -1,15 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Logic.Services.Implementations;
+using Domain.Common;
+using Microsoft.AspNetCore.Mvc;
 
-namespace Api.Controllers
+[ApiController]
+[Route("Ranking")]
+public class RankingController : ControllerBase
 {
-    [ApiController]
-    [Route("Ranking")]
-    public class RankingController : ControllerBase
     {
-        [HttpGet("{categoryId}")]
-        public OkResult Get()
-        {
-            return Ok();
         }
     }
 }

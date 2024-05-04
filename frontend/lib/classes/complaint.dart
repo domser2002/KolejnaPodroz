@@ -1,8 +1,7 @@
 class Complaint {
+  int userId;
+  String title;
   String ticketId;
-  String description;
-  bool reviewed;
 
   Complaint(
-      {required this.ticketId, this.description = "", this.reviewed = false});
 }

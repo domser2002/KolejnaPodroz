@@ -1,15 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Logic.Services.Implementations;
+using Domain.User;
+using Microsoft.AspNetCore.Mvc;
 
-namespace Api.Controllers
+[ApiController]
+[Route("Ticket")]
+public class TicketController : ControllerBase
 {
-    [ApiController]
-    [Route("Ticket")]
-    public class TicketController : ControllerBase
     {
-        [HttpGet("{ticketId}")]
-        public OkResult GetTicketById()
-        {
-            return Ok();
         }
     }
 }

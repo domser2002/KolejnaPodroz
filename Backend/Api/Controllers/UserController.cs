@@ -1,15 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Domain.User;
+using Logic.Services.Implementations;
+using Microsoft.AspNetCore.Mvc;
 
-namespace Api.Controllers
+[ApiController]
+public class UserController : ControllerBase
 {
-    [ApiController]
-    [Route("Payment")]
-    public class UserController : ControllerBase
     {
-        [HttpGet("{userId}")]
-        public OkResult GetTicketById()
-        {
-            return Ok();
         }
     }
 }

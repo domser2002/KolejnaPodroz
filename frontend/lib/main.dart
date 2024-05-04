@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/cubits/search_cubit/search_cubit.dart';
 import 'package:frontend/views/landing_page.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -10,7 +11,6 @@ void main() {
 
 class MainApp extends StatelessWidget {
   const MainApp({super.key});
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -18,9 +18,6 @@ class MainApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue, 
       ),
-      home: BlocProvider(
-        create: (context) => TrainOffersCubit(),
-        child:   LandingPage(),
     ));
   }
 }

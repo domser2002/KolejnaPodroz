@@ -1,15 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Logic.Services.Implementations;
+using Microsoft.AspNetCore.Mvc;
 
-namespace Api.Controllers
+[ApiController]
+[Route("Payment")]
+public class PaymentController : ControllerBase
 {
-    [ApiController]
-    [Route("Payment")]
-    public class PaymentController : ControllerBase
     {
-        [HttpGet("process/{paymentId}")]
-        public OkResult Post()
-        {
-            return Ok();
-        }
+        return Ok();
     }
+}
 }
