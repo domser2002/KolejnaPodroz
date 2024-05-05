@@ -1,10 +1,11 @@
 ﻿using Domain.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace Logic.Services;
 
 public class ConnectionService
 {
-    public List<Connection> Connections { get; set; } = new();
+    public static List<Connection> Connections { get; set; } = new();
     public bool AddConnection(Connection connection)
     {
         if(Connections.Any(c => c.ID == connection.ID))
@@ -31,5 +32,19 @@ public class ConnectionService
         }
         Connections[connectionIndex] = connection;
         return true;
+    }
+    public List<Connection>? GetConnectionsByStartIDAndEndID(int startID, int endID)
+    {
+        var connections = new List<Connection>();
+        foreach(var connection in Connections)
+        {
+            int startStationIndex = connection.StationIDsTimes?.FindIndex(s => s.ID == startID) ?? -1;
+            int endStationIndex = connection.StationIDsTimes?.FindIndex(s => s.ID == endID) ?? -1;
+            if(startStationIndex != -1 && startStationIndex < endStationIndex)
+            {
+                connections.Add(connection);
+            }
+        }
+        return connections.Any() ? connections : null;
     }
 }

@@ -4,7 +4,7 @@ namespace Logic.Services;
 
 public class StationService
 {
-    public List<Station> Stations { get; set; } = new();
+    public static List<Station> Stations { get; set; } = new();
     public void AddStation(Station station)
     {
         Stations.Add(station);

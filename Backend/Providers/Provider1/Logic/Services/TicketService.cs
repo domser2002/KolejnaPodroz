@@ -5,7 +5,7 @@ namespace Logic.Services;
 
 public class TicketService
 {
-    public List<Ticket> Tickets { get; set; } = new();
+    public static List<Ticket> Tickets { get; set; } = new();
     public bool AddTicket(Ticket ticket)
     {
         if (Tickets.Any(Tickets => Tickets.ID == ticket.ID))

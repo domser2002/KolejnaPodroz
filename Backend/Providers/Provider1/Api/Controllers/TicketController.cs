@@ -26,7 +26,7 @@ namespace Api.Controllers
         }
 
         [HttpPost("Add")]
-        public ActionResult AddTicket(AddTicketRequestToTicket request)
+        public ActionResult AddTicket(AddTicketRequest request)
         {
             var ticket = new Ticket
             {

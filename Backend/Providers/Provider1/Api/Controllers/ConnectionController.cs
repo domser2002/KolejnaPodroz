@@ -1,4 +1,5 @@
 ﻿using Domain.Models;
+using Logic.RequestBodies;
 using Logic.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -26,4 +27,11 @@ public class ConnectionController : ControllerBase
         var added = _connectionService.AddConnection(connection);
         return added ? Ok() : BadRequest();
     }
+    [HttpGet("ByStartIDAndEndID")]
+    public ActionResult<Connection> GetConnectionByStartIDAndEndID(GetConnectionByStartIDAndEndIDRequest request)
+    {
+        var connection = _connectionService.GetConnectionsByStartIDAndEndID(request.startID, request.endID);
+        return connection != null ? Ok(connection) : NotFound();
+    }
+
 }

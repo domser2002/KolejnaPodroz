@@ -4,7 +4,7 @@ namespace Logic.Services;
 
 public class TrainService
 {
-    public List<Train> Trains { get; set; } = new();
+    public static List<Train> Trains { get; set; } = new();
     public bool AddTrain(Train train)
     {
         if(Trains.Any(t => t.ID == train.ID))
