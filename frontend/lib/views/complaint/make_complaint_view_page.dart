@@ -17,13 +17,17 @@ class ComplaintViewPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Size screenSize = MediaQuery.of(context).size;
+    double win_width = screenSize.width;
+    double win_height = screenSize.height;
+
     String rev = reviewed == true ? "rozpatrzona" : "nierozpatrzona";
     rev = "Stan: " + rev;
     reasonController.text = description;
     return Scaffold(
-      bottomNavigationBar: const BottomAppBar(
+      bottomNavigationBar: BottomAppBar(
           color: Colors.white,
-          height: 50,
+          height: win_height * 0.07,
           child: Center(
               child: Stack(
             fit: StackFit.passthrough,
@@ -33,9 +37,9 @@ class ComplaintViewPage extends StatelessWidget {
             ],
           ))),
       appBar: AppBar(
-        title: const Text(''),
+        title: Text(''),
         leading: IconButton(
-          icon: const Icon(Icons.close),
+          icon: Icon(Icons.close),
           onPressed: () => Navigator.pop(context),
         ),
       ),
@@ -43,7 +47,7 @@ class ComplaintViewPage extends StatelessWidget {
         fit: StackFit.expand,
         children: [
           Container(
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
               image: DecorationImage(
                 image: AssetImage('lib/assets/photos/background2.jpg'),
                 fit: BoxFit.cover,
@@ -52,8 +56,8 @@ class ComplaintViewPage extends StatelessWidget {
           ),
           Center(
             child: SingleChildScrollView(
-              padding:
-                  const EdgeInsets.symmetric(vertical: 200, horizontal: 300),
+              padding: EdgeInsets.symmetric(
+                  vertical: win_height * 0.27, horizontal: win_width * 0.2),
               child: Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
@@ -75,12 +79,13 @@ class ComplaintViewPage extends StatelessWidget {
                     borderRadius: BorderRadius.circular(40),
                   ),
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 200, vertical: 50),
+                    padding: EdgeInsets.symmetric(
+                        horizontal: win_width * 0.13,
+                        vertical: win_height * 0.07),
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        const Text(
+                        Text(
                           'Podgląd reklamacji',
                           style: TextStyle(
                             color: Colors.white,
@@ -88,7 +93,7 @@ class ComplaintViewPage extends StatelessWidget {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        const SizedBox(height: 20),
+                        SizedBox(height: win_height * 0.027),
                         Container(
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -100,7 +105,7 @@ class ComplaintViewPage extends StatelessWidget {
                                   fontSize: 18,
                                 ),
                               ),
-                              SizedBox(width: 30),
+                              SizedBox(width: win_width * 0.02),
                               Text(
                                 rev,
                                 style: TextStyle(
@@ -111,9 +116,9 @@ class ComplaintViewPage extends StatelessWidget {
                             ],
                           ),
                         ),
-                        const SizedBox(height: 20),
+                        SizedBox(height: win_height * 0.027),
                         Container(
-                          margin: EdgeInsets.only(bottom: 10),
+                          margin: EdgeInsets.only(bottom: win_height * 0.013),
                           child: TextField(
                             enabled: false,
                             controller: reasonController,
@@ -121,7 +126,8 @@ class ComplaintViewPage extends StatelessWidget {
                               filled: true,
                               fillColor: Colors.white,
                               constraints: BoxConstraints.expand(
-                                  width: 500, height: 200),
+                                  width: win_width * 0.33,
+                                  height: win_height * 0.27),
                               labelText: "Wyjaśnienie",
                             ),
                             obscureText: false,
@@ -129,7 +135,7 @@ class ComplaintViewPage extends StatelessWidget {
                             maxLength: 500,
                           ),
                         ),
-                        const SizedBox(height: 20),
+                        SizedBox(height: win_height * 0.027),
                       ],
                     ),
                   ),

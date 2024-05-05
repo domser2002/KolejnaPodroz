@@ -6,24 +6,33 @@ import 'package:frontend/widgets/socialmedia_button.dart';
 class LoginPage extends StatelessWidget {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  final TextEditingController repeatPasswordController = TextEditingController();
+  final TextEditingController repeatPasswordController =
+      TextEditingController();
 
   LoginPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    Size screenSize = MediaQuery.of(context).size;
+    double win_width = screenSize.width;
+    double win_height = screenSize.height;
+
     return Scaffold(
-            bottomNavigationBar: const  BottomAppBar(
-        color: Colors.white, 
-        height: 50,
-        child: Center(child:  Stack(fit: StackFit.passthrough,children: [
-          Text("©Kolejna Podróż 2024", style: TextStyle(color: Colors.black)),
-          ],
-        ))),
+      bottomNavigationBar: BottomAppBar(
+          color: Colors.white,
+          height: win_height * 0.07,
+          child: Center(
+              child: Stack(
+            fit: StackFit.passthrough,
+            children: [
+              Text("©Kolejna Podróż 2024",
+                  style: TextStyle(color: Colors.black)),
+            ],
+          ))),
       appBar: AppBar(
-        title: const Text(''),
+        title: Text(''),
         leading: IconButton(
-          icon: const Icon(Icons.close),
+          icon: Icon(Icons.close),
           onPressed: () => Navigator.pop(context),
         ),
       ),
@@ -31,16 +40,17 @@ class LoginPage extends StatelessWidget {
         fit: StackFit.expand,
         children: [
           Container(
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage('lib/assets/photos/background2.jpg'), 
+                image: AssetImage('lib/assets/photos/background2.jpg'),
                 fit: BoxFit.cover,
               ),
             ),
           ),
           Center(
             child: SingleChildScrollView(
-              padding: const EdgeInsets.symmetric(vertical: 200, horizontal: 300),
+              padding: EdgeInsets.symmetric(
+                  vertical: win_height * 0.27, horizontal: win_width * 0.2),
               child: Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
@@ -62,11 +72,13 @@ class LoginPage extends StatelessWidget {
                     borderRadius: BorderRadius.circular(40),
                   ),
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 100, vertical: 50),
+                    padding: EdgeInsets.symmetric(
+                        horizontal: win_width * 0.07,
+                        vertical: win_height * 0.07),
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        const Text(
+                        Text(
                           'Zaloguj się',
                           style: TextStyle(
                             color: Colors.white,
@@ -74,48 +86,46 @@ class LoginPage extends StatelessWidget {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        const SizedBox(height: 20),
+                        SizedBox(height: win_height * 0.027),
                         InputButton(
                           controller: emailController,
                           hintText: 'E-mail',
-                          icon: const Icon(Icons.email),
+                          icon: Icon(Icons.email),
                           obscureText: false,
                           backgroundColor: Colors.white,
                         ),
-                        const SizedBox(height: 10),
+                        SizedBox(height: win_height * 0.022),
                         InputButton(
                           controller: passwordController,
                           hintText: 'Password',
-                          icon: const Icon(Icons.lock),
+                          icon: Icon(Icons.lock),
                           obscureText: true,
                           backgroundColor: Colors.white,
                         ),
-                        const SizedBox(height: 10),
-                        const SizedBox(height: 20),
+                        SizedBox(height: win_height * 0.022),
+                        SizedBox(height: win_height * 0.027),
                         ElevatedButton(
-                          onPressed: () {
-                             
-                          },
+                          onPressed: () {},
                           style: ElevatedButton.styleFrom(
                             foregroundColor: Colors.white,
                             backgroundColor: Colors.orange,
                           ),
-                          child: const Text('Zaloguj się'),
+                          child: Text('Zaloguj się'),
                         ),
                         TextButton(
-                          child: const Text(
+                          child: Text(
                             'Nie masz konta? Zarejestruj się',
                             style: TextStyle(color: Colors.white),
                           ),
                           onPressed: () {
-                               MaterialPageRoute(
-                               builder: (context) => RegistrationPage(),
-                              );
+                            MaterialPageRoute(
+                              builder: (context) => RegistrationPage(),
+                            );
                           },
                         ),
-                        const Divider(color: Colors.white),
-                        const Text('Lub', style: TextStyle(color: Colors.white)),
-                        const SizedBox(height: 10),
+                        Divider(color: Colors.white),
+                        Text('Lub', style: TextStyle(color: Colors.white)),
+                        SizedBox(height: win_height * 0.022),
                         SocialButton(
                           text: 'Zaloguj się przez Apple',
                           logo: 'lib/assets/photos/apple_white.png',
@@ -125,7 +135,7 @@ class LoginPage extends StatelessWidget {
                             // Handle register with Apple action
                           },
                         ),
-                        const SizedBox(height: 10),
+                        SizedBox(height: win_height * 0.022),
                         SocialButton(
                           text: 'Zaloguj się przez Google',
                           logo: 'lib/assets/photos/google.png',

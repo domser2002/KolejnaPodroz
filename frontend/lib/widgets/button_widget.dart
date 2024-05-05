@@ -13,13 +13,17 @@ class ButtonWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Size screenSize = MediaQuery.of(context).size;
+    double win_width = screenSize.width;
+    double win_height = screenSize.height;
+
     return ElevatedButton(
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
         foregroundColor: Colors.white, // Background color
         backgroundColor: Colors.orange[700], // Text Color (Foreground color)
       ),
-      child:  Text(title),
+      child: Text(title),
     );
   }
 }

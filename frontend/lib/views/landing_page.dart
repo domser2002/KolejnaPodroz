@@ -16,45 +16,61 @@ class LandingPage extends StatelessWidget {
   final TextEditingController dateController = TextEditingController();
 
   LandingPage({super.key});
-  
+
   @override
   Widget build(BuildContext context) {
+    Size screenSize = MediaQuery.of(context).size;
+    double win_width = screenSize.width;
+    double win_height = screenSize.height;
+
+    print(win_width);
+    print(win_height);
+
     return Scaffold(
-      bottomNavigationBar: const  BottomAppBar(
-        color: Colors.white, 
-        height: 50,
-        child: Center(child: Stack(fit: StackFit.passthrough,children: [
-          Text("©Kolejna Podróż 2024", style: TextStyle(color: Colors.black)),
-          ],
-        ))),
+      bottomNavigationBar: BottomAppBar(
+          color: Colors.white,
+          height: win_height * 0.07,
+          child: Center(
+              child: Stack(
+            fit: StackFit.passthrough,
+            children: [
+              Text("©Kolejna Podróż 2024",
+                  style: TextStyle(color: Colors.black)),
+            ],
+          ))),
       appBar: AppBar(
-        toolbarHeight: 50,
+        toolbarHeight: win_height * 0.07,
         backgroundColor: Colors.white,
         elevation: 0,
         actions: [
           TextButton(
             onPressed: () {
-                     Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => LoginPage(),
-                        ),
-                      );
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => LoginPage(),
+                ),
+              );
             },
-            child: const  Text(
+            child: Text(
               'Zaloguj się',
               style: TextStyle(color: Colors.black),
             ),
           ),
-          const VerticalDivider(color: Colors.black, thickness: 1, width: 20, indent: 18, endIndent: 16),
+          VerticalDivider(
+              color: Colors.black,
+              thickness: 1,
+              width: win_width * 0.013,
+              indent: win_width * 0.011,
+              endIndent: win_width * 0.01),
           TextButton(
             onPressed: () {
-               Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => RegistrationPage(),
-                    ),
-                  );
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => RegistrationPage(),
+                ),
+              );
             },
-            child: const Text(
+            child: Text(
               'Zarejestruj się',
               style: TextStyle(color: Colors.black),
             ),
@@ -64,17 +80,18 @@ class LandingPage extends StatelessWidget {
       extendBodyBehindAppBar: true,
       body: Stack(
         children: [
-              Container(
-            decoration: const BoxDecoration(
+          Container(
+            decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage('lib/assets/photos/background2.jpg'), 
+                image: AssetImage('lib/assets/photos/background2.jpg'),
                 fit: BoxFit.cover,
               ),
             ),
           ),
           Center(
             child: SingleChildScrollView(
-              padding: const EdgeInsets.symmetric(vertical: 200, horizontal: 300),
+              padding: EdgeInsets.symmetric(
+                  vertical: win_height * 0.27, horizontal: win_width * 0.2),
               child: Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
@@ -96,63 +113,44 @@ class LandingPage extends StatelessWidget {
                     borderRadius: BorderRadius.circular(40),
                   ),
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 100, vertical: 50),
+                    padding: EdgeInsets.symmetric(
+                        horizontal: win_width * 0.07,
+                        vertical: win_height * 0.07),
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                    const Text(
-                      'Wybierz trasę!',
-                      style: TextStyle(fontSize: 24, fontWeight: FontWeight.w600, color: Colors.white),
-                    ),
-                    const SizedBox(height: 20), 
-                    InputButton(
-                      icon: const Icon(Icons.output, color: Colors.black),
-                      controller: departureController,
-                      prefixText: 'Z',
-                      backgroundColor: Colors.white,
-                    ),
-                    const SizedBox(height: 16),
-                  InputButton(
-                      icon: const Icon(Icons.input, color: Colors.black),
-                      controller: destinationController,
-                      prefixText: 'DO',
-                      backgroundColor: Colors.white,
-                    ),
-                    const SizedBox(height: 16),
-                  InputButton(
-                      icon: const Icon(Icons.calendar_month, color: Colors.black),
-                      controller: dateController,
-                      prefixText: 'KIEDY',
-                      backgroundColor: Colors.white,
-                    ),
-                    const SizedBox(height: 20),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-
-                        ButtonWidget(onPressed: (){
-                               Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) => const UserProfilePage(),
-                              ),
-                            );
-                        }, title: 'Opcje dodatkowe'),
-                        ButtonWidget(onPressed: () {
-                          context.read<SearchCubit>().searchTrains(
-                            departureController.text,
-                            destinationController.text,
-                            dateController.text,
-                          );
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) => const ViewOffersPage(),
-                              ),
-                            );
-                        }, title: 'Wyszukaj'),
+                        Text(
+                          'Wybierz trasę!',
+                          style: TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.white),
+                        ),
+                        SizedBox(height: win_height * 0.027),
+                        InputButton(
+                          icon: Icon(Icons.output, color: Colors.black),
+                          controller: departureController,
+                          prefixText: 'Z',
+                          backgroundColor: Colors.white,
+                        ),
+                        SizedBox(height: win_height * 0.022),
+                        InputButton(
+                          icon: Icon(Icons.input, color: Colors.black),
+                          controller: destinationController,
+                          prefixText: 'DO',
+                          backgroundColor: Colors.white,
+                        ),
+                        SizedBox(height: win_height * 0.022),
+                        InputButton(
+                          icon: Icon(Icons.calendar_month, color: Colors.black),
+                          controller: dateController,
+                          prefixText: 'KIEDY',
+                          backgroundColor: Colors.white,
+                        ),
+                        SizedBox(height: win_height * 0.027),
+                        _buildButtonsRowOrColumn(win_width, context)
                       ],
                     ),
-                  ],
-                ),
                   ),
                 ),
               ),
@@ -161,5 +159,72 @@ class LandingPage extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  Widget _buildButtonsRowOrColumn(double winWidth, BuildContext context) {
+    if (winWidth > 600) {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          ButtonWidget(
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => UserProfilePage(),
+                ),
+              );
+            },
+            title: 'Opcje dodatkowe',
+          ),
+          ButtonWidget(
+            onPressed: () {
+              context.read<SearchCubit>().searchTrains(
+                    departureController.text,
+                    destinationController.text,
+                    dateController.text,
+                  );
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => ViewOffersPage(),
+                ),
+              );
+            },
+            title: 'Wyszukaj',
+          ),
+        ],
+      );
+    } else {
+      return Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          ButtonWidget(
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => UserProfilePage(),
+                ),
+              );
+            },
+            title: 'Opcje dodatkowe',
+          ),
+          SizedBox(height: 5),
+          ButtonWidget(
+            onPressed: () {
+              context.read<SearchCubit>().searchTrains(
+                    departureController.text,
+                    destinationController.text,
+                    dateController.text,
+                  );
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => ViewOffersPage(),
+                ),
+              );
+            },
+            title: 'Wyszukaj',
+          ),
+        ],
+      );
+    }
   }
 }
