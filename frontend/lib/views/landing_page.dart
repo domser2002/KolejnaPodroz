@@ -164,8 +164,6 @@ class LandingPage extends StatelessWidget {
   }
 
   Widget _buildButtonsRowOrColumn(double winWidth, BuildContext context) {
-    http_requests request = http_requests();
-
     if (winWidth > 600) {
       return Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
