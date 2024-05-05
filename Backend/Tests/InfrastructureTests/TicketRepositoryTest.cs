@@ -1,5 +1,7 @@
 ﻿using Domain.User;
+using Infrastructure.Interfaces;
 using Logic.Services.Implementations;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
@@ -9,10 +11,11 @@ using System.Threading.Tasks;
 
 namespace InfrastructureTests
 {
-    public class UserRepositoryTest
+    public class TicketRepositoryTest
     {
-        FakeUserRepository fakeRepository;
-        UserRepository repository;
+        FakeTicketRepository fakeRepository;
+        TicketRepository repository;
+        UserRepository userRepository; // needed because of relation
         string? connectionString;
         [SetUp]
         public void Setup()
@@ -25,113 +28,128 @@ namespace InfrastructureTests
             connectionString = configurationRoot.GetConnectionString("DefaultConnection");
             var optionsBuilder = new DbContextOptionsBuilder<DomainDBContext>();
             optionsBuilder.UseSqlServer(connectionString);
-            repository = new(new DomainDBContext(optionsBuilder.Options));
+            DomainDBContext dataContext = new(optionsBuilder.Options);
+            repository = new(dataContext);
+            userRepository = new(dataContext);
         }
 
         [Test]
-        public void AddUser_UnitTest()
+        public void AddTicket_UnitTest()
         {
             // Arrange
             fakeRepository = new();
-            User user = new();
+            Ticket ticket = new();
             // Act 
-            var result = fakeRepository.Add(user);
+            var result = fakeRepository.Add(ticket);
             // Assert
             Assert.Multiple(() =>
             {
                 Assert.That(result, Is.True);
                 Assert.That(fakeRepository.GetAll().Count(), Is.EqualTo(1));
-                Assert.That(fakeRepository.GetAll().Any(u => u.Equals(user)), Is.True);
+                Assert.That(fakeRepository.GetAll().Any(u => u.Equals(ticket)), Is.True);
             });
         }
 
         [Test]
-        public void DeleteUser_UnitTest()
+        public void DeleteTicket_UnitTest()
         {
             // Arrange
             fakeRepository = new();
-            User user = new();
-            fakeRepository.Add(user);
+            Ticket ticket = new();
+            fakeRepository.Add(ticket);
             // Act
-            var result = fakeRepository.Delete(user);
+            var result = fakeRepository.Delete(ticket);
             // Assert
             Assert.Multiple(() =>
             {
                 Assert.That(result, Is.True);
-                Assert.That(fakeRepository.GetByID(user.ID), Is.Null);
+                Assert.That(fakeRepository.GetByID(ticket.ID), Is.Null);
             });
         }
 
         [Test]
-        public void UpdateUser_UnitTest()
+        public void UpdateTicket_UnitTest()
         {
             // Arrange
             fakeRepository = new();
-            User user = new();
-            fakeRepository.Add(user);
-            user.FirstName = "Test";
+            Ticket ticket = new();
+            fakeRepository.Add(ticket);
+            ticket.ConnectionID = 10;
             // Act 
-            var result = fakeRepository.Update(user);
+            var result = fakeRepository.Update(ticket);
             // Assert
             Assert.Multiple(() =>
             {
                 Assert.That(result, Is.True);
-                Assert.That(fakeRepository.GetByID(user.ID)?.FirstName, Is.EqualTo("Test"));
+                Assert.That(fakeRepository.GetByID(ticket.ID)?.ConnectionID, Is.EqualTo(10));
             });
         }
 
         [Test]
-        public void AddUser_IntegrationTest()
+        public void AddTicket_IntegrationTest()
         {
             // Arrange
             User user = new();
+            Ticket ticket = new();
             int count = repository.GetAll().Count();
+            userRepository.Add(user);
+            ticket.OwnerID = user.ID;
             // Act 
-            var result = repository.Add(user);
+            var result = repository.Add(ticket);
             // Assert
             Assert.Multiple(() =>
             {
                 Assert.That(result, Is.True);
                 Assert.That(repository.GetAll().Count(), Is.EqualTo(count + 1));
-                Assert.That(repository.GetAll().Any(u => u.Equals(user)), Is.True);
+                Assert.That(repository.GetAll().Any(u => u.Equals(ticket)), Is.True);
             });
             // Clean
-            repository.Delete(user);
+            repository.Delete(ticket);
+            userRepository.Delete(user);
         }
 
         [Test]
-        public void DeleteUser_IntegrationTest()
+        public void DeleteTicket_IntegrationTest()
         {
             // Arrange
             User user = new();
-            repository.Add(user);
+            Ticket ticket = new();
+            userRepository.Add(user);
+            ticket.OwnerID = user.ID;
+            repository.Add(ticket);
             // Act
-            var result = repository.Delete(user);
+            var result = repository.Delete(ticket);
             // Assert
             Assert.Multiple(() =>
             {
                 Assert.That(result, Is.True);
-                Assert.That(repository.GetByID(user.ID), Is.Null);
+                Assert.That(repository.GetByID(ticket.ID), Is.Null);
             });
+            // Clean
+            userRepository.Delete(user);
         }
 
         [Test]
-        public void UpdateUser_IntegrationTest()
+        public void UpdateTicket_IntegrationTest()
         {
             // Arrange
             User user = new();
-            repository.Add(user);
-            user.FirstName = "Test";
+            Ticket ticket = new();
+            userRepository.Add(user);
+            ticket.OwnerID = user.ID;
+            repository.Add(ticket);
+            ticket.ConnectionID = 10;
             // Act 
-            var result = repository.Update(user);
+            var result = repository.Update(ticket);
             // Assert
             Assert.Multiple(() =>
             {
                 Assert.That(result, Is.True);
-                Assert.That(repository.GetByID(user.ID)?.FirstName, Is.EqualTo("Test"));
+                Assert.That(repository.GetByID(ticket.ID)?.ConnectionID, Is.EqualTo(10));
             });
             // Clean
-            repository.Delete(user);
+            repository.Delete(ticket);
+            userRepository.Delete(user);
         }
     }
 }
