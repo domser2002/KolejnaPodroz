@@ -5,8 +5,6 @@ namespace Domain.Common;
 
 public class Connection : Base
 {
-    [Required]
-    public int ConnectionID { get; set; }
     [NotMapped]
     public List<string> Stations { get; set; } = new();
 
