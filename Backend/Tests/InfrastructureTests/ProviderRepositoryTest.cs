@@ -88,7 +88,10 @@ namespace InfrastructureTests
         public void AddProvider_IntegrationTest()
         {
             // Arrange
-            Provider provider = new();
+            Provider provider = new()
+            {
+                ID = 99999
+            };
             int count = repository.GetAll().Count();
             // Act 
             var result = repository.Add(provider);
@@ -107,7 +110,10 @@ namespace InfrastructureTests
         public void DeleteProvider_IntegrationTest()
         {
             // Arrange
-            Provider provider = new();
+            Provider provider = new()
+            {
+                ID = 99999
+            };
             repository.Add(provider);
             // Act
             var result = repository.Delete(provider);
@@ -123,7 +129,10 @@ namespace InfrastructureTests
         public void UpdateProvider_IntegrationTest()
         {
             // Arrange
-            Provider provider = new();
+            Provider provider = new()
+            {
+                ID = 99999
+            };
             repository.Add(provider);
             provider.Name = "aaa";
             // Act 

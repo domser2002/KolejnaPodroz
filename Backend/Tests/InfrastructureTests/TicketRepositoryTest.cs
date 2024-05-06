@@ -89,8 +89,14 @@ namespace InfrastructureTests
         public void AddTicket_IntegrationTest()
         {
             // Arrange
-            User user = new();
-            Ticket ticket = new();
+            User user = new()
+            {
+                ID = 99999
+            };
+            Ticket ticket = new()
+            {
+                ID = 99999
+            };
             int count = repository.GetAll().Count();
             userRepository.Add(user);
             ticket.OwnerID = user.ID;
@@ -112,8 +118,14 @@ namespace InfrastructureTests
         public void DeleteTicket_IntegrationTest()
         {
             // Arrange
-            User user = new();
-            Ticket ticket = new();
+            User user = new()
+            {
+                ID = 99999
+            };
+            Ticket ticket = new()
+            {
+                ID = 99999
+            };
             userRepository.Add(user);
             ticket.OwnerID = user.ID;
             repository.Add(ticket);
@@ -133,8 +145,14 @@ namespace InfrastructureTests
         public void UpdateTicket_IntegrationTest()
         {
             // Arrange
-            User user = new();
-            Ticket ticket = new();
+            User user = new()
+            {
+                ID = 99999
+            };
+            Ticket ticket = new()
+            {
+                ID = 99999
+            };
             userRepository.Add(user);
             ticket.OwnerID = user.ID;
             repository.Add(ticket);

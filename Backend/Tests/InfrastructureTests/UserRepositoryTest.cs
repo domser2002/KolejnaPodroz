@@ -84,7 +84,10 @@ namespace InfrastructureTests
         public void AddUser_IntegrationTest()
         {
             // Arrange
-            User user = new();
+            User user = new()
+            {
+                ID = 99999
+            };
             int count = repository.GetAll().Count();
             // Act 
             var result = repository.Add(user);
@@ -103,7 +106,10 @@ namespace InfrastructureTests
         public void DeleteUser_IntegrationTest()
         {
             // Arrange
-            User user = new();
+            User user = new()
+            {
+                ID = 99999
+            };
             repository.Add(user);
             // Act
             var result = repository.Delete(user);
@@ -119,7 +125,10 @@ namespace InfrastructureTests
         public void UpdateUser_IntegrationTest()
         {
             // Arrange
-            User user = new();
+            User user = new()
+            {
+                ID = 99999
+            };
             repository.Add(user);
             user.FirstName = "Test";
             // Act 
