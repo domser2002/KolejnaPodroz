@@ -14,6 +14,7 @@ public partial class DomainDBContext : DbContext, IDataContext
     public virtual DbSet<User> User { get; set; }
     public virtual DbSet<Discount> Discount { get; set; }
     public virtual DbSet<UserDiscount> UserDiscount { get; set; }
+    public virtual DbSet<Connection> Connection { get; set; }
     public DomainDBContext() { }
     public DomainDBContext(DbContextOptions<DomainDBContext> options) : base(options) {}
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -67,6 +68,11 @@ public partial class DomainDBContext : DbContext, IDataContext
         .WithMany()
         .HasForeignKey(t => t.OwnerID);
         OnModelCreatingPartial(modelBuilder);
+
+        modelBuilder.Entity<Connection>(entity =>
+        {
+            entity.HasKey(k => k.ID);
+        });
     }
 
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);

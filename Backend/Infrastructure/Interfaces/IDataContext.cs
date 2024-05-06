@@ -13,5 +13,6 @@ namespace Infrastructure.Interfaces
 		public DbSet<User> User { get; set; }
 		public DbSet<Discount> Discount { get; set; }
 		public DbSet<Ticket> Ticket { get; set; }	
+		public DbSet<Connection> Connection { get; set; }
 	}
 }
