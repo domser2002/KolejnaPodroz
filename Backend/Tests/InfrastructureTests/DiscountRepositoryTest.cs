@@ -85,71 +85,67 @@ namespace InfrastructureTests
             });
         }
 
-        //[Test]
-        //public void AddDiscount_IntegrationTest()
-        //{
-        //    // Arrange
-        //    User user = new();
-        //    Discount discount = new();
-        //    int count = repository.GetAll().Count();
-        //    userRepository.Add(user);
-        //    discount.OwnerID = user.ID;
-        //    // Act 
-        //    var result = repository.Add(discount);
-        //    // Assert
-        //    Assert.Multiple(() =>
-        //    {
-        //        Assert.That(result, Is.True);
-        //        Assert.That(repository.GetAll().Count(), Is.EqualTo(count + 1));
-        //        Assert.That(repository.GetAll().Any(u => u.Equals(discount)), Is.True);
-        //    });
-        //    // Clean
-        //    repository.Delete(discount);
-        //    userRepository.Delete(user);
-        //}
+        [Test]
+        public void AddDiscount_IntegrationTest()
+        {
+            // Arrange
+            Discount discount = new()
+            {
+                ID = 99999
+            };
+            int count = repository.GetAll().Count();
+            // Act 
+            var result = repository.Add(discount);
+            // Assert
+            Assert.Multiple(() =>
+            {
+                Assert.That(result, Is.True);
+                Assert.That(repository.GetAll().Count(), Is.EqualTo(count + 1));
+                Assert.That(repository.GetAll().Any(u => u.Equals(discount)), Is.True);
+            });
+            // Clean
+            repository.Delete(discount);
+        }
 
-        //[Test]
-        //public void DeleteDiscount_IntegrationTest()
-        //{
-        //    // Arrange
-        //    User user = new();
-        //    Discount discount = new();
-        //    userRepository.Add(user);
-        //    discount.OwnerID = user.ID;
-        //    repository.Add(discount);
-        //    // Act
-        //    var result = repository.Delete(discount);
-        //    // Assert
-        //    Assert.Multiple(() =>
-        //    {
-        //        Assert.That(result, Is.True);
-        //        Assert.That(repository.GetByID(discount.ID), Is.Null);
-        //    });
-        //    // Clean
-        //    userRepository.Delete(user);
-        //}
+        [Test]
+        public void DeleteDiscount_IntegrationTest()
+        {
+            // Arrange
+            Discount discount = new()
+            {
+                ID = 99999
+            };
+            repository.Add(discount);
+            // Act
+            var result = repository.Delete(discount);
+            // Assert
+            Assert.Multiple(() =>
+            {
+                Assert.That(result, Is.True);
+                Assert.That(repository.GetByID(discount.ID), Is.Null);
+            });
+        }
 
-        //[Test]
-        //public void UpdateDiscount_IntegrationTest()
-        //{
-        //    // Arrange
-        //    User user = new();
-        //    Discount discount = new();
-        //    userRepository.Add(user);
-        //    discount.OwnerID = user.ID;
-        //    repository.Add(discount);
-        //    discount.ConnectionID = 10;
-        //    // Act 
-        //    var result = repository.Update(discount);
-        //    // Assert
-        //    Assert.Multiple(() =>
-        //    {
-        //        Assert.That(result, Is.True);
-        //        Assert.That(repository.GetByID(discount.ID)?.ConnectionID, Is.EqualTo(10));
-        //    });
-        //    // Clean
-        //    repository.Delete(discount);
-        //    userRepository.Delete(user);
-        //}
+        [Test]
+        public void UpdateDiscount_IntegrationTest()
+        {
+            // Arrange
+            Discount discount = new()
+            {
+                ID = 99999
+            };
+            repository.Add(discount);
+            discount.Percentage = 10;
+            // Act 
+            var result = repository.Update(discount);
+            // Assert
+            Assert.Multiple(() =>
+            {
+                Assert.That(result, Is.True);
+                Assert.That(repository.GetByID(discount.ID)?.Percentage, Is.EqualTo(10));
+            });
+            // Clean
+            repository.Delete(discount);
+        }
     }
 }
