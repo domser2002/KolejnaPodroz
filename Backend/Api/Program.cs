@@ -30,6 +30,7 @@ builder.Services.AddSingleton<RankingService>();
 builder.Services.AddSingleton<StatisticsService>();
 builder.Services.AddSingleton<TicketService>();
 builder.Services.AddSingleton<UserService>();
+builder.Services.AddSingleton<IConnectionService, ConnectionService>();
 
 var app = builder.Build();
 

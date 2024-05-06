@@ -10,7 +10,7 @@ namespace Logic.Services.Implementations
 {
     public class ConnectionService(IDataRepository repository) : Interfaces.IConnectionService
     {
-        private readonly IDataRepository _repository;
+        private readonly IDataRepository _repository = repository;
 
         public bool AddConnection(Connection connection)
         {
