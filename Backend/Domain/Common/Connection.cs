@@ -3,10 +3,10 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Domain.Common;
 
-public class Connection
+public class Connection : Base
 {
-    [Key]
-    public int ID { get; set; }
+    [Required]
+    public int ConnectionID { get; set; }
     [NotMapped]
     public List<string> Stations { get; set; } = new();
 

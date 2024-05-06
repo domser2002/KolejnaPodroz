@@ -13,6 +13,5 @@ namespace Logic.Services.Interfaces
         public bool RemoveConnection(int connectionID);
         public void EditConnection(int connectionID);
         public Connection? GetConnectionByID(int connectionID);
-        public List<Connection> GetConnectionsByUserID(int connectionID);
     }
 }

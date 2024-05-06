@@ -38,11 +38,5 @@ namespace Logic.Services.Implementations
         {
             return _repository.ConnectionRepository.GetByID(connectionID);
         }
-
-        public List<Connection> GetConnectionsByUserID(int connectionID)
-        {
-            IEnumerable<Connection> connections = _repository.ConnectionRepository.GetAll();
-            return connections.Where(c => c.ID == connectionID).ToList();
-        }
     }
 }
