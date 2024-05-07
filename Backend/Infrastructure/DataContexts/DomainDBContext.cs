@@ -15,6 +15,9 @@ public partial class DomainDBContext : DbContext, IDataContext
     public virtual DbSet<Discount> Discount { get; set; }
     public virtual DbSet<UserDiscount> UserDiscount { get; set; }
     public virtual DbSet<Connection> Connection { get; set; }
+    public virtual DbSet<Statistics> Statistics { get; set; }
+
+    public virtual DbSet<StatisticCategory> StatisticCategory { get; set; }
     public DomainDBContext() { }
     public DomainDBContext(DbContextOptions<DomainDBContext> options) : base(options) {}
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -67,6 +70,29 @@ public partial class DomainDBContext : DbContext, IDataContext
         .HasOne<User>()
         .WithMany()
         .HasForeignKey(t => t.OwnerID);
+   
+
+        modelBuilder.Entity<Statistics>(entity =>
+        {
+            entity.HasKey(k => k.ID);
+        });
+        modelBuilder.Entity<Statistics>()
+        .HasOne<User>()
+        .WithMany()
+        .HasForeignKey(t => t.UserID);
+
+        modelBuilder.Entity<Statistics>()
+        .HasOne<StatisticCategory>()
+        .WithMany()
+        .HasForeignKey(t => t.CategoryID);
+
+        modelBuilder.Entity<StatisticCategory>(entity =>
+        {
+            entity.HasKey(k => k.ID);
+        });
+        
+   
+
         OnModelCreatingPartial(modelBuilder);
 
         modelBuilder.Entity<Connection>(entity =>

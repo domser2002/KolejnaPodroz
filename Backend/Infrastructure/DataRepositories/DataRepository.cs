@@ -17,5 +17,7 @@ namespace Infrastructure.DataRepositories
         public ITicketRepository TicketRepository { get; set; } = new TicketRepository(context);
         public IUserRepository UserRepository { get; set; } = new UserRepository(context);
         public IConnectionRepository ConnectionRepository { get; set; } = new ConnectionRepository(context);
+
+        public IStatisticsRepository StatisticsRepository { get; set; } = new StatisticsRepository(context);
     }
 }

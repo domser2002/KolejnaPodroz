@@ -15,5 +15,7 @@ namespace Infrastructure.Interfaces
         public ITicketRepository TicketRepository { get; set; }
         public IUserRepository UserRepository { get; set; }
         public IConnectionRepository ConnectionRepository { get; set; }
+
+        public IStatisticsRepository StatisticsRepository { get; set; }
     }
 }

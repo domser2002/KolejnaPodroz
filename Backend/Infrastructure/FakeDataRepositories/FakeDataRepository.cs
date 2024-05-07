@@ -18,5 +18,7 @@ namespace Infrastructure.FakeDataRepositories
         public IUserRepository UserRepository { get; set; } = new FakeUserRepository();
 
         public IConnectionRepository ConnectionRepository { get; set; } = new FakeConnectionRepository(); 
+
+        public IStatisticsRepository StatisticsRepository { get; set; } = new FakeStatisticsRepository();
     }
 }
