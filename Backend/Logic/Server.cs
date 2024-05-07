@@ -6,8 +6,8 @@ namespace Logic;
 
 public static class Server
 {
-    private static List<Session> userSessions = [];
-    private static List<Session> adminSessions = [];
+    private static readonly List<Session> userSessions = [];
+    private static readonly List<Session> adminSessions = [];
     public static void CreateUserSession(int userID, string token)
     {
         Session session = new()
@@ -19,7 +19,7 @@ public static class Server
         };
         userSessions.Add(session);
     }
-    public static Session? CreateAdminSession(int adminID, string token)
+    public static void CreateAdminSession(int adminID, string token)
     {
         Session session = new()
         {
@@ -28,8 +28,7 @@ public static class Server
             LoginTime = DateTime.Now,
             IdleMaxMinutes = 10
         };
-        userSessions.Add(session);
-        return session;
+        adminSessions.Add(session);
     }
     public static List<Connection> GetConnections(string source, string destination) 
     { 

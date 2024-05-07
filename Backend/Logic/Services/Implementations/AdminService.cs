@@ -25,9 +25,12 @@ public class AdminService(IDataRepository repository) : IAdminService
         admin.Verified = true;
         return _repository.AdminRepository.Update(admin);
     }
-    public bool AuthoriseAdmin(int adminID,string token)
+    public Admin? AuthoriseAdmin(string firebaseID,string token)
     {
-        return Server.CreateAdminSession(adminID, token) is not null;
+        Admin? admin = _repository.AdminRepository.GetAll().Where(a => a.FirebaseID == firebaseID).FirstOrDefault();
+        if(admin is null) return null;
+        Server.CreateAdminSession(admin.ID, token);
+        return admin;
     }
     public bool GiveAdminPermissions(Admin admin)
     {

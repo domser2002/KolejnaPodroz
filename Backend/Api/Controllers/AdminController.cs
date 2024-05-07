@@ -53,12 +53,12 @@ namespace Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public ActionResult AuthoriseAdmin(int adminID, string token)
+        public ActionResult<Admin> AuthoriseAdmin(string firebaseID, string token)
         {
             try
             {
-                var authorised = _adminService.AuthoriseAdmin(adminID, token);
-                return authorised ? Ok() : BadRequest();
+                var admin = _adminService.AuthoriseAdmin(firebaseID, token);
+                return admin is not null ? Ok(admin) : BadRequest();
             }
             catch (Exception)
             {

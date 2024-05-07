@@ -9,4 +9,5 @@ public class Admin : Base
     public bool Accepted { get; set; } = false;
     [Required] 
     public bool Verified { get; set; }  = false;
+    public string FirebaseID { get; set; } = string.Empty;
 }

@@ -12,7 +12,7 @@ namespace Logic.Services.Interfaces
         public bool CreateAdminAccount(Admin admin);
         public bool RemoveAdminAccount(int adminID);
         public bool VerifyAdminAccount(int adminID);
-        public bool AuthoriseAdmin(int adminID, string token);
+        public Admin? AuthoriseAdmin(string firebaseID, string token);
         public bool GiveAdminPermissions(Admin admin);
     }
 }
