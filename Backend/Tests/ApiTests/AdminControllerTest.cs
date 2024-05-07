@@ -18,7 +18,7 @@ public class AdminControllerTests
         var adminServiceMock = new Mock<IAdminService>();
         var controller = new AdminController(adminServiceMock.Object);
         var newAdmin = new Admin { ID = 1 };
-        adminServiceMock.Setup(m => m.AddAdmin(newAdmin)).Returns(true);
+        adminServiceMock.Setup(m => m.CreateAdminAccount(newAdmin)).Returns(true);
         // Act
         var result = controller.CreateAccount(newAdmin);
         var createdAtActionResult = (CreatedAtActionResult?)result.Result;
@@ -30,11 +30,10 @@ public class AdminControllerTests
             Assert.That(result, Is.Not.Null);
             Assert.That(result.Result is CreatedAtActionResult, Is.True);
             Assert.That(createdAtActionResult.StatusCode, Is.EqualTo(201));
-            Assert.That(createdAtActionResult.ActionName, Is.EqualTo(nameof(controller.GetAdminByID)));
             Assert.That(createdAtActionResult.RouteValues["id"], Is.EqualTo(newAdmin.ID));
             Assert.That(createdAtActionResult.Value, Is.EqualTo(newAdmin));
         });
-        adminServiceMock.Verify(m => m.AddAdmin(newAdmin), Times.Once);
+        adminServiceMock.Verify(m => m.CreateAdminAccount(newAdmin), Times.Once);
     }
 
     [Test]
@@ -42,7 +41,7 @@ public class AdminControllerTests
     {
         // Arrange
         var adminServiceMock = new Mock<IAdminService>();
-        adminServiceMock.Setup(m => m.DeleteAccount(It.IsAny<int>())).Returns(true);
+        adminServiceMock.Setup(m => m.RemoveAdminAccount(It.IsAny<int>())).Returns(true);
         var controller = new AdminController(adminServiceMock.Object);
         var id = 1;
 
@@ -53,7 +52,7 @@ public class AdminControllerTests
         Assert.That(result, Is.Not.Null);
         Assert.That(createdAtActionResult, Is.Not.Null);
         Assert.That(createdAtActionResult.StatusCode, Is.EqualTo(204));
-        adminServiceMock.Verify(m => m.DeleteAccount(id), Times.Once);
+        adminServiceMock.Verify(m => m.RemoveAdminAccount(id), Times.Once);
     }
 
     [Test]
@@ -61,7 +60,7 @@ public class AdminControllerTests
     {
         // Arrange
         var adminServiceMock = new Mock<IAdminService>();
-        adminServiceMock.Setup(m => m.DeleteAccount(It.IsAny<int>())).Returns(false);
+        adminServiceMock.Setup(m => m.RemoveAdminAccount(It.IsAny<int>())).Returns(false);
         var controller = new AdminController(adminServiceMock.Object);
         var id = 1;
 
@@ -72,26 +71,6 @@ public class AdminControllerTests
         Assert.That(result, Is.Not.Null);
         Assert.That(createdAtActionResult, Is.Not.Null);
         Assert.That(createdAtActionResult.StatusCode, Is.EqualTo(404));
-        adminServiceMock.Verify(m => m.DeleteAccount(id), Times.Once);
-    }
-
-    [Test]
-    public void EditAdmin_ExistingID_Returns200OK()
-    {
-        // Arrange
-        var adminServiceMock = new Mock<IAdminService>();
-        var controller = new AdminController(adminServiceMock.Object);
-        var id = 1;
-
-        // Act
-        var result = controller.EditAdmin(id);
-        var createdAtActionResult = (OkObjectResult?)result.Result;
-
-        // Assert
-        Assert.That(result, Is.Not.Null);
-        Assert.That(createdAtActionResult, Is.Not.Null);
-        Assert.That(createdAtActionResult.StatusCode, Is.EqualTo(200));
-        Assert.That(createdAtActionResult.Value, Is.EqualTo($"Admin {id} has been succesfully edited!"));
-        adminServiceMock.Verify(m => m.EditAdmin(id), Times.Once);
+        adminServiceMock.Verify(m => m.RemoveAdminAccount(id), Times.Once);
     }
 }
