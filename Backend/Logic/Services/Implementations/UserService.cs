@@ -1,4 +1,5 @@
-﻿using Domain.User;
+﻿using Domain.Admin;
+using Domain.User;
 using Infrastructure.Interfaces;
 using Logic.Services.Interfaces;
 
@@ -21,13 +22,16 @@ public class UserService(IDataRepository repository) : IUserService
     }
     public bool VerifyUserAccount(int userID)
     {
-        throw new NotImplementedException();
+        User? user = _repository.UserRepository.GetByID(userID);
+        if (user is null) return false;
+        user.Verified = true;
+        return _repository.UserRepository.Update(user);
     }
-    public bool AuthoriseUser(int userID)
+    public bool AuthoriseUser(int userID, string token)
     {
-        throw new NotImplementedException();
+        return Server.CreateUserSession(userID, token) != null;
     }
-    public User GetUserByID(int userID)
+    public User? GetUserByID(int userID)
     {
         return _repository.UserRepository.GetByID(userID);
     }

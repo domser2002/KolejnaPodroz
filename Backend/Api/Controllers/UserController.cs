@@ -6,13 +6,9 @@ namespace Api.Controllers;
 
 [ApiController]
 [Route("User")]
-public class UserController : ControllerBase
+public class UserController(UserService userService) : ControllerBase
 {
-    private readonly UserService _userService;
-    public UserController(UserService userService)
-    {
-        _userService = userService;
-    }
+    private readonly UserService _userService = userService;
 
     [HttpGet("{userID}")]
     public ActionResult<User> GetUserByID(int userID)
@@ -55,11 +51,11 @@ public class UserController : ControllerBase
         }
     }
     [HttpPost("authorise/{userID}")]
-    public ActionResult AuthoriseUser(int userID)
+    public ActionResult AuthoriseUser(int userID, string token)
     {
         try
         {
-            var authorised = _userService.AuthoriseUser(userID);
+            var authorised = _userService.AuthoriseUser(userID, token);
             return authorised ? Ok() : BadRequest();
         }
         catch
