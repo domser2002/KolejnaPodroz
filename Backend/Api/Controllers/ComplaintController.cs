@@ -19,13 +19,18 @@ public class ComplaintController(IComplaintService complaintService) : Controlle
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public ActionResult<int> MakeComplaint([FromBody] Complaint newComplaint)
     {
+        bool success;
         try
         {
-            _complaintService.MakeComplaint(newComplaint);
+            success = _complaintService.MakeComplaint(newComplaint);
         }
         catch (Exception) 
         {
             return StatusCode(500);
+        }
+        if(!success)
+        {
+            return BadRequest();
         }
         return CreatedAtAction(nameof(GetComplaintByID), new { id = newComplaint.ID }, newComplaint);
     }
