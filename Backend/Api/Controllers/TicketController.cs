@@ -6,13 +6,9 @@ namespace Api.Controllers;
 
 [ApiController]
 [Route("Ticket")]
-public class TicketController : ControllerBase
+public class TicketController(TicketService ticketService) : ControllerBase
 {
-    private readonly TicketService _ticketService;
-    public TicketController(TicketService ticketService) 
-    {
-        _ticketService = ticketService;
-    }
+    private readonly TicketService _ticketService = ticketService;
 
     [HttpGet("{ticketID}")]
     public ActionResult<Ticket> GetTicketByID(int ticketID)
@@ -47,8 +43,8 @@ public class TicketController : ControllerBase
     {
         try
         {
-            var ticketID = _ticketService.Add(ticket);
-            return ticketID != null ? Ok(ticketID) : BadRequest();
+            var success = _ticketService.Add(ticket);
+            return success ? Ok(ticket.ID) : BadRequest();
         }
         catch (Exception)
         {

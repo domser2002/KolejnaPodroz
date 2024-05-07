@@ -6,13 +6,9 @@ namespace Api.Controllers;
 
 [ApiController]
 [Route("Ranking")]
-public class RankingController : ControllerBase
+public class RankingController(StatisticsService statisticsService) : ControllerBase
 {
-    private readonly StatisticsService _statisticsService;
-    public RankingController(StatisticsService statisticsService)
-    {
-        _statisticsService = statisticsService;
-    }
+    private readonly StatisticsService _statisticsService = statisticsService;
 
     [HttpGet("byUser/{userID}")]
     public ActionResult<List<Statistics>> Get(int userID)
