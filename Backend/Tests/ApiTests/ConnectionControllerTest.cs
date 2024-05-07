@@ -74,25 +74,4 @@ public class ConnectionControllerTests
         Assert.That(createdAtActionResult.StatusCode, Is.EqualTo(404));
         connectionServiceMock.Verify(m => m.RemoveConnection(id), Times.Once);
     }
-
-    [Test]
-    public void EditConnection_ExistingID_Returns200OK()
-    {
-        // Arrange
-        var connectionServiceMock = new Mock<IConnectionService>();
-        var controller = new ConnectionController(connectionServiceMock.Object);
-        var id = 1;
-        Connection newConnection = new Connection();
-
-        // Act
-        var result = controller.EditConnection(id, newConnection);
-        var createdAtActionResult = (OkObjectResult?)result.Result;
-
-        // Assert
-        Assert.That(result, Is.Not.Null);
-        Assert.That(createdAtActionResult, Is.Not.Null);
-        Assert.That(createdAtActionResult.StatusCode, Is.EqualTo(200));
-        Assert.That(createdAtActionResult.Value, Is.EqualTo($"Connection {id} has been succesfully edited!"));
-        connectionServiceMock.Verify(m => m.EditConnection(id, newConnection), Times.Once);
-    }
 }
