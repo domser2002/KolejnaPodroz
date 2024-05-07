@@ -11,7 +11,7 @@ public class StatisticsService(IDataRepository repository) : IStatisticsService
     {
         return _repository.StatisticsRepository.GetByUser(userID);
     }
-    public bool Update( Statistics statistics)
+    public bool Update(Statistics statistics)
     {
         return _repository.StatisticsRepository.Update(statistics);
     }

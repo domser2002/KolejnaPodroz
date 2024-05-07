@@ -9,7 +9,7 @@ namespace Logic.Services.Interfaces
 {
     public interface IStatisticsService
     {
-        public List<Statistics> GetByUser(int userID);
-        public bool Update(int userID, Statistics statistics);
+        public List<Statistics>? GetByUser(int userID);
+        public bool Update(Statistics statistics);
     }
 }
