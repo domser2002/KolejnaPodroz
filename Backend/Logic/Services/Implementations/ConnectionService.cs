@@ -27,12 +27,12 @@ namespace Logic.Services.Implementations
             return true;
         }
 
-        public void EditConnection(int connectionID)
+        public void EditConnection(int connectionID, Connection newConnection)
         {
             Connection? connection = _repository.ConnectionRepository.GetByID(connectionID);
             if (connection == null) return;
             _repository.ConnectionRepository.Delete(connection);
-            _repository.ConnectionRepository.Add(connection);
+            _repository.ConnectionRepository.Add(newConnection);
         }
 
         public Connection? GetConnectionByID(int connectionID)

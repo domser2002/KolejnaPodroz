@@ -82,9 +82,10 @@ public class ComplaintControllerTests
         var complaintServiceMock = new Mock<IComplaintService>();
         var controller = new ComplaintController(complaintServiceMock.Object);
         var id = 1;
+        Complaint newComplaint = new Complaint();
 
         // Act
-        var result = controller.EditComplaint(id);
+        var result = controller.EditComplaint(id, newComplaint);
         var createdAtActionResult = (OkObjectResult?)result.Result;
 
         // Assert
@@ -92,6 +93,6 @@ public class ComplaintControllerTests
         Assert.That(createdAtActionResult, Is.Not.Null);
         Assert.That(createdAtActionResult.StatusCode, Is.EqualTo(200));
         Assert.That(createdAtActionResult.Value, Is.EqualTo($"Complaint {id} has been succesfully edited!"));
-        complaintServiceMock.Verify(m => m.EditComplaint(id), Times.Once);
+        complaintServiceMock.Verify(m => m.EditComplaint(id, newComplaint), Times.Once);
     }
 }

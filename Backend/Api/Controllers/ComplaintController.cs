@@ -45,9 +45,9 @@ public class ComplaintController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public ActionResult<int> EditComplaint(int id)
+    public ActionResult<int> EditComplaint(int id, Complaint newComplaint)
     {
-        _complaintService.EditComplaint(id);
+        _complaintService.EditComplaint(id, newComplaint);
         return Ok($"Complaint {id} has been succesfully edited!");
     }
     [HttpGet("get/{id}")]

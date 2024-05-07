@@ -82,9 +82,10 @@ public class ConnectionControllerTests
         var connectionServiceMock = new Mock<IConnectionService>();
         var controller = new ConnectionController(connectionServiceMock.Object);
         var id = 1;
+        Connection newConnection = new Connection();
 
         // Act
-        var result = controller.EditConnection(id);
+        var result = controller.EditConnection(id, newConnection);
         var createdAtActionResult = (OkObjectResult?)result.Result;
 
         // Assert
@@ -92,6 +93,6 @@ public class ConnectionControllerTests
         Assert.That(createdAtActionResult, Is.Not.Null);
         Assert.That(createdAtActionResult.StatusCode, Is.EqualTo(200));
         Assert.That(createdAtActionResult.Value, Is.EqualTo($"Connection {id} has been succesfully edited!"));
-        connectionServiceMock.Verify(m => m.EditConnection(id), Times.Once);
+        connectionServiceMock.Verify(m => m.EditConnection(id, newConnection), Times.Once);
     }
 }

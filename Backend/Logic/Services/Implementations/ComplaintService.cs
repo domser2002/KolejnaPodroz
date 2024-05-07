@@ -20,14 +20,14 @@ public class ComplaintService(IDataRepository repository) : Interfaces.IComplain
         _repository.ComplaintRepository.Delete(complaint);
         return true;
     }
-    public void EditComplaint(int complaintID)
+    public void EditComplaint(int complaintID, Complaint newComplaint)
     {
         Complaint? complaint = _repository.ComplaintRepository.GetByID(complaintID);
         if (complaint != null)
         {
             _repository.ComplaintRepository.Delete(complaint);
             // perform edition
-            _repository.ComplaintRepository.Add(complaint);
+            _repository.ComplaintRepository.Add(newComplaint);
         }
     }
     public Complaint? GetComplaintByID(int complaintID)
