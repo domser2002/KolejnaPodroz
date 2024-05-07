@@ -3,7 +3,7 @@
 public record AddTicketRequest
     (
         int JourneyID,
-        int SeatID,
+        int seatNumber,
         int StartStationID,
         int EndStationID,
         string FirstName,

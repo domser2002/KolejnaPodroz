@@ -7,19 +7,19 @@ public class Ticket
     public int JourneyID { get; set; } = 0;
     public int StartStationID { get; set; } = 0;
     public int EndStationID { get; set; } = 0;
-    public int SeatID { get; set; } = 0;
+    public int? SeatNumber { get; set; }
     public decimal Price { get; set; } = 0;
     public string FirstName { get; set; } = string.Empty;
     public string LastName { get; set; } = string.Empty;
     public string Email { get; set; } = string.Empty;
     public string Phone { get; set; } = string.Empty;
     public Ticket() { }
-    public Ticket(int connectionID, int startStationID, int endStationID, int seatID, decimal price, string firstName, string lastName, string email, string phone)
+    public Ticket(int connectionID, int startStationID, int endStationID, int? seatNumber, decimal price, string firstName, string lastName, string email, string phone)
     {
         JourneyID = connectionID;
-        SeatID = seatID;
         StartStationID = startStationID;
         EndStationID = endStationID;
+        SeatNumber = seatNumber;
         Price = price;
         FirstName = firstName;
         LastName = lastName;

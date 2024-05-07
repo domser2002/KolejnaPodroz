@@ -1,8 +1,10 @@
-﻿public record FilterJourneysRequest
+﻿using Domain.Enums;
+
+public record FilterJourneysRequest
     (
         int? startID,
         int? endID,
         DateTime? startDateTime,
         DateTime? endDateTime,
-        int? trainType
+        TrainType? trainType
     );

@@ -2,6 +2,6 @@
 
 public record GetJourneyByStartIDAndEndIDRequest
     (
-        int startID,
-        int endID
+        int? startID,
+        int? endID
     );

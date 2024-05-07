@@ -33,7 +33,7 @@ namespace Api.Controllers
                 JourneyID = request.JourneyID,
                 StartStationID = request.StartStationID,
                 EndStationID = request.EndStationID,
-                SeatID = request.SeatID,
+                SeatNumber = request.seatNumber,
                 FirstName = request.FirstName,
                 LastName = request.LastName,
                 Email = request.Email,
@@ -46,7 +46,7 @@ namespace Api.Controllers
                 return BadRequest();
             }
 
-            var seat = journey.Seats?.Find(s => s.ID == ticket.SeatID);
+            var seat = journey.Seats?.Find(s => s.Number == ticket.SeatNumber);
             if(seat == null || seat.Taken)
             {
                 return BadRequest();
@@ -60,12 +60,8 @@ namespace Api.Controllers
             seat.Taken = true;
 
             var added = _ticketService.AddTicket(ticket);
-            if (!added)
-            {
-                return BadRequest();
-            }
-
-            return Ok();
+            
+            return added ? Ok() : BadRequest();
         }
         [HttpPut("Edit")]
         public ActionResult EditTicket(Ticket ticket)

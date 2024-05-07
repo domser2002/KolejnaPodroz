@@ -4,6 +4,11 @@ namespace Logic.Services;
 
 public class JourneyService
 {
+    public readonly TrainService _trainService;
+    public JourneyService(TrainService trainService)
+    {
+        _trainService = trainService;
+    }
     public static List<Journey> Journeys { get; set; } = new();
     public bool AddJourney(Journey journey)
     {
@@ -32,14 +37,14 @@ public class JourneyService
         Journeys[journeyIndex] = journey;
         return true;
     }
-    public List<Journey>? GetJourneysByStartIDAndEndID(int startID, int endID)
+    public List<Journey>? GetJourneysByStartIDAndEndID(int? startID, int? endID)
     {
         var journeys = new List<Journey>();
-        foreach(var journey in Journeys)
+        foreach (var journey in Journeys.Where(j => j.Connections != null))
         {
-            int startStationIndex = journey.StationIDsTimes?.FindIndex(s => s.ID == startID) ?? -1;
-            int endStationIndex = journey.StationIDsTimes?.FindIndex(s => s.ID == endID) ?? -1;
-            if(startStationIndex != -1 && startStationIndex < endStationIndex)
+            int startIndex = journey.Connections!.FindIndex(c => c.StartStationTime.StationID == startID);
+            int endIndex = journey.Connections.FindIndex(c => c.EndStationTime.StationID == endID);
+            if (startIndex < endIndex)
             {
                 journeys.Add(journey);
             }
@@ -48,6 +53,27 @@ public class JourneyService
     }
     public List<Journey>? FilterJourneys(FilterJourneysRequest request)
     {
-        return null;
+        var journeys = new List<Journey>();
+        foreach (var journey in Journeys.Where(j => j.Connections != null))
+        {
+            int startIndex = journey.Connections!.FindIndex(c => c.StartStationTime.StationID == request.startID);
+            int endIndex = journey.Connections.FindIndex(c => c.EndStationTime.StationID == request.endID);
+            if (startIndex > endIndex)
+                continue;
+
+            if(request.startDateTime < journey.Connections[startIndex].StartStationTime.Time 
+                || request.endDateTime > journey.Connections[endIndex].EndStationTime.Time)
+                continue;
+
+            if(request.trainType != null)
+            {
+                var train = _trainService.GetTrainByID(journey.TrainID);
+                if (train == null)
+                    continue;
+            }
+            journeys.Add(journey);
+        }
+        return journeys.Any() ? journeys : null
+            ;
     }
 }
