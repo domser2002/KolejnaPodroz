@@ -11,11 +11,11 @@ namespace Api.Controllers
     public class TicketController : ControllerBase
     {
         private readonly TicketService _ticketService;
-        private readonly ConnectionService _connectionService;
-        public TicketController(TicketService ticketService, ConnectionService connectionService)
+        private readonly JourneyService _journeyService;
+        public TicketController(TicketService ticketService, JourneyService journeyService)
         {
             _ticketService = ticketService;
-            _connectionService = connectionService;
+            _journeyService = journeyService;
         }
 
         [HttpGet("{ticketID}")]
@@ -30,7 +30,7 @@ namespace Api.Controllers
         {
             var ticket = new Ticket
             {
-                ConnectionID = request.ConnectionID,
+                JourneyID = request.JourneyID,
                 StartStationID = request.StartStationID,
                 EndStationID = request.EndStationID,
                 SeatID = request.SeatID,
@@ -40,13 +40,13 @@ namespace Api.Controllers
                 Phone = request.Phone
             };
 
-            var connection = _connectionService.GetConnectionByID(ticket.ConnectionID);
-            if (connection == null)
+            var journey = _journeyService.GetJourneyByID(ticket.JourneyID);
+            if (journey == null)
             {
                 return BadRequest();
             }
 
-            var seat = connection.Seats?.Find(s => s.ID == ticket.SeatID);
+            var seat = journey.Seats?.Find(s => s.ID == ticket.SeatID);
             if(seat == null || seat.Taken)
             {
                 return BadRequest();

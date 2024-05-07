@@ -2,7 +2,7 @@
 
 public record AddTicketRequest
     (
-        int ConnectionID,
+        int JourneyID,
         int SeatID,
         int StartStationID,
         int EndStationID,

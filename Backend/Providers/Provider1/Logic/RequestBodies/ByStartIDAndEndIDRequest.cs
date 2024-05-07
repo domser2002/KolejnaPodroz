@@ -1,6 +1,6 @@
 ﻿namespace Logic.RequestBodies;
 
-public record GetConnectionByStartIDAndEndIDRequest
+public record GetJourneyByStartIDAndEndIDRequest
     (
         int startID,
         int endID
