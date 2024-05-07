@@ -13,5 +13,9 @@ namespace Logic.Services.Interfaces
         public bool RemoveConnection(int connectionID);
         public void EditConnection(int connectionID);
         public Connection? GetConnectionByID(int connectionID);
+
+        // returns list of all connections from origin to destination
+        // and where train departures from origin in interval <from, to>
+        public List<Connection> SearchConnections(string origin, string destination, DateTime from, DateTime to);
     }
 }
