@@ -1,14 +1,15 @@
 ﻿using Domain.User;
 using Logic.Services.Implementations;
+using Logic.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers;
 
 [ApiController]
 [Route("User")]
-public class UserController(UserService userService) : ControllerBase
+public class UserController(IUserService userService) : ControllerBase
 {
-    private readonly UserService _userService = userService;
+    private readonly IUserService _userService = userService;
 
     [HttpGet("{userID}")]
     public ActionResult<User> GetUserByID(int userID)

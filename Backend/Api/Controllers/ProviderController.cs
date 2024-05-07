@@ -1,14 +1,15 @@
 ﻿using Logic.Services.Implementations;
 using Domain.Common;
 using Microsoft.AspNetCore.Mvc;
+using Logic.Services.Interfaces;
 
 namespace Api.Controllers;
 
 [ApiController]
 [Route("Provider")]
-public class ProviderController(ProviderService providerService) : ControllerBase
+public class ProviderController(IProviderService providerService) : ControllerBase
 {
-    private readonly ProviderService _providerService = providerService;
+    private readonly IProviderService _providerService = providerService;
 
     [HttpGet("get/{providerID}")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Provider))]

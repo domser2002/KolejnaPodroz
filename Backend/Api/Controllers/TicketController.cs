@@ -1,14 +1,15 @@
 ﻿using Logic.Services.Implementations;
 using Domain.User;
 using Microsoft.AspNetCore.Mvc;
+using Logic.Services.Interfaces;
 
 namespace Api.Controllers;
 
 [ApiController]
 [Route("Ticket")]
-public class TicketController(TicketService ticketService) : ControllerBase
+public class TicketController(ITicketService ticketService) : ControllerBase
 {
-    private readonly TicketService _ticketService = ticketService;
+    private readonly ITicketService _ticketService = ticketService;
 
     [HttpGet("{ticketID}")]
     public ActionResult<Ticket> GetTicketByID(int ticketID)

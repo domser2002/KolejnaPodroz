@@ -1,14 +1,15 @@
 ﻿using Logic.Services.Implementations;
 using Domain.Common;
 using Microsoft.AspNetCore.Mvc;
+using Logic.Services.Interfaces;
 
 namespace Api.Controllers;
 
 [ApiController]
 [Route("Ranking")]
-public class RankingController(StatisticsService statisticsService) : ControllerBase
+public class RankingController(IStatisticsService statisticsService) : ControllerBase
 {
-    private readonly StatisticsService _statisticsService = statisticsService;
+    private readonly IStatisticsService _statisticsService = statisticsService;
 
     [HttpGet("byUser/{userID}")]
     public ActionResult<List<Statistics>> Get(int userID)
