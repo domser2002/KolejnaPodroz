@@ -1,4 +1,5 @@
 ﻿using Domain.Common;
+using Domain.User;
 using Infrastructure.Interfaces;
 using Logic.Services.Interfaces;
 
@@ -10,6 +11,10 @@ public class StatisticsService(IDataRepository repository) : IStatisticsService
     public List<Statistics>? GetByUser(int userID)
     {
         return _repository.StatisticsRepository.GetAll().Where(s => s.UserID == userID).ToList();
+    }
+    public List<Statistics>? GetByCategory(int categoryID) 
+    {
+        return _repository.StatisticsRepository.GetAll().Where(s => s.CategoryID == categoryID).ToList();
     }
     public bool Update(Statistics statistics)
     {
