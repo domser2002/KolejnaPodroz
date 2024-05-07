@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:frontend/classes/complaint.dart';
-import 'package:frontend/cubits/complaints_cubit/complaints_cubit.dart';
-import 'package:frontend/cubits/complaints_cubit/complaints_state.dart';
+import 'package:frontend/utils/http_requests.dart';
+
 import 'package:frontend/views/complaint/make_complaint_page.dart';
 import 'package:frontend/widgets/complaint_item_widget.dart';
+import 'package:http/http.dart';
 
 class UserProfilePage extends StatefulWidget {
-  const UserProfilePage({super.key});
+  UserProfilePage({super.key});
 
   @override
   // ignore: library_private_types_in_public_api
@@ -32,10 +33,14 @@ class _UserProfilePageState extends State<UserProfilePage>
 
   @override
   Widget build(BuildContext context) {
+    Size screenSize = MediaQuery.of(context).size;
+    double win_width = screenSize.width;
+    double win_height = screenSize.height;
+
     return Scaffold(
-      bottomNavigationBar: const BottomAppBar(
+      bottomNavigationBar: BottomAppBar(
           color: Colors.white,
-          height: 50,
+          height: win_height * 0.07,
           child: Center(
               child: Stack(
             fit: StackFit.passthrough,
@@ -45,11 +50,9 @@ class _UserProfilePageState extends State<UserProfilePage>
             ],
           ))),
       appBar: AppBar(
-        title: const  Stack(
-          alignment: AlignmentDirectional.centerEnd,
-          children:[ 
+        title: Stack(alignment: AlignmentDirectional.centerEnd, children: [
           Icon(Icons.person, size: 40, color: Colors.black),
-          ]),
+        ]),
         backgroundColor: Colors.white,
         elevation: 0,
       ),
@@ -66,11 +69,11 @@ class _UserProfilePageState extends State<UserProfilePage>
           // Zawartość główna
           Center(
             child: Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 300, vertical: 100),
+              padding: EdgeInsets.symmetric(
+                  horizontal: win_width * 0.2, vertical: win_height * 0.14),
               child: Container(
-                width: MediaQuery.of(context).size.width,
-                constraints: const BoxConstraints(maxWidth: 1200),
+                width: win_width,
+                constraints: BoxConstraints(maxWidth: win_width * 0.78),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
                   gradient: LinearGradient(
@@ -91,35 +94,35 @@ class _UserProfilePageState extends State<UserProfilePage>
                       borderRadius: BorderRadius.circular(40)),
                   child: Column(
                     children: [
-                     const Text("Moje konto",
+                      Text("Moje konto",
                           style: TextStyle(
                               fontSize: 24,
                               fontWeight: FontWeight.w600,
                               color: Colors.white)),
-                      SizedBox(height: MediaQuery.of(context).size.height * 0.05),
+                      SizedBox(height: win_height * 0.05),
                       Container(
-                       decoration:  BoxDecoration(
-                            borderRadius:
-                               const BorderRadius.all(Radius.circular(10)),
-                               gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [
-                      Colors.white,
-                      Colors.grey.shade100.withOpacity(0.9),
-                    ],
-                  ),
-                ),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                          gradient: LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            colors: [
+                              Colors.white,
+                              Colors.grey.shade100.withOpacity(0.9),
+                            ],
+                          ),
+                        ),
                         height: 65,
                         width: 800,
                         child: TabBar(
                           indicatorWeight: 4,
-                          padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 2),
+                          padding:
+                              EdgeInsets.symmetric(horizontal: 2, vertical: 2),
                           dividerHeight: 0,
                           controller: _tabController,
                           indicatorColor: Colors.orange[700],
                           labelColor: Colors.orange[700],
-                          tabs:  [
+                          tabs: [
                             Tab(
                                 text: 'Dane użytkownika',
                                 icon: Icon(
@@ -145,7 +148,7 @@ class _UserProfilePageState extends State<UserProfilePage>
                                   color: Colors.grey.shade500.withOpacity(0.9),
                                 )),
                             Tab(
-                                text: 'Osiągnięcia' ,
+                                text: 'Osiągnięcia',
                                 icon: Icon(
                                   Icons.star,
                                   color: Colors.grey.shade500.withOpacity(0.9),
@@ -157,20 +160,19 @@ class _UserProfilePageState extends State<UserProfilePage>
                       Expanded(
                         child: Container(
                           // Mniejsza wysokość tła
-                          padding: const EdgeInsets.all(20),
-                          height: MediaQuery.of(context).size.height * 0.5,
+                          padding: EdgeInsets.all(20),
+                          height: win_height * 0.5,
                           decoration: BoxDecoration(
-                            borderRadius:
-                               const BorderRadius.all(Radius.circular(15)),
-                               gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [
-                      Colors.grey.shade100.withOpacity(0.9),
-                      Colors.white
-                    ],
-                  ),
-                ),
+                            borderRadius: BorderRadius.all(Radius.circular(15)),
+                            gradient: LinearGradient(
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                              colors: [
+                                Colors.grey.shade100.withOpacity(0.9),
+                                Colors.white
+                              ],
+                            ),
+                          ),
                           child: TabBarView(
                             controller: _tabController,
                             children: [
@@ -196,25 +198,33 @@ class _UserProfilePageState extends State<UserProfilePage>
 }
 
 class ComplaintsPage extends StatelessWidget {
-  const ComplaintsPage({super.key});
+  ComplaintsPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     // Załóżmy, że userId uzyskujemy z innego miejsca w aplikacji, np. zalogowanego użytkownika.
-    const String userId = "1";
-    return  BlocProvider<ComplaintsCubit>(
-        create: (context) => ComplaintsCubit(host:"https://localhost:7006")..getComplaintsByUser(userId),
-        child: BlocBuilder<ComplaintsCubit, ComplaintState>(
-          builder: (context, state) {
-            if (state.loading) {
-              return const Center(child: CircularProgressIndicator());
-            } else if (state.error.isNotEmpty) {
-              return Center(child: Text(state.error));
-            } else if (state.complaints != null) {
+    String userId = "1";
+    http_requests request = http_requests();
+    var complaints;
+    return FutureBuilder(
+        future: request.getComplaintsByUser(userId),
+        builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            // While the future is executing, show a loading indicator
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          } else if (snapshot.hasError) {
+            // If there's an error, display an error message
+            return Center(
+              child: Text('Error: ${snapshot.error}'),
+            );
+          } else {
+            if (complaints != null) {
               return ListView.builder(
-                itemCount: state.complaints!.length,
+                itemCount: complaints.length,
                 itemBuilder: (context, index) {
-                  final complaint = state.complaints![index];
+                  final complaint = complaints![index];
                   return ListTile(
                     title: Text(complaint['title']),
                     subtitle: Text(complaint['content']),
@@ -222,20 +232,23 @@ class ComplaintsPage extends StatelessWidget {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         IconButton(
-                          icon: const Icon(Icons.edit),
+                          icon: Icon(Icons.edit),
                           onPressed: () {
-                               Navigator.of(context).push(
+                            Navigator.of(context).push(
                               MaterialPageRoute(
-                                builder: (context) => MakeComplaintPage(ticketId: "1"),
-                                ),
-                              );
+                                builder: (context) =>
+                                    MakeComplaintPage(ticketId: "1"),
+                              ),
+                            );
                           },
                         ),
                         IconButton(
-                          icon: const Icon(Icons.delete),
-                          onPressed: () {
+                          icon: Icon(Icons.delete),
+                          onPressed: () async {
                             // Implementacja usunięcia skargi
-                            context.read<ComplaintsCubit>().removeComplaint(complaint['id'].toString());
+
+                            await request
+                                .removeComplaint(complaint['id'].toString());
                           },
                         ),
                       ],
@@ -244,19 +257,19 @@ class ComplaintsPage extends StatelessWidget {
                 },
               );
             } else {
-              return const Center(child: Text('Brak reklamacji do wyświetlenia'));
+              return Center(child: Text('Brak reklamacji do wyświetlenia'));
             }
-          },
-        ),
-      );
-  }}
+          }
+        });
+  }
+}
 
 class UserInfoPage extends StatelessWidget {
-  const UserInfoPage({super.key});
+  UserInfoPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const Center(child: Text('Dane użytkownika'));
+    return Center(child: Text('Dane użytkownika'));
   }
 }
 
@@ -273,10 +286,10 @@ class TicketsPage extends StatelessWidget {
           child: Text(ticket),
           onPressed: () {
             Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => MakeComplaintPage(ticketId: ticket),
-                  ),
-                );
+              MaterialPageRoute(
+                builder: (context) => MakeComplaintPage(ticketId: ticket),
+              ),
+            );
           },
         )
       ],
@@ -285,20 +298,20 @@ class TicketsPage extends StatelessWidget {
 }
 
 class StatisticsPage extends StatelessWidget {
-  const StatisticsPage({super.key});
+  StatisticsPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const Center(child: Text('Statystyki'));
+    return Center(child: Text('Statystyki'));
   }
 }
 
 class AchievementsPage extends StatelessWidget {
-  const AchievementsPage({super.key});
+  AchievementsPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const Center(child: Text('Osiągnięcia'));
+    return Center(child: Text('Osiągnięcia'));
   }
 }
 

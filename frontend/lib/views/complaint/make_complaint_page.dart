@@ -10,10 +10,14 @@ class MakeComplaintPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Size screenSize = MediaQuery.of(context).size;
+    double win_width = screenSize.width;
+    double win_height = screenSize.height;
+
     return Scaffold(
-      bottomNavigationBar: const BottomAppBar(
+      bottomNavigationBar: BottomAppBar(
           color: Colors.white,
-          height: 50,
+          height: win_height * 0.07,
           child: Center(
               child: Stack(
             fit: StackFit.passthrough,
@@ -23,9 +27,9 @@ class MakeComplaintPage extends StatelessWidget {
             ],
           ))),
       appBar: AppBar(
-        title: const Text(''),
+        title: Text(''),
         leading: IconButton(
-          icon: const Icon(Icons.close),
+          icon: Icon(Icons.close),
           onPressed: () => Navigator.pop(context),
         ),
       ),
@@ -33,7 +37,7 @@ class MakeComplaintPage extends StatelessWidget {
         fit: StackFit.expand,
         children: [
           Container(
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
               image: DecorationImage(
                 image: AssetImage('lib/assets/photos/background2.jpg'),
                 fit: BoxFit.cover,
@@ -42,7 +46,8 @@ class MakeComplaintPage extends StatelessWidget {
           ),
           Center(
             child: SingleChildScrollView(
-              padding: const EdgeInsets.symmetric(vertical: 200, horizontal: 300),
+              padding: EdgeInsets.symmetric(
+                  vertical: win_height * 0.27, horizontal: win_width * 0.2),
               child: Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
@@ -64,11 +69,13 @@ class MakeComplaintPage extends StatelessWidget {
                     borderRadius: BorderRadius.circular(40),
                   ),
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 200, vertical: 50),
+                    padding: EdgeInsets.symmetric(
+                        horizontal: win_width * 0.13,
+                        vertical: win_height * 0.07),
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        const Text(
+                        Text(
                           'Złóż reklamację',
                           style: TextStyle(
                             color: Colors.white,
@@ -76,27 +83,28 @@ class MakeComplaintPage extends StatelessWidget {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        const SizedBox(height: 20),
+                        SizedBox(height: win_height * 0.027),
                         Text(
                           "ID biletu: $ticketId",
-                          style: const TextStyle(
+                          style: TextStyle(
                             color: Colors.white,
                             fontSize: 18,
                           ),
                         ),
-                        const SizedBox(height: 20),
+                        SizedBox(height: win_height * 0.027),
                         TextField(
                           controller: reasonController,
-                          decoration: const InputDecoration(
+                          decoration: InputDecoration(
                             filled: true,
                             fillColor: Colors.white,
-                            labelText: "Wyjaśnij dlaczego chcesz zwrócić swój bilet",
+                            labelText:
+                                "Wyjaśnij dlaczego chcesz zwrócić swój bilet",
                           ),
                           obscureText: false,
                           maxLines: 8,
                           maxLength: 500,
                         ),
-                        const SizedBox(height: 20),
+                        SizedBox(height: win_height * 0.027),
                         ElevatedButton(
                           onPressed: () {
                             if (reasonController.text.isNotEmpty) {
@@ -113,7 +121,7 @@ class MakeComplaintPage extends StatelessWidget {
                             foregroundColor: Colors.white,
                             backgroundColor: Colors.orange,
                           ),
-                          child: const Text('Złóż Reklamację'),
+                          child: Text('Złóż Reklamację'),
                         ),
                       ],
                     ),
@@ -126,23 +134,24 @@ class MakeComplaintPage extends StatelessWidget {
       ),
     );
   }
+}
 
-  Future<void> makeComplaint(String host, Map<String, dynamic> complaintData) async {
-    var url = Uri.parse('$host/Complaint/make');
-    try {
-      var response = await http.post(
-        url,
-        body: jsonEncode(complaintData),
-        headers: {'Content-Type': 'application/json'},
-      );
+Future<void> makeComplaint(
+    String host, Map<String, dynamic> complaintData) async {
+  var url = Uri.parse('$host/Complaint/make');
+  try {
+    var response = await http.post(
+      url,
+      body: jsonEncode(complaintData),
+      headers: {'Content-Type': 'application/json'},
+    );
 
-      if (response.statusCode == 200) {
-        print('Reklamacja została złożona pomyślnie.');
-      } else {
-        print('Nie udało się złożyć reklamacji: ${response.body}');
-      }
-    } catch (e) {
-      print('Wystąpił błąd podczas składania reklamacji: $e');
+    if (response.statusCode == 200) {
+      print('Reklamacja została złożona pomyślnie.');
+    } else {
+      print('Nie udało się złożyć reklamacji: ${response.body}');
     }
+  } catch (e) {
+    print('Wystąpił błąd podczas składania reklamacji: $e');
   }
 }

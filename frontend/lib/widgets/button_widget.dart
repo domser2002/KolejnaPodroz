@@ -19,7 +19,7 @@ class ButtonWidget extends StatelessWidget {
         foregroundColor: Colors.white, // Background color
         backgroundColor: Colors.orange[700], // Text Color (Foreground color)
       ),
-      child:  Text(title),
+      child: Text(title),
     );
   }
 }
