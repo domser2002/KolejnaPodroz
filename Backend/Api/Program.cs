@@ -26,7 +26,7 @@ builder.Services.AddSingleton<AdminService>();
 builder.Services.AddSingleton<IComplaintService, ComplaintService>();
 builder.Services.AddSingleton<PaymentService>();
 builder.Services.AddSingleton<ProviderService>();
-builder.Services.AddSingleton<RankingService>();
+
 builder.Services.AddSingleton<StatisticsService>();
 builder.Services.AddSingleton<TicketService>();
 builder.Services.AddSingleton<UserService>();
