@@ -1,6 +1,7 @@
 ﻿using Domain.Models;
 using Logic.Services;
 using Microsoft.AspNetCore.Mvc;
+using System.Text.Json;
 
 namespace Api.Controllers;
 
@@ -9,16 +10,18 @@ namespace Api.Controllers;
 public class ConnectionController : ControllerBase
 {
     private readonly ConnectionService _connectionService;
+    private readonly JsonSerializerOptions _options;
     public ConnectionController(ConnectionService connectionService)
     {
         _connectionService = connectionService;
+        _options = new() { IncludeFields = true };
     }
 
     [HttpGet("{connectionID}")]
     public ActionResult<Connection> GetConnectionByID(int connectionID)
     {
         var connection = _connectionService.GetConnectionByID(connectionID);
-        return connection != null ? Ok(connection) : NotFound();
+        return connection != null ? Ok(JsonSerializer.Serialize(connection, _options)) : NotFound();
     }
 
     [HttpPut("Edit")]

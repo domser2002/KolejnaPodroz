@@ -10,6 +10,10 @@ public class JourneyService
     {
         _trainService = trainService;
     }
+    public void GenerateFakeData()
+    {
+
+    }
     public bool AddJourney(Journey journey)
     {
         if(Journeys.Any(c => c.ID == journey.ID))
