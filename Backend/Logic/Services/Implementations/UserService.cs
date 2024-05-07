@@ -8,11 +8,15 @@ public class UserService(IDataRepository repository)
     private readonly IDataRepository _repository = repository;
     public bool CreateUserAccount(User user)
     {
-        throw new NotImplementedException();
+        _repository.UserRepository.Add(user);
+        return true;
     }
     public bool RemoveUserAccount(int userID)
     {
-        throw new NotImplementedException();
+        User? user = _repository.UserRepository.GetByID(userID);
+        if (user == null) return false;
+        _repository.UserRepository.Delete(user);
+        return true;
     }
     public bool VerifyUserAccount(int userID)
     {
@@ -24,6 +28,6 @@ public class UserService(IDataRepository repository)
     }
     public User GetUserByID(int userID)
     {
-        throw new NotImplementedException();
+        return _repository.UserRepository.GetByID(userID);
     }
 }

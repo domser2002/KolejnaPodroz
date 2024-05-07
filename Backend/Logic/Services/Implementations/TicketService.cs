@@ -20,11 +20,15 @@ public class TicketService(IDataRepository repository)
     }
     public bool Remove(int ticketID)
     {
-        throw new NotImplementedException();
+        Ticket? ticket = _repository.TicketRepository.GetByID(ticketID);
+        if (ticket == null) return false;
+        _repository.TicketRepository.Delete(ticket);
+        return true;
     }
     public bool Add(Ticket ticket)
     {
-        throw new NotImplementedException();
+        _repository.TicketRepository.Add(ticket);
+        return true;
         // return ticketID
     }
     public bool ChangeDetails(Ticket ticket)
@@ -33,6 +37,6 @@ public class TicketService(IDataRepository repository)
     }
     public Ticket? GetTicketByID(int ticketID)
     {
-        throw new NotImplementedException();
+        return _repository.TicketRepository.GetByID(ticketID);
     }
 }
