@@ -6,7 +6,7 @@ namespace Logic.Services.Implementations;
 public class ProviderService(IDataRepository repository)
 {
     private readonly IDataRepository _repository = repository;
-    public bool AddProvider(Provider provider)
+    public bool AddProvider(Provider? provider)
     {
         if (provider is null)
         {

@@ -13,7 +13,6 @@ public class ConnectionServiceTests
 {
     ConnectionService fakeConnectionService;
     ConnectionService connectionService;
-    UserRepository userRepository;
     string? connectionString;
     [SetUp]
     public void Setup()
@@ -27,7 +26,6 @@ public class ConnectionServiceTests
         var optionsBuilder = new DbContextOptionsBuilder<DomainDBContext>();
         optionsBuilder.UseSqlServer(connectionString);
         DataRepository dataRepository = new(new DomainDBContext(optionsBuilder.Options));
-        userRepository = new(new DomainDBContext(optionsBuilder.Options));
         connectionService = new ConnectionService(dataRepository);
     }
 
