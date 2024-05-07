@@ -87,4 +87,5 @@ class DefaultFirebaseOptions {
     storageBucket: 'kolejnapodroz-ed096.appspot.com',
     measurementId: 'G-32KE36GLVT',
   );
+
 }

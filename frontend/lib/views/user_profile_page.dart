@@ -1,6 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:frontend/classes/complaint.dart';
+import 'package:frontend/classes/user.dart';
 import 'package:frontend/utils/http_requests.dart';
 
 import 'package:frontend/views/complaint/make_complaint_page.dart';
@@ -50,9 +52,6 @@ class _UserProfilePageState extends State<UserProfilePage>
             ],
           ))),
       appBar: AppBar(
-        title: Stack(alignment: AlignmentDirectional.centerEnd, children: [
-          Icon(Icons.person, size: 40, color: Colors.black),
-        ]),
         backgroundColor: Colors.white,
         elevation: 0,
       ),
@@ -204,7 +203,7 @@ class ComplaintsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     // Załóżmy, że userId uzyskujemy z innego miejsca w aplikacji, np. zalogowanego użytkownika.
     String userId = "1";
-    http_requests request = http_requests();
+    HttpRequests request = HttpRequests();
     var complaints;
     return FutureBuilder(
         future: request.getComplaintsByUser(userId),
@@ -266,10 +265,28 @@ class ComplaintsPage extends StatelessWidget {
 
 class UserInfoPage extends StatelessWidget {
   UserInfoPage({super.key});
-
+  HttpRequests request = HttpRequests();
   @override
   Widget build(BuildContext context) {
-    return Center(child: Text('Dane użytkownika'));
+    return Scaffold(
+      body: Center(
+        child: ElevatedButton(
+          onPressed: () async {
+            // Pobierz użytkownika, gdy przycisk jest naciśnięty
+            MyUser? user = await request.getUser(FirebaseAuth.instance.currentUser.uid);
+            if (user != null) {
+              // Jeśli użytkownik został pobrany pomyślnie, możesz wyświetlić jego dane
+              print('User: ${user.firstName} ${user.lastName}');
+              // Tutaj możesz wyświetlić dane użytkownika na stronie
+            } else {
+              // Obsługa przypadku, gdy pobranie użytkownika się nie powiedzie
+              print('Failed to load user');
+            }
+          },
+          child: Text('Load User'),
+        ),
+      ),
+    );
   }
 }
 
@@ -315,8 +332,3 @@ class AchievementsPage extends StatelessWidget {
   }
 }
 
-List<Complaint> cmps = [
-  Complaint(ticketId: "1", content: "lol", isResponded: true),
-  Complaint(ticketId: "2", content: "lol2", isResponded: false),
-  Complaint(ticketId: "3", content: "lol3", isResponded: false)
-];

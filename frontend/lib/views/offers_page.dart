@@ -1,8 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/classes/train_offer.dart';
 import 'package:frontend/utils/http_requests.dart';
 import 'package:frontend/views/auth/login_page.dart';
 import 'package:frontend/views/auth/register_page.dart';
+import 'package:frontend/views/user_profile_page.dart';
 
 class ViewOffersPage extends StatelessWidget {
   var offers;
@@ -26,41 +28,64 @@ class ViewOffersPage extends StatelessWidget {
             ))),
         appBar: AppBar(
           title: Text('Wybierz pociąg!'),
-          actions: <Widget>[
-            TextButton(
+          actions: [
+          StreamBuilder<User?>(
+            stream: FirebaseAuth.instance.authStateChanges(),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+        // Użytkownik jest zalogowany
+        return Row(
+          children: [
+            IconButton(
+              icon: const Icon(Icons.person, color: Colors.black),
               onPressed: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (context) => LoginPage(),
+                    builder: (context) => UserProfilePage(),
                   ),
                 );
               },
-              child: Text(
-                'Zaloguj się',
-                style: TextStyle(color: Colors.black),
-              ),
             ),
-            VerticalDivider(
-                color: Colors.black,
-                thickness: 1,
-                width: 20,
-                indent: 18,
-                endIndent: 16),
-            TextButton(
+            IconButton(
+              icon: const Icon(Icons.exit_to_app, color: Colors.red),
               onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => RegistrationPage(),
-                  ),
-                );
+                FirebaseAuth.instance.signOut();
               },
-              child: Text(
-                'Zarejestruj się',
-                style: TextStyle(color: Colors.black),
-              ),
             ),
           ],
-        ),
+        );
+      } else {
+                // Użytkownik jest wylogowany
+                return Row(
+                  children: [
+                    TextButton(
+                      onPressed: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => LoginPage(),
+                          ),
+                        );
+                      },
+                      child: const Text('Zaloguj się', style: TextStyle(color: Colors.black)),
+                    ),
+                    const VerticalDivider(color: Colors.black, thickness: 1, width: 20, indent: 18, endIndent: 16),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => RegistrationPage(),
+                          ),
+                        );
+                      },
+                      child: const Text('Zarejestruj się', style: TextStyle(color: Colors.black)),
+                    ),
+                  ],
+                );
+              }
+            },
+          ),
+        ],
+      ),
         body: Stack(
           children: [
             Container(

@@ -1,7 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:frontend/classes/user.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-class http_requests {
+class HttpRequests {
   String host = "https://localhost:7006";
 
   Future<dynamic> getUserAchievements() async {
@@ -93,7 +95,7 @@ class http_requests {
     }
   }
 
-  Future<bool> authoriseUser(int userID) async {
+  Future<bool> authoriseUser(String userID) async {
     try {
       var url = Uri.parse('$host/User/authorise/$userID');
       var response = await http.post(url);
@@ -530,4 +532,26 @@ class http_requests {
       return false;
     }
   }
+Future<MyUser?> getUser(String userId) async {
+  try {
+    var url = Uri.parse('$host/User/$userId');
+    var response = await http.get(url);
+
+    if (response.statusCode == 200) {
+      // Parsowanie odpowiedzi JSON do obiektu User
+      var userData = jsonDecode(response.body);
+      MyUser user = MyUser.fromJson(userData); // Zakładając, że masz klasę User z metodą fromJson
+
+      // Zwrócenie użytkownika
+      return user;
+    } else {
+      // Obsługa nieudanej odpowiedzi
+      return null; // Zwróć null, jeśli pobranie danych nie powiedzie się
+    }
+  } catch (e) {
+    // Obsługa błędów związanych z połączeniem lub innymi problemami
+    print(e.toString());
+    return null; // Zwróć null, jeśli wystąpi błąd
+  }
+}
 }

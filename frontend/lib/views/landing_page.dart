@@ -1,4 +1,5 @@
 // landing_page.dart
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:frontend/classes/train_offer.dart';
@@ -16,7 +17,7 @@ class LandingPage extends StatelessWidget {
   final TextEditingController departureController = TextEditingController();
   final TextEditingController destinationController = TextEditingController();
   final TextEditingController dateController = TextEditingController();
-
+  final request = HttpRequests();
   LandingPage({super.key});
 
   @override
@@ -32,7 +33,7 @@ class LandingPage extends StatelessWidget {
       bottomNavigationBar: BottomAppBar(
           color: Colors.white,
           height: win_height * 0.07,
-          child: Center(
+          child: const Center(
               child: Stack(
             fit: StackFit.passthrough,
             children: [
@@ -41,41 +42,63 @@ class LandingPage extends StatelessWidget {
             ],
           ))),
       appBar: AppBar(
-        toolbarHeight: win_height * 0.07,
         backgroundColor: Colors.white,
         elevation: 0,
         actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => LoginPage(),
-                ),
-              );
-            },
-            child: Text(
-              'Zaloguj się',
-              style: TextStyle(color: Colors.black),
+          StreamBuilder<User?>(
+            stream: FirebaseAuth.instance.authStateChanges(),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+        // Użytkownik jest zalogowany
+        return Row(
+          children: [
+            IconButton(
+              icon: const Icon(Icons.person, color: Colors.black),
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => UserProfilePage(),
+                  ),
+                );
+              },
             ),
-          ),
-          VerticalDivider(
-              color: Colors.black,
-              thickness: 1,
-              width: win_width * 0.013,
-              indent: win_width * 0.011,
-              endIndent: win_width * 0.01),
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => RegistrationPage(),
-                ),
-              );
-            },
-            child: Text(
-              'Zarejestruj się',
-              style: TextStyle(color: Colors.black),
+            IconButton(
+              icon: const Icon(Icons.exit_to_app, color: Colors.red),
+              onPressed: () {
+                FirebaseAuth.instance.signOut();
+              },
             ),
+          ],
+        );
+      } else {
+                // Użytkownik jest wylogowany
+                return Row(
+                  children: [
+                    TextButton(
+                      onPressed: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => LoginPage(),
+                          ),
+                        );
+                      },
+                      child: const Text('Zaloguj się', style: TextStyle(color: Colors.black)),
+                    ),
+                    const VerticalDivider(color: Colors.black, thickness: 1, width: 20, indent: 18, endIndent: 16),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => RegistrationPage(),
+                          ),
+                        );
+                      },
+                      child: const Text('Zarejestruj się', style: TextStyle(color: Colors.black)),
+                    ),
+                  ],
+                );
+              }
+            },
           ),
         ],
       ),
@@ -169,16 +192,6 @@ class LandingPage extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           ButtonWidget(
-            onPressed: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => UserProfilePage(),
-                ),
-              );
-            },
-            title: 'Opcje dodatkowe',
-          ),
-          ButtonWidget(
             onPressed: () async {
               var offers = await request.searchTrains(
                 departureController.text,
@@ -201,16 +214,6 @@ class LandingPage extends StatelessWidget {
       return Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          ButtonWidget(
-            onPressed: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => UserProfilePage(),
-                ),
-              );
-            },
-            title: 'Opcje dodatkowe',
-          ),
           SizedBox(height: 5),
           ButtonWidget(
             onPressed: () async {
@@ -222,8 +225,8 @@ class LandingPage extends StatelessWidget {
 
               Navigator.of(context).push(
                 MaterialPageRoute(
-                  builder: (context) => ViewOffersPage(offers: offers),
-                ),
+                builder: (context) => ViewOffersPage(offers: offers),
+               ),
               );
             },
             title: 'Wyszukaj',

@@ -1,4 +1,8 @@
+import 'dart:io';
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:frontend/utils/http_requests.dart';
 import 'package:frontend/views/auth/register_page.dart';
 import 'package:frontend/widgets/input_button_widget.dart';
 import 'package:frontend/widgets/socialmedia_button.dart';
@@ -8,9 +12,20 @@ class LoginPage extends StatelessWidget {
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController repeatPasswordController =
       TextEditingController();
-
+  HttpRequests request = HttpRequests();
   LoginPage({Key? key}) : super(key: key);
 
+Future<void> signInWithEmailAndPassword(BuildContext context) async {
+    try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: emailController.text,
+        password: passwordController.text,
+      );
+      Navigator.of(context).popUntil((route) => route.isFirst);
+    } on FirebaseAuthException catch (e) {
+      print(e.message);
+    }
+  }
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
@@ -105,7 +120,10 @@ class LoginPage extends StatelessWidget {
                         SizedBox(height: win_height * 0.022),
                         SizedBox(height: win_height * 0.027),
                         ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            signInWithEmailAndPassword(context);
+                           //request.authoriseUser(FirebaseAuth.instance.currentUser!.uid.);
+                          },
                           style: ElevatedButton.styleFrom(
                             foregroundColor: Colors.white,
                             backgroundColor: Colors.orange,
