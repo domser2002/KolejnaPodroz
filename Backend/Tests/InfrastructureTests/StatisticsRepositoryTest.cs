@@ -37,13 +37,14 @@ namespace InfrastructureTests
             // Arrange
             fakeRepository = new();
             Statistics statistics = new();
+            int count = fakeRepository.GetAll().Count();
             // Act 
             var result = fakeRepository.Add(statistics);
             // Assert
             Assert.Multiple(() =>
             {
                 Assert.That(result, Is.True);
-                Assert.That(fakeRepository.GetAll().Count(), Is.EqualTo(1));
+                Assert.That(fakeRepository.GetAll().Count(), Is.EqualTo(count + 1));
                 Assert.That(fakeRepository.GetAll().Any(u => u.Equals(statistics)), Is.True);
             });
         }
@@ -87,9 +88,15 @@ namespace InfrastructureTests
         public void AddStatistics_IntegrationTest()
         {
             // Arrange
+            int test_id = 99999;
+            User? u = userRepository.GetByID(test_id);
+            if (u != null)
+            {
+                userRepository.Delete(u);
+            }
             User user = new()
             {
-                ID = 99999
+                ID = test_id
             };
             Statistics statistics = new();
             int count = repository.GetAll().Count();
@@ -114,9 +121,15 @@ namespace InfrastructureTests
         public void DeleteStatistics_IntegrationTest()
         {
             // Arrange
+            int test_id = 99999;
+            User? u = userRepository.GetByID(test_id);
+            if (u != null)
+            {
+                userRepository.Delete(u);
+            }
             User user = new()
             {
-                ID = 99999
+                ID = test_id
             };
             Statistics statistics = new();
             userRepository.Add(user);
@@ -139,9 +152,15 @@ namespace InfrastructureTests
         public void UpdateStatistics_IntegrationTest()
         {
             // Arrange
+            int test_id = 99999;
+            User? u = userRepository.GetByID(test_id);
+            if (u != null)
+            {
+                userRepository.Delete(u);
+            }
             User user = new()
             {
-                ID = 99999
+                ID = test_id
             };
             Statistics statistics = new();
             userRepository.Add(user);

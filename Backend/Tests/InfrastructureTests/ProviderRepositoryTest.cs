@@ -38,13 +38,14 @@ namespace InfrastructureTests
             // Arrange
             fakeRepository = new();
             Provider provider = new();
+            int count = fakeRepository.GetAll().Count();
             // Act 
             var result = fakeRepository.Add(provider);
             // Assert
             Assert.Multiple(() =>
             {
                 Assert.That(result, Is.True);
-                Assert.That(fakeRepository.GetAll().Count(), Is.EqualTo(1));
+                Assert.That(fakeRepository.GetAll().Count(), Is.EqualTo(count + 1));
                 Assert.That(fakeRepository.GetAll().Any(u => u.Equals(provider)), Is.True);
             });
         }

@@ -39,13 +39,14 @@ namespace InfrastructureTests
             // Arrange
             fakeRepository = new();
             Ticket ticket = new();
+            int count = fakeRepository.GetAll().Count();
             // Act 
             var result = fakeRepository.Add(ticket);
             // Assert
             Assert.Multiple(() =>
             {
                 Assert.That(result, Is.True);
-                Assert.That(fakeRepository.GetAll().Count(), Is.EqualTo(1));
+                Assert.That(fakeRepository.GetAll().Count(), Is.EqualTo(count + 1));
                 Assert.That(fakeRepository.GetAll().Any(u => u.Equals(ticket)), Is.True);
             });
         }
@@ -89,13 +90,19 @@ namespace InfrastructureTests
         public void AddTicket_IntegrationTest()
         {
             // Arrange
+            int test_id = 99999;
+            User? u = userRepository.GetByID(test_id);
+            if (u != null)
+            {
+                userRepository.Delete(u);
+            }
             User user = new()
             {
-                ID = 99999
+                ID = test_id
             };
             Ticket ticket = new()
             {
-                ID = 99999
+                ID = test_id
             };
             int count = repository.GetAll().Count();
             userRepository.Add(user);
@@ -118,13 +125,19 @@ namespace InfrastructureTests
         public void DeleteTicket_IntegrationTest()
         {
             // Arrange
+            int test_id = 99999;
+            User? u = userRepository.GetByID(test_id);
+            if (u != null)
+            {
+                userRepository.Delete(u);
+            }
             User user = new()
             {
-                ID = 99999
+                ID = test_id
             };
             Ticket ticket = new()
             {
-                ID = 99999
+                ID = test_id
             };
             userRepository.Add(user);
             ticket.OwnerID = user.ID;
@@ -145,13 +158,19 @@ namespace InfrastructureTests
         public void UpdateTicket_IntegrationTest()
         {
             // Arrange
+            int test_id = 99999;
+            User? u = userRepository.GetByID(test_id);
+            if (u != null)
+            {
+                userRepository.Delete(u);
+            }
             User user = new()
             {
-                ID = 99999
+                ID = test_id
             };
             Ticket ticket = new()
             {
-                ID = 99999
+                ID = test_id
             };
             userRepository.Add(user);
             ticket.OwnerID = user.ID;

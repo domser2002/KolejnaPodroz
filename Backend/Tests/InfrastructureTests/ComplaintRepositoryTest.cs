@@ -40,13 +40,14 @@ namespace InfrastructureTests
             // Arrange
             fakeRepository = new();
             Complaint complaint = new();
+            int count = fakeRepository.GetAll().Count();
             // Act 
             var result = fakeRepository.Add(complaint);
             // Assert
             Assert.Multiple(() =>
             {
                 Assert.That(result, Is.True);
-                Assert.That(fakeRepository.GetAll().Count(), Is.EqualTo(1));
+                Assert.That(fakeRepository.GetAll().Count(), Is.EqualTo(count + 1));
                 Assert.That(fakeRepository.GetAll().Any(u => u.Equals(complaint)), Is.True);
             });
         }
@@ -90,13 +91,19 @@ namespace InfrastructureTests
         public void AddComplaint_IntegrationTest()
         {
             // Arrange
+            int test_id = 99999;
+            User? u = userRepository.GetByID(test_id);
+            if(u != null)
+            {
+                userRepository.Delete(u);
+            }
             User user = new()
             {
-                ID = 99999
+                ID = test_id
             };
             Complaint complaint = new()
             {
-                ID = 99999
+                ID = test_id
             };
             int count = repository.GetAll().Count();
             userRepository.Add(user);
@@ -119,13 +126,19 @@ namespace InfrastructureTests
         public void DeleteComplaint_IntegrationTest()
         {
             // Arrange
+            int test_id = 99999;
+            User? u = userRepository.GetByID(test_id);
+            if (u != null)
+            {
+                userRepository.Delete(u);
+            }
             User user = new()
             {
-                ID = 99999
+                ID = test_id
             };
             Complaint complaint = new()
             {
-                ID = 99999
+                ID = test_id
             };
             userRepository.Add(user);
             complaint.ComplainantID = user.ID;
@@ -146,13 +159,19 @@ namespace InfrastructureTests
         public void UpdateComplaint_IntegrationTest()
         {
             // Arrange
+            int test_id = 99999;
+            User? u = userRepository.GetByID(test_id);
+            if (u != null)
+            {
+                userRepository.Delete(u);
+            }
             User user = new()
             {
-                ID = 99999
+                ID = test_id
             };
             Complaint complaint = new()
             {
-                ID = 99999
+                ID = test_id
             };
             userRepository.Add(user);
             complaint.ComplainantID = user.ID;

@@ -15,7 +15,6 @@ namespace InfrastructureTests
     {
         FakeDiscountRepository fakeRepository;
         DiscountRepository repository;
-        UserRepository userRepository; // needed because of relation
         string? connectionString;
         [SetUp]
         public void Setup()
@@ -30,7 +29,6 @@ namespace InfrastructureTests
             optionsBuilder.UseSqlServer(connectionString);
             DomainDBContext dataContext = new(optionsBuilder.Options);
             repository = new(dataContext);
-            userRepository = new(dataContext);
         }
 
         [Test]
@@ -39,13 +37,14 @@ namespace InfrastructureTests
             // Arrange
             fakeRepository = new();
             Discount discount = new();
+            int count = fakeRepository.GetAll().Count();
             // Act 
             var result = fakeRepository.Add(discount);
             // Assert
             Assert.Multiple(() =>
             {
                 Assert.That(result, Is.True);
-                Assert.That(fakeRepository.GetAll().Count(), Is.EqualTo(1));
+                Assert.That(fakeRepository.GetAll().Count(), Is.EqualTo(count + 1));
                 Assert.That(fakeRepository.GetAll().Any(u => u.Equals(discount)), Is.True);
             });
         }

@@ -1,4 +1,5 @@
 ﻿using Domain.User;
+using Infrastructure.DataRepositories;
 using Logic.Services.Implementations;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -34,13 +35,14 @@ namespace InfrastructureTests
             // Arrange
             fakeRepository = new();
             User user = new();
+            int count = fakeRepository.GetAll().Count();
             // Act 
             var result = fakeRepository.Add(user);
             // Assert
             Assert.Multiple(() =>
             {
                 Assert.That(result, Is.True);
-                Assert.That(fakeRepository.GetAll().Count(), Is.EqualTo(1));
+                Assert.That(fakeRepository.GetAll().Count(), Is.EqualTo(count + 1));
                 Assert.That(fakeRepository.GetAll().Any(u => u.Equals(user)), Is.True);
             });
         }
@@ -84,9 +86,15 @@ namespace InfrastructureTests
         public void AddUser_IntegrationTest()
         {
             // Arrange
+            int test_id = 99999;
+            User? u = repository.GetByID(test_id);
+            if (u != null)
+            {
+                repository.Delete(u);
+            }
             User user = new()
             {
-                ID = 99999
+                ID = test_id
             };
             int count = repository.GetAll().Count();
             // Act 
@@ -106,9 +114,15 @@ namespace InfrastructureTests
         public void DeleteUser_IntegrationTest()
         {
             // Arrange
+            int test_id = 99999;
+            User? u = repository.GetByID(test_id);
+            if (u != null)
+            {
+                repository.Delete(u);
+            }
             User user = new()
             {
-                ID = 99999
+                ID = test_id
             };
             repository.Add(user);
             // Act
@@ -125,9 +139,15 @@ namespace InfrastructureTests
         public void UpdateUser_IntegrationTest()
         {
             // Arrange
+            int test_id = 99999;
+            User? u = repository.GetByID(test_id);
+            if (u != null)
+            {
+                repository.Delete(u);
+            }
             User user = new()
             {
-                ID = 99999
+                ID = test_id
             };
             repository.Add(user);
             user.FirstName = "Test";
