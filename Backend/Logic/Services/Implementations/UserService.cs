@@ -1,9 +1,10 @@
 ﻿using Domain.User;
 using Infrastructure.Interfaces;
+using Logic.Services.Interfaces;
 
 namespace Logic.Services.Implementations;
 
-public class UserService(IDataRepository repository)
+public class UserService(IDataRepository repository) : IUserService
 {
     private readonly IDataRepository _repository = repository;
     public bool CreateUserAccount(User user)

@@ -1,9 +1,10 @@
 ﻿using Domain.User;
 using Infrastructure.Interfaces;
+using Logic.Services.Interfaces;
 
 namespace Logic.Services.Implementations;
 
-public class TicketService(IDataRepository repository)
+public class TicketService(IDataRepository repository) : ITicketService
 {
     private readonly IDataRepository _repository = repository;
     public bool Buy(Ticket ticket)
