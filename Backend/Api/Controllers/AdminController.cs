@@ -49,7 +49,7 @@ namespace Api.Controllers
             }
         }
 
-        [HttpPost("authorise/{adminID}")]
+        [HttpPost("authorise/{firebaseID}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
