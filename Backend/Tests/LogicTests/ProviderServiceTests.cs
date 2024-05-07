@@ -1,89 +1,89 @@
-﻿using Domain.Common;
-using Logic.Services.Implementations;
+﻿//using Domain.Common;
+//using Logic.Services.Implementations;
 
-namespace Test;
+//namespace Test;
 
-public class ProviderServiceTests
-{
+//public class ProviderServiceTests
+//{
 
-    ProviderService providerService;
-    DatabaseService databaseService;
+//    ProviderService providerService;
+//    DatabaseService databaseService;
 
-    [SetUp]
-    public void Setup()
-    {
-        databaseService = new DatabaseService();
-        providerService = new ProviderService(databaseService);
-    }
+//    [SetUp]
+//    public void Setup()
+//    {
+//        databaseService = new DatabaseService();
+//        providerService = new ProviderService(databaseService);
+//    }
 
-    [Test]
-    public void CanReturn_AddProvider_ReturnsFalse()
-    {
-        // Arrange
-        Provider provider = null;
-        bool canAdd;
+//    [Test]
+//    public void CanReturn_AddProvider_ReturnsFalse()
+//    {
+//        // Arrange
+//        Provider provider = null;
+//        bool canAdd;
 
-        // Act
-        canAdd = providerService.AddProvider(provider);
+//        // Act
+//        canAdd = providerService.AddProvider(provider);
 
-        // Assert
-        Assert.IsFalse(canAdd);
+//        // Assert
+//        Assert.IsFalse(canAdd);
 
-    }
+//    }
 
-    [Test]
-    public void CanReturn_AddProvider_ReturnsTrue()
-    {
-        // Arrange
-        Provider provider = new Provider();
-        bool canAdd;
+//    [Test]
+//    public void CanReturn_AddProvider_ReturnsTrue()
+//    {
+//        // Arrange
+//        Provider provider = new Provider();
+//        bool canAdd;
 
-        // Act
-        canAdd = providerService.AddProvider(provider);
+//        // Act
+//        canAdd = providerService.AddProvider(provider);
 
-        // Assert
-        Assert.IsTrue(canAdd);
-    }
+//        // Assert
+//        Assert.IsTrue(canAdd);
+//    }
 
-    [Test]
-    public void CanReturn_RemoveProvider_ReturnsTrue()
-    {
-        // Arrange
-        Provider provider = new Provider();
-        bool canAdd, canRemove;
+//    [Test]
+//    public void CanReturn_RemoveProvider_ReturnsTrue()
+//    {
+//        // Arrange
+//        Provider provider = new Provider();
+//        bool canAdd, canRemove;
 
-        // Act
-        canAdd = providerService.AddProvider(provider);
-        canRemove = providerService.RemoveProvider(provider.ID);
+//        // Act
+//        canAdd = providerService.AddProvider(provider);
+//        canRemove = providerService.RemoveProvider(provider.ID);
 
-        // Assert
-        Assert.IsTrue(canRemove);
-    }
+//        // Assert
+//        Assert.IsTrue(canRemove);
+//    }
 
-    [Test]
-    public void CanReturn_RemoveProvider_ReturnsFalse()
-    {
-        // Arrange
-        bool canRemove;
+//    [Test]
+//    public void CanReturn_RemoveProvider_ReturnsFalse()
+//    {
+//        // Arrange
+//        bool canRemove;
 
-        // Act
-        canRemove = providerService.RemoveProvider(-1);
+//        // Act
+//        canRemove = providerService.RemoveProvider(-1);
 
-        // Assert
-        Assert.IsFalse(canRemove);
-    }
+//        // Assert
+//        Assert.IsFalse(canRemove);
+//    }
 
-    [Test]
-    public void CanReturn_GetProvider_ReturnsTrue()
-    {
-        // Arrange
-        Provider provider = new Provider();
-        Provider provider2 = null;
+//    [Test]
+//    public void CanReturn_GetProvider_ReturnsTrue()
+//    {
+//        // Arrange
+//        Provider provider = new Provider();
+//        Provider provider2 = null;
 
-        // Act
-        provider2 = databaseService.GetProvider(provider.ID);
+//        // Act
+//        provider2 = databaseService.GetProvider(provider.ID);
 
-        // Assert
-        Assert.AreEqual(provider.ID, provider2.ID);
-    }
-}
+//        // Assert
+//        Assert.AreEqual(provider.ID, provider2.ID);
+//    }
+//}

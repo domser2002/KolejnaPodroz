@@ -12,8 +12,9 @@ namespace Logic.Services.Implementations
     {
         private readonly IDataRepository _repository = repository;
 
-        public bool AddConnection(Connection connection)
+        public bool AddConnection(Connection? connection)
         {
+            if(connection is null) return false;
             _repository.ConnectionRepository.Add(connection);
             return true;
         }
