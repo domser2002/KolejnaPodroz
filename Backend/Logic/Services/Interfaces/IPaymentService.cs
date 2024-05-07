@@ -8,6 +8,6 @@ namespace Logic.Services.Interfaces
 {
     public interface IPaymentService
     {
-        public void ProceedPayment();
+        public bool ProceedPayment();
     }
 }
