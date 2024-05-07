@@ -144,7 +144,7 @@ class Cards extends StatelessWidget {
 class TrainOfferCard extends StatelessWidget {
   final bool isLarge;
   final double elevation;
-  final TrainOffer trainOffer;
+  var trainOffer;
   TrainOfferCard(
       {Key? key,
       this.isLarge = false,
