@@ -8,10 +8,10 @@ namespace Api.Controllers;
 [Route("Ranking")]
 public class RankingController : ControllerBase
 {
-    private readonly StatisticsService _rankingService;
-    public RankingController(StatisticsService rankingService)
+    private readonly StatisticsService _statisticsService;
+    public RankingController(StatisticsService statisticsService)
     {
-        _rankingService = rankingService;
+        _statisticsService = statisticsService;
     }
 
     [HttpGet("byUser/{userID}")]
@@ -19,7 +19,7 @@ public class RankingController : ControllerBase
     {
         try
         {
-            var rankings = _rankingService.GetByUser(userID);
+            var rankings = _statisticsService.GetByUser(userID);
             return rankings != null ? Ok(rankings) : NotFound();
         }
         catch(Exception)
@@ -32,7 +32,7 @@ public class RankingController : ControllerBase
     {
         try
         {
-            var updated = _rankingService.Update(ranking);
+            var updated = _statisticsService.Update(ranking);
             return updated ? Ok() : NotFound();
         }
         catch (Exception)
