@@ -67,9 +67,9 @@ namespace Api.Controllers
         [HttpGet("searchConnections")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<Connection>))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public ActionResult<int>SearchConnections(string origin, string destination, DateTime from, DateTime to)
+        public ActionResult<int>SearchConnections(string from, string to, DateTime when)
         {
-            var result = _connectionService.SearchConnections(origin, destination, from, to);
+            var result = _connectionService.SearchConnections(from, to, when);
             if(result == null)
             {
                 return NotFound();
