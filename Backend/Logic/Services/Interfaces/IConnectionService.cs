@@ -15,7 +15,7 @@ namespace Logic.Services.Interfaces
         public Connection? GetConnectionByID(int connectionID);
 
         // returns list of all connections from origin to destination
-        // and where train departures from origin in interval <from, to>
-        public List<Connection> SearchConnections(string origin, string destination, DateTime from, DateTime to);
+        // and where train departures from origin in the same day as when
+        public List<Connection> SearchConnections(string from, string to, DateTime when);
     }
 }
