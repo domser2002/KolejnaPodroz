@@ -5,8 +5,8 @@ public class Ticket
     private static int _idCounter = 0;
     public int ID { get; } = ++_idCounter;
     public int JourneyID { get; set; } = 0;
-    public int StartStationID { get; set; } = 0;
-    public int EndStationID { get; set; } = 0;
+    public int StartConnectionID { get; set; } = 0;
+    public int EndConnectionID { get; set; } = 0;
     public int? SeatNumber { get; set; }
     public decimal Price { get; set; } = 0;
     public string FirstName { get; set; } = string.Empty;
@@ -17,8 +17,8 @@ public class Ticket
     public Ticket(int connectionID, int startStationID, int endStationID, int? seatNumber, decimal price, string firstName, string lastName, string email, string phone)
     {
         JourneyID = connectionID;
-        StartStationID = startStationID;
-        EndStationID = endStationID;
+        StartConnectionID = startStationID;
+        EndConnectionID = endStationID;
         SeatNumber = seatNumber;
         Price = price;
         FirstName = firstName;

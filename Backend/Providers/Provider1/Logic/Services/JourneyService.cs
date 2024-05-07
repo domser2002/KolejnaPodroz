@@ -5,11 +5,11 @@ namespace Logic.Services;
 public class JourneyService
 {
     public readonly TrainService _trainService;
+    public static List<Journey> Journeys { get; set; } = new();
     public JourneyService(TrainService trainService)
     {
         _trainService = trainService;
     }
-    public static List<Journey> Journeys { get; set; } = new();
     public bool AddJourney(Journey journey)
     {
         if(Journeys.Any(c => c.ID == journey.ID))
@@ -73,7 +73,6 @@ public class JourneyService
             }
             journeys.Add(journey);
         }
-        return journeys.Any() ? journeys : null
-            ;
+        return journeys.Any() ? journeys : null;
     }
 }

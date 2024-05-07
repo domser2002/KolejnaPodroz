@@ -31,8 +31,8 @@ namespace Api.Controllers
             var ticket = new Ticket
             {
                 JourneyID = request.JourneyID,
-                StartStationID = request.StartStationID,
-                EndStationID = request.EndStationID,
+                StartConnectionID = request.startConnectionID,
+                EndConnectionID = request.endConnectionID,
                 SeatNumber = request.seatNumber,
                 FirstName = request.FirstName,
                 LastName = request.LastName,
@@ -46,23 +46,38 @@ namespace Api.Controllers
                 return BadRequest();
             }
 
-            var seat = journey.Seats?.Find(s => s.Number == ticket.SeatNumber);
-            if(seat == null || seat.Taken)
+            if (request.seatNumber != null)
             {
-                return BadRequest();
+                var startIndex = journey.Connections!.FindIndex(c => c.ID == ticket.StartConnectionID);
+                var endIndex = journey.Connections.FindIndex(c => c.ID == ticket.EndConnectionID) - 1;
+                if (startIndex == -1 || startIndex >= endIndex)
+                {
+                    return BadRequest();
+                }
+                for(int i = startIndex; i <= endIndex; ++i)
+                {
+                    var seat = journey.Connections[i].Seats!.Find(s => s.Number == request.seatNumber);
+                    if(seat == null || seat.Taken)
+                    {
+                        return BadRequest();
+                    }
+                    seat.Taken = true;
+                }
             }
-            ticket.Price = seat.SeatType switch
+
+            SeatType seatType = journey.Seats!.Find(s => s.Number == request.seatNumber)?.SeatType ?? SeatType.Economy;
+            ticket.Price = seatType switch
             {
                 SeatType.Business => 100,
                 SeatType.Economy => 50,
                 _ => 75
             };
-            seat.Taken = true;
 
             var added = _ticketService.AddTicket(ticket);
             
             return added ? Ok() : BadRequest();
         }
+
         [HttpPut("Edit")]
         public ActionResult EditTicket(Ticket ticket)
         {

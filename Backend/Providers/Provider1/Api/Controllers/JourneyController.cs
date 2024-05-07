@@ -21,22 +21,25 @@ public class JourneyController : ControllerBase
         var journey = _journeyService.GetJourneyByID(journeyID);
         return journey != null ? Ok(journey) : NotFound();
     }
-    [HttpPost("Add")]
-    public ActionResult AddJourney(Journey journey)
-    {
-        var added = _journeyService.AddJourney(journey);
-        return added ? Ok() : BadRequest();
-    }
+
     [HttpGet("ByStartIDAndEndID")]
     public ActionResult<Journey> GetJourneyByStartIDAndEndID(GetJourneyByStartIDAndEndIDRequest request)
     {
         var journey = _journeyService.GetJourneysByStartIDAndEndID(request.startID, request.endID);
         return journey != null ? Ok(journey) : NotFound();
     }
+
     [HttpGet("Filter")]
     public ActionResult<List<Journey>> FilterJourneys(FilterJourneysRequest request)
     {
         var journeys = _journeyService.FilterJourneys(request);
         return journeys != null ? Ok(journeys) : NotFound();
+    }
+
+    [HttpPost("Add")]
+    public ActionResult AddJourney(Journey journey)
+    {
+        var added = _journeyService.AddJourney(journey);
+        return added ? Ok() : BadRequest();
     }
 }
