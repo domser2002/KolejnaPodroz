@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/cubits/achievements_cubit/achievements_cubit.dart';
 import 'package:frontend/cubits/search_cubit/search_cubit.dart';
 import 'package:frontend/views/landing_page.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'dart:ui' as ui;
-
+import 'classes/train_offer.dart';
 import 'offers_cubit/train_offers_cubit.dart';
 
 void main() {

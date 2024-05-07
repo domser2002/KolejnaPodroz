@@ -1,6 +1,7 @@
 // landing_page.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:frontend/classes/train_offer.dart';
 import 'package:frontend/cubits/search_cubit/search_cubit.dart';
 import 'package:frontend/views/auth/login_page.dart';
 import 'package:frontend/views/offers_page.dart';

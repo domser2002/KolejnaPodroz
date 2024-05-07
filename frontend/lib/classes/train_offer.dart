@@ -1,4 +1,6 @@
+class TrainOffer {
+  List<String> stations = List.empty();
+  List<DateTime> DepartureTimes = List.empty();
 
-class TrainOffer{
-
+  List<DateTime> ArrivalTimes = List.empty();
 }

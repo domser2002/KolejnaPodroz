@@ -7,7 +7,8 @@ part 'search_state.dart';
 class SearchCubit extends Cubit<SearchState> {
   SearchCubit() : super(SearchInitial());
 
-  Future<void> searchTrains(String departure, String destination, String date) async {
+  Future<void> searchTrains(
+      String departure, String destination, String date) async {
     if (departure.isEmpty || destination.isEmpty || date.isEmpty) {
       emit(SearchError("Wszystkie pola muszą być wypełnione."));
       return;
