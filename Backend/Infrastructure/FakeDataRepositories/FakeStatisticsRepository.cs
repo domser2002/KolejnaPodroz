@@ -11,41 +11,36 @@ namespace Infrastructure.FakeDataRepositories
 {
     public class FakeStatisticsRepository : IStatisticsRepository
     {
-        private readonly List<Statistics> Statisticss = [];
+        private readonly List<Statistics> Statistics = [];
         public bool Add(Statistics statistics)
         {
-            Statisticss.Add(statistics);
+            Statistics.Add(statistics);
             return true;
         }
 
         public bool Delete(Statistics statistics)
         {
-            Statisticss.Remove(statistics);
+            Statistics.Remove(statistics);
             return true;
         }
 
         public IEnumerable<Statistics> GetAll()
         {
-            return Statisticss;
+            return Statistics;
         }
 
-        public List<Statistics>? GetByUser(int userId)
+        public Statistics? GetByID(int id)
         {
-            return Statisticss.Where(a => a.UserID == userId).ToList();
-        }
-
-        public List<Statistics>? GetByCategory(int categoryID)
-        {
-            return Statisticss.Where(a=>a.CategoryID == categoryID).ToList();
+            return Statistics.FirstOrDefault(s => s.ID == id);
         }
 
         public bool Update(Statistics statistics)
         {
-            int index = Statisticss.FindIndex(u => u.ID == statistics.ID);
+            int index = Statistics.FindIndex(u => u.ID == statistics.ID);
             if (index != -1)
             {
-                Statisticss.RemoveAt(index);
-                Statisticss.Add(statistics);
+                Statistics.RemoveAt(index);
+                Statistics.Add(statistics);
                 return true;
             }
             return false;

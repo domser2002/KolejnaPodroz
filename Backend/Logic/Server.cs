@@ -1,6 +1,7 @@
 ﻿using Domain.Common;
+using Domain.Server;
 
-namespace Domain.Server;
+namespace Logic;
 
 public class Server
 {

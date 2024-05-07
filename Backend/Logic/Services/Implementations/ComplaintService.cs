@@ -7,8 +7,9 @@ public class ComplaintService(IDataRepository repository) : Interfaces.IComplain
 {
     private readonly IDataRepository _repository = repository;
 
-    public bool MakeComplaint(Complaint complaint)
+    public bool MakeComplaint(Complaint? complaint)
     {
+        if(complaint == null) return false;
         _repository.ComplaintRepository.Add(complaint);
         return true;
     }

@@ -32,14 +32,9 @@ namespace Infrastructure.DataRepositories
 
         }
 
-        public List<Statistics>? GetByCategory(int categoryID)
+        public Statistics? GetByID(int id)
         {
-            return _context.Statistics.Where(s => s.CategoryID == categoryID).ToList();
-        }
-
-        public List<Statistics>? GetByUser(int userId)
-        {
-            return _context.Statistics.Where(s => s.UserID == userId).ToList();
+            return _context.Statistics.FirstOrDefault(s => s.ID == id);
         }
 
         public bool Update(Statistics statistics)

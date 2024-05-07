@@ -1,9 +1,10 @@
 ﻿using Domain.Admin;
 using Infrastructure.Interfaces;
+using Logic.Services.Interfaces;
 
 namespace Logic.Services.Implementations;
 
-public class AdminService(IDataRepository repository)
+public class AdminService(IDataRepository repository) : IAdminService
 {
     private readonly IDataRepository _repository = repository;
     public bool CreateAdminAccount(Admin admin)

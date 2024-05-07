@@ -1,69 +1,91 @@
 ﻿using Logic.Services.Implementations;
 using Domain.Admin;
 using Microsoft.AspNetCore.Mvc;
+using Logic.Services.Interfaces;
+using Domain.Common;
+using System;
+using System.Net.Mime;
 
-namespace Api.Controllers;
-
-[ApiController]
-[Route("Admin")]
-public class AdminController : ControllerBase
+namespace Api.Controllers
 {
-    private readonly AdminService _adminService;
-    public AdminController(AdminService adminService)
+    [ApiController]
+    [Route("Admin")]
+    public class AdminController : ControllerBase
     {
-        _adminService = adminService;
-    }
+        private readonly IAdminService _adminService;
 
-    [HttpPost("create")]
-    public ActionResult CreateAccount(Admin admin)
-    {
-        try
+        public AdminController(IAdminService adminService)
         {
-            var created = _adminService.CreateAdminAccount(admin);
-            return created ? Ok() : BadRequest();
+            _adminService = adminService;
         }
-        catch (Exception)
+
+        [HttpPost("create")]
+        [Consumes(MediaTypeNames.Application.Json)]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(Admin))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public ActionResult<int> CreateAccount([FromBody] Admin admin)
         {
-            return StatusCode(500);
+            try
+            {
+                var created = _adminService.CreateAdminAccount(admin);
+                return created ? Ok() : BadRequest();
+            }
+            catch (Exception)
+            {
+                return StatusCode(500);
+            }
         }
-    }
-    [HttpPost("verify/{adminID}")]
-    public ActionResult VerifyAdminAccount(int adminID)
-    {
-        try
+
+        [HttpPost("verify/{adminID}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public ActionResult VerifyAdminAccount(int adminID)
         {
-            var verified = _adminService.VerifyAdminAccount(adminID);
-            return verified ? Ok() : BadRequest();
+            try
+            {
+                var verified = _adminService.VerifyAdminAccount(adminID);
+                return verified ? Ok() : BadRequest();
+            }
+            catch (Exception)
+            {
+                return StatusCode(500);
+            }
         }
-        catch
+
+        [HttpPost("authorise/{adminID}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public ActionResult AuthoriseAdmin(int adminID)
         {
-            return StatusCode(500);
+            try
+            {
+                var authorised = _adminService.AuthoriseAdmin(adminID);
+                return authorised ? Ok() : BadRequest();
+            }
+            catch (Exception)
+            {
+                return StatusCode(500);
+            }
         }
-    }
-    [HttpPost("authorise/{adminID}")]
-    public ActionResult AuthoriseAdmin(int adminID)
-    {
-        try
+
+        [HttpDelete("delete/{adminID}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public ActionResult<int> DeleteAccount(int adminID)
         {
-            var authorised = _adminService.AuthoriseAdmin(adminID);
-            return authorised ? Ok() : BadRequest();
-        }
-        catch
-        {
-            return StatusCode(500);
-        }
-    }
-    [HttpDelete("delete/{adminID}")]
-    public ActionResult DeleteAccount(int adminID)
-    {
-        try
-        {
-            var removed = _adminService.RemoveAdminAccount(adminID);
-            return removed ? Ok() : BadRequest();
-        }
-        catch
-        {
-            return StatusCode(500);
+            try
+            {
+                var removed = _adminService.RemoveAdminAccount(adminID);
+                return removed ? Ok() : BadRequest();
+            }
+            catch (Exception)
+            {
+                return StatusCode(500);
+            }
         }
     }
 }

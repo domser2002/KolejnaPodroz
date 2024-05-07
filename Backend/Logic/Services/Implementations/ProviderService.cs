@@ -1,12 +1,13 @@
 ﻿using Domain.Common;
 using Infrastructure.Interfaces;
+using Logic.Services.Interfaces;
 
 namespace Logic.Services.Implementations;
 
-public class ProviderService(IDataRepository repository)
+public class ProviderService(IDataRepository repository) : IProviderService
 {
     private readonly IDataRepository _repository = repository;
-    public bool AddProvider(Provider provider)
+    public bool AddProvider(Provider? provider)
     {
         if (provider is null)
         {
