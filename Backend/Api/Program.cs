@@ -20,7 +20,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 
-builder.Services.AddSingleton<IDataRepository, FakeDataRepository>();
+builder.Services.AddSingleton<IDataRepository, DataRepository>();
 builder.Services.AddSingleton<DatabaseService>();
 builder.Services.AddSingleton<IAdminService, AdminService>();
 builder.Services.AddSingleton<IComplaintService, ComplaintService>();
@@ -33,6 +33,8 @@ builder.Services.AddSingleton<UserService>();
 builder.Services.AddSingleton<IConnectionService, ConnectionService>();
 
 var app = builder.Build();
+
+app.UseCors(builder => builder.WithOrigins("*").AllowAnyMethod().AllowAnyHeader());
 
 if (app.Environment.IsDevelopment())
 {
