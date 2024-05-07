@@ -187,12 +187,13 @@ class LandingPage extends StatelessWidget {
                 destinationController.text,
                 dateController.text,
               );
-
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => ViewOffersPage(offers: offers),
-                ),
-              );
+              if (offers != 0) {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => ViewOffersPage(offers: offers),
+                  ),
+                );
+              } else {}
             },
             title: 'Wyszukaj',
           ),

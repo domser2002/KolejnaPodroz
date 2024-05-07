@@ -26,7 +26,7 @@ class http_requests {
       String departure, String destination, String date) async {
     if (departure.isEmpty || destination.isEmpty || date.isEmpty) {
       print("Wszystkie pola muszą być wypełnione.");
-      return;
+      return 0;
     }
 
     try {

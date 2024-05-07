@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/classes/train_offer.dart';
+import 'package:frontend/utils/http_requests.dart';
 import 'package:frontend/views/auth/login_page.dart';
 import 'package:frontend/views/auth/register_page.dart';
 
 class ViewOffersPage extends StatelessWidget {
-  List<TrainOffer> offers;
+  var offers;
   ViewOffersPage({super.key, required this.offers});
 
   @override
@@ -75,41 +76,68 @@ class ViewOffersPage extends StatelessWidget {
                 padding: EdgeInsets.symmetric(vertical: 24.0),
                 child: AspectRatio(
                   aspectRatio: 2.0,
-                  child: PageView.builder(
-                    controller: controller,
-                    itemCount: offers.length,
-                    itemBuilder: (context, index) {
-                      return AnimatedBuilder(
-                        animation: controller,
-                        builder: (context, child) {
-                          double value = 1.0;
-                          if (controller.position.haveDimensions) {
-                            value = controller.page! - index;
-                            value = (1 - (value.abs() * .3)).clamp(0.5, 1.0);
-                          }
-                          return Center(
-                            child: SizedBox(
-                              height: Curves.easeOut.transform(value) * 500,
-                              width: Curves.easeOut.transform(value) * 350,
-                              child: child,
-                            ),
-                          );
-                        },
-                        child: TrainOfferCard(
-                          trainOffer: offers.elementAt(index),
-                          elevation: index == 2
-                              ? 8
-                              : 4, // Większy cień dla karty w centrum
-                          isLarge: index == 2,
-                        ),
-                      );
-                    },
-                  ),
+                  child: Cards(controller: controller, offers: offers),
                 ),
               ),
             ),
           ],
         ));
+  }
+}
+
+class Cards extends StatelessWidget {
+  Cards({
+    super.key,
+    required this.controller,
+    required this.offers,
+  });
+
+  PageController controller;
+  var offers;
+
+  @override
+  Widget build(BuildContext context) {
+    if (offers != null) {
+      return PageView.builder(
+        controller: controller,
+        itemCount: offers.length,
+        itemBuilder: (context, index) {
+          return AnimatedBuilder(
+            animation: controller,
+            builder: (context, child) {
+              double value = 1.0;
+              if (controller.position.haveDimensions) {
+                value = controller.page! - index;
+                value = (1 - (value.abs() * .3)).clamp(0.5, 1.0);
+              }
+              return Center(
+                child: SizedBox(
+                  height: Curves.easeOut.transform(value) * 500,
+                  width: Curves.easeOut.transform(value) * 350,
+                  child: child,
+                ),
+              );
+            },
+            child: TrainOfferCard(
+              trainOffer: offers.elementAt(index),
+              elevation: index == 2 ? 8 : 4, // Większy cień dla karty w centrum
+              isLarge: index == 2,
+            ),
+          );
+        },
+      );
+    } else {
+      return Center(
+        child: SizedBox(
+          child: Container(
+            child: Center(child: Text("Nie ma takich przejazdów")),
+            decoration: BoxDecoration(color: Colors.green),
+          ),
+          width: 200,
+          height: 100,
+        ),
+      );
+    }
   }
 }
 
