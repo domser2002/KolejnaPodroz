@@ -6,15 +6,13 @@ namespace Api.Controllers;
 
 [ApiController]
 [Route("Provider")]
-public class ProviderController : ControllerBase
+public class ProviderController(ProviderService providerService) : ControllerBase
 {
-    public readonly ProviderService _providerService;
-    public ProviderController(ProviderService providerService)
-    {
-        _providerService = providerService;
-    }
+    private readonly ProviderService _providerService = providerService;
 
-    [HttpGet("{providerID}")]
+    [HttpGet("get/{providerID}")]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Provider))]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public ActionResult<Provider> GetProviderByID(int providerID)
     {
         try
