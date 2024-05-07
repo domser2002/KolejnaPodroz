@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:frontend/classes/complaint.dart';
-import 'package:frontend/cubits/complaints_cubit/complaints_cubit.dart';
-import 'package:frontend/cubits/complaints_cubit/complaints_state.dart';
+import 'package:frontend/utils/http_requests.dart';
+
 import 'package:frontend/views/complaint/make_complaint_page.dart';
 import 'package:frontend/widgets/complaint_item_widget.dart';
+import 'package:http/http.dart';
 
 class UserProfilePage extends StatefulWidget {
   UserProfilePage({super.key});
@@ -203,57 +204,63 @@ class ComplaintsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     // Załóżmy, że userId uzyskujemy z innego miejsca w aplikacji, np. zalogowanego użytkownika.
     String userId = "1";
-    return BlocProvider<ComplaintsCubit>(
-      create: (context) => ComplaintsCubit(host: "https://localhost:7006")
-        ..getComplaintsByUser(userId),
-      child: BlocBuilder<ComplaintsCubit, ComplaintState>(
-        builder: (context, state) {
-          if (state.loading) {
-            return Center(child: CircularProgressIndicator());
-          } else if (state.error.isNotEmpty) {
-            return Center(child: Text(state.error));
-          } else if (state.complaints != null) {
-            return ListView.builder(
-              itemCount: state.complaints!.length,
-              itemBuilder: (context, index) {
-                final complaint = state.complaints![index];
-                return ListTile(
-                  title: Text(complaint['title']),
-                  subtitle: Text(complaint['content']),
-                  trailing: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      IconButton(
-                        icon: Icon(Icons.edit),
-                        onPressed: () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  MakeComplaintPage(ticketId: "1"),
-                            ),
-                          );
-                        },
-                      ),
-                      IconButton(
-                        icon: Icon(Icons.delete),
-                        onPressed: () {
-                          // Implementacja usunięcia skargi
-                          context
-                              .read<ComplaintsCubit>()
-                              .removeComplaint(complaint['id'].toString());
-                        },
-                      ),
-                    ],
-                  ),
-                );
-              },
+    http_requests request = http_requests();
+    var complaints;
+    return FutureBuilder(
+        future: request.getComplaintsByUser(userId),
+        builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            // While the future is executing, show a loading indicator
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          } else if (snapshot.hasError) {
+            // If there's an error, display an error message
+            return Center(
+              child: Text('Error: ${snapshot.error}'),
             );
           } else {
-            return Center(child: Text('Brak reklamacji do wyświetlenia'));
+            if (complaints != null) {
+              return ListView.builder(
+                itemCount: complaints.length,
+                itemBuilder: (context, index) {
+                  final complaint = complaints![index];
+                  return ListTile(
+                    title: Text(complaint['title']),
+                    subtitle: Text(complaint['content']),
+                    trailing: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        IconButton(
+                          icon: Icon(Icons.edit),
+                          onPressed: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    MakeComplaintPage(ticketId: "1"),
+                              ),
+                            );
+                          },
+                        ),
+                        IconButton(
+                          icon: Icon(Icons.delete),
+                          onPressed: () async {
+                            // Implementacja usunięcia skargi
+
+                            await request
+                                .removeComplaint(complaint['id'].toString());
+                          },
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              );
+            } else {
+              return Center(child: Text('Brak reklamacji do wyświetlenia'));
+            }
           }
-        },
-      ),
-    );
+        });
   }
 }
 

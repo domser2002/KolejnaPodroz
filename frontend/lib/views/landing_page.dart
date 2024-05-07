@@ -2,7 +2,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:frontend/classes/train_offer.dart';
-import 'package:frontend/cubits/search_cubit/search_cubit.dart';
+
+import 'package:frontend/utils/http_requests.dart';
 import 'package:frontend/views/auth/login_page.dart';
 import 'package:frontend/views/offers_page.dart';
 import 'package:frontend/views/auth/register_page.dart';
@@ -163,6 +164,8 @@ class LandingPage extends StatelessWidget {
   }
 
   Widget _buildButtonsRowOrColumn(double winWidth, BuildContext context) {
+    http_requests request = http_requests();
+
     if (winWidth > 600) {
       return Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -178,15 +181,16 @@ class LandingPage extends StatelessWidget {
             title: 'Opcje dodatkowe',
           ),
           ButtonWidget(
-            onPressed: () {
-              context.read<SearchCubit>().searchTrains(
-                    departureController.text,
-                    destinationController.text,
-                    dateController.text,
-                  );
+            onPressed: () async {
+              var offers = await request.searchTrains(
+                departureController.text,
+                destinationController.text,
+                dateController.text,
+              );
+
               Navigator.of(context).push(
                 MaterialPageRoute(
-                  builder: (context) => ViewOffersPage(),
+                  builder: (context) => ViewOffersPage(offers: offers),
                 ),
               );
             },
@@ -210,15 +214,16 @@ class LandingPage extends StatelessWidget {
           ),
           SizedBox(height: 5),
           ButtonWidget(
-            onPressed: () {
-              context.read<SearchCubit>().searchTrains(
-                    departureController.text,
-                    destinationController.text,
-                    dateController.text,
-                  );
+            onPressed: () async {
+              var offers = await request.searchTrains(
+                departureController.text,
+                destinationController.text,
+                dateController.text,
+              );
+
               Navigator.of(context).push(
                 MaterialPageRoute(
-                  builder: (context) => ViewOffersPage(),
+                  builder: (context) => ViewOffersPage(offers: offers),
                 ),
               );
             },
