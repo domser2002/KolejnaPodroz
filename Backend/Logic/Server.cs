@@ -8,7 +8,7 @@ public static class Server
 {
     private static List<Session> userSessions = [];
     private static List<Session> adminSessions = [];
-    public static Session? CreateUserSession(int userID, string token)
+    public static void CreateUserSession(int userID, string token)
     {
         Session session = new()
         {
@@ -18,7 +18,6 @@ public static class Server
             IdleMaxMinutes = 15
         };
         userSessions.Add(session);
-        return session;
     }
     public static Session? CreateAdminSession(int adminID, string token)
     {

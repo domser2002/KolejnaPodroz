@@ -12,7 +12,7 @@ namespace Logic.Services.Interfaces
         public bool CreateUserAccount(User user);
         public bool RemoveUserAccount(int userID);
         public bool VerifyUserAccount(int userID);
-        public bool AuthoriseUser(int userID, string token);
+        public User? AuthoriseUser(string firebaseID, string token);
         public User? GetUserByID(int userID);
     }
 }

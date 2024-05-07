@@ -27,9 +27,14 @@ public class UserService(IDataRepository repository) : IUserService
         user.Verified = true;
         return _repository.UserRepository.Update(user);
     }
-    public bool AuthoriseUser(int userID, string token)
+    public User? AuthoriseUser(string firebaseID, string token)
     {
-        return Server.CreateUserSession(userID, token) != null;
+        int userID;
+        User? user = _repository.UserRepository.GetAll().Where(u => u.FirebaseID == firebaseID).FirstOrDefault();
+        if (user is null) return null;
+        userID = user.ID;
+        Server.CreateUserSession(userID, token);
+        return user;
     }
     public User? GetUserByID(int userID)
     {

@@ -52,12 +52,12 @@ public class UserController(IUserService userService) : ControllerBase
         }
     }
     [HttpPost("authorise/{userID}")]
-    public ActionResult AuthoriseUser(int userID, string token)
+    public ActionResult<User> AuthoriseUser(string firebaseID, string token)
     {
         try
         {
-            var authorised = _userService.AuthoriseUser(userID, token);
-            return authorised ? Ok() : BadRequest();
+            var user = _userService.AuthoriseUser(firebaseID, token);
+            return user is not null ? Ok(user) : BadRequest();
         }
         catch
         {

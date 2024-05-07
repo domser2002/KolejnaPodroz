@@ -6,6 +6,7 @@ namespace Domain.User;
 
 public class User : CommonAccountInfo
 {
+    public string FirebaseID { get; set; } = string.Empty;
     public DateTime? BirthDate { get; set; }
     public SeatType PreferedSeatType { get; set; }
     public SeatLocation PreferedSeatLocation { get; set; }
