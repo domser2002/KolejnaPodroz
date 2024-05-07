@@ -46,9 +46,9 @@ namespace Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public ActionResult<int> EditConnection(int id)
+        public ActionResult<int> EditConnection(int id, Connection newConnection)
         {
-            _connectionService.EditConnection(id);
+            _connectionService.EditConnection(id, newConnection);
             return Ok($"Connection {id} has been succesfully edited!");
         }
         [HttpGet("get/{id}")]

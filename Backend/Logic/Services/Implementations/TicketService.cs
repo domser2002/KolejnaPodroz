@@ -32,9 +32,16 @@ public class TicketService(IDataRepository repository) : ITicketService
         return true;
         // return ticketID
     }
-    public bool ChangeDetails(Ticket ticket)
+    public bool ChangeDetails(int ticketID, Ticket newTicket)
     {
-        throw new NotImplementedException();
+        Ticket? ticket = _repository.TicketRepository.GetByID(ticketID);
+        if(ticket != null)
+        {
+            _repository.TicketRepository.Delete(ticket);
+            _repository.TicketRepository.Add(newTicket);
+            return true;
+        }
+        return false;
     }
     public Ticket? GetTicketByID(int ticketID)
     {

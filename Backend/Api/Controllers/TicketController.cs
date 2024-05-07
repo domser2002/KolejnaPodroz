@@ -57,11 +57,11 @@ public class TicketController : ControllerBase
     }
     
     [HttpPut("edit")]
-    public ActionResult EditTicket(Ticket ticket)
+    public ActionResult EditTicket(int ticketId, Ticket ticket)
     {
         try
         {
-            var edited = _ticketService.ChangeDetails(ticket);
+            var edited = _ticketService.ChangeDetails(ticketId, ticket);
             return edited ? Ok() : BadRequest();
         }
         catch (Exception)
