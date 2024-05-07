@@ -7,24 +7,31 @@ namespace Logic.Services.Implementations;
 public class AdminService(IDataRepository repository) : IAdminService
 {
     private readonly IDataRepository _repository = repository;
-    public bool CreateAdminAccount(Admin admin)
+    public bool CreateAdminAccount(Admin? admin)
     {
-        throw new NotImplementedException();
+        if (admin == null) return false;
+        return _repository.AdminRepository.Add(admin);
     }
     public bool RemoveAdminAccount(int adminID)
     {
-        throw new NotImplementedException();
+        Admin? admin = _repository.AdminRepository.GetByID(adminID);
+        if (admin is null) return false;
+        return _repository.AdminRepository.Delete(admin);
     }
     public bool VerifyAdminAccount(int adminID)
     {
-        throw new NotImplementedException();
+        Admin? admin = _repository.AdminRepository.GetByID(adminID);
+        if(admin is null) return false;
+        admin.Verified = true;
+        return _repository.AdminRepository.Update(admin);
     }
-    public bool AuthoriseAdmin(int adminID)
+    public bool AuthoriseAdmin(int adminID,string token)
     {
-        throw new NotImplementedException();
+        return Server.CreateAdminSession(adminID, token) is not null;
     }
-    public void GiveAdminPermissions(Admin admin)
+    public bool GiveAdminPermissions(Admin admin)
     {
-        throw new NotImplementedException();
+        admin.Accepted = true;
+        return _repository.AdminRepository.Update(admin);
     }
 }

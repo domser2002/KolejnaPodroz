@@ -6,5 +6,7 @@ namespace Domain.Admin;
 public class Admin : Base
 {
     [Required]
-    public bool Accepted { get; set; }
+    public bool Accepted { get; set; } = false;
+    [Required] 
+    public bool Verified { get; set; }  = false;
 }

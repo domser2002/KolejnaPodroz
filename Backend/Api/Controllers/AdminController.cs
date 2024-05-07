@@ -10,14 +10,9 @@ namespace Api.Controllers
 {
     [ApiController]
     [Route("Admin")]
-    public class AdminController : ControllerBase
+    public class AdminController(IAdminService adminService) : ControllerBase
     {
-        private readonly IAdminService _adminService;
-
-        public AdminController(IAdminService adminService)
-        {
-            _adminService = adminService;
-        }
+        private readonly IAdminService _adminService = adminService;
 
         [HttpPost("create")]
         [Consumes(MediaTypeNames.Application.Json)]
@@ -58,11 +53,11 @@ namespace Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public ActionResult AuthoriseAdmin(int adminID)
+        public ActionResult AuthoriseAdmin(int adminID, string token)
         {
             try
             {
-                var authorised = _adminService.AuthoriseAdmin(adminID);
+                var authorised = _adminService.AuthoriseAdmin(adminID, token);
                 return authorised ? Ok() : BadRequest();
             }
             catch (Exception)
