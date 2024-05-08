@@ -1,5 +1,7 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:frontend/utils/http_requests.dart';
 import 'package:frontend/views/complaint/make_complaint_page.dart';
 import 'package:http/http.dart' as http;
 
@@ -14,6 +16,7 @@ class MakeComplaintPage extends StatelessWidget {
     Size screenSize = MediaQuery.of(context).size;
     double win_width = screenSize.width;
     double win_height = screenSize.height;
+    HttpRequests request = HttpRequests();
 
     return Scaffold(
       bottomNavigationBar: BottomAppBar(
@@ -77,7 +80,7 @@ class MakeComplaintPage extends StatelessWidget {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Text(
-                          'Złóż reklamację',
+                          'Edytuj reklamację',
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 24,
@@ -109,20 +112,15 @@ class MakeComplaintPage extends StatelessWidget {
                         ElevatedButton(
                           onPressed: () {
                             if (reasonController.text.isNotEmpty) {
-                              makeComplaint("https://localhost:7006", {
-                                'userID': '1', // TODO: get user id from auth
-                                'title': 'Reklamacja biletu $ticketId',
-                                'response': "",
-                                'content': reasonController.text,
-                              });
+                               Navigator.pop(context);
                             }
-                            Navigator.pop(context);
+                           
                           },
                           style: ElevatedButton.styleFrom(
                             foregroundColor: Colors.white,
                             backgroundColor: Colors.orange,
                           ),
-                          child: Text('Złóż Reklamację'),
+                          child: Text('Edytuj Reklamację'),
                         ),
                       ],
                     ),

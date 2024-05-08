@@ -299,67 +299,68 @@ class HttpRequests {
     }
   }
 
-  Future<dynamic> makeComplaint(Map<String, dynamic> complaintData) async {
-    try {
-      var url = Uri.parse('$host/Complaint/make');
-      var response = await http.post(
-        url,
-        body: jsonEncode(complaintData),
-        headers: {'Content-Type': 'application/json'},
-      );
+Future<Complaint?> makeComplaint(Map<String, dynamic> complaintData) async {
+  try {
+    var url = Uri.parse('$host/Complaint/make');
+    var response = await http.post(
+      url,
+      body: jsonEncode(complaintData),
+      headers: {'Content-Type': 'application/json'},
+    );
 
-      if (response.statusCode == 200) {
-        var complaint = jsonDecode(response.body);
-        print("complaint made");
-        return complaint;
-      } else {
-        print('Failed to make complaint');
-      }
-    } catch (e) {
-      print(e.toString());
+    if (response.statusCode == 200) {
+      print("Complaint made");
+      return Complaint.fromJson(jsonDecode(response.body));
+    } else {
+      print('Failed to make complaint: ${response.body}');
     }
+  } catch (e) {
+    print(e.toString());
   }
+  return null;
+}
 
-  Future<bool> removeComplaint(String complaintId) async {
-    try {
-      var url = Uri.parse('$host/Complaint/remove/$complaintId');
-      var response = await http.delete(url);
 
-      if (response.statusCode == 200) {
-        print("complaint removed");
-        return true;
-      } else {
-        print('Failed to remove complaint');
-        return false;
-      }
-    } catch (e) {
-      print(e.toString());
+
+Future<bool> removeComplaint(String complaintId) async {
+  try {
+    var url = Uri.parse('$host/Complaint/remove/$complaintId');
+    var response = await http.delete(url);
+
+    if (response.statusCode == 200) {
+      print("Complaint removed");
+      return true;
+    } else {
+      print('Failed to remove complaint: ${response.body}');
       return false;
     }
+  } catch (e) {
+    print(e.toString());
+    return false;
   }
+}
 
-  Future<bool> editComplaint(
-      String complaintId, Map<String, dynamic> updatedData) async {
-    try {
-      var url = Uri.parse('$host/Complaint/edit/$complaintId');
-      var response = await http.patch(
-        url,
-        body: jsonEncode(updatedData),
-        headers: {'Content-Type': 'application/json'},
-      );
+Future<bool> editComplaint(String complaintId, Map<String, dynamic> updatedData) async {
+  try {
+    var url = Uri.parse('$host/Complaint/edit/$complaintId');
+    var response = await http.patch(
+      url,
+      body: jsonEncode(updatedData),
+      headers: {'Content-Type': 'application/json'},
+    );
 
-      if (response.statusCode == 200) {
-        print("complaint edited");
-        return true;
-      } else {
-        print('Failed to edit complaint');
-        return false;
-      }
-    } catch (e) {
-      print(e.toString());
+    if (response.statusCode == 200) {
+      print("Complaint edited");
+      return true;
+    } else {
+      print('Failed to edit complaint: ${response.body}');
       return false;
     }
+  } catch (e) {
+    print(e.toString());
+    return false;
   }
+}
 
   Future<dynamic> getComplaint(String complaintId) async {
     try {
