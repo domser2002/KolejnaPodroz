@@ -51,7 +51,7 @@ public class UserController(IUserService userService) : ControllerBase
             return StatusCode(500);
         }
     }
-    [HttpPost("authorise/{userID}")]
+    [HttpPost("authorise/{firebaseID}")]
     public ActionResult<User> AuthoriseUser(string firebaseID, string token)
     {
         try

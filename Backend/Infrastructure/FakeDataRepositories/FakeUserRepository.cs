@@ -12,7 +12,7 @@ namespace Infrastructure.FakeDataRepositories
     public class FakeUserRepository : IUserRepository
     {
         private readonly List<User> Users = [];
-
+        private static int nextID = 3;
         /*
         */
         public FakeUserRepository() 
@@ -51,6 +51,7 @@ namespace Infrastructure.FakeDataRepositories
 
         public bool Add(User User)
         {
+            User.ID = nextID++;
             Users.Add(User);
             return true;
         }

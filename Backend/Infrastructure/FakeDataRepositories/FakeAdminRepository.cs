@@ -11,6 +11,7 @@ namespace Infrastructure.FakeDataRepositories
 {
     public class FakeAdminRepository : IAdminRepository
     {
+        private static int nextID = 1;
         private readonly List<Admin> Admins = [];
 
         public IEnumerable<Admin> GetAll()
@@ -25,6 +26,7 @@ namespace Infrastructure.FakeDataRepositories
 
         public bool Add(Admin Admin)
         {
+            Admin.ID = nextID++;
             Admins.Add(Admin);
             return true;
         }
