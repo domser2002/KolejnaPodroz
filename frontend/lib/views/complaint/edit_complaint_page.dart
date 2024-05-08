@@ -137,6 +137,7 @@ class EditComplaintPage extends StatelessWidget {
                               Navigator.pop(context);
                             } else {
                               print("No complaint found with that ID");
+                              Navigator.pop(context);
                             }
                           }
                         },

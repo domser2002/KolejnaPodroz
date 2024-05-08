@@ -230,7 +230,7 @@ class _ComplaintsPageState extends State<ComplaintsPage> {
       _complaintsFuture = _fetchComplaints();
     });
   }
-
+  
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<Complaint>>(

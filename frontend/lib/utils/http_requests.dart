@@ -362,23 +362,26 @@ Future<bool> editComplaint(String complaintId, Map<String, dynamic> updatedData)
   }
 }
 
-  Future<dynamic> getComplaint(String complaintId) async {
-    try {
-      var url = Uri.parse('$host/Complaint/get/$complaintId');
-      var response = await http.get(url);
 
-      if (response.statusCode == 200) {
-        var complaintsObjJson = jsonDecode(response.body);
-        Complaint result = complaintsObjJson.map((complaintJson) => Complaint.fromJson(complaintJson));
-        print("complaint loaded");
-        return result;
-      } else {
-        print('Failed to load complaint');
-      }
-    } catch (e) {
-      print(e.toString());
+Future<Complaint?> getComplaint(String complaintId) async {
+  try {
+    var url = Uri.parse('$host/Complaint/get/$complaintId');
+    var response = await http.get(url);
+
+    if (response.statusCode == 200) {
+      var complaintJson = jsonDecode(response.body); // This is a Map<String, dynamic>, not a List
+      Complaint result = Complaint.fromJson(complaintJson); // Directly deserialize it
+      print("complaint loaded");
+      return result; // Return the Complaint object
+    } else {
+      print('Failed to load complaint');
     }
+  } catch (e) {
+    print(e.toString());
   }
+  return null; // Return null if there's an error or if the complaint doesn't load
+}
+
 
   Future<List<Complaint>> getComplaintsByUser(String userId) async {
     try {
