@@ -2,12 +2,12 @@
 
 public record AddTicketRequest
     (
-        int JourneyID,
+        int journeyID,
         int? seatNumber,
         int startConnectionID,
         int endConnectionID,
-        string FirstName,
-        string LastName,
-        string Email,
-        string Phone
+        string firstName,
+        string lastName,
+        string email,
+        string phone
     );

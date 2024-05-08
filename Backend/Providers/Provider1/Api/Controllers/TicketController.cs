@@ -12,10 +12,12 @@ namespace Api.Controllers
     {
         private readonly TicketService _ticketService;
         private readonly JourneyService _journeyService;
-        public TicketController(TicketService ticketService, JourneyService journeyService)
+        private readonly ConnectionService _connectionService;
+        public TicketController(TicketService ticketService, JourneyService journeyService, ConnectionService connectionService)
         {
             _ticketService = ticketService;
             _journeyService = journeyService;
+            _connectionService = connectionService;
         }
 
         [HttpGet("{ticketID}")]
@@ -30,14 +32,14 @@ namespace Api.Controllers
         {
             var ticket = new Ticket
             {
-                JourneyID = request.JourneyID,
+                JourneyID = request.journeyID,
                 StartConnectionID = request.startConnectionID,
                 EndConnectionID = request.endConnectionID,
                 SeatNumber = request.seatNumber,
-                FirstName = request.FirstName,
-                LastName = request.LastName,
-                Email = request.Email,
-                Phone = request.Phone
+                FirstName = request.firstName,
+                LastName = request.lastName,
+                Email = request.email,
+                Phone = request.phone
             };
 
             var journey = _journeyService.GetJourneyByID(ticket.JourneyID);
@@ -46,26 +48,28 @@ namespace Api.Controllers
                 return BadRequest();
             }
 
+            SeatType seatType = SeatType.Economy;
             if (request.seatNumber != null)
             {
-                var startIndex = journey.Connections!.FindIndex(c => c.ID == ticket.StartConnectionID);
-                var endIndex = journey.Connections.FindIndex(c => c.ID == ticket.EndConnectionID) - 1;
+                var startIndex = journey.ConnectionIDs!.FindIndex(cid => cid == ticket.StartConnectionID);
+                var endIndex = journey.ConnectionIDs.FindIndex(cid => cid == ticket.EndConnectionID);
                 if (startIndex == -1 || startIndex >= endIndex)
                 {
                     return BadRequest();
                 }
                 for(int i = startIndex; i <= endIndex; ++i)
                 {
-                    var seat = journey.Connections[i].Seats!.Find(s => s.Number == request.seatNumber);
+                    var connection = _connectionService.GetConnectionByID(journey.ConnectionIDs[i]);
+                    var seat = connection?.Seats?.Find(s => s.Number == request.seatNumber);
                     if(seat == null || seat.Taken)
                     {
                         return BadRequest();
                     }
                     seat.Taken = true;
+                    seatType = seat.SeatType;
                 }
             }
 
-            SeatType seatType = journey.Seats!.Find(s => s.Number == request.seatNumber)?.SeatType ?? SeatType.Economy;
             ticket.Price = seatType switch
             {
                 SeatType.Business => 100,
