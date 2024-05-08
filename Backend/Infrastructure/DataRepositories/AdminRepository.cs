@@ -12,9 +12,11 @@ namespace Infrastructure.DataRepositories
     public class AdminRepository(DomainDBContext context) : IAdminRepository
     {
         private readonly DomainDBContext _context = context;
+        private static int nextID = -1;
         public bool Add(Admin Admin)
         {
-            Admin.ID = GetAll().Count() + 1; // temporary solution
+            if (nextID == -1) nextID = GetAll().Count() + 1;
+            Admin.ID = ++nextID; // temporary solution
             _context.Admin.Add(Admin);
             return _context.SaveChanges() == 1;
         }
