@@ -1,11 +1,16 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-
+import 'package:frontend/firebase_options.dart';
 import 'package:frontend/views/landing_page.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'dart:ui' as ui;
-import 'classes/train_offer.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+
+    options: DefaultFirebaseOptions.currentPlatform,
+
+);
   runApp(const MainApp());
 }
 

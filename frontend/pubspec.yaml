@@ -12,6 +12,8 @@ dependencies:
   flutter_bloc: ^8.1.5
   http: ^0.13.4
   equatable: ^2.0.3
+  firebase_auth: ^4.19.5
+  firebase_core: ^2.31.0
   
 dev_dependencies:
   flutter_test:

@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/widgets/input_button_widget.dart';
 import 'package:frontend/widgets/socialmedia_button.dart';
@@ -9,7 +10,21 @@ class RegistrationPage extends StatelessWidget {
       TextEditingController();
 
   RegistrationPage({Key? key}) : super(key: key);
-
+    Future<void> signUpWithEmailAndPassword(BuildContext context) async {
+    if (passwordController.text == repeatPasswordController.text) {
+      try {
+        await FirebaseAuth.instance.createUserWithEmailAndPassword(
+          email: emailController.text,
+          password: passwordController.text,
+        );
+        Navigator.of(context).popUntil((route) => route.isFirst);
+      } on FirebaseAuthException catch (e) {
+        print(e.message);
+      }
+    } else {
+      print("Email exists");
+    }
+  }
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
@@ -112,7 +127,7 @@ class RegistrationPage extends StatelessWidget {
                         SizedBox(height: win_height * 0.027),
                         ElevatedButton(
                           onPressed: () {
-                            // Handle registration action
+                            signUpWithEmailAndPassword(context);
                           },
                           style: ElevatedButton.styleFrom(
                             foregroundColor: Colors.white,

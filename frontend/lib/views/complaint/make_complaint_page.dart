@@ -109,7 +109,7 @@ class MakeComplaintPage extends StatelessWidget {
                           onPressed: () {
                             if (reasonController.text.isNotEmpty) {
                               makeComplaint("https://localhost:7006", {
-                                'userID': '1', // TODO: get user id from auth
+                                'userID': '0', // TODO: get user id from auth
                                 'title': 'Reklamacja biletu $ticketId',
                                 'response': "",
                                 'content': reasonController.text,

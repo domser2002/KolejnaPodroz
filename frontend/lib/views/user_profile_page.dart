@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:frontend/classes/complaint.dart';
@@ -197,72 +198,98 @@ class _UserProfilePageState extends State<UserProfilePage>
   }
 }
 
-class ComplaintsPage extends StatelessWidget {
-  ComplaintsPage({super.key});
+class ComplaintsPage extends StatefulWidget {
+  ComplaintsPage({Key? key}) : super(key: key);
+
+  @override
+  _ComplaintsPageState createState() => _ComplaintsPageState();
+}
+
+class _ComplaintsPageState extends State<ComplaintsPage> {
+  late Future<List<Complaint>> _complaintsFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    _complaintsFuture = _fetchComplaints();
+  }
+
+  Future<List<Complaint>> _fetchComplaints() async {
+    int userId = 0; //FirebaseAuth.instance.currentUser!.uid;
+    HttpRequests request = HttpRequests();
+
+    return request.getComplaintsByUser(userId.toString());
+  }
+
+  void _removeComplaint(String complaintId) async {
+    HttpRequests request = HttpRequests();
+    await request.removeComplaint(complaintId);
+    setState(() {
+      // Ponowne pobranie listy reklamacji po usunięciu reklamacji
+      _complaintsFuture = _fetchComplaints();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    // Załóżmy, że userId uzyskujemy z innego miejsca w aplikacji, np. zalogowanego użytkownika.
-    String userId = "1";
-    http_requests request = http_requests();
-    var complaints;
-    return FutureBuilder(
-        future: request.getComplaintsByUser(userId),
-        builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            // While the future is executing, show a loading indicator
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          } else if (snapshot.hasError) {
-            // If there's an error, display an error message
-            return Center(
-              child: Text('Error: ${snapshot.error}'),
-            );
-          } else {
-            if (complaints != null) {
-              return ListView.builder(
-                itemCount: complaints.length,
-                itemBuilder: (context, index) {
-                  final complaint = complaints![index];
-                  return ListTile(
-                    title: Text(complaint['title']),
-                    subtitle: Text(complaint['content']),
-                    trailing: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        IconButton(
-                          icon: Icon(Icons.edit),
-                          onPressed: () {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    MakeComplaintPage(ticketId: "1"),
-                              ),
-                            );
-                          },
-                        ),
-                        IconButton(
-                          icon: Icon(Icons.delete),
-                          onPressed: () async {
-                            // Implementacja usunięcia skargi
-
-                            await request
-                                .removeComplaint(complaint['id'].toString());
-                          },
-                        ),
-                      ],
+    return FutureBuilder<List<Complaint>>(
+      future: _complaintsFuture,
+      builder: (BuildContext context, AsyncSnapshot<List<Complaint>> snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          // While the future is executing, show a loading indicator
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        } else if (snapshot.hasError) {
+          // If there's an error, display an error message
+          return Center(
+            child: Text('Error: ${snapshot.error.toString()}'),
+          );
+        } else if (snapshot.hasData && snapshot.data!.isNotEmpty) {
+          // Accessing data if the snapshot has data and it is not empty
+          List<Complaint> complaints = snapshot.data!;
+          return ListView.builder(
+            itemCount: complaints.length,
+            itemBuilder: (context, index) {
+              final complaint = complaints[index];
+              return ListTile(
+                title: Text(complaint.title),
+                subtitle: Text(complaint.content),
+                trailing: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    IconButton(
+                      icon: Icon(Icons.edit),
+                      onPressed: () {
+                        // Navigator to edit complaint page
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => MakeComplaintPage(ticketId: complaint.ticketId),
+                          ),
+                        );
+                      },
                     ),
-                  );
-                },
+                    IconButton(
+                      icon: Icon(Icons.delete),
+                      onPressed: () {
+                        _removeComplaint(complaint.id.toString());
+                      },
+                    ),
+                  ],
+                ),
               );
-            } else {
-              return Center(child: Text('Brak reklamacji do wyświetlenia'));
-            }
-          }
-        });
+            },
+          );
+        } else {
+          // Handling the case where there are no complaints
+          return Center(child: Text('No complaints to display'));
+        }
+      },
+    );
   }
 }
+
+
 
 class UserInfoPage extends StatelessWidget {
   UserInfoPage({super.key});
@@ -315,8 +342,4 @@ class AchievementsPage extends StatelessWidget {
   }
 }
 
-List<Complaint> cmps = [
-  Complaint(ticketId: "1", content: "lol", isResponded: true),
-  Complaint(ticketId: "2", content: "lol2", isResponded: false),
-  Complaint(ticketId: "3", content: "lol3", isResponded: false)
-];
+
