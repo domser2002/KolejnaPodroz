@@ -9,11 +9,13 @@ public class TicketService(IDataRepository repository) : ITicketService
     private readonly IDataRepository _repository = repository;
     public bool Buy(Ticket ticket)
     {
-        throw new NotImplementedException();
+        ticket.Purchased = true;
+        _repository.TicketRepository.Update(ticket);
+        return true;
     }
     public List<Ticket> ListByUser(int userID)
     {
-        throw new NotImplementedException();
+        return _repository.TicketRepository.GetAll().Where(t => t.OwnerID == userID).ToList();
     }
     public void Generate(Ticket ticket)
     {
