@@ -15,6 +15,8 @@ namespace Infrastructure.DataRepositories
         private readonly DomainDBContext _context = context;
         public bool Add(Ticket Ticket)
         {
+            int id = !GetAll().Any() ? 1 : GetAll().Max(x => x.ID) +1;
+            Ticket.ID = id;
             _context.Ticket.Add(Ticket);
             return _context.SaveChanges() == 1;
         }
