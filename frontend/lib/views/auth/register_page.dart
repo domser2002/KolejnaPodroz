@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:frontend/utils/http_requests.dart';
 import 'package:frontend/widgets/input_button_widget.dart';
 import 'package:frontend/widgets/socialmedia_button.dart';
 
@@ -8,7 +9,7 @@ class RegistrationPage extends StatelessWidget {
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController repeatPasswordController =
       TextEditingController();
-
+    HttpRequests request = HttpRequests();
   RegistrationPage({Key? key}) : super(key: key);
     Future<void> signUpWithEmailAndPassword(BuildContext context) async {
     if (passwordController.text == repeatPasswordController.text) {
@@ -126,8 +127,9 @@ class RegistrationPage extends StatelessWidget {
                         ),
                         SizedBox(height: win_height * 0.027),
                         ElevatedButton(
-                          onPressed: () {
-                            signUpWithEmailAndPassword(context);
+                          onPressed: () async {
+                            await signUpWithEmailAndPassword(context);
+                            
                           },
                           style: ElevatedButton.styleFrom(
                             foregroundColor: Colors.white,

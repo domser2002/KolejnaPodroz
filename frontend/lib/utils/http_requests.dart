@@ -368,9 +368,10 @@ Future<bool> editComplaint(String complaintId, Map<String, dynamic> updatedData)
       var response = await http.get(url);
 
       if (response.statusCode == 200) {
-        var complaint = jsonDecode(response.body);
+        var complaintsObjJson = jsonDecode(response.body);
+        Complaint result = complaintsObjJson.map((complaintJson) => Complaint.fromJson(complaintJson));
         print("complaint loaded");
-        return complaint;
+        return result;
       } else {
         print('Failed to load complaint');
       }

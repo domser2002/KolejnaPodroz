@@ -1,15 +1,16 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:frontend/classes/complaint.dart';
 import 'package:frontend/utils/http_requests.dart';
 import 'package:frontend/views/complaint/make_complaint_page.dart';
 import 'package:http/http.dart' as http;
 
-class MakeComplaintPage extends StatelessWidget {
+class EditComplaintPage extends StatelessWidget {
   final TextEditingController reasonController = TextEditingController();
-  final String ticketId;
+  final int complaintId;
 
-  MakeComplaintPage({required this.ticketId, Key? key}) : super(key: key);
+  EditComplaintPage({required this.complaintId, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -89,7 +90,7 @@ class MakeComplaintPage extends StatelessWidget {
                         ),
                         SizedBox(height: win_height * 0.027),
                         Text(
-                          "ID biletu: $ticketId",
+                          "ID reklamacji: $complaintId",
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 18,
@@ -109,19 +110,43 @@ class MakeComplaintPage extends StatelessWidget {
                           maxLength: 500,
                         ),
                         SizedBox(height: win_height * 0.027),
-                        ElevatedButton(
-                          onPressed: () {
-                            if (reasonController.text.isNotEmpty) {
-                               Navigator.pop(context);
+                       ElevatedButton(
+                        onPressed: () async {
+                          if (reasonController.text.isNotEmpty) {
+                            // Fetch the existing complaint
+                            Complaint? complaint = await request.getComplaint(complaintId.toString());
+                            if (complaint != null) {
+                              // Update the complaint's content with the new reason
+                              complaint.content = reasonController.text;
+
+                              // Prepare the updated data as a Map
+                              Map<String, dynamic> updatedData = {
+                                'ticketId': complaint.ticketId,
+                                'content': complaint.content, 
+                                'isResponded': complaint.isResponded,
+                                'title': complaint.title,
+                                'response': complaint.response,
+                                'complainantID': complaint.complainantID,
+                                'id': complaint.id
+                              };
+
+                              // Update the complaint on the server
+                              await request.editComplaint(complaintId.toString(), updatedData);
+
+                              // Navigate back
+                              Navigator.pop(context);
+                            } else {
+                              print("No complaint found with that ID");
                             }
-                           
-                          },
-                          style: ElevatedButton.styleFrom(
-                            foregroundColor: Colors.white,
-                            backgroundColor: Colors.orange,
-                          ),
-                          child: Text('Edytuj Reklamację'),
+                          }
+                        },
+                        style: ElevatedButton.styleFrom(
+                          foregroundColor: Colors.white,
+                          backgroundColor: Colors.orange,
                         ),
+                        child: Text('Edytuj Reklamację'),
+                      ),
+
                       ],
                     ),
                   ),
@@ -132,25 +157,5 @@ class MakeComplaintPage extends StatelessWidget {
         ],
       ),
     );
-  }
-}
-
-Future<void> editComplaint(
-    String host, Map<String, dynamic> complaintData) async {
-  var url = Uri.parse('$host/Complaint/make');
-  try {
-    var response = await http.post(
-      url,
-      body: jsonEncode(complaintData),
-      headers: {'Content-Type': 'application/json'},
-    );
-
-    if (response.statusCode == 200) {
-      print('Reklamacja została złożona pomyślnie.');
-    } else {
-      print('Nie udało się złożyć reklamacji: ${response.body}');
-    }
-  } catch (e) {
-    print('Wystąpił błąd podczas składania reklamacji: $e');
   }
 }
