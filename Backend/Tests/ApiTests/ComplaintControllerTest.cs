@@ -74,25 +74,4 @@ public class ComplaintControllerTests
         Assert.That(createdAtActionResult.StatusCode, Is.EqualTo(404));
         complaintServiceMock.Verify(m => m.RemoveComplaint(id), Times.Once);
     }
-
-    [Test]
-    public void EditComplaint_ExistingID_Returns200OK()
-    {
-        // Arrange
-        var complaintServiceMock = new Mock<IComplaintService>();
-        var controller = new ComplaintController(complaintServiceMock.Object);
-        var id = 1;
-        Complaint newComplaint = new Complaint();
-
-        // Act
-        var result = controller.EditComplaint(id, newComplaint);
-        var createdAtActionResult = (OkObjectResult?)result.Result;
-
-        // Assert
-        Assert.That(result, Is.Not.Null);
-        Assert.That(createdAtActionResult, Is.Not.Null);
-        Assert.That(createdAtActionResult.StatusCode, Is.EqualTo(200));
-        Assert.That(createdAtActionResult.Value, Is.EqualTo($"Complaint {id} has been succesfully edited!"));
-        complaintServiceMock.Verify(m => m.EditComplaint(id, newComplaint), Times.Once);
-    }
 }

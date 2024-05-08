@@ -1,43 +1,60 @@
 ﻿using Domain.Common;
 using Domain.Server;
+using Domain.User;
 
 namespace Logic;
 
-public class Server
+public static class Server
 {
-    public UserSession? CreateUserSession(int userID, string token)
+    private static readonly List<Session> userSessions = [];
+    private static readonly List<Session> adminSessions = [];
+    public static void CreateUserSession(int userID, string token)
     {
-        throw new NotImplementedException();
+        Session session = new()
+        {
+            ID = userID,
+            Token = token,
+            LoginTime = DateTime.Now,
+            IdleMaxMinutes = 15
+        };
+        userSessions.Add(session);
     }
-    public AdminSession? CreateAdminSession(int adminID, string token)
+    public static void CreateAdminSession(int adminID, string token)
     {
-        throw new NotImplementedException();
+        Session session = new()
+        {
+            ID = adminID,
+            Token = token,
+            LoginTime = DateTime.Now,
+            IdleMaxMinutes = 10
+        };
+        adminSessions.Add(session);
     }
-    public List<Connection> GetConnections(string source, string destination) 
+    public static List<Connection> GetConnections(string source, string destination) 
     { 
         throw new NotImplementedException(); 
     }
-    public List<Advertisment> GetAds() 
+    public static List<Advertisment> GetAds() 
     { 
         throw new NotImplementedException(); 
     }
-    public void CalculateRankings(int userID)
+    public static void CalculateRankings(int userID)
     {
         throw new NotImplementedException();
     }
-    public void UpdateDatabase()
+    public static void UpdateDatabase()
     {
         throw new NotImplementedException();
     }
-    public bool ValidateDatabase()
+    public static bool ValidateDatabase()
     {
         throw new NotImplementedException();
     }
-    public void StartTechnicalBreak()
+    public static void StartTechnicalBreak()
     {
         throw new NotImplementedException();
     }
-    public void EndTechnicalBreak()
+    public static void EndTechnicalBreak()
     {
         throw new NotImplementedException();
     }

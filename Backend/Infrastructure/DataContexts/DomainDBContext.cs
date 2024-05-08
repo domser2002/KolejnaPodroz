@@ -25,11 +25,13 @@ public partial class DomainDBContext : DbContext, IDataContext
         modelBuilder.Entity<Admin>(entity =>
         {
             entity.HasKey(k => k.ID);
+            entity.Property(k => k.ID).ValueGeneratedOnAdd();
         });
 
         modelBuilder.Entity<Complaint>(entity =>
         {
             entity.HasKey(k => k.ID);
+            entity.Property(k => k.ID).ValueGeneratedOnAdd();
         });
         modelBuilder.Entity<Complaint>()
         .HasOne<User>()
@@ -39,11 +41,13 @@ public partial class DomainDBContext : DbContext, IDataContext
         modelBuilder.Entity<Provider>(entity =>
         {
             entity.HasKey(k => k.ID);
+            entity.Property(k => k.ID).ValueGeneratedOnAdd();
         });
 
         modelBuilder.Entity<User>(entity =>
         {
             entity.HasKey(k => k.ID);
+            entity.Property(k => k.ID).ValueGeneratedOnAdd();
 
             entity.HasMany<UserDiscount>()
                   .WithOne()
@@ -56,6 +60,7 @@ public partial class DomainDBContext : DbContext, IDataContext
         modelBuilder.Entity<Discount>(entity =>
         {
             entity.HasKey(k => k.ID);
+            entity.Property(k => k.ID).ValueGeneratedOnAdd();
 
             entity.HasMany<UserDiscount>()
                   .WithOne()
@@ -65,6 +70,7 @@ public partial class DomainDBContext : DbContext, IDataContext
         modelBuilder.Entity<Ticket>(entity =>
         {
             entity.HasKey(k => k.ID);
+            entity.Property(k => k.ID).ValueGeneratedOnAdd();
         });
         modelBuilder.Entity<Ticket>()
         .HasOne<User>()
@@ -75,6 +81,7 @@ public partial class DomainDBContext : DbContext, IDataContext
         modelBuilder.Entity<Statistics>(entity =>
         {
             entity.HasKey(k => k.ID);
+            entity.Property(k => k.ID).ValueGeneratedOnAdd();
         });
         modelBuilder.Entity<Statistics>()
         .HasOne<User>()
@@ -89,6 +96,7 @@ public partial class DomainDBContext : DbContext, IDataContext
         modelBuilder.Entity<StatisticCategory>(entity =>
         {
             entity.HasKey(k => k.ID);
+            entity.Property(k => k.ID).ValueGeneratedOnAdd();
         });
         
    
@@ -98,6 +106,7 @@ public partial class DomainDBContext : DbContext, IDataContext
         modelBuilder.Entity<Connection>(entity =>
         {
             entity.HasKey(k => k.ID);
+            entity.Property(k => k.ID).ValueGeneratedOnAdd();
         });
     }
 

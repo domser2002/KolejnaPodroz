@@ -18,4 +18,6 @@ public class CommonAccountInfo : Base
     [Required]
     [MaxLength(50)]
     public string Email { get; set; } = string.Empty;
+    [Required]
+    public bool Verified { get; set; }
 }

@@ -1,18 +1,15 @@
 ﻿using Domain.User;
 using Logic.Services.Implementations;
+using Logic.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers;
 
 [ApiController]
 [Route("User")]
-public class UserController : ControllerBase
+public class UserController(IUserService userService) : ControllerBase
 {
-    private readonly UserService _userService;
-    public UserController(UserService userService)
-    {
-        _userService = userService;
-    }
+    private readonly IUserService _userService = userService;
 
     [HttpGet("{userID}")]
     public ActionResult<User> GetUserByID(int userID)
@@ -55,12 +52,12 @@ public class UserController : ControllerBase
         }
     }
     [HttpPost("authorise/{userID}")]
-    public ActionResult AuthoriseUser(int userID)
+    public ActionResult<User> AuthoriseUser(string firebaseID, string token)
     {
         try
         {
-            var authorised = _userService.AuthoriseUser(userID);
-            return authorised ? Ok() : BadRequest();
+            var user = _userService.AuthoriseUser(firebaseID, token);
+            return user is not null ? Ok(user) : BadRequest();
         }
         catch
         {

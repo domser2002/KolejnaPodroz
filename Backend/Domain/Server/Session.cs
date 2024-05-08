@@ -1,9 +1,10 @@
 ﻿namespace Domain.Server;
 
-public class AdminSession
+public class Session
 {
     // Same comment as in UserSession.
-    public int AdminID { get; set; }
+    public int ID { get; set; }
     public string Token { get; set; } = string.Empty;
     public DateTime LoginTime { get; set; }
+    public int IdleMaxMinutes { get; set; }
 }

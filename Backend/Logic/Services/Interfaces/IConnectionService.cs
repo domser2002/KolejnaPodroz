@@ -11,7 +11,7 @@ namespace Logic.Services.Interfaces
     {
         public bool AddConnection(Connection connection);
         public bool RemoveConnection(int connectionID);
-        public void EditConnection(int connectionID, Connection newConnection);
+        public bool EditConnection(Connection newConnection);
         public Connection? GetConnectionByID(int connectionID);
 
         // returns list of all connections from origin to destination

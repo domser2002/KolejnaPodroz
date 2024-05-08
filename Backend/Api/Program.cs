@@ -20,16 +20,15 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 
-builder.Services.AddSingleton<IDataRepository, DataRepository>();
+builder.Services.AddSingleton<IDataRepository, FakeDataRepository>();
 builder.Services.AddSingleton<DatabaseService>();
 builder.Services.AddSingleton<IAdminService, AdminService>();
 builder.Services.AddSingleton<IComplaintService, ComplaintService>();
-builder.Services.AddSingleton<PaymentService>();
-builder.Services.AddSingleton<ProviderService>();
-
-builder.Services.AddSingleton<StatisticsService>();
-builder.Services.AddSingleton<TicketService>();
-builder.Services.AddSingleton<UserService>();
+builder.Services.AddSingleton<IPaymentService,PaymentService>();
+builder.Services.AddSingleton<IProviderService,ProviderService>();
+builder.Services.AddSingleton<IStatisticsService,StatisticsService>();
+builder.Services.AddSingleton<ITicketService,TicketService>();
+builder.Services.AddSingleton<IUserService,UserService>();
 builder.Services.AddSingleton<IConnectionService, ConnectionService>();
 
 var app = builder.Build();

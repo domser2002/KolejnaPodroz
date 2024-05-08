@@ -2,19 +2,15 @@
 using Domain.Common;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Mime;
+using Azure.Core;
 
 namespace Api.Controllers;
 
 [ApiController]
 [Route("Complaint")]
-public class ComplaintController : ControllerBase
+public class ComplaintController(IComplaintService complaintService) : ControllerBase
 {
-    private readonly IComplaintService _complaintService;
-
-    public ComplaintController(IComplaintService complaintService)
-    {
-        _complaintService = complaintService;
-    }
+    private readonly IComplaintService _complaintService = complaintService;
 
     [HttpPost("make")]
     [Consumes(MediaTypeNames.Application.Json)]
@@ -23,7 +19,19 @@ public class ComplaintController : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public ActionResult<int> MakeComplaint([FromBody] Complaint newComplaint)
     {
-        _complaintService.MakeComplaint(newComplaint);
+        bool success;
+        try
+        {
+            success = _complaintService.MakeComplaint(newComplaint);
+        }
+        catch (Exception) 
+        {
+            return StatusCode(500);
+        }
+        if(!success)
+        {
+            return BadRequest();
+        }
         return CreatedAtAction(nameof(GetComplaintByID), new { id = newComplaint.ID }, newComplaint);
     }
 
@@ -33,7 +41,15 @@ public class ComplaintController : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public ActionResult<int> RemoveComplaint(int id)
     {
-        var success = _complaintService.RemoveComplaint(id);
+        bool success;
+        try
+        {
+            success = _complaintService.RemoveComplaint(id);
+        }
+        catch(Exception) 
+        {
+            return StatusCode(500);
+        }
         if(!success)
         {
             return NotFound();
@@ -45,18 +61,38 @@ public class ComplaintController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public ActionResult<int> EditComplaint(int id, Complaint newComplaint)
+    public ActionResult<int> EditComplaint(Complaint newComplaint)
     {
-        _complaintService.EditComplaint(id, newComplaint);
-        return Ok($"Complaint {id} has been succesfully edited!");
+        bool success;
+        try
+        {
+            success = _complaintService.EditComplaint(newComplaint);
+        }
+        catch(Exception)
+        {
+            return StatusCode(500);
+        }
+        if(!success)
+        {
+            return NotFound();
+        }
+        return Ok($"Complaint {newComplaint.ID} has been succesfully edited!");
     }
     [HttpGet("get/{id}")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Complaint))]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public ActionResult GetComplaintByID(int id)
     {
-        var result = _complaintService.GetComplaintByID(id);
-        if (result == null)
+        Complaint? result;
+        try
+        {
+            result = _complaintService.GetComplaintByID(id);
+        }
+        catch(Exception)
+        {
+            return StatusCode(500);
+        }
+        if (result is null)
         {
             return NotFound();
         }
@@ -68,8 +104,16 @@ public class ComplaintController : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public ActionResult GetComplaintsByUserID(int userID)
     {
-        var result = _complaintService.GetComplaintsByUserID(userID);
-        if (result == null)
+        List<Complaint> result;
+        try
+        {
+            result = _complaintService.GetComplaintsByUserID(userID);
+        }
+        catch(Exception) 
+        {
+            return StatusCode(500);
+        }
+        if (result is null)
         {
             return NotFound();
         }

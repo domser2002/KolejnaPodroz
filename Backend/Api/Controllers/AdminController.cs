@@ -10,14 +10,9 @@ namespace Api.Controllers
 {
     [ApiController]
     [Route("Admin")]
-    public class AdminController : ControllerBase
+    public class AdminController(IAdminService adminService) : ControllerBase
     {
-        private readonly IAdminService _adminService;
-
-        public AdminController(IAdminService adminService)
-        {
-            _adminService = adminService;
-        }
+        private readonly IAdminService _adminService = adminService;
 
         [HttpPost("create")]
         [Consumes(MediaTypeNames.Application.Json)]
@@ -54,16 +49,16 @@ namespace Api.Controllers
             }
         }
 
-        [HttpPost("authorise/{adminID}")]
+        [HttpPost("authorise/{firebaseID}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public ActionResult AuthoriseAdmin(int adminID)
+        public ActionResult<Admin> AuthoriseAdmin(string firebaseID, string token)
         {
             try
             {
-                var authorised = _adminService.AuthoriseAdmin(adminID);
-                return authorised ? Ok() : BadRequest();
+                var admin = _adminService.AuthoriseAdmin(firebaseID, token);
+                return admin is not null ? Ok(admin) : BadRequest();
             }
             catch (Exception)
             {

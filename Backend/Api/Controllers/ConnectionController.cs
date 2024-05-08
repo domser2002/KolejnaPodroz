@@ -8,14 +8,9 @@ namespace Api.Controllers
 {
     [ApiController]
     [Route("Connection")]
-    public class ConnectionController : ControllerBase
+    public class ConnectionController(IConnectionService connectionService) : ControllerBase
     {
-        private readonly IConnectionService _connectionService;
-
-        public ConnectionController(IConnectionService connectionService)
-        {
-            _connectionService = connectionService;
-        }
+        private readonly IConnectionService _connectionService = connectionService;
 
         [HttpPost("add")]
         [Consumes(MediaTypeNames.Application.Json)]
@@ -24,7 +19,19 @@ namespace Api.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public ActionResult<int> MakeConnection([FromBody] Connection newConnection)
         {
-            _connectionService.AddConnection(newConnection);
+            bool success;
+            try
+            {
+                success = _connectionService.AddConnection(newConnection);
+            }
+            catch (Exception) 
+            {
+                return StatusCode(500);
+            }
+            if(!success) 
+            {
+                return BadRequest();
+            }
             return CreatedAtAction(nameof(GetConnectionByID), new { id = newConnection.ID }, newConnection);
         }
 
@@ -34,7 +41,15 @@ namespace Api.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public ActionResult<int> RemoveConnection(int id)
         {
-            var success = _connectionService.RemoveConnection(id);
+            bool success;
+            try
+            {
+                success = _connectionService.RemoveConnection(id);
+            }
+            catch(Exception) 
+            {
+                return StatusCode(500);
+            }
             if (!success)
             {
                 return NotFound();
@@ -46,18 +61,38 @@ namespace Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public ActionResult<int> EditConnection(int id, Connection newConnection)
+        public ActionResult<int> EditConnection(Connection newConnection)
         {
-            _connectionService.EditConnection(id, newConnection);
-            return Ok($"Connection {id} has been succesfully edited!");
+            bool success;
+            try
+            {
+                success = _connectionService.EditConnection(newConnection);
+            }
+            catch(Exception) 
+            {
+                return StatusCode(500);
+            }
+            if(!success)
+            {
+                return BadRequest();
+            }
+            return Ok($"Connection {newConnection.ID} has been succesfully edited!");
         }
         [HttpGet("get/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Connection))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public ActionResult GetConnectionByID(int id)
         {
-            var result = _connectionService.GetConnectionByID(id);
-            if (result == null)
+            Connection? result;
+            try
+            {
+                result = _connectionService.GetConnectionByID(id);
+            }
+            catch(Exception)
+            {
+                return StatusCode(500);
+            }
+            if (result is null)
             {
                 return NotFound();
             }
@@ -69,8 +104,16 @@ namespace Api.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public ActionResult<int>SearchConnections(string from, string to, DateTime when)
         {
-            var result = _connectionService.SearchConnections(from, to, when);
-            if(result == null)
+            List<Connection>? result;
+            try
+            {
+                result = _connectionService.SearchConnections(from, to, when);
+            }
+            catch(Exception)
+            {
+                return StatusCode(500);
+            }
+            if(result is null)
             {
                 return NotFound();
             }
