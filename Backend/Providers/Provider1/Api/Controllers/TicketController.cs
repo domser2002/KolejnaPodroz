@@ -1,8 +1,8 @@
 ﻿using Domain.Models;
 using Logic.RequestBodies;
+using Logic.ResponseBodies;
 using Logic.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Razor.TagHelpers;
 
 namespace Api.Controllers
 {
@@ -28,7 +28,7 @@ namespace Api.Controllers
         }
 
         [HttpPost("Add")]
-        public ActionResult AddTicket(AddTicketRequest request)
+        public ActionResult<IDResponse> AddTicket(AddTicketRequest request)
         {
             var ticket = new Ticket
             {
@@ -78,8 +78,7 @@ namespace Api.Controllers
             };
 
             var added = _ticketService.AddTicket(ticket);
-            
-            return added ? Ok() : BadRequest();
+            return added ? Ok(new AddTicketResponse(ticket.ID, ticket.Price)) : BadRequest();
         }
 
         [HttpPut("Edit")]
