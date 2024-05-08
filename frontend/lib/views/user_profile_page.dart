@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:frontend/classes/complaint.dart';
 import 'package:frontend/utils/http_requests.dart';
+import 'package:frontend/views/complaint/edit_complaint_page.dart';
 
 import 'package:frontend/views/complaint/make_complaint_page.dart';
 import 'package:frontend/widgets/complaint_item_widget.dart';
@@ -264,7 +265,7 @@ class _ComplaintsPageState extends State<ComplaintsPage> {
                         // Navigator to edit complaint page
                         Navigator.of(context).push(
                           MaterialPageRoute(
-                            builder: (context) => MakeComplaintPage(ticketId: complaint.ticketId),
+                            builder: (context) => EditComplaintPage(complaintId: complaint.id),
                           ),
                         );
                       },
