@@ -230,6 +230,16 @@ class _ComplaintsPageState extends State<ComplaintsPage> {
       _complaintsFuture = _fetchComplaints();
     });
   }
+  void _editComplaint(String complaintId,Complaint complaint) async {
+      await Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => EditComplaintPage(complaintId: complaint.id),
+          ),
+      );
+    setState(() {
+      _complaintsFuture = _fetchComplaints();
+    });
+  }
   
   @override
   Widget build(BuildContext context) {
@@ -238,7 +248,7 @@ class _ComplaintsPageState extends State<ComplaintsPage> {
       builder: (BuildContext context, AsyncSnapshot<List<Complaint>> snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           // While the future is executing, show a loading indicator
-          return Center(
+          return const Center(
             child: CircularProgressIndicator(),
           );
         } else if (snapshot.hasError) {
@@ -263,11 +273,7 @@ class _ComplaintsPageState extends State<ComplaintsPage> {
                       icon: Icon(Icons.edit),
                       onPressed: () {
                         // Navigator to edit complaint page
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => EditComplaintPage(complaintId: complaint.id),
-                          ),
-                        );
+                        _editComplaint(complaint.id.toString(), complaint);
                       },
                     ),
                     IconButton(
@@ -283,7 +289,7 @@ class _ComplaintsPageState extends State<ComplaintsPage> {
           );
         } else {
           // Handling the case where there are no complaints
-          return Center(child: Text('No complaints to display'));
+          return const Center(child: Text('No complaints to display'));
         }
       },
     );
