@@ -198,16 +198,42 @@ class _UserProfilePageState extends State<UserProfilePage>
   }
 }
 
-class ComplaintsPage extends StatelessWidget {
-  ComplaintsPage({super.key});
+class ComplaintsPage extends StatefulWidget {
+  ComplaintsPage({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  _ComplaintsPageState createState() => _ComplaintsPageState();
+}
+
+class _ComplaintsPageState extends State<ComplaintsPage> {
+  late Future<List<Complaint>> _complaintsFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    _complaintsFuture = _fetchComplaints();
+  }
+
+  Future<List<Complaint>> _fetchComplaints() async {
     int userId = 0; //FirebaseAuth.instance.currentUser!.uid;
     HttpRequests request = HttpRequests();
 
+    return request.getComplaintsByUser(userId.toString());
+  }
+
+  void _removeComplaint(String complaintId) async {
+    HttpRequests request = HttpRequests();
+    await request.removeComplaint(complaintId);
+    setState(() {
+      // Ponowne pobranie listy reklamacji po usunięciu reklamacji
+      _complaintsFuture = _fetchComplaints();
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return FutureBuilder<List<Complaint>>(
-      future: request.getComplaintsByUser(userId.toString()),
+      future: _complaintsFuture,
       builder: (BuildContext context, AsyncSnapshot<List<Complaint>> snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           // While the future is executing, show a loading indicator
@@ -245,9 +271,8 @@ class ComplaintsPage extends StatelessWidget {
                     ),
                     IconButton(
                       icon: Icon(Icons.delete),
-                      onPressed: () async {
-                        // Implementation to delete complaint
-                        await request.removeComplaint(complaint.ticketId);
+                      onPressed: () {
+                        _removeComplaint(complaint.id.toString());
                       },
                     ),
                   ],
@@ -263,6 +288,7 @@ class ComplaintsPage extends StatelessWidget {
     );
   }
 }
+
 
 
 class UserInfoPage extends StatelessWidget {

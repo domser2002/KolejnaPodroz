@@ -5,6 +5,7 @@ class Complaint {
   String response;
   String content;
   bool isResponded;
+  int id;
 
   Complaint({
     required this.ticketId,
@@ -12,6 +13,7 @@ class Complaint {
     this.isResponded = false,
     this.title = "",
     this.response = "",
+    required this.id,
     required this.complainantID
   });
 
@@ -23,11 +25,12 @@ class Complaint {
       title: json['title'] as String? ?? '', // Default empty if null
       response: json['response'] as String? ?? '', // Default empty if null
       complainantID: json['complainantID'] as int, // This should always be provided, handle if potentially null
+      id: json['id'], // This should always be provided, handle if potentially null
     );
   }
 
   @override
   String toString() {
-    return 'Complaint{userId: $complainantID, title: $title, ticketId: $ticketId, response: $response, content: $content, isResponded: $isResponded}';
+    return 'Complaint{id: $id, userId: $complainantID, title: $title, ticketId: $ticketId, response: $response, content: $content, isResponded: $isResponded}';
   }
 }
