@@ -15,6 +15,8 @@ namespace Infrastructure.DataRepositories
         private readonly DomainDBContext _context = context;
         public bool Add(User User)
         {
+            int id = GetAll().Max(x => x.ID) + 1;
+            User.ID = id; // temporary solution
             _context.User.Add(User);
             return _context.SaveChanges() == 1;
         }

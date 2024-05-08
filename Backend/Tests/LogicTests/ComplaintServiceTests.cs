@@ -99,12 +99,9 @@ public class ComplaintServiceTests
         {
             ID = 99999
         };
-        User user = new()
-        {
-            ID = 99999
-        };
-        complaint.ComplainantID = user.ID;
+        User user = new();
         userRepository.Add(user);
+        complaint.ComplainantID = user.ID;
         // Act
         complaintService.MakeComplaint(complaint);
         Complaint? complaint1 = complaintService.GetComplaintByID(complaint.ID);
@@ -134,12 +131,9 @@ public class ComplaintServiceTests
         {
             ID = 99999
         };
-        User user = new()
-        {
-            ID = 99999
-        };
-        complaint.ComplainantID = user.ID;
+        User user = new();
         userRepository.Add(user);
+        complaint.ComplainantID = user.ID;
         int id = 1;
         complaint.ID = id;
         complaintService.MakeComplaint(complaint);
