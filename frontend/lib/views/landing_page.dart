@@ -10,6 +10,7 @@ import 'package:frontend/views/offers_page.dart';
 import 'package:frontend/views/auth/register_page.dart';
 import 'package:frontend/views/user_profile_page.dart';
 import 'package:frontend/widgets/button_widget.dart';
+import 'package:frontend/widgets/date_picker_widget.dart';
 
 import '../widgets/input_button_widget.dart';
 
@@ -166,12 +167,7 @@ class LandingPage extends StatelessWidget {
                           backgroundColor: Colors.white,
                         ),
                         SizedBox(height: win_height * 0.022),
-                        InputButton(
-                          icon: Icon(Icons.calendar_month, color: Colors.black),
-                          controller: dateController,
-                          prefixText: 'KIEDY',
-                          backgroundColor: Colors.white,
-                        ),
+                        DatePickerWidget(controller: dateController),
                         SizedBox(height: win_height * 0.027),
                         _buildButtonsRowOrColumn(win_width, context)
                       ],

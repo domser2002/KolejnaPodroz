@@ -43,7 +43,7 @@ class _UserProfilePageState extends State<UserProfilePage>
       bottomNavigationBar: BottomAppBar(
           color: Colors.white,
           height: win_height * 0.07,
-          child: Center(
+          child: const Center(
               child: Stack(
             fit: StackFit.passthrough,
             children: [
@@ -52,7 +52,7 @@ class _UserProfilePageState extends State<UserProfilePage>
             ],
           ))),
       appBar: AppBar(
-        title: Stack(alignment: AlignmentDirectional.centerEnd, children: [
+        title: const Stack(alignment: AlignmentDirectional.centerEnd, children: [
           Icon(Icons.person, size: 40, color: Colors.black),
         ]),
         backgroundColor: Colors.white,
@@ -216,6 +216,8 @@ class _ComplaintsPageState extends State<ComplaintsPage> {
   }
 
   Future<List<Complaint>> _fetchComplaints() async {
+    /// POpraw !!
+    /// // to
     int userId = 0; //FirebaseAuth.instance.currentUser!.uid;
     HttpRequests request = HttpRequests();
 
@@ -270,14 +272,14 @@ class _ComplaintsPageState extends State<ComplaintsPage> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     IconButton(
-                      icon: Icon(Icons.edit),
+                      icon: const Icon(Icons.edit),
                       onPressed: () {
                         // Navigator to edit complaint page
                         _editComplaint(complaint.id.toString(), complaint);
                       },
                     ),
                     IconButton(
-                      icon: Icon(Icons.delete),
+                      icon: const  Icon(Icons.delete, color: Colors.red),
                       onPressed: () {
                         _removeComplaint(complaint.id.toString());
                       },
