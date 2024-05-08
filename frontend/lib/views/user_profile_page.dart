@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:frontend/classes/complaint.dart';
@@ -202,67 +203,67 @@ class ComplaintsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Załóżmy, że userId uzyskujemy z innego miejsca w aplikacji, np. zalogowanego użytkownika.
-    String userId = "1";
+    int userId = 0; //FirebaseAuth.instance.currentUser!.uid;
     HttpRequests request = HttpRequests();
-    var complaints;
-    return FutureBuilder(
-        future: request.getComplaintsByUser(userId),
-        builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            // While the future is executing, show a loading indicator
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          } else if (snapshot.hasError) {
-            // If there's an error, display an error message
-            return Center(
-              child: Text('Error: ${snapshot.error}'),
-            );
-          } else {
-            if (complaints != null) {
-              return ListView.builder(
-                itemCount: complaints.length,
-                itemBuilder: (context, index) {
-                  final complaint = complaints![index];
-                  return ListTile(
-                    title: Text(complaint['title']),
-                    subtitle: Text(complaint['content']),
-                    trailing: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        IconButton(
-                          icon: Icon(Icons.edit),
-                          onPressed: () {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    MakeComplaintPage(ticketId: "1"),
-                              ),
-                            );
-                          },
-                        ),
-                        IconButton(
-                          icon: Icon(Icons.delete),
-                          onPressed: () async {
-                            // Implementacja usunięcia skargi
 
-                            await request
-                                .removeComplaint(complaint['id'].toString());
-                          },
-                        ),
-                      ],
+    return FutureBuilder<List<Complaint>>(
+      future: request.getComplaintsByUser(userId.toString()),
+      builder: (BuildContext context, AsyncSnapshot<List<Complaint>> snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          // While the future is executing, show a loading indicator
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        } else if (snapshot.hasError) {
+          // If there's an error, display an error message
+          return Center(
+            child: Text('Error: ${snapshot.error.toString()}'),
+          );
+        } else if (snapshot.hasData && snapshot.data!.isNotEmpty) {
+          // Accessing data if the snapshot has data and it is not empty
+          List<Complaint> complaints = snapshot.data!;
+          return ListView.builder(
+            itemCount: complaints.length,
+            itemBuilder: (context, index) {
+              final complaint = complaints[index];
+              return ListTile(
+                title: Text(complaint.title),
+                subtitle: Text(complaint.content),
+                trailing: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    IconButton(
+                      icon: Icon(Icons.edit),
+                      onPressed: () {
+                        // Navigator to edit complaint page
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => MakeComplaintPage(ticketId: complaint.ticketId),
+                          ),
+                        );
+                      },
                     ),
-                  );
-                },
+                    IconButton(
+                      icon: Icon(Icons.delete),
+                      onPressed: () async {
+                        // Implementation to delete complaint
+                        await request.removeComplaint(complaint.ticketId);
+                      },
+                    ),
+                  ],
+                ),
               );
-            } else {
-              return Center(child: Text('Brak reklamacji do wyświetlenia'));
-            }
-          }
-        });
+            },
+          );
+        } else {
+          // Handling the case where there are no complaints
+          return Center(child: Text('No complaints to display'));
+        }
+      },
+    );
   }
 }
+
 
 class UserInfoPage extends StatelessWidget {
   UserInfoPage({super.key});

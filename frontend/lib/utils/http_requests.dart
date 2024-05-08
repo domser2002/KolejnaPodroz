@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:frontend/classes/complaint.dart';
 import 'package:frontend/classes/user.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -377,20 +378,24 @@ class HttpRequests {
     }
   }
 
-  Future<void> getComplaintsByUser(String userId) async {
+  Future<List<Complaint>> getComplaintsByUser(String userId) async {
     try {
-      var url = Uri.parse('$host/Complaint/getByUser/$userId');
+      var url = Uri.parse('$host/Complaint/getByUser/0');
       var response = await http.get(url);
 
       if (response.statusCode == 200) {
-        List<dynamic> complaints = jsonDecode(response.body);
+
+        var complaintsObjsJson = jsonDecode(response.body) as List;
+        List<Complaint> result = complaintsObjsJson.map((complaintJson) => Complaint.fromJson(complaintJson)).toList();
         print("complaints loaded");
+        return result;
       } else {
         print('Failed to load complaints');
       }
     } catch (e) {
       print(e.toString());
     }
+    return []; // Add a return statement here
   }
 
   Future<bool> processPayment(String paymentId) async {
