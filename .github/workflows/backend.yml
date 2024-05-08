@@ -23,7 +23,7 @@ jobs:
       run: dotnet build --no-restore Backend
       
     - name: Test
-      run: dotnet test --no-build --verbosity normal Backend
+      run: dotnet test --verbosity normal Backend
 
     - name: Publish
       run: dotnet publish Backend/Api/Api.csproj -c Release --nologo -o artifacts --self-contained -r win-x64
