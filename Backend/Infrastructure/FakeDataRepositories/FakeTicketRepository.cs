@@ -12,7 +12,7 @@ namespace Infrastructure.FakeDataRepositories
     public class FakeTicketRepository : ITicketRepository
     {
         private readonly List<Ticket> Tickets = [];
-
+        private static int nextID = 1;
         public FakeTicketRepository() 
         {
             Ticket t1 = new Ticket();
@@ -30,9 +30,9 @@ namespace Infrastructure.FakeDataRepositories
             t3.OwnerID = 2;
             t3.ConnectionID = 1;
 
-            Tickets.Add(t1);
-            Tickets.Add(t2);
-            Tickets.Add(t3);
+            Add(t1);
+            Add(t2);
+            Add(t3);
         }
         public IEnumerable<Ticket> GetAll()
         {
@@ -46,6 +46,7 @@ namespace Infrastructure.FakeDataRepositories
 
         public bool Add(Ticket Ticket)
         {
+            Ticket.ID = nextID++;
             Tickets.Add(Ticket);
             return true;
         }

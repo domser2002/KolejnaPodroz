@@ -8,4 +8,5 @@ public class Ticket : Base
     [Required]
     public int OwnerID { get; set; }
     public int ConnectionID { get; set; }
+    public bool Purchased { get; set; }
 }
