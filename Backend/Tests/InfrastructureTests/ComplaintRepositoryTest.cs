@@ -92,15 +92,7 @@ namespace InfrastructureTests
         {
             // Arrange
             int test_id = 99999;
-            User? u = userRepository.GetByID(test_id);
-            if(u != null)
-            {
-                userRepository.Delete(u);
-            }
-            User user = new()
-            {
-                ID = test_id
-            };
+            User user = new();
             Complaint complaint = new()
             {
                 ID = test_id
@@ -127,15 +119,7 @@ namespace InfrastructureTests
         {
             // Arrange
             int test_id = 99999;
-            User? u = userRepository.GetByID(test_id);
-            if (u != null)
-            {
-                userRepository.Delete(u);
-            }
-            User user = new()
-            {
-                ID = test_id
-            };
+            User user = new();
             Complaint complaint = new()
             {
                 ID = test_id
@@ -160,15 +144,7 @@ namespace InfrastructureTests
         {
             // Arrange
             int test_id = 99999;
-            User? u = userRepository.GetByID(test_id);
-            if (u != null)
-            {
-                userRepository.Delete(u);
-            }
-            User user = new()
-            {
-                ID = test_id
-            };
+            User user = new();
             Complaint complaint = new()
             {
                 ID = test_id
