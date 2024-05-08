@@ -15,6 +15,7 @@ namespace Infrastructure.DataRepositories
         private readonly DomainDBContext _context = context;
         public bool Add(User User)
         {
+            User.ID = GetAll().Count() + 1; // temporary solution
             _context.User.Add(User);
             return _context.SaveChanges() == 1;
         }
