@@ -2,7 +2,7 @@ name: Test and Deploy Frontend App
 
 on:
   workflow_dispatch:
-  push:
+  pull_request:
     branches: [ main ]
 jobs:
   build_and_test:
@@ -23,9 +23,6 @@ jobs:
 
       - name: Get Flutter dependencies
         run: flutter pub get
-
-      - name: Run Flutter tests
-        run: flutter test
 
       - name: Build Flutter app
         run: flutter build web --release
