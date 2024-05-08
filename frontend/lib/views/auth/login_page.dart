@@ -122,7 +122,7 @@ Future<void> signInWithEmailAndPassword(BuildContext context) async {
                         ElevatedButton(
                           onPressed: () {
                             signInWithEmailAndPassword(context);
-                           //request.authoriseUser(FirebaseAuth.instance.currentUser!.uid.);
+                            request.authoriseUser(FirebaseAuth.instance.currentUser!.uid);
                           },
                           style: ElevatedButton.styleFrom(
                             foregroundColor: Colors.white,
