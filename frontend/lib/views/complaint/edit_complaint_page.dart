@@ -5,6 +5,8 @@ import 'package:http/http.dart' as http;
 
 class EditComplaintPage extends StatelessWidget {
   final TextEditingController reasonController = TextEditingController();
+  final TextEditingController titleController = TextEditingController();
+  
   final int complaintId;
 
   EditComplaintPage({required this.complaintId, Key? key}) : super(key: key);
@@ -25,7 +27,7 @@ class EditComplaintPage extends StatelessWidget {
             fit: StackFit.passthrough,
             children: [
               Text("©Kolejna Podróż 2024",
-                  style: TextStyle(color: Colors.black)),
+                  style: TextStyle(color: Color.fromARGB(255, 78, 78, 78))),
             ],
           ))),
       appBar: AppBar(
@@ -94,6 +96,18 @@ class EditComplaintPage extends StatelessWidget {
                           ),
                         ),
                         SizedBox(height: winHeight * 0.027),
+                        TextField(
+                          controller: titleController,
+                          decoration: const InputDecoration(
+                            filled: true,
+                            fillColor: Colors.white,
+                            labelText:
+                                "Tytuł reklamacji",
+                          ),
+                          obscureText: false,
+                          maxLines: 1,
+                          maxLength: 50,
+                        ),
                         TextField(
                           controller: reasonController,
                           decoration: const InputDecoration(

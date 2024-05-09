@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/classes/complaint.dart';
+import 'package:frontend/classes/user.dart';
 import 'package:frontend/utils/http_requests.dart';
 import 'package:frontend/views/complaint/edit_complaint_page.dart';
 
@@ -296,11 +297,14 @@ class _ComplaintsPageState extends State<ComplaintsPage> {
 
 
 class UserInfoPage extends StatelessWidget {
-  const UserInfoPage({super.key});
+   UserInfoPage({super.key});
+  HttpRequests request = HttpRequests();
 
   @override
-  Widget build(BuildContext context) {
-    return const Center(child: Text('Dane użytkownika'));
+  Widget build(BuildContext context) async {
+    return FutureBuilder(
+      future: future,
+       builder: builder)
   }
 }
 

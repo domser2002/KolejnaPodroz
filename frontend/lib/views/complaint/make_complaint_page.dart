@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 
 class MakeComplaintPage extends StatelessWidget {
   final TextEditingController reasonController = TextEditingController();
+  final TextEditingController titleController = TextEditingController();
   final String ticketId;
 
   MakeComplaintPage({required this.ticketId, Key? key}) : super(key: key);
@@ -92,6 +93,18 @@ class MakeComplaintPage extends StatelessWidget {
                           ),
                         ),
                         SizedBox(height: winHeight * 0.027),
+                        TextField(
+                          controller: titleController,
+                          decoration: const InputDecoration(
+                            filled: true,
+                            fillColor: Colors.white,
+                            labelText:
+                                "Tytuł reklamacji",
+                          ),
+                          obscureText: false,
+                          maxLines: 1,
+                          maxLength: 50,
+                        ),
                         TextField(
                           controller: reasonController,
                           decoration: const InputDecoration(
