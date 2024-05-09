@@ -11,14 +11,14 @@ class MakeComplaintPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
-    double win_width = screenSize.width;
-    double win_height = screenSize.height;
+    double winWidth = screenSize.width;
+    double winHeight = screenSize.height;
 
     return Scaffold(
       bottomNavigationBar: BottomAppBar(
           color: Colors.white,
-          height: win_height * 0.07,
-          child: Center(
+          height: winHeight * 0.07,
+          child: const Center(
               child: Stack(
             fit: StackFit.passthrough,
             children: [
@@ -27,9 +27,9 @@ class MakeComplaintPage extends StatelessWidget {
             ],
           ))),
       appBar: AppBar(
-        title: Text(''),
+        title: const Text(''),
         leading: IconButton(
-          icon: Icon(Icons.close),
+          icon: const Icon(Icons.close),
           onPressed: () => Navigator.pop(context),
         ),
       ),
@@ -37,7 +37,7 @@ class MakeComplaintPage extends StatelessWidget {
         fit: StackFit.expand,
         children: [
           Container(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               image: DecorationImage(
                 image: AssetImage('lib/assets/photos/background2.jpg'),
                 fit: BoxFit.cover,
@@ -47,7 +47,7 @@ class MakeComplaintPage extends StatelessWidget {
           Center(
             child: SingleChildScrollView(
               padding: EdgeInsets.symmetric(
-                  vertical: win_height * 0.27, horizontal: win_width * 0.2),
+                  vertical: winHeight * 0.27, horizontal: winWidth * 0.2),
               child: Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
@@ -70,31 +70,31 @@ class MakeComplaintPage extends StatelessWidget {
                   ),
                   child: Padding(
                     padding: EdgeInsets.symmetric(
-                        horizontal: win_width * 0.13,
-                        vertical: win_height * 0.07),
+                        horizontal: winWidth * 0.13,
+                        vertical: winHeight * 0.07),
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Text(
+                        const Text(
                           'Złóż reklamację',
-                          style: TextStyle(
+                          style:   TextStyle(
                             color: Colors.white,
                             fontSize: 24,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        SizedBox(height: win_height * 0.027),
+                        SizedBox(height: winHeight * 0.027),
                         Text(
                           "ID biletu: $ticketId",
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Colors.white,
                             fontSize: 18,
                           ),
                         ),
-                        SizedBox(height: win_height * 0.027),
+                        SizedBox(height: winHeight * 0.027),
                         TextField(
                           controller: reasonController,
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             filled: true,
                             fillColor: Colors.white,
                             labelText:
@@ -104,7 +104,7 @@ class MakeComplaintPage extends StatelessWidget {
                           maxLines: 8,
                           maxLength: 500,
                         ),
-                        SizedBox(height: win_height * 0.027),
+                        SizedBox(height: winHeight * 0.027),
                         ElevatedButton(
                           onPressed: () {
                             if (reasonController.text.isNotEmpty) {
@@ -121,7 +121,7 @@ class MakeComplaintPage extends StatelessWidget {
                             foregroundColor: Colors.white,
                             backgroundColor: Colors.orange,
                           ),
-                          child: Text('Złóż Reklamację'),
+                          child: const Text('Złóż Reklamację'),
                         ),
                       ],
                     ),

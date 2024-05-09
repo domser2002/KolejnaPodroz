@@ -52,7 +52,6 @@ class InputButton extends StatelessWidget {
                   prefixText,
                   style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
                 ),
-                // Możesz dodać odstęp między tekstem a wpisywanym tekstem jeśli jest potrzebny
               ],
             ),
           ),

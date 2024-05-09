@@ -30,11 +30,12 @@ class _DatePickerWidgetState extends State<DatePickerWidget> {
       firstDate: DateTime.now().subtract(const Duration(days: 0)),
       lastDate: DateTime(2101),
     );
-    if (picked != null && picked != selectedDate)
+    if (picked != null && picked != selectedDate) {
       setState(() {
         selectedDate = picked;
         widget.controller.text = "${picked.toLocal()}".split(' ')[0];
       });
+    }
   }
 
   @override
@@ -51,13 +52,13 @@ class _DatePickerWidgetState extends State<DatePickerWidget> {
           ),
           child: Stack(
             children: [
-              Align(
+              const Align(
                 alignment: Alignment.centerLeft, // Wyrównanie ikony i tekstu do lewej strony
                 child: Row(
                   children: [
-                    const Icon(Icons.calendar_month, color: Colors.black),
-                    const SizedBox(width: 25), // Równomierne odstępy między ikoną a tekstem
-                    const Text(
+                     Icon(Icons.calendar_month, color: Colors.black),
+                     SizedBox(width: 25), // Równomierne odstępy między ikoną a tekstem
+                     Text(
                       "KIEDY",
                       style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
                     ),
@@ -68,7 +69,7 @@ class _DatePickerWidgetState extends State<DatePickerWidget> {
                 alignment: Alignment.center,
                 child: Text(
                   widget.controller.text,
-                  style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+                  style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
                 ),
               ),
             ],

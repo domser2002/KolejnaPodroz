@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:frontend/classes/complaint.dart';
 import 'package:frontend/classes/user.dart';
 import 'package:http/http.dart' as http;

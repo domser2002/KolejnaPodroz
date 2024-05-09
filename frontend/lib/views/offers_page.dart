@@ -1,7 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:frontend/classes/train_offer.dart';
-import 'package:frontend/utils/http_requests.dart';
 import 'package:frontend/views/auth/login_page.dart';
 import 'package:frontend/views/auth/register_page.dart';
 import 'package:frontend/views/user_profile_page.dart';
@@ -15,7 +13,7 @@ class ViewOffersPage extends StatelessWidget {
     final PageController controller = PageController(viewportFraction: 0.4);
 
     return Scaffold(
-        bottomNavigationBar: BottomAppBar(
+        bottomNavigationBar: const BottomAppBar(
             color: Colors.white,
             height: 50,
             child: Center(
@@ -27,7 +25,7 @@ class ViewOffersPage extends StatelessWidget {
               ],
             ))),
         appBar: AppBar(
-          title: Text('Wybierz pociąg!'),
+          title: const Text('Wybierz pociąg!'),
           actions: [
           StreamBuilder<User?>(
             stream: FirebaseAuth.instance.authStateChanges(),
@@ -41,7 +39,7 @@ class ViewOffersPage extends StatelessWidget {
               onPressed: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (context) => UserProfilePage(),
+                    builder: (context) => const UserProfilePage(),
                   ),
                 );
               },
@@ -89,7 +87,7 @@ class ViewOffersPage extends StatelessWidget {
         body: Stack(
           children: [
             Container(
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 image: DecorationImage(
                   image: AssetImage('lib/assets/photos/background2.jpg'),
                   fit: BoxFit.cover,
@@ -98,7 +96,7 @@ class ViewOffersPage extends StatelessWidget {
             ),
             Center(
               child: Padding(
-                padding: EdgeInsets.symmetric(vertical: 24.0),
+                padding: const EdgeInsets.symmetric(vertical: 24.0),
                 child: AspectRatio(
                   aspectRatio: 2.0,
                   child: Cards(controller: controller, offers: offers),
@@ -154,12 +152,12 @@ class Cards extends StatelessWidget {
     } else {
       return Center(
         child: SizedBox(
-          child: Container(
-            child: Center(child: Text("Nie ma takich przejazdów")),
-            decoration: BoxDecoration(color: Colors.green),
-          ),
           width: 200,
           height: 100,
+          child: Container(
+            decoration: const BoxDecoration(color: Colors.green),
+            child:  const Center(child: Text("Nie ma takich przejazdów")),
+          ),
         ),
       );
     }
@@ -179,10 +177,10 @@ class TrainOfferCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String departure_time = trainOffer.DepartureTimes.first.toString();
-    String departure_station = trainOffer.stations.first;
-    String arrival_time = trainOffer.DepartureTimes.last.toString();
-    String arrival_station = trainOffer.stations.last;
+    String departureTime = trainOffer.DepartureTimes.first.toString();
+    String departureStation = trainOffer.stations.first;
+    String arrivalTime = trainOffer.DepartureTimes.last.toString();
+    String arrivalStation = trainOffer.stations.last;
     String time = trainOffer.ArrivalTimes.last
         .difference(trainOffer.DepartureTimes.first)
         .toString();
@@ -190,9 +188,9 @@ class TrainOfferCard extends StatelessWidget {
     return Card(
       color: Colors.transparent,
       elevation: elevation,
-      margin: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+      margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
       child: Container(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
           gradient: LinearGradient(
@@ -214,39 +212,39 @@ class TrainOfferCard extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text('ODJAZD', style: TextStyle(color: Colors.white)),
-                    Text(departure_time,
-                        style: TextStyle(fontSize: 26, color: Colors.white)),
+                    const Text('ODJAZD', style: TextStyle(color: Colors.white)),
+                    Text(departureTime,
+                        style: const TextStyle(fontSize: 26, color: Colors.white)),
                     Text(
-                      departure_station,
-                      style: TextStyle(color: Colors.white),
+                      departureStation,
+                      style: const TextStyle(color: Colors.white),
                     ),
                   ],
                 ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text('PRZYJAZD', style: TextStyle(color: Colors.white)),
-                    Text(arrival_time,
-                        style: TextStyle(fontSize: 26, color: Colors.white)),
-                    Text(arrival_station,
-                        style: TextStyle(color: Colors.white)),
+                    const Text('PRZYJAZD', style: TextStyle(color: Colors.white)),
+                    Text(arrivalTime,
+                        style: const TextStyle(fontSize: 26, color: Colors.white)),
+                    Text(arrivalStation,
+                        style: const TextStyle(color: Colors.white)),
                   ],
                 ),
               ],
             ),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
-                Icon(Icons.access_time, color: Colors.white),
-                SizedBox(width: 8),
-                Text(time, style: TextStyle(fontSize: 22, color: Colors.white)),
+                const Icon(Icons.access_time, color: Colors.white),
+                const SizedBox(width: 8),
+                Text(time, style: const TextStyle(fontSize: 22, color: Colors.white)),
               ],
             ),
-            SizedBox(height: 8),
-            Divider(),
-            Row(
+            const  SizedBox(height: 8),
+            const Divider(),
+            const Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Icon(Icons.train, color: Colors.white),
@@ -257,11 +255,11 @@ class TrainOfferCard extends StatelessWidget {
                         color: Colors.white)),
               ],
             ),
-            Text('Klasa 1: od 90,00 zł',
+            const Text('Klasa 1: od 90,00 zł',
                 style: TextStyle(fontSize: 25, color: Colors.white)),
-            Text('Klasa 2: od 58,65 zł',
+            const Text('Klasa 2: od 58,65 zł',
                 style: TextStyle(fontSize: 25, color: Colors.white)),
-            SizedBox(height: 50),
+            const SizedBox(height: 50),
             ElevatedButton(
               onPressed: () {},
               style: ElevatedButton.styleFrom(
@@ -271,7 +269,7 @@ class TrainOfferCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(18.0),
                 ),
               ),
-              child: Text('Wybierz'),
+              child: const Text('Wybierz'),
             ),
           ],
         ),
