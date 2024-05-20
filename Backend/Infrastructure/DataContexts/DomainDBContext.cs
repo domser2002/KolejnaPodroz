@@ -123,6 +123,11 @@ public partial class DomainDBContext : DbContext, IDataContext
                 .HasConversion(
                     v => JsonConvert.SerializeObject(v),
                     v => JsonConvert.DeserializeObject<List<DateTime>>(v));
+
+            entity.Property(c => c.Providers)
+                .HasConversion(
+                    v => JsonConvert.SerializeObject(v),
+                    v => JsonConvert.DeserializeObject<List<Provider>>(v));
         });
     }
 
