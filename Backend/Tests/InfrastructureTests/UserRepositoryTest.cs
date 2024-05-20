@@ -39,9 +39,10 @@ namespace InfrastructureTests
             // Act 
             var result = fakeRepository.Add(user);
             // Assert
+            user.ID = result;
             Assert.Multiple(() =>
             {
-                Assert.That(result, Is.True);
+                Assert.That(result, Is.Not.EqualTo(-1));
                 Assert.That(fakeRepository.GetAll().Count(), Is.EqualTo(count + 1));
                 Assert.That(fakeRepository.GetAll().Any(u => u.Equals(user)), Is.True);
             });
@@ -53,7 +54,7 @@ namespace InfrastructureTests
             // Arrange
             fakeRepository = new();
             User user = new();
-            fakeRepository.Add(user);
+            user.ID = fakeRepository.Add(user);
             // Act
             var result = fakeRepository.Delete(user);
             // Assert
@@ -70,7 +71,7 @@ namespace InfrastructureTests
             // Arrange
             fakeRepository = new();
             User user = new();
-            fakeRepository.Add(user);
+            user.ID = fakeRepository.Add(user);
             user.FirstName = "Test";
             // Act 
             var result = fakeRepository.Update(user);
@@ -86,23 +87,15 @@ namespace InfrastructureTests
         public void AddUser_IntegrationTest()
         {
             // Arrange
-            int test_id = 99999;
-            User? u = repository.GetByID(test_id);
-            if (u != null)
-            {
-                repository.Delete(u);
-            }
-            User user = new()
-            {
-                ID = test_id
-            };
+            User user = new();
             int count = repository.GetAll().Count();
             // Act 
             var result = repository.Add(user);
             // Assert
+            user.ID = result;
             Assert.Multiple(() =>
             {
-                Assert.That(result, Is.True);
+                Assert.That(result, Is.Not.EqualTo(-1));
                 Assert.That(repository.GetAll().Count(), Is.EqualTo(count + 1));
                 Assert.That(repository.GetAll().Any(u => u.Equals(user)), Is.True);
             });
@@ -114,17 +107,8 @@ namespace InfrastructureTests
         public void DeleteUser_IntegrationTest()
         {
             // Arrange
-            int test_id = 99999;
-            User? u = repository.GetByID(test_id);
-            if (u != null)
-            {
-                repository.Delete(u);
-            }
-            User user = new()
-            {
-                ID = test_id
-            };
-            repository.Add(user);
+            User user = new();
+            user.ID = repository.Add(user);
             // Act
             var result = repository.Delete(user);
             // Assert
@@ -139,17 +123,8 @@ namespace InfrastructureTests
         public void UpdateUser_IntegrationTest()
         {
             // Arrange
-            int test_id = 99999;
-            User? u = repository.GetByID(test_id);
-            if (u != null)
-            {
-                repository.Delete(u);
-            }
-            User user = new()
-            {
-                ID = test_id
-            };
-            repository.Add(user);
+            User user = new();
+            user.ID = repository.Add(user);
             user.FirstName = "Test";
             // Act 
             var result = repository.Update(user);

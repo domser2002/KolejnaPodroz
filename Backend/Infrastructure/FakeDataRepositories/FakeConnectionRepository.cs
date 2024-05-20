@@ -11,7 +11,7 @@ namespace Infrastructure.FakeDataRepositories
     public class FakeConnectionRepository : IConnectionRepository
     {
         private readonly List<Connection> Connections = [];
-
+        private static int nextID = 3;
         public FakeConnectionRepository() 
         {
             Connection connection1 = new Connection();
@@ -58,10 +58,11 @@ namespace Infrastructure.FakeDataRepositories
             return Connections.FirstOrDefault(a => a.ID == id);
         }
 
-        public bool Add(Connection Connection)
+        public int Add(Connection Connection)
         {
+            Connection.ID = nextID++;
             Connections.Add(Connection);
-            return true;
+            return Connection.ID;
         }
 
         public bool Update(Connection Connection)

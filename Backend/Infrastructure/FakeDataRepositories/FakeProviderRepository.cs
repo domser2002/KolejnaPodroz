@@ -12,7 +12,7 @@ namespace Infrastructure.FakeDataRepositories
     public class FakeProviderRepository : IProviderRepository
     {
         private readonly List<Provider> Providers = [];
-
+        private static int nextID = 1;
         public IEnumerable<Provider> GetAll()
         {
             return Providers;
@@ -23,10 +23,11 @@ namespace Infrastructure.FakeDataRepositories
             return Providers.FirstOrDefault(a => a.ID == id);
         }
 
-        public bool Add(Provider Provider)
+        public int Add(Provider Provider)
         {
+            Provider.ID = nextID++;
             Providers.Add(Provider);
-            return true;
+            return nextID;
         }
 
         public bool Update(Provider Provider)

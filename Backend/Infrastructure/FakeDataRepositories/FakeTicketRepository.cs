@@ -12,7 +12,7 @@ namespace Infrastructure.FakeDataRepositories
     public class FakeTicketRepository : ITicketRepository
     {
         private readonly List<Ticket> Tickets = [];
-        private static int nextID = 1;
+        private static int nextID = 4;
         public FakeTicketRepository() 
         {
             Ticket t1 = new Ticket();
@@ -44,11 +44,11 @@ namespace Infrastructure.FakeDataRepositories
             return Tickets.FirstOrDefault(a => a.ID == id);
         }
 
-        public bool Add(Ticket Ticket)
+        public int Add(Ticket Ticket)
         {
             Ticket.ID = nextID++;
             Tickets.Add(Ticket);
-            return true;
+            return Ticket.ID;
         }
 
         public bool Update(Ticket Ticket)

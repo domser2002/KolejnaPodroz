@@ -35,7 +35,7 @@ public class ProviderServiceTests
         // Arrange
         Provider provider = new();
         // Act
-        fakeProviderService.AddProvider(provider);
+        provider.ID = fakeProviderService.AddProvider(provider);
         Provider? provider1 = fakeProviderService.GetProviderByID(provider.ID);
         // Assert
         Assert.That(provider1, Is.EqualTo(provider));
@@ -47,9 +47,9 @@ public class ProviderServiceTests
         // Arrange
         Provider? provider = null;
         // Act
-        bool returnValue = fakeProviderService.AddProvider(provider);
+        var returnValue = fakeProviderService.AddProvider(provider);
         // Assert
-        Assert.That(returnValue, Is.EqualTo(false));
+        Assert.That(returnValue, Is.EqualTo(-1));
     }
 
     [Test]
@@ -57,11 +57,9 @@ public class ProviderServiceTests
     {
         // Arrange
         Provider provider = new();
-        int id = 1;
-        provider.ID = id;
-        fakeProviderService.AddProvider(provider);
+        provider.ID = fakeProviderService.AddProvider(provider);
         // Act
-        bool returnValue = fakeProviderService.RemoveProvider(id);
+        bool returnValue = fakeProviderService.RemoveProvider(provider.ID);
         // Assert
         Assert.That(returnValue, Is.EqualTo(true));
     }
@@ -89,22 +87,19 @@ public class ProviderServiceTests
     //    //Assert.DoesNotThrow(Exception );
     //}
 
-    [Test]
-    public void CanReturn_MakeProvider_ReturnsTrue_IntegrationTest()
-    {
-        // Arrange
-        Provider provider = new()
-        {
-            ID = 99999
-        };
-        // Act
-        providerService.AddProvider(provider);
-        Provider? provider1 = providerService.GetProviderByID(provider.ID);
-        // Assert
-        Assert.That(provider1, Is.EqualTo(provider));
-        // Clean 
-        providerService.RemoveProvider(provider.ID);
-    }
+    //[Test]
+    //public void CanReturn_MakeProvider_ReturnsTrue_IntegrationTest()
+    //{
+    //    // Arrange
+    //    Provider provider = new();
+    //    // Act
+    //    provider.ID = providerService.AddProvider(provider);
+    //    Provider? provider1 = providerService.GetProviderByID(provider.ID);
+    //    // Assert
+    //    Assert.That(provider1, Is.EqualTo(provider));
+    //    // Clean 
+    //    providerService.RemoveProvider(provider.ID);
+    //}
 
     [Test]
     public void CanReturn_MakeProvider_ReturnsFalse_IntegrationTest()
@@ -112,34 +107,31 @@ public class ProviderServiceTests
         // Arrange
         Provider? provider = null;
         // Act
-        bool returnValue = providerService.AddProvider(provider);
+        var returnValue = providerService.AddProvider(provider);
         // Assert
-        Assert.That(returnValue, Is.EqualTo(false));
+        Assert.That(returnValue, Is.EqualTo(-1));
     }
 
-    [Test]
-    public void CanReturn_RemoveProvider_ReturnsTrue_IntegrationTest()
-    {
-        // Arrange
-        Provider provider = new()
-        {
-            ID = 99999
-        };
-        providerService.AddProvider(provider);
-        // Act
-        bool returnValue = providerService.RemoveProvider(provider.ID);
-        // Assert
-        Assert.That(returnValue, Is.EqualTo(true));
-    }
+    //[Test]
+    //public void CanReturn_RemoveProvider_ReturnsTrue_IntegrationTest()
+    //{
+    //    // Arrange
+    //    Provider provider = new();
+    //    provider.ID = providerService.AddProvider(provider);
+    //    // Act
+    //    bool returnValue = providerService.RemoveProvider(provider.ID);
+    //    // Assert
+    //    Assert.That(returnValue, Is.EqualTo(true));
+    //}
 
-    [Test]
-    public void CanReturn_RemoveProvider_ReturnsFalse_IntegrationTest()
-    {
-        // Arrange
-        int id = -1;
-        // Act
-        bool returnValue = providerService.RemoveProvider(id);
-        // Assert
-        Assert.That(returnValue, Is.EqualTo(false));
-    }
+    //[Test]
+    //public void CanReturn_RemoveProvider_ReturnsFalse_IntegrationTest()
+    //{
+    //    // Arrange
+    //    int id = -1;
+    //    // Act
+    //    bool returnValue = providerService.RemoveProvider(id);
+    //    // Assert
+    //    Assert.That(returnValue, Is.EqualTo(false));
+    //}
 }

@@ -43,9 +43,10 @@ namespace InfrastructureTests
             // Act 
             var result = fakeRepository.Add(ticket);
             // Assert
+            ticket.ID = result;
             Assert.Multiple(() =>
             {
-                Assert.That(result, Is.True);
+                Assert.That(result, Is.Not.EqualTo(-1));
                 Assert.That(fakeRepository.GetAll().Count(), Is.EqualTo(count + 1));
                 Assert.That(fakeRepository.GetAll().Any(u => u.Equals(ticket)), Is.True);
             });
@@ -57,7 +58,7 @@ namespace InfrastructureTests
             // Arrange
             fakeRepository = new();
             Ticket ticket = new();
-            fakeRepository.Add(ticket);
+            ticket.ID = fakeRepository.Add(ticket);
             // Act
             var result = fakeRepository.Delete(ticket);
             // Assert
@@ -74,7 +75,7 @@ namespace InfrastructureTests
             // Arrange
             fakeRepository = new();
             Ticket ticket = new();
-            fakeRepository.Add(ticket);
+            ticket.ID = fakeRepository.Add(ticket);
             ticket.ConnectionID = 10;
             // Act 
             var result = fakeRepository.Update(ticket);
@@ -90,29 +91,18 @@ namespace InfrastructureTests
         public void AddTicket_IntegrationTest()
         {
             // Arrange
-            int test_id = 99999;
-            User? u = userRepository.GetByID(test_id);
-            if (u != null)
-            {
-                userRepository.Delete(u);
-            }
-            User user = new()
-            {
-                ID = test_id
-            };
-            Ticket ticket = new()
-            {
-                ID = test_id
-            };
+            User user = new();
+            Ticket ticket = new();
             int count = repository.GetAll().Count();
-            userRepository.Add(user);
+            user.ID = userRepository.Add(user);
             ticket.OwnerID = user.ID;
             // Act 
             var result = repository.Add(ticket);
             // Assert
+            ticket.ID = result;
             Assert.Multiple(() =>
             {
-                Assert.That(result, Is.True);
+                Assert.That(result, Is.Not.EqualTo(-1));
                 Assert.That(repository.GetAll().Count(), Is.EqualTo(count + 1));
                 Assert.That(repository.GetAll().Any(u => u.Equals(ticket)), Is.True);
             });
@@ -125,23 +115,11 @@ namespace InfrastructureTests
         public void DeleteTicket_IntegrationTest()
         {
             // Arrange
-            int test_id = 99999;
-            User? u = userRepository.GetByID(test_id);
-            if (u != null)
-            {
-                userRepository.Delete(u);
-            }
-            User user = new()
-            {
-                ID = test_id
-            };
-            Ticket ticket = new()
-            {
-                ID = test_id
-            };
-            userRepository.Add(user);
+            User user = new();
+            Ticket ticket = new();
+            user.ID = userRepository.Add(user);
             ticket.OwnerID = user.ID;
-            repository.Add(ticket);
+            ticket.ID = repository.Add(ticket);
             // Act
             var result = repository.Delete(ticket);
             // Assert
@@ -158,23 +136,11 @@ namespace InfrastructureTests
         public void UpdateTicket_IntegrationTest()
         {
             // Arrange
-            int test_id = 99999;
-            User? u = userRepository.GetByID(test_id);
-            if (u != null)
-            {
-                userRepository.Delete(u);
-            }
-            User user = new()
-            {
-                ID = test_id
-            };
-            Ticket ticket = new()
-            {
-                ID = test_id
-            };
-            userRepository.Add(user);
+            User user = new();
+            Ticket ticket = new();
+            user.ID = userRepository.Add(user);
             ticket.OwnerID = user.ID;
-            repository.Add(ticket);
+            ticket.ID = repository.Add(ticket);
             ticket.ConnectionID = 10;
             // Act 
             var result = repository.Update(ticket);

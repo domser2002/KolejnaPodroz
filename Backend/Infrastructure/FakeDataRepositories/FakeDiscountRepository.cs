@@ -12,7 +12,7 @@ namespace Infrastructure.FakeDataRepositories
     public class FakeDiscountRepository : IDiscountRepository
     {
         private readonly List<Discount> Discounts = [];
-
+        private static int nextID = 1;
         public IEnumerable<Discount> GetAll()
         {
             return Discounts;
@@ -23,10 +23,11 @@ namespace Infrastructure.FakeDataRepositories
             return Discounts.FirstOrDefault(a => a.ID == id);
         }
 
-        public bool Add(Discount Discount)
+        public int Add(Discount Discount)
         {
+            Discount.ID = nextID++;
             Discounts.Add(Discount);
-            return true;
+            return nextID;
         }
 
         public bool Update(Discount Discount)

@@ -13,10 +13,12 @@ namespace Infrastructure.DataRepositories
     public class DiscountRepository(DomainDBContext context) : IDiscountRepository
     {
         private readonly DomainDBContext _context = context;
-        public bool Add(Discount Discount)
+        public int Add(Discount Discount)
         {
+            int id = !GetAll().Any() ? 1 : GetAll().Max(x => x.ID) + 1;
+            Discount.ID = id; // temporary solution
             _context.Discount.Add(Discount);
-            return _context.SaveChanges() == 1;
+            return (_context.SaveChanges() == 1) ? id : -1;
         }
 
         public bool Delete(Discount Discount)

@@ -13,7 +13,7 @@ namespace Logic.Services.Interfaces
         public List<Ticket> ListByUser(int userID);
         public void Generate(Ticket ticket);
         public bool Remove(int ticketID);
-        public bool Add(Ticket ticket);
+        public int Add(Ticket? ticket);
         public bool ChangeDetails(int ticketId, Ticket ticket);
         public Ticket? GetTicketByID(int ticketID);
     }

@@ -9,7 +9,7 @@ namespace Logic.Services.Interfaces
 {
     public interface IUserService
     {
-        public bool CreateUserAccount(User user);
+        public int CreateUserAccount(User? user);
         public bool RemoveUserAccount(int userID);
         public bool VerifyUserAccount(int userID);
         public User? AuthoriseUser(string firebaseID, string token);

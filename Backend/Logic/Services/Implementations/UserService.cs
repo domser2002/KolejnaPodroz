@@ -8,10 +8,10 @@ namespace Logic.Services.Implementations;
 public class UserService(IDataRepository repository) : IUserService
 {
     private readonly IDataRepository _repository = repository;
-    public bool CreateUserAccount(User user)
+    public int CreateUserAccount(User? user)
     {
-        _repository.UserRepository.Add(user);
-        return true;
+        if (user is null) return -1;
+        return _repository.UserRepository.Add(user);
     }
     public bool RemoveUserAccount(int userID)
     {

@@ -7,11 +7,10 @@ public class ComplaintService(IDataRepository repository) : Interfaces.IComplain
 {
     private readonly IDataRepository _repository = repository;
 
-    public bool MakeComplaint(Complaint? complaint)
+    public int MakeComplaint(Complaint? complaint)
     {
-        if(complaint == null) return false;
-        _repository.ComplaintRepository.Add(complaint);
-        return true;
+        if(complaint == null) return -1;
+        return _repository.ComplaintRepository.Add(complaint);
     }
     public bool RemoveComplaint(int complaintID)
     {

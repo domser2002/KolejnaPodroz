@@ -14,10 +14,12 @@ namespace Infrastructure.DataRepositories
     public class StatisticsRepository(DomainDBContext context) : IStatisticsRepository
     {
         private readonly DomainDBContext _context = context;
-        public bool Add(Statistics statistics)
+        public int Add(Statistics statistics)
         {
+            int id = !GetAll().Any() ? 1 : GetAll().Max(x => x.ID) + 1;
+            statistics.ID = id; // temporary solution
             _context.Statistics.Add(statistics);
-            return _context.SaveChanges() == 1;
+            return (_context.SaveChanges() == 1) ? id : -1;
         }
 
         public bool Delete(Statistics statistics)

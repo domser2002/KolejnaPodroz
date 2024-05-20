@@ -19,17 +19,23 @@ namespace Api.Controllers
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(Admin))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public ActionResult<int> CreateAccount([FromBody] Admin admin)
+        public ActionResult<Admin> MakeAdmin([FromBody] Admin newAdmin)
         {
+            int return_id;
             try
             {
-                var created = _adminService.CreateAdminAccount(admin);
-                return created ? Ok() : BadRequest();
+                return_id = _adminService.CreateAdminAccount(newAdmin);
             }
             catch (Exception)
             {
                 return StatusCode(500);
             }
+            if (return_id == -1)
+            {
+                return BadRequest();
+            }
+            newAdmin.ID = return_id;
+            return Ok(newAdmin);
         }
 
         [HttpPost("verify/{adminID}")]

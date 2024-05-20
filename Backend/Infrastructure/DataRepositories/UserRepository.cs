@@ -13,12 +13,12 @@ namespace Infrastructure.DataRepositories
     public class UserRepository(DomainDBContext context) : IUserRepository
     {
         private readonly DomainDBContext _context = context;
-        public bool Add(User User)
+        public int Add(User User)
         {
-            int id = GetAll().Max(x => x.ID) + 1;
+            int id = !GetAll().Any() ? 1 : GetAll().Max(x => x.ID) + 1;
             User.ID = id; // temporary solution
             _context.User.Add(User);
-            return _context.SaveChanges() == 1;
+            return (_context.SaveChanges() == 1) ? id : -1;
         }
 
         public bool Delete(User User)

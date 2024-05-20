@@ -28,11 +28,10 @@ public class TicketService(IDataRepository repository) : ITicketService
         _repository.TicketRepository.Delete(ticket);
         return true;
     }
-    public bool Add(Ticket ticket)
+    public int Add(Ticket? ticket)
     {
-        _repository.TicketRepository.Add(ticket);
-        return true;
-        // return ticketID
+        if(ticket is null) return -1;
+        return _repository.TicketRepository.Add(ticket);
     }
     public bool ChangeDetails(int ticketID, Ticket newTicket)
     {

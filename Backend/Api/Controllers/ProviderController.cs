@@ -2,6 +2,7 @@
 using Domain.Common;
 using Microsoft.AspNetCore.Mvc;
 using Logic.Services.Interfaces;
+using System.Net.Mime;
 
 namespace Api.Controllers;
 
@@ -26,18 +27,28 @@ public class ProviderController(IProviderService providerService) : ControllerBa
             return StatusCode(500);
         }
     }
-    [HttpPost("add/{providerID}")]
-    public ActionResult AddProvider(Provider provider)
+    [HttpPost("add")]
+    [Consumes(MediaTypeNames.Application.Json)]
+    [Produces(MediaTypeNames.Application.Json)]
+    [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(Provider))]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public ActionResult<Provider> MakeProvider([FromBody] Provider newProvider)
     {
+        int return_id;
         try
         {
-            var added = _providerService.AddProvider(provider);
-            return added ? Ok() : BadRequest();
+            return_id = _providerService.AddProvider(newProvider);
         }
         catch (Exception)
         {
             return StatusCode(500);
         }
+        if (return_id == -1)
+        {
+            return BadRequest();
+        }
+        newProvider.ID = return_id;
+        return Ok(newProvider);
     }
 
     [HttpPut("edit")]

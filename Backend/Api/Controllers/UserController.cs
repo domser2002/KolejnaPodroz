@@ -1,7 +1,9 @@
-﻿using Domain.User;
+﻿using Domain.Common;
+using Domain.User;
 using Logic.Services.Implementations;
 using Logic.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using System.Net.Mime;
 
 namespace Api.Controllers;
 
@@ -26,18 +28,29 @@ public class UserController(IUserService userService) : ControllerBase
     }
 
     [HttpPost("create")]
-    public ActionResult CreateAccount(User user)
+    [Consumes(MediaTypeNames.Application.Json)]
+    [Produces(MediaTypeNames.Application.Json)]
+    [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(User))]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public ActionResult<User> CreateUser([FromBody] User newUser)
     {
+        int return_id;
         try
         {
-            var created = _userService.CreateUserAccount(user);
-            return created ? Ok() : BadRequest();
+            return_id = _userService.CreateUserAccount(newUser);
         }
-        catch (Exception) 
+        catch (Exception)
         {
             return StatusCode(500);
         }
+        if (return_id == -1)
+        {
+            return BadRequest();
+        }
+        newUser.ID = return_id;
+        return Ok(newUser);
     }
+
     [HttpPost("verify/{userID}")]
     public ActionResult VerifyAccount(int userID)
     {

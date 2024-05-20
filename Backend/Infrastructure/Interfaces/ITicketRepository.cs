@@ -11,7 +11,7 @@ namespace Infrastructure.Interfaces
     {
         public IEnumerable<Ticket> GetAll();
         public Ticket? GetByID(int id);
-        public bool Add(Ticket Ticket);
+        public int Add(Ticket Ticket);
         public bool Update(Ticket Ticket);
         public bool Delete(Ticket Ticket);
     }

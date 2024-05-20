@@ -12,10 +12,12 @@ namespace Infrastructure.DataRepositories
     public class ComplaintRepository(DomainDBContext context) : IComplaintRepository
     {
         private readonly DomainDBContext _context = context;
-        public bool Add(Complaint Complaint)
+        public int Add(Complaint Complaint)
         {
+            int id = !GetAll().Any() ? 1 : GetAll().Max(x => x.ID) + 1;
+            Complaint.ID = id; // temporary solution
             _context.Complaint.Add(Complaint);
-            return _context.SaveChanges() == 1;
+            return (_context.SaveChanges() == 1) ? id : -1;
         }
 
         public bool Delete(Complaint Complaint)

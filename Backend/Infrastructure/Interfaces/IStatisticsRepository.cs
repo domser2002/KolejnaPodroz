@@ -11,7 +11,7 @@ namespace Infrastructure.Interfaces
     {
         public IEnumerable<Statistics> GetAll();
         public Statistics? GetByID(int id);
-        public bool Add(Statistics statistics);
+        public int Add(Statistics statistics);
         public bool Update(Statistics statistics);
         public bool Delete(Statistics statistics);
     }

@@ -11,7 +11,7 @@ namespace Infrastructure.Interfaces
     {
         public IEnumerable<Discount> GetAll();
         public Discount? GetByID(int id);
-        public bool Add(Discount Discount);
+        public int Add(Discount Discount);
         public bool Update(Discount Discount);
         public bool Delete(Discount Discount);
     }

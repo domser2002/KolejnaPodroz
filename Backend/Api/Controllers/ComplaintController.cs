@@ -17,22 +17,23 @@ public class ComplaintController(IComplaintService complaintService) : Controlle
     [Produces(MediaTypeNames.Application.Json)]
     [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(Complaint))]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public ActionResult<int> MakeComplaint([FromBody] Complaint newComplaint)
+    public ActionResult<Complaint> MakeComplaint([FromBody] Complaint newComplaint)
     {
-        bool success;
+        int return_id;
         try
         {
-            success = _complaintService.MakeComplaint(newComplaint);
+            return_id = _complaintService.MakeComplaint(newComplaint);
         }
         catch (Exception) 
         {
             return StatusCode(500);
         }
-        if(!success)
+        if(return_id == -1)
         {
             return BadRequest();
         }
-        return CreatedAtAction(nameof(GetComplaintByID), new { id = newComplaint.ID }, newComplaint);
+        newComplaint.ID = return_id;
+        return Ok(newComplaint);
     }
 
     [HttpDelete("remove/{id}")]
