@@ -9,7 +9,7 @@ namespace Logic.Services.Interfaces
 {
     public interface IAdminService
     {
-        public bool CreateAdminAccount(Admin admin);
+        public int CreateAdminAccount(Admin admin);
         public bool RemoveAdminAccount(int adminID);
         public bool VerifyAdminAccount(int adminID);
         public Admin? AuthoriseAdmin(string firebaseID, string token);

@@ -7,19 +7,10 @@ namespace Logic.Services.Implementations;
 public class ProviderService(IDataRepository repository) : IProviderService
 {
     private readonly IDataRepository _repository = repository;
-    public bool AddProvider(Provider? provider)
+    public int AddProvider(Provider? provider)
     {
-        if (provider is null)
-        {
-            return false;
-        }
-
-        if (!_repository.ProviderRepository.Add(provider))
-        {
-            return false;
-        }
-
-        return true;
+        if (provider is null) return -1;
+        return _repository.ProviderRepository.Add(provider);
     }
     public bool RemoveProvider(int providerID)
     {

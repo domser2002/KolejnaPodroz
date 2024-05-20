@@ -9,7 +9,7 @@ namespace Logic.Services.Interfaces
 {
     public interface IConnectionService
     {
-        public bool AddConnection(Connection connection);
+        public int AddConnection(Connection connection);
         public bool RemoveConnection(int connectionID);
         public bool EditConnection(Connection newConnection);
         public Connection? GetConnectionByID(int connectionID);

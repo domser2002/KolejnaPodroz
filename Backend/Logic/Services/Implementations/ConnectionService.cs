@@ -12,11 +12,10 @@ namespace Logic.Services.Implementations
     {
         private readonly IDataRepository _repository = repository;
 
-        public bool AddConnection(Connection? connection)
+        public int AddConnection(Connection? connection)
         {
-            if(connection is null) return false;
-            _repository.ConnectionRepository.Add(connection);
-            return true;
+            if(connection is null) return -1;
+            return _repository.ConnectionRepository.Add(connection);
         }
 
         public bool RemoveConnection(int connectionID) 

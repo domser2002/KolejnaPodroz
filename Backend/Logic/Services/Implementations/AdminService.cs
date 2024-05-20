@@ -7,9 +7,9 @@ namespace Logic.Services.Implementations;
 public class AdminService(IDataRepository repository) : IAdminService
 {
     private readonly IDataRepository _repository = repository;
-    public bool CreateAdminAccount(Admin? admin)
+    public int CreateAdminAccount(Admin? admin)
     {
-        if (admin == null) return false;
+        if (admin == null) return -1;
         return _repository.AdminRepository.Add(admin);
     }
     public bool RemoveAdminAccount(int adminID)
