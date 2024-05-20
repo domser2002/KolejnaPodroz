@@ -1,9 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:frontend/classes/user.dart';
+import 'package:frontend/classes/user_provider.dart';
 import 'package:frontend/utils/http_requests.dart';
 import 'package:frontend/views/auth/login_page.dart';
 import 'package:frontend/widgets/input_button_widget.dart';
 import 'package:frontend/widgets/socialmedia_button.dart';
+import 'package:provider/provider.dart';
 
 class RegistrationPage extends StatelessWidget {
   final TextEditingController emailController = TextEditingController();
@@ -19,6 +22,25 @@ class RegistrationPage extends StatelessWidget {
           email: emailController.text,
           password: passwordController.text,
         );
+        var userData = {
+          'firstName': 'string',
+          'lastName': 'string',
+          'email': emailController.text,
+          'firebaseID':  FirebaseAuth.instance.currentUser!.uid,
+          'birthDate': DateTime.now().toString(),
+        };
+        var createdUser  = await request.createUser(userData);
+         if (createdUser != null) {
+        // Fetch user details from your backend using HttpRequests
+        MyUser user = MyUser.fromJson(createdUser);
+
+        // Save user details to the provider
+        Provider.of<UserProvider>(context, listen: false).setUser(user);
+
+        Navigator.of(context).popUntil((route) => route.isFirst);
+      } 
+        request.authoriseUser(FirebaseAuth.instance.currentUser!.uid);
+
         Navigator.of(context).popUntil((route) => route.isFirst);
       } on FirebaseAuthException catch (e) {
         print(e.message);

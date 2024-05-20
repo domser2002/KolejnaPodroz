@@ -27,8 +27,7 @@ class LandingPage extends StatelessWidget {
     double winWidth = screenSize.width;
     double winHeight = screenSize.height;
     UserProvider userProvider = Provider.of<UserProvider>(context);
-    //print(win_width);
-    //print(win_height);
+
 
     return Scaffold(
       bottomNavigationBar: BottomAppBar(
@@ -57,7 +56,7 @@ class LandingPage extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(right: 8.0),
             child: Text(
-              'Hello, ${userProvider.user!.userId}',
+              'Hello, ${userProvider.user!.firstName}',
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
           ),
