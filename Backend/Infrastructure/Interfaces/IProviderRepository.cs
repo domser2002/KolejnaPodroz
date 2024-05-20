@@ -11,7 +11,7 @@ namespace Infrastructure.Interfaces
     {
         public IEnumerable<Provider> GetAll();
         public Provider? GetByID(int id);
-        public bool Add(Provider Provider);
+        public int Add(Provider Provider);
         public bool Update(Provider Provider);
         public bool Delete(Provider Provider);
     }

@@ -13,12 +13,12 @@ namespace Infrastructure.DataRepositories
     public class TicketRepository(DomainDBContext context) : ITicketRepository
     {
         private readonly DomainDBContext _context = context;
-        public bool Add(Ticket Ticket)
+        public int Add(Ticket Ticket)
         {
             int id = !GetAll().Any() ? 1 : GetAll().Max(x => x.ID) +1;
-            Ticket.ID = id;
+            Ticket.ID = id; // temporary solution
             _context.Ticket.Add(Ticket);
-            return _context.SaveChanges() == 1;
+            return (_context.SaveChanges() == 1) ? id : -1;
         }
 
         public bool Delete(Ticket Ticket)

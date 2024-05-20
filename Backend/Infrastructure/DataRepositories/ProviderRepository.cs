@@ -12,10 +12,12 @@ namespace Infrastructure.DataRepositories
     public class ProviderRepository(DomainDBContext context) : IProviderRepository
     {
         private readonly DomainDBContext _context = context;
-        public bool Add(Provider Provider)
+        public int Add(Provider Provider)
         {
+            int id = !GetAll().Any() ? 1 : GetAll().Max(x => x.ID) + 1;
+            Provider.ID = id; // temporary solution
             _context.Provider.Add(Provider);
-            return _context.SaveChanges() == 1;
+            return (_context.SaveChanges() == 1) ? id : -1;
         }
 
         public bool Delete(Provider Provider)

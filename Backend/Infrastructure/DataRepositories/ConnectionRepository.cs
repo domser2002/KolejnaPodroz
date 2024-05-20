@@ -13,10 +13,12 @@ namespace Infrastructure.DataRepositories
     {
         private readonly DomainDBContext _context = context;
 
-        public bool Add(Connection connection) 
+        public int Add(Connection connection) 
         {
+            int id = !GetAll().Any() ? 1 : GetAll().Max(x => x.ID) + 1;
+            connection.ID = id; // temporary solution
             _context.Connection.Add(connection);
-            return _context.SaveChanges() == 1;
+            return (_context.SaveChanges() == 1) ? id : -1;
         }
 
         public bool Delete(Connection connection) 

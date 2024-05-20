@@ -12,7 +12,7 @@ namespace Infrastructure.FakeDataRepositories
     public class FakeComplaintRepository : IComplaintRepository
     {
         private readonly List<Complaint> Complaints = [];
-
+        private static int nextID = 3;
         public FakeComplaintRepository() 
         {
             Complaint complaint1 = new Complaint();
@@ -43,10 +43,11 @@ namespace Infrastructure.FakeDataRepositories
             return Complaints.FirstOrDefault(a => a.ID == id);
         }
 
-        public bool Add(Complaint Complaint)
+        public int Add(Complaint Complaint)
         {
+            Complaint.ID = nextID++;
             Complaints.Add(Complaint);
-            return true;
+            return Complaint.ID;
         }
 
         public bool Update(Complaint Complaint)

@@ -12,10 +12,12 @@ namespace Infrastructure.FakeDataRepositories
     public class FakeStatisticsRepository : IStatisticsRepository
     {
         private readonly List<Statistics> Statistics = [];
-        public bool Add(Statistics statistics)
+        private static int nextID = 1;
+        public int Add(Statistics statistics)
         {
+            statistics.ID = nextID++;
             Statistics.Add(statistics);
-            return true;
+            return statistics.ID;
         }
 
         public bool Delete(Statistics statistics)

@@ -11,7 +11,7 @@ namespace Infrastructure.Interfaces
     {
         public IEnumerable<User> GetAll();
         public User? GetByID(int id);
-        public bool Add(User user);
+        public int Add(User user);
         public bool Update(User user);
         public bool Delete(User user);
     }

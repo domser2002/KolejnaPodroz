@@ -49,11 +49,11 @@ namespace Infrastructure.FakeDataRepositories
             return Users.FirstOrDefault(a => a.ID == id);
         }
 
-        public bool Add(User User)
+        public int Add(User User)
         {
             User.ID = nextID++;
             Users.Add(User);
-            return true;
+            return User.ID;
         }
 
         public bool Update(User User)
