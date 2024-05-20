@@ -123,6 +123,9 @@ namespace Infrastructure.Migrations
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)");
 
+                    b.Property<int?>("ConnectionID")
+                        .HasColumnType("int");
+
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -134,6 +137,8 @@ namespace Infrastructure.Migrations
                         .HasColumnType("nvarchar(50)");
 
                     b.HasKey("ID");
+
+                    b.HasIndex("ConnectionID");
 
                     b.ToTable("Provider");
                 });
@@ -304,6 +309,13 @@ namespace Infrastructure.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Domain.Common.Provider", b =>
+                {
+                    b.HasOne("Domain.Common.Connection", null)
+                        .WithMany("Providers")
+                        .HasForeignKey("ConnectionID");
+                });
+
             modelBuilder.Entity("Domain.Common.Statistics", b =>
                 {
                     b.HasOne("Domain.Common.StatisticCategory", null)
@@ -341,6 +353,11 @@ namespace Infrastructure.Migrations
                         .HasForeignKey("UserID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Domain.Common.Connection", b =>
+                {
+                    b.Navigation("Providers");
                 });
 #pragma warning restore 612, 618
         }

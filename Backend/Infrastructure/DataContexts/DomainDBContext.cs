@@ -128,6 +128,7 @@ public partial class DomainDBContext : DbContext, IDataContext
                 .HasConversion(
                     v => JsonConvert.SerializeObject(v),
                     v => JsonConvert.DeserializeObject<List<Provider>>(v));
+
         });
     }
 

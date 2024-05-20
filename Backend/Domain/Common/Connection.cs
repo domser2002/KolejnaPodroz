@@ -14,4 +14,3 @@ public class Connection : Base
 
     public List<Provider> Providers { get; set; } = new();
 }
-
