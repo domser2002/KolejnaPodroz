@@ -2,6 +2,8 @@
 using Domain.User;
 using Microsoft.AspNetCore.Mvc;
 using Logic.Services.Interfaces;
+using Domain.Common;
+using System.Net.Mime;
 
 namespace Api.Controllers;
 
@@ -37,22 +39,32 @@ public class TicketController(ITicketService ticketService) : ControllerBase
         {
             return StatusCode(500);
         }
-    }        
-    
+    }
+
     [HttpPost("create")]
-    public ActionResult<int> AddTicket(Ticket ticket)
+    [Consumes(MediaTypeNames.Application.Json)]
+    [Produces(MediaTypeNames.Application.Json)]
+    [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(Ticket))]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public ActionResult<Ticket> MakeTicket([FromBody] Ticket newTicket)
     {
+        int return_id;
         try
         {
-            var success = _ticketService.Add(ticket);
-            return success ? Ok(ticket.ID) : BadRequest();
+            return_id = _ticketService.Add(newTicket);
         }
         catch (Exception)
         {
             return StatusCode(500);
         }
+        if (return_id == -1)
+        {
+            return BadRequest();
+        }
+        newTicket.ID = return_id;
+        return Ok(newTicket);
     }
-    
+
     [HttpPut("edit")]
     public ActionResult EditTicket(int ticketId, Ticket ticket)
     {

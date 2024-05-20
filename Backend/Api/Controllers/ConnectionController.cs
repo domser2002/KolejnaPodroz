@@ -17,22 +17,23 @@ namespace Api.Controllers
         [Produces(MediaTypeNames.Application.Json)]
         [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(Connection))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public ActionResult<int> MakeConnection([FromBody] Connection newConnection)
+        public ActionResult<Connection> MakeConnection([FromBody] Connection newConnection)
         {
-            bool success;
+            int return_id;
             try
             {
-                success = _connectionService.AddConnection(newConnection);
+                return_id = _connectionService.AddConnection(newConnection);
             }
-            catch (Exception) 
+            catch (Exception)
             {
                 return StatusCode(500);
             }
-            if(!success) 
+            if (return_id == -1)
             {
                 return BadRequest();
             }
-            return CreatedAtAction(nameof(GetConnectionByID), new { id = newConnection.ID }, newConnection);
+            newConnection.ID = return_id;
+            return Ok(newConnection);
         }
 
         [HttpDelete("remove/{id}")]
