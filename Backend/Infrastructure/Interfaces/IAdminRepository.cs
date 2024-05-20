@@ -11,7 +11,7 @@ namespace Infrastructure.Interfaces
     {
         public IEnumerable<Admin> GetAll();
         public Admin? GetByID(int id);
-        public bool Add(Admin Admin);
+        public int Add(Admin Admin);
         public bool Update(Admin Admin);
         public bool Delete(Admin Admin);
     }

@@ -24,11 +24,11 @@ namespace Infrastructure.FakeDataRepositories
             return Admins.FirstOrDefault(a => a.ID == id);
         }
 
-        public bool Add(Admin Admin)
+        public int Add(Admin Admin)
         {
             Admin.ID = nextID++;
             Admins.Add(Admin);
-            return true;
+            return Admin.ID;
         }
 
         public bool Update(Admin Admin)
