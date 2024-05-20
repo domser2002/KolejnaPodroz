@@ -4,6 +4,7 @@ using Infrastructure.DataContexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(DomainDBContext))]
-    partial class DomainDBContextModelSnapshot : ModelSnapshot
+    [Migration("20240520204138_connectionsAddProvider")]
+    partial class connectionsAddProvider
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -123,9 +126,6 @@ namespace Infrastructure.Migrations
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)");
 
-                    b.Property<int?>("ConnectionID")
-                        .HasColumnType("int");
-
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -137,8 +137,6 @@ namespace Infrastructure.Migrations
                         .HasColumnType("nvarchar(50)");
 
                     b.HasKey("ID");
-
-                    b.HasIndex("ConnectionID");
 
                     b.ToTable("Provider");
                 });
@@ -309,13 +307,6 @@ namespace Infrastructure.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Domain.Common.Provider", b =>
-                {
-                    b.HasOne("Domain.Common.Connection", null)
-                        .WithMany("Providers")
-                        .HasForeignKey("ConnectionID");
-                });
-
             modelBuilder.Entity("Domain.Common.Statistics", b =>
                 {
                     b.HasOne("Domain.Common.StatisticCategory", null)
@@ -353,11 +344,6 @@ namespace Infrastructure.Migrations
                         .HasForeignKey("UserID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("Domain.Common.Connection", b =>
-                {
-                    b.Navigation("Providers");
                 });
 #pragma warning restore 612, 618
         }
