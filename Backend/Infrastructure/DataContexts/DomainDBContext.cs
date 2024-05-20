@@ -3,6 +3,7 @@ using Domain.Common;
 using Domain.Admin;
 using Microsoft.EntityFrameworkCore;
 using Infrastructure.Interfaces;
+using Newtonsoft.Json;
 namespace Infrastructure.DataContexts;
 
 public partial class DomainDBContext : DbContext, IDataContext
@@ -107,6 +108,21 @@ public partial class DomainDBContext : DbContext, IDataContext
         {
             entity.HasKey(k => k.ID);
             entity.Property(k => k.ID).ValueGeneratedOnAdd();
+
+            entity.Property(c => c.Stations)
+                    .HasConversion(
+                        v => JsonConvert.SerializeObject(v),
+                        v => JsonConvert.DeserializeObject<List<string>>(v));
+
+            entity.Property(c => c.DepartureTimes)
+                    .HasConversion(
+                        v => JsonConvert.SerializeObject(v),
+                        v => JsonConvert.DeserializeObject<List<DateTime>>(v));
+
+            entity.Property(c => c.ArrivalTimes)
+                .HasConversion(
+                    v => JsonConvert.SerializeObject(v),
+                    v => JsonConvert.DeserializeObject<List<DateTime>>(v));
         });
     }
 

@@ -5,13 +5,15 @@ namespace Domain.Common;
 
 public class Connection : Base
 {
-    [NotMapped]
+    // [NotMapped]
     public List<string> Stations { get; set; } = new();
 
-    [NotMapped]
+    // [NotMapped]
     public List<DateTime> DepartureTimes { get; set; } = new();
-    [NotMapped]
+    // [NotMapped]
     public List<DateTime> ArrivalTimes { get; set; } = new();
-    [NotMapped]
+    // [NotMapped]
     public List<Provider> Providers { get; set; } = new();
 }
+
+
