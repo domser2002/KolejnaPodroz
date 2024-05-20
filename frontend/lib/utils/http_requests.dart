@@ -95,21 +95,20 @@ class HttpRequests {
     }
   }
 
-  Future<bool> authoriseUser(String firebaseID) async {
+  Future<dynamic> authoriseUser(String firebaseID) async {
     try {
-      var url = Uri.parse('$host/User/authorise/$firebaseID');
+      var url = Uri.parse('$host/User/authorise/$firebaseID?token=$firebaseID');
       var response = await http.post(url);
 
       if (response.statusCode == 200) {
+        var jsonResponse = jsonDecode(response.body);
         print("user authorised");
-        return true;
+        return jsonResponse;
       } else {
         print('Failed to authorise user');
-        return false;
       }
     } catch (e) {
       print(e.toString());
-      return false;
     }
   }
 

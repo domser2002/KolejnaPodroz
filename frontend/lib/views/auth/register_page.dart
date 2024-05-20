@@ -27,11 +27,10 @@ class RegistrationPage extends StatelessWidget {
           'lastName': 'string',
           'email': emailController.text,
           'firebaseID':  FirebaseAuth.instance.currentUser!.uid,
-          'birthDate': DateTime.now().toString(),
         };
         var createdUser  = await request.createUser(userData);
          if (createdUser != null) {
-        // Fetch user details from your backend using HttpRequests
+
         MyUser user = MyUser.fromJson(createdUser);
 
         // Save user details to the provider
@@ -41,7 +40,6 @@ class RegistrationPage extends StatelessWidget {
       } 
         request.authoriseUser(FirebaseAuth.instance.currentUser!.uid);
 
-        Navigator.of(context).popUntil((route) => route.isFirst);
       } on FirebaseAuthException catch (e) {
         print(e.message);
       }

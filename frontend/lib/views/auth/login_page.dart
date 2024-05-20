@@ -22,9 +22,12 @@ class LoginPage extends StatelessWidget {
       );
 
       // Fetch user details from your backend using HttpRequests
-      MyUser? user = await request.getUser(userCredential.user!.uid);
+      var loggedUser = await request.authoriseUser(userCredential.user!.uid);
 
-      if (user != null) {
+
+      if (loggedUser != null) {
+
+        MyUser user = MyUser.fromJson(loggedUser);
         // Save user details to the provider
         Provider.of<UserProvider>(context, listen: false).setUser(user);
         
