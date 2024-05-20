@@ -44,9 +44,10 @@ namespace InfrastructureTests
             // Act 
             var result = fakeRepository.Add(complaint);
             // Assert
+            complaint.ID = result;
             Assert.Multiple(() =>
             {
-                Assert.That(result, Is.True);
+                Assert.That(result, Is.Not.EqualTo(-1));
                 Assert.That(fakeRepository.GetAll().Count(), Is.EqualTo(count + 1));
                 Assert.That(fakeRepository.GetAll().Any(u => u.Equals(complaint)), Is.True);
             });
@@ -58,7 +59,7 @@ namespace InfrastructureTests
             // Arrange
             fakeRepository = new();
             Complaint complaint = new();
-            fakeRepository.Add(complaint);
+            complaint.ID = fakeRepository.Add(complaint);
             // Act
             var result = fakeRepository.Delete(complaint);
             // Assert
@@ -75,7 +76,7 @@ namespace InfrastructureTests
             // Arrange
             fakeRepository = new();
             Complaint complaint = new();
-            fakeRepository.Add(complaint);
+            complaint.ID = fakeRepository.Add(complaint);
             complaint.Content = "Test";
             // Act 
             var result = fakeRepository.Update(complaint);
@@ -91,21 +92,19 @@ namespace InfrastructureTests
         public void AddComplaint_IntegrationTest()
         {
             // Arrange
-            int test_id = 99999;
             User user = new();
-            Complaint complaint = new()
-            {
-                ID = test_id
-            };
+            Complaint complaint = new();
             int count = repository.GetAll().Count();
-            userRepository.Add(user);
-            complaint.ComplainantID = user.ID;
+            int id = userRepository.Add(user);
+            user.ID = id;
+            complaint.ComplainantID = id;
             // Act 
             var result = repository.Add(complaint);
             // Assert
+            complaint.ID = result;
             Assert.Multiple(() =>
             {
-                Assert.That(result, Is.True);
+                Assert.That(result, Is.Not.EqualTo(-1));
                 Assert.That(repository.GetAll().Count(), Is.EqualTo(count + 1));
                 Assert.That(repository.GetAll().Any(u => u.Equals(complaint)), Is.True);
             });
@@ -118,15 +117,11 @@ namespace InfrastructureTests
         public void DeleteComplaint_IntegrationTest()
         {
             // Arrange
-            int test_id = 99999;
             User user = new();
-            Complaint complaint = new()
-            {
-                ID = test_id
-            };
-            userRepository.Add(user);
+            Complaint complaint = new();
+            user.ID = userRepository.Add(user);
             complaint.ComplainantID = user.ID;
-            repository.Add(complaint);
+            complaint.ID = repository.Add(complaint);
             // Act
             var result = repository.Delete(complaint);
             // Assert
@@ -143,15 +138,11 @@ namespace InfrastructureTests
         public void UpdateComplaint_IntegrationTest()
         {
             // Arrange
-            int test_id = 99999;
             User user = new();
-            Complaint complaint = new()
-            {
-                ID = test_id
-            };
-            userRepository.Add(user);
+            Complaint complaint = new();
+            user.ID = userRepository.Add(user);
             complaint.ComplainantID = user.ID;
-            repository.Add(complaint);
+            complaint.ID = repository.Add(complaint);
             complaint.Content = "Test";
             // Act 
             var result = repository.Update(complaint);

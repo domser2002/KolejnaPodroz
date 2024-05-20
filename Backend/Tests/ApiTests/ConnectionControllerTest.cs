@@ -18,20 +18,17 @@ public class ConnectionControllerTests
         var connectionServiceMock = new Mock<IConnectionService>();
         var controller = new ConnectionController(connectionServiceMock.Object);
         var newConnection = new Connection { ID = 1 };
-        connectionServiceMock.Setup(m => m.AddConnection(newConnection)).Returns(true);
+        connectionServiceMock.Setup(m => m.AddConnection(newConnection)).Returns(1);
         // Act
         var result = controller.MakeConnection(newConnection);
-        var createdAtActionResult = (CreatedAtActionResult?)result.Result;
+        var createdAtActionResult = (OkObjectResult?)result.Result;
         // Assert
         Assert.That(createdAtActionResult, Is.Not.Null);
-        Assert.That(createdAtActionResult.RouteValues, Is.Not.Null);
         Assert.Multiple(() =>
         {
             Assert.That(result, Is.Not.Null);
-            Assert.That(result.Result is CreatedAtActionResult, Is.True);
-            Assert.That(createdAtActionResult.StatusCode, Is.EqualTo(201));
-            Assert.That(createdAtActionResult.ActionName, Is.EqualTo(nameof(controller.GetConnectionByID)));
-            Assert.That(createdAtActionResult.RouteValues["id"], Is.EqualTo(newConnection.ID));
+            Assert.That(result.Result is OkObjectResult, Is.True);
+            Assert.That(createdAtActionResult.StatusCode, Is.EqualTo(200));
             Assert.That(createdAtActionResult.Value, Is.EqualTo(newConnection));
         });
         connectionServiceMock.Verify(m => m.AddConnection(newConnection), Times.Once);

@@ -18,20 +18,17 @@ public class ComplaintControllerTests
         var complaintServiceMock = new Mock<IComplaintService>();
         var controller = new ComplaintController(complaintServiceMock.Object);
         var newComplaint = new Complaint { ID = 1, Content = "Test complaint" };
-        complaintServiceMock.Setup(m => m.MakeComplaint(newComplaint)).Returns(true);
+        complaintServiceMock.Setup(m => m.MakeComplaint(newComplaint)).Returns(1);
         // Act
         var result = controller.MakeComplaint(newComplaint);
-        var createdAtActionResult = (CreatedAtActionResult?)result.Result;
+        var createdAtActionResult = (OkObjectResult?)result.Result;
         // Assert
         Assert.That(createdAtActionResult, Is.Not.Null);
-        Assert.That(createdAtActionResult.RouteValues, Is.Not.Null);
         Assert.Multiple(() =>
         {
             Assert.That(result, Is.Not.Null);
-            Assert.That(result.Result is CreatedAtActionResult, Is.True);
-            Assert.That(createdAtActionResult.StatusCode, Is.EqualTo(201));
-            Assert.That(createdAtActionResult.ActionName, Is.EqualTo(nameof(controller.GetComplaintByID)));
-            Assert.That(createdAtActionResult.RouteValues["id"], Is.EqualTo(newComplaint.ID));
+            Assert.That(result.Result is OkObjectResult, Is.True);
+            Assert.That(createdAtActionResult.StatusCode, Is.EqualTo(200));
             Assert.That(createdAtActionResult.Value, Is.EqualTo(newComplaint));
         });
         complaintServiceMock.Verify(m => m.MakeComplaint(newComplaint), Times.Once);

@@ -38,9 +38,10 @@ namespace InfrastructureTests
             // Act 
             var result = fakeRepository.Add(admin);
             // Assert
+            admin.ID = result;
             Assert.Multiple(() =>
             {
-                Assert.That(result, Is.True);
+                Assert.That(result, Is.Not.EqualTo(-1));
                 Assert.That(fakeRepository.GetAll().Count(), Is.EqualTo(count + 1));
                 Assert.That(fakeRepository.GetAll().Any(u => u.Equals(admin)), Is.True);
             });
@@ -52,7 +53,7 @@ namespace InfrastructureTests
             // Arrange
             fakeRepository = new();
             Admin admin = new();
-            fakeRepository.Add(admin);
+            admin.ID = fakeRepository.Add(admin);
             // Act
             var result = fakeRepository.Delete(admin);
             // Assert
@@ -69,7 +70,7 @@ namespace InfrastructureTests
             // Arrange
             fakeRepository = new();
             Admin admin = new();
-            fakeRepository.Add(admin);
+            admin.ID = fakeRepository.Add(admin);
             admin.Accepted = !admin.Accepted;
             // Act 
             var result = fakeRepository.Update(admin);
@@ -85,17 +86,15 @@ namespace InfrastructureTests
         public void AddAdmin_IntegrationTest()
         {
             // Arrange
-            Admin admin = new()
-            {
-                ID = 99999
-            };
+            Admin admin = new();
             int count = repository.GetAll().Count();
             // Act 
             var result = repository.Add(admin);
             // Assert
+            admin.ID = result;
             Assert.Multiple(() =>
             {
-                Assert.That(result, Is.True);
+                Assert.That(result, Is.Not.EqualTo(-1));
                 Assert.That(repository.GetAll().Count(), Is.EqualTo(count + 1));
                 Assert.That(repository.GetAll().Any(u => u.Equals(admin)), Is.True);
             });
@@ -107,11 +106,8 @@ namespace InfrastructureTests
         public void DeleteAdmin_IntegrationTest()
         {
             // Arrange
-            Admin admin = new()
-            {
-                ID = 99999
-            };
-            repository.Add(admin);
+            Admin admin = new();
+            admin.ID = repository.Add(admin);
             // Act
             var result = repository.Delete(admin);
             // Assert
@@ -126,11 +122,8 @@ namespace InfrastructureTests
         public void UpdateAdmin_IntegrationTest()
         {
             // Arrange
-            Admin admin = new()
-            {
-                ID = 99999
-            };
-            repository.Add(admin);
+            Admin admin = new();
+            admin.ID = repository.Add(admin);
             admin.Accepted = !admin.Accepted;
             // Act 
             var result = repository.Update(admin);

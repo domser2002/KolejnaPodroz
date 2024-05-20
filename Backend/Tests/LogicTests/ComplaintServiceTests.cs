@@ -49,9 +49,9 @@ public class ComplaintServiceTests
         // Arrange
         Complaint? complaint = null;
         // Act
-        bool returnValue = fakeComplaintService.MakeComplaint(complaint);
+        var returnValue = fakeComplaintService.MakeComplaint(complaint);
         // Assert
-        Assert.That(returnValue, Is.EqualTo(false));
+        Assert.That(returnValue, Is.EqualTo(-1));
     }
 
     [Test]
@@ -59,11 +59,9 @@ public class ComplaintServiceTests
     {
         // Arrange
         Complaint complaint = new();
-        int id = 1;
-        complaint.ID = id;
-        fakeComplaintService.MakeComplaint(complaint);
+        complaint.ID = fakeComplaintService.MakeComplaint(complaint);
         // Act
-        bool returnValue = fakeComplaintService.RemoveComplaint(id);
+        var returnValue = fakeComplaintService.RemoveComplaint(complaint.ID);
         // Assert
         Assert.That(returnValue, Is.EqualTo(true));
     }
@@ -95,15 +93,12 @@ public class ComplaintServiceTests
     public void CanReturn_MakeComplaint_ReturnsTrue_IntegrationTest()
     {
         // Arrange
-        Complaint complaint = new()
-        {
-            ID = 99999
-        };
+        Complaint complaint = new();
         User user = new();
-        userRepository.Add(user);
+        user.ID = userRepository.Add(user);
         complaint.ComplainantID = user.ID;
         // Act
-        complaintService.MakeComplaint(complaint);
+        complaint.ID = complaintService.MakeComplaint(complaint);
         Complaint? complaint1 = complaintService.GetComplaintByID(complaint.ID);
         // Assert
         Assert.That(complaint1, Is.EqualTo(complaint));
@@ -118,27 +113,22 @@ public class ComplaintServiceTests
         // Arrange
         Complaint? complaint = null;
         // Act
-        bool returnValue = complaintService.MakeComplaint(complaint);
+        var returnValue = complaintService.MakeComplaint(complaint);
         // Assert
-        Assert.That(returnValue, Is.EqualTo(false));
+        Assert.That(returnValue, Is.EqualTo(-1));
     }
 
     [Test]
     public void CanReturn_RemoveComplaint_ReturnsTrue_IntegrationTest()
     {
         // Arrange
-        Complaint complaint = new()
-        {
-            ID = 99999
-        };
+        Complaint complaint = new();
         User user = new();
-        userRepository.Add(user);
+        user.ID = userRepository.Add(user);
         complaint.ComplainantID = user.ID;
-        int id = 1;
-        complaint.ID = id;
-        complaintService.MakeComplaint(complaint);
+        complaint.ID = complaintService.MakeComplaint(complaint);
         // Act
-        bool returnValue = complaintService.RemoveComplaint(id);
+        var returnValue = complaintService.RemoveComplaint(complaint.ID);
         // Assert
         Assert.That(returnValue, Is.EqualTo(true));
     }

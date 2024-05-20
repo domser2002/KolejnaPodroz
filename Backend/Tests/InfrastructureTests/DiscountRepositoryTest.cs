@@ -41,9 +41,10 @@ namespace InfrastructureTests
             // Act 
             var result = fakeRepository.Add(discount);
             // Assert
+            discount.ID = result;
             Assert.Multiple(() =>
             {
-                Assert.That(result, Is.True);
+                Assert.That(result, Is.Not.EqualTo(-1));
                 Assert.That(fakeRepository.GetAll().Count(), Is.EqualTo(count + 1));
                 Assert.That(fakeRepository.GetAll().Any(u => u.Equals(discount)), Is.True);
             });
@@ -55,7 +56,7 @@ namespace InfrastructureTests
             // Arrange
             fakeRepository = new();
             Discount discount = new();
-            fakeRepository.Add(discount);
+            discount.ID = fakeRepository.Add(discount);
             // Act
             var result = fakeRepository.Delete(discount);
             // Assert
@@ -72,7 +73,7 @@ namespace InfrastructureTests
             // Arrange
             fakeRepository = new();
             Discount discount = new();
-            fakeRepository.Add(discount);
+            discount.ID = fakeRepository.Add(discount);
             discount.Percentage = 10;
             // Act 
             var result = fakeRepository.Update(discount);
@@ -88,17 +89,15 @@ namespace InfrastructureTests
         public void AddDiscount_IntegrationTest()
         {
             // Arrange
-            Discount discount = new()
-            {
-                ID = 99999
-            };
+            Discount discount = new();
             int count = repository.GetAll().Count();
             // Act 
             var result = repository.Add(discount);
             // Assert
+            discount.ID = result;
             Assert.Multiple(() =>
             {
-                Assert.That(result, Is.True);
+                Assert.That(result, Is.Not.EqualTo(-1));
                 Assert.That(repository.GetAll().Count(), Is.EqualTo(count + 1));
                 Assert.That(repository.GetAll().Any(u => u.Equals(discount)), Is.True);
             });
@@ -110,11 +109,8 @@ namespace InfrastructureTests
         public void DeleteDiscount_IntegrationTest()
         {
             // Arrange
-            Discount discount = new()
-            {
-                ID = 99999
-            };
-            repository.Add(discount);
+            Discount discount = new();
+            discount.ID = repository.Add(discount);
             // Act
             var result = repository.Delete(discount);
             // Assert
@@ -129,11 +125,8 @@ namespace InfrastructureTests
         public void UpdateDiscount_IntegrationTest()
         {
             // Arrange
-            Discount discount = new()
-            {
-                ID = 99999
-            };
-            repository.Add(discount);
+            Discount discount = new();
+            discount.ID = repository.Add(discount);
             discount.Percentage = 10;
             // Act 
             var result = repository.Update(discount);
