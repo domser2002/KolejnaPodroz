@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/utils/http_requests.dart';
+import 'package:frontend/views/auth/login_page.dart';
 import 'package:frontend/widgets/input_button_widget.dart';
 import 'package:frontend/widgets/socialmedia_button.dart';
 
@@ -143,7 +144,12 @@ class RegistrationPage extends StatelessWidget {
                             style: TextStyle(color: Colors.white),
                           ),
                           onPressed: () {
-                            // Handle navigate to login action
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => LoginPage(),
+                              ),
+                            );
                           },
                         ),
                         const Divider(color: Colors.white),

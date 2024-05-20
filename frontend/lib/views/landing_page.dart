@@ -1,6 +1,7 @@
 // landing_page.dart
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:frontend/classes/user_provider.dart';
 
 import 'package:frontend/utils/http_requests.dart';
 import 'package:frontend/views/auth/login_page.dart';
@@ -9,6 +10,7 @@ import 'package:frontend/views/auth/register_page.dart';
 import 'package:frontend/views/user_profile_page.dart';
 import 'package:frontend/widgets/button_widget.dart';
 import 'package:frontend/widgets/date_picker_widget.dart';
+import 'package:provider/provider.dart';
 
 import '../widgets/input_button_widget.dart';
 
@@ -24,7 +26,7 @@ class LandingPage extends StatelessWidget {
     Size screenSize = MediaQuery.of(context).size;
     double winWidth = screenSize.width;
     double winHeight = screenSize.height;
-
+    UserProvider userProvider = Provider.of<UserProvider>(context);
     //print(win_width);
     //print(win_height);
 
@@ -51,12 +53,20 @@ class LandingPage extends StatelessWidget {
         // Użytkownik jest zalogowany
         return Row(
           children: [
+            if (userProvider.user != null)
+          Padding(
+            padding: const EdgeInsets.only(right: 8.0),
+            child: Text(
+              'Hello, ${userProvider.user!.userId}',
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ),
+          ),
             IconButton(
               icon: const Icon(Icons.person, color: Colors.black),
               onPressed: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (context) => const UserProfilePage(),
+                    builder: (context) => UserProfilePage(),
                   ),
                 );
               },

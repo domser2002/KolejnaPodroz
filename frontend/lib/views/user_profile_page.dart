@@ -1,12 +1,16 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:frontend/classes/complaint.dart';
-import 'package:frontend/classes/user.dart';
 import 'package:frontend/utils/http_requests.dart';
 import 'package:frontend/views/complaint/edit_complaint_page.dart';
 
 import 'package:frontend/views/complaint/make_complaint_page.dart';
+import 'package:frontend/widgets/complaint_item_widget.dart';
+import 'package:http/http.dart';
+
 class UserProfilePage extends StatefulWidget {
-  const UserProfilePage({super.key});
+  UserProfilePage({super.key});
 
   @override
   // ignore: library_private_types_in_public_api
@@ -32,14 +36,14 @@ class _UserProfilePageState extends State<UserProfilePage>
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
-    double winWidth = screenSize.width;
-    double winHeight = screenSize.height;
+    double win_width = screenSize.width;
+    double win_height = screenSize.height;
 
     return Scaffold(
       bottomNavigationBar: BottomAppBar(
           color: Colors.white,
-          height: winHeight * 0.07,
-          child: const Center(
+          height: win_height * 0.07,
+          child: Center(
               child: Stack(
             fit: StackFit.passthrough,
             children: [
@@ -48,7 +52,7 @@ class _UserProfilePageState extends State<UserProfilePage>
             ],
           ))),
       appBar: AppBar(
-        title: const Stack(alignment: AlignmentDirectional.centerEnd, children: [
+        title: Stack(alignment: AlignmentDirectional.centerEnd, children: [
           Icon(Icons.person, size: 40, color: Colors.black),
         ]),
         backgroundColor: Colors.white,
@@ -68,10 +72,10 @@ class _UserProfilePageState extends State<UserProfilePage>
           Center(
             child: Padding(
               padding: EdgeInsets.symmetric(
-                  horizontal: winWidth * 0.2, vertical: winHeight * 0.14),
+                  horizontal: win_width * 0.2, vertical: win_height * 0.14),
               child: Container(
-                width: winWidth,
-                constraints: BoxConstraints(maxWidth: winWidth * 0.78),
+                width: win_width,
+                constraints: BoxConstraints(maxWidth: win_width * 0.78),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
                   gradient: LinearGradient(
@@ -92,15 +96,15 @@ class _UserProfilePageState extends State<UserProfilePage>
                       borderRadius: BorderRadius.circular(40)),
                   child: Column(
                     children: [
-                      const Text("Moje konto",
+                      Text("Moje konto",
                           style: TextStyle(
                               fontSize: 24,
                               fontWeight: FontWeight.w600,
                               color: Colors.white)),
-                      SizedBox(height: winHeight * 0.05),
+                      SizedBox(height: win_height * 0.05),
                       Container(
                         decoration: BoxDecoration(
-                          borderRadius: const BorderRadius.all(Radius.circular(10)),
+                          borderRadius: BorderRadius.all(Radius.circular(10)),
                           gradient: LinearGradient(
                             begin: Alignment.topCenter,
                             end: Alignment.bottomCenter,
@@ -115,7 +119,7 @@ class _UserProfilePageState extends State<UserProfilePage>
                         child: TabBar(
                           indicatorWeight: 4,
                           padding:
-                              const EdgeInsets.symmetric(horizontal: 2, vertical: 2),
+                              EdgeInsets.symmetric(horizontal: 2, vertical: 2),
                           dividerHeight: 0,
                           controller: _tabController,
                           indicatorColor: Colors.orange[700],
@@ -158,10 +162,10 @@ class _UserProfilePageState extends State<UserProfilePage>
                       Expanded(
                         child: Container(
                           // Mniejsza wysokość tła
-                          padding: const EdgeInsets.all(20),
-                          height: winHeight * 0.5,
+                          padding: EdgeInsets.all(20),
+                          height: win_height * 0.5,
                           decoration: BoxDecoration(
-                            borderRadius: const BorderRadius.all(Radius.circular(15)),
+                            borderRadius: BorderRadius.all(Radius.circular(15)),
                             gradient: LinearGradient(
                               begin: Alignment.topCenter,
                               end: Alignment.bottomCenter,
@@ -174,11 +178,11 @@ class _UserProfilePageState extends State<UserProfilePage>
                           child: TabBarView(
                             controller: _tabController,
                             children: [
-                              const UserInfoPage(),
+                              UserInfoPage(),
                               TicketsPage(),
-                              const ComplaintsPage(),
-                              const StatisticsPage(),
-                              const AchievementsPage(),
+                              ComplaintsPage(),
+                              StatisticsPage(),
+                              AchievementsPage(),
                             ],
                           ),
                         ),
@@ -196,10 +200,10 @@ class _UserProfilePageState extends State<UserProfilePage>
 }
 
 class ComplaintsPage extends StatefulWidget {
-  const ComplaintsPage({Key? key}) : super(key: key);
+  ComplaintsPage({Key? key}) : super(key: key);
 
   @override
- _ComplaintsPageState createState() => _ComplaintsPageState();
+  _ComplaintsPageState createState() => _ComplaintsPageState();
 }
 
 class _ComplaintsPageState extends State<ComplaintsPage> {
@@ -212,8 +216,6 @@ class _ComplaintsPageState extends State<ComplaintsPage> {
   }
 
   Future<List<Complaint>> _fetchComplaints() async {
-    /// POpraw !!
-    /// // to
     int userId = 0; //FirebaseAuth.instance.currentUser!.uid;
     HttpRequests request = HttpRequests();
 
@@ -228,17 +230,7 @@ class _ComplaintsPageState extends State<ComplaintsPage> {
       _complaintsFuture = _fetchComplaints();
     });
   }
-  void _editComplaint(String complaintId,Complaint complaint) async {
-      await Navigator.of(context).push(
-        MaterialPageRoute(
-          builder: (context) => EditComplaintPage(complaintId: complaint.id),
-          ),
-      );
-    setState(() {
-      _complaintsFuture = _fetchComplaints();
-    });
-  }
-  
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<Complaint>>(
@@ -246,7 +238,7 @@ class _ComplaintsPageState extends State<ComplaintsPage> {
       builder: (BuildContext context, AsyncSnapshot<List<Complaint>> snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           // While the future is executing, show a loading indicator
-          return const Center(
+          return Center(
             child: CircularProgressIndicator(),
           );
         } else if (snapshot.hasError) {
@@ -268,14 +260,18 @@ class _ComplaintsPageState extends State<ComplaintsPage> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     IconButton(
-                      icon: const Icon(Icons.edit),
+                      icon: Icon(Icons.edit),
                       onPressed: () {
                         // Navigator to edit complaint page
-                        _editComplaint(complaint.id.toString(), complaint);
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => EditComplaintPage(complaintId: complaint.id),
+                          ),
+                        );
                       },
                     ),
                     IconButton(
-                      icon: const  Icon(Icons.delete, color: Colors.red),
+                      icon: Icon(Icons.delete),
                       onPressed: () {
                         _removeComplaint(complaint.id.toString());
                       },
@@ -287,7 +283,7 @@ class _ComplaintsPageState extends State<ComplaintsPage> {
           );
         } else {
           // Handling the case where there are no complaints
-          return const Center(child: Text('No complaints to display'));
+          return Center(child: Text('No complaints to display'));
         }
       },
     );
@@ -297,14 +293,11 @@ class _ComplaintsPageState extends State<ComplaintsPage> {
 
 
 class UserInfoPage extends StatelessWidget {
-   UserInfoPage({super.key});
-  HttpRequests request = HttpRequests();
+  UserInfoPage({super.key});
 
   @override
-  Widget build(BuildContext context) async {
-    return FutureBuilder(
-      future: future,
-       builder: builder)
+  Widget build(BuildContext context) {
+    return Center(child: Text('Dane użytkownika'));
   }
 }
 
@@ -333,20 +326,20 @@ class TicketsPage extends StatelessWidget {
 }
 
 class StatisticsPage extends StatelessWidget {
-const  StatisticsPage({super.key});
+  StatisticsPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const Center(child: Text('Statystyki'));
+    return Center(child: Text('Statystyki'));
   }
 }
 
 class AchievementsPage extends StatelessWidget {
-  const AchievementsPage({super.key});
+  AchievementsPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const Center(child: Text('Osiągnięcia'));
+    return Center(child: Text('Osiągnięcia'));
   }
 }
 

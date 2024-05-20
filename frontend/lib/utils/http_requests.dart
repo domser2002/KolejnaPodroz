@@ -95,9 +95,9 @@ class HttpRequests {
     }
   }
 
-  Future<bool> authoriseUser(String userID) async {
+  Future<bool> authoriseUser(String firebaseID) async {
     try {
-      var url = Uri.parse('$host/User/authorise/$userID');
+      var url = Uri.parse('$host/User/authorise/$firebaseID');
       var response = await http.post(url);
 
       if (response.statusCode == 200) {
