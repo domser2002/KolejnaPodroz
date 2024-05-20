@@ -1,13 +1,12 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:frontend/classes/complaint.dart';
+import 'package:frontend/classes/user_provider.dart';
 import 'package:frontend/utils/http_requests.dart';
 import 'package:frontend/views/complaint/edit_complaint_page.dart';
 
 import 'package:frontend/views/complaint/make_complaint_page.dart';
-import 'package:frontend/widgets/complaint_item_widget.dart';
-import 'package:http/http.dart';
+import 'package:frontend/views/user_profile_subpages/user_info_page.dart';
+import 'package:provider/provider.dart';
 
 class UserProfilePage extends StatefulWidget {
   UserProfilePage({super.key});
@@ -43,7 +42,7 @@ class _UserProfilePageState extends State<UserProfilePage>
       bottomNavigationBar: BottomAppBar(
           color: Colors.white,
           height: win_height * 0.07,
-          child: Center(
+          child: const Center(
               child: Stack(
             fit: StackFit.passthrough,
             children: [
@@ -52,7 +51,7 @@ class _UserProfilePageState extends State<UserProfilePage>
             ],
           ))),
       appBar: AppBar(
-        title: Stack(alignment: AlignmentDirectional.centerEnd, children: [
+        title: const Stack(alignment: AlignmentDirectional.centerEnd, children: [
           Icon(Icons.person, size: 40, color: Colors.black),
         ]),
         backgroundColor: Colors.white,
@@ -96,7 +95,7 @@ class _UserProfilePageState extends State<UserProfilePage>
                       borderRadius: BorderRadius.circular(40)),
                   child: Column(
                     children: [
-                      Text("Moje konto",
+                     const  Text("Moje konto",
                           style: TextStyle(
                               fontSize: 24,
                               fontWeight: FontWeight.w600,
@@ -216,7 +215,7 @@ class _ComplaintsPageState extends State<ComplaintsPage> {
   }
 
   Future<List<Complaint>> _fetchComplaints() async {
-    int userId = 0; //FirebaseAuth.instance.currentUser!.uid;
+    int userId = Provider.of<UserProvider>(context, listen: false).user!.id;
     HttpRequests request = HttpRequests();
 
     return request.getComplaintsByUser(userId.toString());
@@ -292,14 +291,6 @@ class _ComplaintsPageState extends State<ComplaintsPage> {
 
 
 
-class UserInfoPage extends StatelessWidget {
-  UserInfoPage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(child: Text('Dane użytkownika'));
-  }
-}
 
 class TicketsPage extends StatelessWidget {
   TicketsPage({super.key});

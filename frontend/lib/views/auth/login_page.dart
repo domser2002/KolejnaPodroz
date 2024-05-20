@@ -11,7 +11,7 @@ import 'package:provider/provider.dart';
 class LoginPage extends StatelessWidget {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  HttpRequests request = HttpRequests();
+  final HttpRequests request = HttpRequests();
   LoginPage({Key? key}) : super(key: key);
 
   Future<void> signInWithEmailAndPassword(BuildContext context) async {

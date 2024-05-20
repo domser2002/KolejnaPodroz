@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/classes/complaint.dart';
 import 'package:frontend/utils/http_requests.dart';
-import 'package:http/http.dart' as http;
+
 
 class EditComplaintPage extends StatelessWidget {
   final TextEditingController reasonController = TextEditingController();

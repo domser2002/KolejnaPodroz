@@ -56,8 +56,8 @@ class LandingPage extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(right: 8.0),
             child: Text(
-              'Hello, ${userProvider.user!.firstName}',
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              'Cześć, ${userProvider.user!.firstName}',
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
           ),
             IconButton(
