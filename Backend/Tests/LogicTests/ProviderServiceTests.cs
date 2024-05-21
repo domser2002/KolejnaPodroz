@@ -87,19 +87,19 @@ public class ProviderServiceTests
     //    //Assert.DoesNotThrow(Exception );
     //}
 
-    //[Test]
-    //public void CanReturn_MakeProvider_ReturnsTrue_IntegrationTest()
-    //{
-    //    // Arrange
-    //    Provider provider = new();
-    //    // Act
-    //    provider.ID = providerService.AddProvider(provider);
-    //    Provider? provider1 = providerService.GetProviderByID(provider.ID);
-    //    // Assert
-    //    Assert.That(provider1, Is.EqualTo(provider));
-    //    // Clean 
-    //    providerService.RemoveProvider(provider.ID);
-    //}
+    [Test]
+    public void CanReturn_MakeProvider_ReturnsTrue_IntegrationTest()
+    {
+        // Arrange
+        Provider provider = new();
+        // Act
+        provider.ID = providerService.AddProvider(provider);
+        Provider? provider1 = providerService.GetProviderByID(provider.ID);
+        // Assert
+        Assert.That(provider1, Is.EqualTo(provider));
+        // Clean 
+        providerService.RemoveProvider(provider.ID);
+    }
 
     [Test]
     public void CanReturn_MakeProvider_ReturnsFalse_IntegrationTest()
@@ -112,26 +112,26 @@ public class ProviderServiceTests
         Assert.That(returnValue, Is.EqualTo(-1));
     }
 
-    //[Test]
-    //public void CanReturn_RemoveProvider_ReturnsTrue_IntegrationTest()
-    //{
-    //    // Arrange
-    //    Provider provider = new();
-    //    provider.ID = providerService.AddProvider(provider);
-    //    // Act
-    //    bool returnValue = providerService.RemoveProvider(provider.ID);
-    //    // Assert
-    //    Assert.That(returnValue, Is.EqualTo(true));
-    //}
+    [Test]
+    public void CanReturn_RemoveProvider_ReturnsTrue_IntegrationTest()
+    {
+        // Arrange
+        Provider provider = new();
+        provider.ID = providerService.AddProvider(provider);
+        // Act
+        bool returnValue = providerService.RemoveProvider(provider.ID);
+        // Assert
+        Assert.That(returnValue, Is.EqualTo(true));
+    }
 
-    //[Test]
-    //public void CanReturn_RemoveProvider_ReturnsFalse_IntegrationTest()
-    //{
-    //    // Arrange
-    //    int id = -1;
-    //    // Act
-    //    bool returnValue = providerService.RemoveProvider(id);
-    //    // Assert
-    //    Assert.That(returnValue, Is.EqualTo(false));
-    //}
+    [Test]
+    public void CanReturn_RemoveProvider_ReturnsFalse_IntegrationTest()
+    {
+        // Arrange
+        int id = -1;
+        // Act
+        bool returnValue = providerService.RemoveProvider(id);
+        // Assert
+        Assert.That(returnValue, Is.EqualTo(false));
+    }
 }
