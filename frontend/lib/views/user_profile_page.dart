@@ -218,7 +218,7 @@ class _ComplaintsPageState extends State<ComplaintsPage> {
     int userId = Provider.of<UserProvider>(context, listen: false).user!.id;
     HttpRequests request = HttpRequests();
 
-    return request.getComplaintsByUser(userId.toString());
+    return request.getComplaintsByUser(userId);
   }
 
   void _removeComplaint(String complaintId) async {

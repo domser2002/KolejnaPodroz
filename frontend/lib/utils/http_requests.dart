@@ -381,9 +381,9 @@ Future<Complaint?> getComplaint(String complaintId) async {
 }
 
 
-  Future<List<Complaint>> getComplaintsByUser(String userId) async {
+  Future<List<Complaint>> getComplaintsByUser(int userId) async {
     try {
-      var url = Uri.parse('$host/Complaint/getByUser/0');
+      var url = Uri.parse('$host/Complaint/getByUser/$userId');
       var response = await http.get(url);
 
       if (response.statusCode == 200) {

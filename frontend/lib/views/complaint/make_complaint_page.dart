@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:frontend/classes/user_provider.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 
 class MakeComplaintPage extends StatelessWidget {
   final TextEditingController reasonController = TextEditingController();
@@ -14,6 +16,7 @@ class MakeComplaintPage extends StatelessWidget {
     Size screenSize = MediaQuery.of(context).size;
     double winWidth = screenSize.width;
     double winHeight = screenSize.height;
+    UserProvider userProvider = Provider.of<UserProvider>(context);
 
     return Scaffold(
       bottomNavigationBar: BottomAppBar(
@@ -120,10 +123,10 @@ class MakeComplaintPage extends StatelessWidget {
                         SizedBox(height: winHeight * 0.027),
                         ElevatedButton(
                           onPressed: () {
-                            if (reasonController.text.isNotEmpty) {
+                            if (reasonController.text.isNotEmpty && titleController.text.isNotEmpty ) {
                               makeComplaint("https://localhost:7006", {
-                                'userID': '0', // TODO: get user id from auth
-                                'title': 'Reklamacja biletu $ticketId',
+                                'complainantID': userProvider.user!.id,
+                                'title': titleController.text,
                                 'response': "",
                                 'content': reasonController.text,
                               });
