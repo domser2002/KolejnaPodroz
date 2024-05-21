@@ -82,40 +82,40 @@ namespace InfrastructureTests
             });
         }
 
-        //[Test]
-        //public void AddConnection_IntegrationTest()
-        //{
-        //    // Arrange
-        //    Connection connection = new();
-        //    int count = repository.GetAll().Count();
-        //    // Act 
-        //    var result = repository.Add(connection);
-        //    // Assert
-        //    Assert.Multiple(() =>
-        //    {
-        //        Assert.That(result, Is.True);
-        //        Assert.That(repository.GetAll().Count(), Is.EqualTo(count + 1));
-        //        Assert.That(repository.GetAll().Any(u => u.Equals(connection)), Is.True);
-        //    });
-        //    // Clean
-        //    repository.Delete(connection);
-        //}
+        [Test]
+        public void AddConnection_IntegrationTest()
+        {
+            // Arrange
+            Connection connection = new();
+            int count = repository.GetAll().Count();
+            // Act 
+            var result = repository.Add(connection);
+            // Assert
+            Assert.Multiple(() =>
+            {
+                Assert.That(result, Is.Not.EqualTo(-1));
+                Assert.That(repository.GetAll().Count(), Is.EqualTo(count + 1));
+                Assert.That(repository.GetAll().Any(u => u.Equals(connection)), Is.True);
+            });
+            // Clean
+            repository.Delete(connection);
+        }
 
-        //[Test]
-        //public void DeleteConnection_IntegrationTest()
-        //{
-        //    // Arrange
-        //    Connection connection = new();
-        //    connection.ID = repository.Add(connection);
-        //    // Act
-        //    var result = repository.Delete(connection);
-        //    // Assert
-        //    Assert.Multiple(() =>
-        //    {
-        //        Assert.That(result, Is.True);
-        //        Assert.That(repository.GetByID(connection.ID), Is.Null);
-        //    });
-        //}
+        [Test]
+        public void DeleteConnection_IntegrationTest()
+        {
+            // Arrange
+            Connection connection = new();
+            connection.ID = repository.Add(connection);
+            // Act
+            var result = repository.Delete(connection);
+            // Assert
+            Assert.Multiple(() =>
+            {
+                Assert.That(result, Is.True);
+                Assert.That(repository.GetByID(connection.ID), Is.Null);
+            });
+        }
         // connection database is temporary approach, to uncomment once we have final implementation of repository
         //[Test]
         //public void UpdateConnection_IntegrationTest()

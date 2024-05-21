@@ -15,10 +15,10 @@ namespace Infrastructure.DataRepositories
 
         public int Add(Connection connection) 
         {
-            int id = !GetAll().Any() ? 1 : GetAll().Max(x => x.ID) + 1;
-            connection.ID = id; // temporary solution
+            //int id = !GetAll().Any() ? 1 : GetAll().Max(x => x.ID) + 1;
+            //connection.ID = id; // temporary solution
             _context.Connection.Add(connection);
-            return (_context.SaveChanges() == 1) ? id : -1;
+            return (_context.SaveChanges() == 1) ? connection.ID : -1;
         }
 
         public bool Delete(Connection connection) 
