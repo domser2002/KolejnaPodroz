@@ -1,4 +1,5 @@
 ﻿using Domain.Admin;
+using Domain.User;
 using Infrastructure.Interfaces;
 using Logic.Services.Interfaces;
 
@@ -43,5 +44,18 @@ public class AdminService(IDataRepository repository) : IAdminService
     {
         admin.Accepted = true;
         return _repository.AdminRepository.Update(admin);
+    }
+
+    public bool RemoveUserByID(int userID)
+    {
+        User? user = _repository.UserRepository.GetByID(userID);
+        if (user is null) return false;
+        return _repository.UserRepository.Delete(user);
+    }
+    public List<User>? GetAllUsers()
+    {
+        List<User> users = new List<User>(_repository.UserRepository.GetAll().ToList());
+        if (users.Count == 0) return null;
+        return users;
     }
 }

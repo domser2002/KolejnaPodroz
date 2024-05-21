@@ -1,4 +1,5 @@
 ﻿using Domain.Admin;
+using Domain.User;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,5 +16,7 @@ namespace Logic.Services.Interfaces
         public bool AcceptNewAdmin(int adminID);
         public Admin? AuthoriseAdmin(string firebaseID, string token);
         public bool GiveAdminPermissions(Admin admin);
+        public bool RemoveUserByID(int userID);
+        public List<User> GetAllUsers();
     }
 }

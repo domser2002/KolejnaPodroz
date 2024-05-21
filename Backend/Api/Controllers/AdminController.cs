@@ -105,5 +105,39 @@ namespace Api.Controllers
                 return StatusCode(500);
             }
         }
+        [HttpDelete("deleteUserByID/{userID}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType (StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public ActionResult<int> deleteUserByID(int userID)
+        {
+            try
+            {
+                var removed = _adminService.RemoveUserByID(userID);
+                return removed ? Ok() : BadRequest();
+            }
+            catch (Exception)
+            {
+                return StatusCode(500);
+            }
+        }
+        [HttpGet("getAllUsers")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public ActionResult GetAllUsers()
+        {
+            try
+            {
+                var users = _adminService.GetAllUsers();
+                if(users == null)
+                    return BadRequest();
+                return Ok(users);
+            }
+            catch(Exception)
+            {
+                return StatusCode(500);
+            }
+        }
     }
 }
