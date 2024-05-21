@@ -55,6 +55,23 @@ namespace Api.Controllers
             }
         }
 
+        [HttpPost("accept/{adminID}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public ActionResult AcceptAdminAccount(int adminID)
+        {
+            try
+            {
+                var verified = _adminService.AcceptNewAdmin(adminID);
+                return verified ? Ok() : BadRequest();
+            }
+            catch (Exception)
+            {
+                return StatusCode(500);
+            }
+        }
+
         [HttpPost("authorise/{firebaseID}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
