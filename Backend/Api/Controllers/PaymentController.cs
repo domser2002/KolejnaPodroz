@@ -1,4 +1,5 @@
-﻿using Logic.Services.Implementations;
+﻿using Domain.Common;
+using Logic.Services.Implementations;
 using Logic.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,17 +11,17 @@ public class PaymentController(IPaymentService paymentService) : ControllerBase
 {
     private readonly IPaymentService _paymentService = paymentService;
 
-    [HttpPost("process/paymentID")]
-    public ActionResult ProcessPayment()
+    [HttpPost("process")]
+    public ActionResult ProcessPayment([FromBody] Payment payment)
     {
         bool success;
         try
         {
-            success = _paymentService.ProceedPayment();
+            success = _paymentService.ProceedPayment(payment);
         }
         catch (Exception) 
         {
-            return StatusCode(500);
+            return BadRequest();
         }
         if(!success) 
         { 
