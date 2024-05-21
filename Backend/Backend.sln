@@ -19,15 +19,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LogicTests", "Tests\LogicTe
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InfrastructureTests", "Tests\InfrastructureTests\InfrastructureTests.csproj", "{39880182-981B-435E-9322-BBBCADE0EAE6}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Providers", "Providers", "{ECD3AAF9-41CC-43EC-9F39-0EEBED713BD0}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Provider", "Provider", "{A6C9E678-4B92-4B32-A141-E511778CC71F}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Provider1", "Provider1", "{A6C9E678-4B92-4B32-A141-E511778CC71F}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Api", "Providers\Provider1\Api\Api.csproj", "{ED9EFA45-BE84-4630-867B-4F3A56CEAD33}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProviderApi", "Providers\Provider1\Api\ProviderApi.csproj", "{ED9EFA45-BE84-4630-867B-4F3A56CEAD33}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "Providers\Provider1\Domain\Domain.csproj", "{3AABA2B2-E81A-418A-B191-2C9BF6FE279A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Logic", "Providers\Provider1\Logic\Logic.csproj", "{515CCE60-0890-4A1E-9263-3D1DAAB5456E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProviderLogic", "Providers\Provider1\Logic\ProviderLogic.csproj", "{515CCE60-0890-4A1E-9263-3D1DAAB5456E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -80,7 +78,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{A6C9E678-4B92-4B32-A141-E511778CC71F} = {ECD3AAF9-41CC-43EC-9F39-0EEBED713BD0}
 		{ED9EFA45-BE84-4630-867B-4F3A56CEAD33} = {A6C9E678-4B92-4B32-A141-E511778CC71F}
 		{3AABA2B2-E81A-418A-B191-2C9BF6FE279A} = {A6C9E678-4B92-4B32-A141-E511778CC71F}
 		{515CCE60-0890-4A1E-9263-3D1DAAB5456E} = {A6C9E678-4B92-4B32-A141-E511778CC71F}

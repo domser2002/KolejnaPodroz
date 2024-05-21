@@ -1,10 +1,11 @@
-﻿using Domain.Models;
-using Logic.RequestBodies;
-using Logic.ResponseBodies;
-using Logic.Services;
+﻿using ProviderDomain.Models;
+using ProviderLogic.RequestBodies;
+using ProviderLogic.ResponseBodies;
+using ProviderLogic.Services;
 using Microsoft.AspNetCore.Mvc;
+using ProviderDomain.Enums;
 
-namespace Api.Controllers
+namespace ProviderApi.Controllers
 {
     [ApiController]
     [Route("Ticket")]

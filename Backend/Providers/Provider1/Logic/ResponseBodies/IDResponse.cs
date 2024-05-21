@@ -1,4 +1,4 @@
-﻿namespace Logic.ResponseBodies;
+﻿namespace ProviderLogic.ResponseBodies;
 
 public record IDResponse
     (

@@ -1,4 +1,6 @@
-﻿using Domain.Enums;
+﻿namespace ProviderLogic.RequestBodies;
+
+using ProviderDomain.Enums;
 
 public record FilterJourneysRequest
     (

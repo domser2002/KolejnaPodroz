@@ -1,9 +1,9 @@
-﻿using Domain.Models;
-using Logic.Services;
+﻿using ProviderDomain.Models;
+using ProviderLogic.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 
-namespace Api.Controllers;
+namespace ProviderApi.Controllers;
 
 [ApiController]
 [Route("Connection")]

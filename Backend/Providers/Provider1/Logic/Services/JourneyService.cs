@@ -1,6 +1,6 @@
-﻿using Domain.Models;
+﻿using ProviderDomain.Models;
 
-namespace Logic.Services;
+namespace ProviderLogic.Services;
 
 public class JourneyService
 {

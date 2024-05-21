@@ -1,4 +1,4 @@
-﻿namespace Domain.Models;
+﻿namespace ProviderDomain.Models;
 
 public class Journey
 {

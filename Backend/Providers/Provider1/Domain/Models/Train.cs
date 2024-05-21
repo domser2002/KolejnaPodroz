@@ -1,6 +1,6 @@
-﻿using Domain.Enums;
+﻿using ProviderDomain.Enums;
 
-namespace Domain.Models;
+namespace ProviderDomain.Models;
 
 public class Train
 {

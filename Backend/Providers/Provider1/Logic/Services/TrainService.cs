@@ -1,7 +1,7 @@
-﻿using Domain.Models;
-using Domain.Enums;
+﻿using ProviderDomain.Models;
+using ProviderDomain.Enums;
 
-namespace Logic.Services;
+namespace ProviderLogic.Services;
 
 public class TrainService
 {

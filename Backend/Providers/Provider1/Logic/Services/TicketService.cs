@@ -1,7 +1,6 @@
-﻿using Domain.Models;
-using System.Runtime.InteropServices;
+﻿using ProviderDomain.Models;
 
-namespace Logic.Services;
+namespace ProviderLogic.Services;
 
 public class TicketService
 {

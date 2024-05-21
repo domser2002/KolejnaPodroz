@@ -1,4 +1,4 @@
-﻿namespace Logic.RequestBodies;
+﻿namespace ProviderLogic.RequestBodies;
 
 public record AddTicketRequest
     (

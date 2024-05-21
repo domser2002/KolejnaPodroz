@@ -1,4 +1,6 @@
-﻿namespace Domain.Models;
+﻿using ProviderDomain.Enums;
+
+namespace ProviderDomain.Models;
 
 public class Seat
 {

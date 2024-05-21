@@ -1,7 +1,7 @@
-﻿using Domain.Models;
-using System.Diagnostics;
+﻿using ProviderDomain.Enums;
+using ProviderDomain.Models;
 
-namespace Logic.Services;
+namespace ProviderLogic.Services;
 
 public class ConnectionService
 {

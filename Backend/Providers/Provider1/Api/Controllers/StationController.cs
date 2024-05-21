@@ -1,8 +1,8 @@
-﻿using Domain.Models;
-using Logic.Services;
+﻿using ProviderDomain.Models;
+using ProviderLogic.Services;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Api.Controllers;
+namespace ProviderApi.Controllers;
 
 [ApiController]
 [Route("Station")]

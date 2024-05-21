@@ -1,6 +1,5 @@
-using Api.FakeData;
-using Domain.Models;
-using Logic.Services;
+using ProviderDomain.Models;
+using ProviderLogic.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,7 +14,6 @@ builder.Services.AddSingleton<JourneyService>();
 builder.Services.AddSingleton<StationService>();
 builder.Services.AddSingleton<TicketService>();
 builder.Services.AddSingleton<TrainService>();
-builder.Services.AddSingleton<FakeDataGenerator>();
 
 var app = builder.Build();
 
