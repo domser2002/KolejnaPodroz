@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:admin/classes/complaint.dart';
-import 'package:admin/views/complaint/make_complaint_view_page.dart';
+import 'package:admin/views/complaint/review_complaint_view_page.dart';
 
 class ComplaintItem extends StatelessWidget {
   final Complaint complaint;

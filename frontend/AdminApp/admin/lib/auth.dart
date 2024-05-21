@@ -13,7 +13,7 @@ class Auth {
   Future<void> logInWithEmailAndPassword(String email, String password) async {
     UserCredential userCredential = await _auth.signInWithEmailAndPassword(
         email: email, password: password);
-    await request.authoriseUser(userCredential.user!.uid);
+    await request.authoriseAdmin(userCredential.user!.uid);
   }
 
   Future<void> registerWithEmailAndPassword(
@@ -21,7 +21,7 @@ class Auth {
     UserCredential userCredential = await _auth.createUserWithEmailAndPassword(
         email: email, password: password);
     // Assuming you have an authoriseUser method that takes a UID and handles backend authorization
-    await request.authoriseUser(userCredential.user!.uid);
+    await request.authoriseAdmin(userCredential.user!.uid);
   }
 
   Future<void> signOut() async {

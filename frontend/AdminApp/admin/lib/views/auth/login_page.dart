@@ -1,7 +1,8 @@
+import 'package:admin/views/admin_profile_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:admin/classes/user.dart';
-import 'package:admin/classes/user_provider.dart';
+import 'package:admin/classes/admin.dart';
+import 'package:admin/classes/admin_provider.dart';
 import 'package:admin/utils/http_requests.dart';
 import 'package:admin/views/auth/register_page.dart';
 import 'package:admin/widgets/input_button_widget.dart';
@@ -15,28 +16,30 @@ class LoginPage extends StatelessWidget {
   LoginPage({Key? key}) : super(key: key);
 
   Future<void> signInWithEmailAndPassword(BuildContext context) async {
-    try {
-      UserCredential userCredential =
-          await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: emailController.text,
-        password: passwordController.text,
-      );
+    //try {
+    // UserCredential adminCredential =
+    //     await FirebaseAuth.instance.signInWithEmailAndPassword(
+    //   email: emailController.text,
+    //   password: passwordController.text,
+    // );
 
-      // Fetch user details from your backend using HttpRequests
-      var loggedUser = await request.authoriseUser(userCredential.user!.uid);
+    // Fetch admin details from your backend using HttpRequests
+    //var loggedAdmin = await request.authoriseAdmin(adminCredential.user!.uid);
 
-      if (loggedUser != null) {
-        MyUser user = MyUser.fromJson(loggedUser);
-        // Save user details to the provider
-        Provider.of<UserProvider>(context, listen: false).setUser(user);
+    //if (loggedAdmin == true) {
+    // Save admin details to the provider
 
-        Navigator.of(context).popUntil((route) => route.isFirst);
-      } else {
-        print('Failed to load user data');
-      }
-    } on FirebaseAuthException catch (e) {
-      print(e.message);
-    }
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => AdminProfilePage(),
+      ),
+    );
+    // } else {
+    //     print('Failed to load admin data');
+    //   }
+    // } on FirebaseAuthException catch (e) {
+    //   print(e.message);
+    // }
   }
 
   @override
@@ -144,7 +147,7 @@ class LoginPage extends StatelessWidget {
                         ),
                         TextButton(
                           child: const Text(
-                            'Nie masz konta? Zarejestruj się',
+                            'Chcesz zostac administratorem? wyślij zgłoszenie',
                             style: TextStyle(color: Colors.white),
                           ),
                           onPressed: () {

@@ -120,4 +120,25 @@ public class ComplaintController(IComplaintService complaintService) : Controlle
         }
         return Ok(result);
     }
+
+    [HttpGet("getAll")]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<Complaint>))]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public ActionResult GetAllComplaints()
+    {
+        List<Complaint> result;
+        try
+        {
+            result = _complaintService.GetAllComplaints();
+        }
+        catch (Exception)
+        {
+            return StatusCode(500);
+        }
+        if (result is null)
+        {
+            return NotFound();
+        }
+        return Ok(result);
+    }
 }
