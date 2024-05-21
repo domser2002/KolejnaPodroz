@@ -50,13 +50,11 @@ namespace Infrastructure.FakeDataRepositories
             return Complaint.ID;
         }
 
-        public bool Update(Complaint Complaint)
+        public bool Update(Complaint oldComplaint, Complaint newComplaint)
         {
-            int index = Complaints.FindIndex(u => u.ID == Complaint.ID);
-            if (index != -1)
+            if (Complaints.Remove(oldComplaint))
             {
-                Complaints.RemoveAt(index);
-                Complaints.Add(Complaint);
+                Complaints.Add(newComplaint);
                 return true;
             }
             return false;

@@ -12,7 +12,7 @@ namespace Infrastructure.Interfaces
         public IEnumerable<Complaint> GetAll();
         public Complaint? GetByID(int id);
         public int Add(Complaint Complaint);
-        public bool Update(Complaint Complaint);
+        public bool Update(Complaint oldComplaint, Complaint newComplaint);
         public bool Delete(Complaint Complaint);
     }
 }

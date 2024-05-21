@@ -1,5 +1,6 @@
 ﻿using Domain.Common;
 using Infrastructure.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace Logic.Services.Implementations;
 
@@ -21,10 +22,10 @@ public class ComplaintService(IDataRepository repository) : Interfaces.IComplain
     }
     public bool EditComplaint(Complaint newComplaint)
     {
-        Complaint? complaint = _repository.ComplaintRepository.GetByID(newComplaint.ID);
-        if (complaint != null)
+        Complaint? oldComplaint = _repository.ComplaintRepository.GetByID(newComplaint.ID);
+        if (oldComplaint != null)
         {
-            return _repository.ComplaintRepository.Update(newComplaint);
+            return _repository.ComplaintRepository.Update(oldComplaint, newComplaint);
         }
         return false;
     }
