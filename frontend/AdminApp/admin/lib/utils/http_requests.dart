@@ -1,6 +1,6 @@
-import 'package:frontend/classes/complaint.dart';
-import 'package:frontend/classes/user.dart';
-import 'package:frontend/classes/train_offer.dart';
+import 'package:admin/classes/complaint.dart';
+import 'package:admin/classes/user.dart';
+import 'package:admin/classes/train_offer.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -25,40 +25,35 @@ class HttpRequests {
     }
   }
 
-  Future<List<TrainOffer>> searchTrains(
+  Future<dynamic> searchTrains(
       String departure, String destination, String date) async {
     if (departure.isEmpty || destination.isEmpty || date.isEmpty) {
       print("Wszystkie pola muszą być wypełnione.");
-      return List.empty();
+      return 0;
     }
 
     try {
-      var uri = Uri.parse('$host/Connection/searchConnections')
-          .replace(queryParameters: {
-        'from': departure,
-        'to': destination,
-        'when': date,
-      });
-      var response = await http.get(
-        uri,
+      var response = await http.post(
+        Uri.parse('$host/Connection/searchConnections'),
         headers: <String, String>{
           'Content-Type': 'application/json',
         },
+        body: jsonEncode(<String, String>{
+          'departure': departure,
+          'destination': destination,
+          'date': date,
+        }),
       );
 
       if (response.statusCode == 200) {
         var jsonResponse = json.decode(response.body) as List<dynamic>;
         print("connection found");
-        var d = parseTrainOffers(jsonResponse);
-        print(d.length);
         return parseTrainOffers(jsonResponse);
       } else {
         print("Błąd serwera: ${response.statusCode}");
-        return List.empty();
       }
     } catch (e) {
       print("Błąd połączenia: $e");
-      return List.empty();
     }
   }
 

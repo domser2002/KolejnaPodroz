@@ -27,8 +27,7 @@ class _DatePickerWidgetState extends State<DatePickerWidget> {
     final DateTime? picked = await showDatePicker(
       context: context,
       initialDate: selectedDate,
-      firstDate: DateTime(2024, 5),
-      //DateTime.now().subtract(const Duration(days: 0)),
+      firstDate: DateTime.now().subtract(const Duration(days: 0)),
       lastDate: DateTime(2101),
     );
     if (picked != null && picked != selectedDate) {
@@ -42,13 +41,11 @@ class _DatePickerWidgetState extends State<DatePickerWidget> {
   @override
   Widget build(BuildContext context) {
     return MouseRegion(
-      cursor: SystemMouseCursors
-          .click, // Ustawienie kursora na ikonę "lapki" po najechaniu
+      cursor: SystemMouseCursors.click, // Ustawienie kursora na ikonę "lapki" po najechaniu
       child: GestureDetector(
         onTap: () => _selectDate(context),
         child: Container(
-          padding: const EdgeInsets.all(
-              15.0), // Zwiększ padding wokół GestureDetector
+          padding: const EdgeInsets.all(15.0), // Zwiększ padding wokół GestureDetector
           decoration: BoxDecoration(
             color: widget.backgroundColor,
             borderRadius: BorderRadius.circular(30.0),
@@ -56,18 +53,14 @@ class _DatePickerWidgetState extends State<DatePickerWidget> {
           child: Stack(
             children: [
               const Align(
-                alignment: Alignment
-                    .centerLeft, // Wyrównanie ikony i tekstu do lewej strony
+                alignment: Alignment.centerLeft, // Wyrównanie ikony i tekstu do lewej strony
                 child: Row(
                   children: [
-                    Icon(Icons.calendar_month, color: Colors.black),
-                    SizedBox(
-                        width:
-                            25), // Równomierne odstępy między ikoną a tekstem
-                    Text(
+                     Icon(Icons.calendar_month, color: Colors.black),
+                     SizedBox(width: 25), // Równomierne odstępy między ikoną a tekstem
+                     Text(
                       "KIEDY",
-                      style: TextStyle(
-                          color: Colors.black, fontWeight: FontWeight.bold),
+                      style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
                     ),
                   ],
                 ),
@@ -76,8 +69,7 @@ class _DatePickerWidgetState extends State<DatePickerWidget> {
                 alignment: Alignment.center,
                 child: Text(
                   widget.controller.text,
-                  style: const TextStyle(
-                      color: Colors.black, fontWeight: FontWeight.bold),
+                  style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
                 ),
               ),
             ],
