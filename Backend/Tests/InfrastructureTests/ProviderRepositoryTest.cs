@@ -86,59 +86,59 @@ namespace InfrastructureTests
             });
         }
 
-        //[Test]
-        //public void AddProvider_IntegrationTest()
-        //{
-        //    // Arrange
-        //    Provider provider = new();
-        //    int count = repository.GetAll().Count();
-        //    // Act 
-        //    var result = repository.Add(provider);
-        //    // Assert
-        //    provider.ID = result;
-        //    Assert.Multiple(() =>
-        //    {
-        //        Assert.That(result, Is.Not.EqualTo(-1));
-        //        Assert.That(repository.GetAll().Count(), Is.EqualTo(count + 1));
-        //        Assert.That(repository.GetAll().Any(u => u.Equals(provider)), Is.True);
-        //    });
-        //    // Clean
-        //    repository.Delete(provider);
-        //}
+        [Test]
+        public void AddProvider_IntegrationTest()
+        {
+            // Arrange
+            Provider provider = new();
+            int count = repository.GetAll().Count();
+            // Act 
+            var result = repository.Add(provider);
+            // Assert
+            provider.ID = result;
+            Assert.Multiple(() =>
+            {
+                Assert.That(result, Is.Not.EqualTo(-1));
+                Assert.That(repository.GetAll().Count(), Is.EqualTo(count + 1));
+                Assert.That(repository.GetAll().Any(u => u.Equals(provider)), Is.True);
+            });
+            // Clean
+            repository.Delete(provider);
+        }
 
-        //[Test]
-        //public void DeleteProvider_IntegrationTest()
-        //{
-        //    // Arrange
-        //    Provider provider = new();
-        //    provider.ID = repository.Add(provider);
-        //    // Act
-        //    var result = repository.Delete(provider);
-        //    // Assert
-        //    Assert.Multiple(() =>
-        //    {
-        //        Assert.That(result, Is.True);
-        //        Assert.That(repository.GetByID(provider.ID), Is.Null);
-        //    });
-        //}
+        [Test]
+        public void DeleteProvider_IntegrationTest()
+        {
+            // Arrange
+            Provider provider = new();
+            provider.ID = repository.Add(provider);
+            // Act
+            var result = repository.Delete(provider);
+            // Assert
+            Assert.Multiple(() =>
+            {
+                Assert.That(result, Is.True);
+                Assert.That(repository.GetByID(provider.ID), Is.Null);
+            });
+        }
 
-        //[Test]
-        //public void UpdateProvider_IntegrationTest()
-        //{
-        //    // Arrange
-        //    Provider provider = new();
-        //    provider.ID = repository.Add(provider);
-        //    provider.Name = "aaa";
-        //    // Act 
-        //    var result = repository.Update(provider);
-        //    // Assert
-        //    Assert.Multiple(() =>
-        //    {
-        //        Assert.That(result, Is.True);
-        //        Assert.That(repository.GetByID(provider.ID)?.Name, Is.EqualTo("aaa"));
-        //    });
-        //    // Clean
-        //    repository.Delete(provider);
-        //}
+        [Test]
+        public void UpdateProvider_IntegrationTest()
+        {
+            // Arrange
+            Provider provider = new();
+            provider.ID = repository.Add(provider);
+            provider.Name = "aaa";
+            // Act 
+            var result = repository.Update(provider);
+            // Assert
+            Assert.Multiple(() =>
+            {
+                Assert.That(result, Is.True);
+                Assert.That(repository.GetByID(provider.ID)?.Name, Is.EqualTo("aaa"));
+            });
+            // Clean
+            repository.Delete(provider);
+        }
     }
 }

@@ -16,10 +16,10 @@ namespace Infrastructure.DataRepositories
         private readonly DomainDBContext _context = context;
         public int Add(Statistics statistics)
         {
-            int id = !GetAll().Any() ? 1 : GetAll().Max(x => x.ID) + 1;
-            statistics.ID = id; // temporary solution
+            //int id = !GetAll().Any() ? 1 : GetAll().Max(x => x.ID) + 1;
+            //statistics.ID = id; // temporary solution
             _context.Statistics.Add(statistics);
-            return (_context.SaveChanges() == 1) ? id : -1;
+            return (_context.SaveChanges() == 1) ? statistics.ID : -1;
         }
 
         public bool Delete(Statistics statistics)

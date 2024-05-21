@@ -17,7 +17,7 @@ namespace Infrastructure.DataRepositories
             int id = !GetAll().Any() ? 1 : GetAll().Max(x => x.ID) + 1;
             Admin.ID = id; // temporary solution
             _context.Admin.Add(Admin);
-            return (_context.SaveChanges() == 1) ? id : -1;
+            return (_context.SaveChanges() == 1) ? Admin.ID : -1;
         }
 
         public bool Delete(Admin Admin)
