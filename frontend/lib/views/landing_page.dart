@@ -1,8 +1,7 @@
 // landing_page.dart
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:frontend/classes/train_offer.dart';
+import 'package:frontend/classes/user_provider.dart';
 
 import 'package:frontend/utils/http_requests.dart';
 import 'package:frontend/views/auth/login_page.dart';
@@ -10,6 +9,8 @@ import 'package:frontend/views/offers_page.dart';
 import 'package:frontend/views/auth/register_page.dart';
 import 'package:frontend/views/user_profile_page.dart';
 import 'package:frontend/widgets/button_widget.dart';
+import 'package:frontend/widgets/date_picker_widget.dart';
+import 'package:provider/provider.dart';
 
 import '../widgets/input_button_widget.dart';
 
@@ -23,16 +24,15 @@ class LandingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
-    double win_width = screenSize.width;
-    double win_height = screenSize.height;
+    double winWidth = screenSize.width;
+    double winHeight = screenSize.height;
+    UserProvider userProvider = Provider.of<UserProvider>(context);
 
-    print(win_width);
-    print(win_height);
 
     return Scaffold(
       bottomNavigationBar: BottomAppBar(
           color: Colors.white,
-          height: win_height * 0.07,
+          height: winHeight * 0.07,
           child: const Center(
               child: Stack(
             fit: StackFit.passthrough,
@@ -52,6 +52,14 @@ class LandingPage extends StatelessWidget {
         // Użytkownik jest zalogowany
         return Row(
           children: [
+            if (userProvider.user != null)
+          Padding(
+            padding: const EdgeInsets.only(right: 8.0),
+            child: Text(
+              'Cześć, ${userProvider.user!.firstName}',
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ),
+          ),
             IconButton(
               icon: const Icon(Icons.person, color: Colors.black),
               onPressed: () {
@@ -106,7 +114,7 @@ class LandingPage extends StatelessWidget {
       body: Stack(
         children: [
           Container(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               image: DecorationImage(
                 image: AssetImage('lib/assets/photos/background2.jpg'),
                 fit: BoxFit.cover,
@@ -116,7 +124,7 @@ class LandingPage extends StatelessWidget {
           Center(
             child: SingleChildScrollView(
               padding: EdgeInsets.symmetric(
-                  vertical: win_height * 0.27, horizontal: win_width * 0.2),
+                  vertical: winHeight * 0.27, horizontal: winWidth * 0.2),
               child: Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
@@ -139,41 +147,36 @@ class LandingPage extends StatelessWidget {
                   ),
                   child: Padding(
                     padding: EdgeInsets.symmetric(
-                        horizontal: win_width * 0.07,
-                        vertical: win_height * 0.07),
+                        horizontal: winWidth * 0.07,
+                        vertical: winHeight * 0.07),
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Text(
+                        const Text(
                           'Wybierz trasę!',
                           style: TextStyle(
                               fontSize: 24,
                               fontWeight: FontWeight.w600,
                               color: Colors.white),
                         ),
-                        SizedBox(height: win_height * 0.027),
+                        SizedBox(height: winHeight * 0.027),
                         InputButton(
-                          icon: Icon(Icons.output, color: Colors.black),
+                          icon: const Icon(Icons.output, color: Colors.black),
                           controller: departureController,
                           prefixText: 'Z',
                           backgroundColor: Colors.white,
                         ),
-                        SizedBox(height: win_height * 0.022),
+                        SizedBox(height: winHeight * 0.022),
                         InputButton(
-                          icon: Icon(Icons.input, color: Colors.black),
+                          icon: const Icon(Icons.input, color: Colors.black),
                           controller: destinationController,
                           prefixText: 'DO',
                           backgroundColor: Colors.white,
                         ),
-                        SizedBox(height: win_height * 0.022),
-                        InputButton(
-                          icon: Icon(Icons.calendar_month, color: Colors.black),
-                          controller: dateController,
-                          prefixText: 'KIEDY',
-                          backgroundColor: Colors.white,
-                        ),
-                        SizedBox(height: win_height * 0.027),
-                        _buildButtonsRowOrColumn(win_width, context)
+                        SizedBox(height: winHeight * 0.022),
+                        DatePickerWidget(controller: dateController),
+                        SizedBox(height: winHeight * 0.027),
+                        _buildButtonsRowOrColumn(winWidth, context)
                       ],
                     ),
                   ),
@@ -214,7 +217,7 @@ class LandingPage extends StatelessWidget {
       return Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          SizedBox(height: 5),
+          const SizedBox(height: 5),
           ButtonWidget(
             onPressed: () async {
               var offers = await request.searchTrains(

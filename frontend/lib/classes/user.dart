@@ -1,17 +1,14 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:frontend/utils/http_requests.dart';
-
 class MyUser {
-  final String userId;
-  final String firstName;
-  final String lastName;
-  final String email;
+  final int id;
+  final String? firstName;
+  final String? lastName;
+  final String? email;
   final DateTime birthDate;
   final int preferedSeatType;
   final int preferedSeatLocation;
 
   MyUser({
-    required this.userId,
+    required this.id,
     required this.firstName,
     required this.lastName,
     required this.email,
@@ -23,11 +20,12 @@ class MyUser {
   // Metoda fromJson do parsowania danych JSON na obiekt User
   factory MyUser.fromJson(Map<String, dynamic> json) {
     return MyUser(
-      userId: json['userID'],
+      id: json['id'],
       firstName: json['firstName'],
       lastName: json['lastName'],
       email: json['email'],
-      birthDate: DateTime.parse(json['birthDate']),
+      birthDate: json['birthDate'] != null ?
+       DateTime.parse(json['birthDate']) : DateTime.now(), //backend zwraca null, więc jeśli jest null to zwracamy aktualną datę
       preferedSeatType: json['preferedSeatType'],
       preferedSeatLocation: json['preferedSeatLocation'],
     );

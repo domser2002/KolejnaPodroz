@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:frontend/classes/complaint.dart';
 import 'package:frontend/classes/user.dart';
 import 'package:http/http.dart' as http;
@@ -96,21 +95,20 @@ class HttpRequests {
     }
   }
 
-  Future<bool> authoriseUser(String userID) async {
+  Future<dynamic> authoriseUser(String firebaseID) async {
     try {
-      var url = Uri.parse('$host/User/authorise/$userID');
+      var url = Uri.parse('$host/User/authorise/$firebaseID?token=$firebaseID');
       var response = await http.post(url);
 
       if (response.statusCode == 200) {
+        var jsonResponse = jsonDecode(response.body);
         print("user authorised");
-        return true;
+        return jsonResponse;
       } else {
         print('Failed to authorise user');
-        return false;
       }
     } catch (e) {
       print(e.toString());
-      return false;
     }
   }
 

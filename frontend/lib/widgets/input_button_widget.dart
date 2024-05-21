@@ -27,6 +27,7 @@ class InputButton extends StatelessWidget {
         borderRadius: BorderRadius.circular(30.0),
       ),
       child: TextFormField(
+        textAlign: TextAlign.center,
         obscureText: obscureText,
         controller: controller,
         style: const TextStyle(color: Colors.black),
@@ -51,7 +52,6 @@ class InputButton extends StatelessWidget {
                   prefixText,
                   style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
                 ),
-                // Możesz dodać odstęp między tekstem a wpisywanym tekstem jeśli jest potrzebny
               ],
             ),
           ),

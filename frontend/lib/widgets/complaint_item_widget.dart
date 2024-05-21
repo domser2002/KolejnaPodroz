@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:frontend/classes/complaint.dart';
 import 'package:frontend/views/complaint/make_complaint_view_page.dart';
 
-class complaint_item extends StatelessWidget {
+class ComplaintItem extends StatelessWidget {
   final Complaint complaint;
 
-  const complaint_item({Key? key, required this.complaint}) : super(key: key);
+  const ComplaintItem({Key? key, required this.complaint}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(bottom: 5),
+      margin: const EdgeInsets.only(bottom: 5),
       child: ListTile(
         onTap: () async {
           Navigator.of(context).push(
@@ -24,7 +24,7 @@ class complaint_item extends StatelessWidget {
           );
         },
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 7),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 7),
         tileColor: Theme.of(context).colorScheme.secondary,
         leading: Icon(complaint.isResponded
             ? Icons.check_box

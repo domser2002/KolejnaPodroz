@@ -14,8 +14,8 @@ class ButtonWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.of(context).size;
-    double win_width = screenSize.width;
-    double win_height = screenSize.height;
+    double winWidth = screenSize.width;
+    double winHeight = screenSize.height;
 
     return ElevatedButton(
       onPressed: onPressed,
