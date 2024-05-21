@@ -141,6 +141,7 @@ namespace Api.Controllers
                 return StatusCode(500);
             }
         }
+
         [HttpPut("editUser")]
         [Consumes(MediaTypeNames.Application.Json)]
         [Produces(MediaTypeNames.Application.Json)]

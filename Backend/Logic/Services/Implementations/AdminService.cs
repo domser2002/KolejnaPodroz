@@ -59,10 +59,11 @@ public class AdminService(IDataRepository repository) : IAdminService
         if (users.Count == 0) return null;
         return users;
     }
+
     public User? GetUserByID(int userID)
     {
         return _repository.UserRepository.GetByID(userID);
-    }
+    }   
     public bool EditUser(EditUser editedUser)
     {
         User? user = _repository.UserRepository.GetByID(editedUser.Id);

@@ -303,26 +303,26 @@ class HttpRequests {
     }
   }
 
-Future<Complaint?> makeComplaint(Map<String, dynamic> complaintData) async {
-  try {
-    var url = Uri.parse('$host/Complaint/make');
-    var response = await http.post(
-      url,
-      body: jsonEncode(complaintData),
-      headers: {'Content-Type': 'application/json'},
-    );
 
-    if (response.statusCode == 200) {
-      print("Complaint made");
-      return Complaint.fromJson(jsonDecode(response.body));
-    } else {
-      print('Failed to make complaint: ${response.body}');
-    }
-  } catch (e) {
-    print(e.toString());
-  }
-  return null;
-}
+// Future<Complaint?> makeComplaint(Map<String, dynamic> complaintData) async {
+//   try {
+//     var url = Uri.parse('$host/Complaint/make');
+//     var response = await http.post(
+//       url,
+//       body: jsonEncode(complaintData),
+//       headers: {'Content-Type': 'application/json'},
+//     );
+//     if (response.statusCode == 200) {
+//       print("Complaint made");
+//       return Complaint.fromJson(jsonDecode(response.body));
+//     } else {
+//       print('Failed to make complaint: ${response.body}');
+//     }
+//   } catch (e) {
+//     print(e.toString());
+//   }
+//   return null;
+// }
 
 
 
@@ -367,6 +367,28 @@ Future<bool> editComplaint(String complaintId, Map<String, dynamic> updatedData)
 }
 
 
+Future<Complaint?> makeComplaint(Map<String, dynamic> complaintData) async {
+  try {
+    var url = Uri.parse('$host/Complaint/make');
+    var response = await http.post(
+      url,
+      body: jsonEncode(complaintData),
+      headers: {'Content-Type': 'application/json'},
+    );
+
+    if (response.statusCode == 200) {
+      print("Complaint made");
+      return Complaint.fromJson(jsonDecode(response.body));
+    } else {
+      print('Failed to make complaint: ${response.body}');
+    }
+  } catch (e) {
+    print(e.toString());
+  }
+  return null;
+}
+
+
 Future<Complaint?> getComplaint(String complaintId) async {
   try {
     var url = Uri.parse('$host/Complaint/get/$complaintId');
@@ -385,28 +407,6 @@ Future<Complaint?> getComplaint(String complaintId) async {
   }
   return null; // Return null if there's an error or if the complaint doesn't load
 }
-
-
-  // Future<List<Complaint>> getComplaintsByUser(int userId) async {
-  //   try {
-  //     var url = Uri.parse('$host/Complaint/getByUser/$userId');
-  //     var response = await http.get(url);
-
-  //     if (response.statusCode == 200) {
-  //       var complaintJson = jsonDecode(
-  //           response.body); // This is a Map<String, dynamic>, not a List
-  //       Complaint result =
-  //           Complaint.fromJson(complaintJson); // Directly deserialize it
-  //       print("complaint loaded");
-  //       return result; // Return the Complaint object
-  //     } else {
-  //       print('Failed to load complaint');
-  //     }
-  //   } catch (e) {
-  //     print(e.toString());
-  //   }
-  //   return null; // Return null if there's an error or if the complaint doesn't load
-  // }
 
   Future<List<Complaint>> getComplaintsByUser(int userId) async {
     try {

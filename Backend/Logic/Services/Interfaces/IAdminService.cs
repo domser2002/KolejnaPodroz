@@ -20,5 +20,6 @@ namespace Logic.Services.Interfaces
         public List<User> GetAllUsers();
         public bool EditUser(EditUser editedUser);
         public User? GetUserByID(int userID);
+
     }
 }
