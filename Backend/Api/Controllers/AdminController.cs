@@ -141,7 +141,10 @@ namespace Api.Controllers
                 return StatusCode(500);
             }
         }
+<<<<<<< HEAD
 
+=======
+>>>>>>> 6feade2 (Add editing user by admin)
         [HttpPut("editUser")]
         [Consumes(MediaTypeNames.Application.Json)]
         [Produces(MediaTypeNames.Application.Json)]

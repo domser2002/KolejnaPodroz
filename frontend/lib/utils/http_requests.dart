@@ -303,6 +303,7 @@ class HttpRequests {
     }
   }
 
+<<<<<<< HEAD
 
 // Future<Complaint?> makeComplaint(Map<String, dynamic> complaintData) async {
 //   try {
@@ -323,6 +324,28 @@ class HttpRequests {
 //   }
 //   return null;
 // }
+=======
+Future<Complaint?> makeComplaint(Map<String, dynamic> complaintData) async {
+  try {
+    var url = Uri.parse('$host/Complaint/make');
+    var response = await http.post(
+      url,
+      body: jsonEncode(complaintData),
+      headers: {'Content-Type': 'application/json'},
+    );
+
+    if (response.statusCode == 200) {
+      print("Complaint made");
+      return Complaint.fromJson(jsonDecode(response.body));
+    } else {
+      print('Failed to make complaint: ${response.body}');
+    }
+  } catch (e) {
+    print(e.toString());
+  }
+  return null;
+}
+>>>>>>> 6feade2 (Add editing user by admin)
 
 
 
@@ -408,6 +431,31 @@ Future<Complaint?> getComplaint(String complaintId) async {
   return null; // Return null if there's an error or if the complaint doesn't load
 }
 
+<<<<<<< HEAD
+=======
+
+  // Future<List<Complaint>> getComplaintsByUser(int userId) async {
+  //   try {
+  //     var url = Uri.parse('$host/Complaint/getByUser/$userId');
+  //     var response = await http.get(url);
+
+  //     if (response.statusCode == 200) {
+  //       var complaintJson = jsonDecode(
+  //           response.body); // This is a Map<String, dynamic>, not a List
+  //       Complaint result =
+  //           Complaint.fromJson(complaintJson); // Directly deserialize it
+  //       print("complaint loaded");
+  //       return result; // Return the Complaint object
+  //     } else {
+  //       print('Failed to load complaint');
+  //     }
+  //   } catch (e) {
+  //     print(e.toString());
+  //   }
+  //   return null; // Return null if there's an error or if the complaint doesn't load
+  // }
+
+>>>>>>> 6feade2 (Add editing user by admin)
   Future<List<Complaint>> getComplaintsByUser(int userId) async {
     try {
       var url = Uri.parse('$host/Complaint/getByUser/$userId');
