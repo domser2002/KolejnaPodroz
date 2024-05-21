@@ -87,19 +87,19 @@ public class ConnectionServiceTests
     //    //Assert.DoesNotThrow(Exception );
     //}
 
-    //[Test]
-    //public void CanReturn_MakeConnection_ReturnsTrue_IntegrationTest()
-    //{
-    //    // Arrange
-    //    Connection connection = new();
-    //    // Act
-    //    connection.ID = connectionService.AddConnection(connection);
-    //    Connection? connection1 = connectionService.GetConnectionByID(connection.ID);
-    //    // Assert
-    //    Assert.That(connection1, Is.EqualTo(connection));
-    //    // Clean 
-    //    connectionService.RemoveConnection(connection.ID);
-    //}
+    [Test]
+    public void CanReturn_MakeConnection_ReturnsTrue_IntegrationTest()
+    {
+        // Arrange
+        Connection connection = new();
+        // Act
+        connection.ID = connectionService.AddConnection(connection);
+        Connection? connection1 = connectionService.GetConnectionByID(connection.ID);
+        // Assert
+        Assert.That(connection1, Is.EqualTo(connection));
+        // Clean 
+        connectionService.RemoveConnection(connection.ID);
+    }
 
     [Test]
     public void CanReturn_MakeConnection_ReturnsFalse_IntegrationTest()
@@ -112,17 +112,17 @@ public class ConnectionServiceTests
         Assert.That(returnValue, Is.EqualTo(-1));
     }
 
-    //[Test]
-    //public void CanReturn_RemoveConnection_ReturnsTrue_IntegrationTest()
-    //{
-    //    // Arrange
-    //    Connection connection = new();
-    //    connection.ID = connectionService.AddConnection(connection);
-    //    // Act
-    //    bool returnValue = connectionService.RemoveConnection(connection.ID);
-    //    // Assert
-    //    Assert.That(returnValue, Is.EqualTo(true));
-    //}
+    [Test]
+    public void CanReturn_RemoveConnection_ReturnsTrue_IntegrationTest()
+    {
+        // Arrange
+        Connection connection = new();
+        connection.ID = connectionService.AddConnection(connection);
+        // Act
+        bool returnValue = connectionService.RemoveConnection(connection.ID);
+        // Assert
+        Assert.That(returnValue, Is.EqualTo(true));
+    }
 
     [Test]
     public void CanReturn_RemoveConnection_ReturnsFalse_IntegrationTest()

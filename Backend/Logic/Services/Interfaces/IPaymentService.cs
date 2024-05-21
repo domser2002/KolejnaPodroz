@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Domain.Common;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,6 @@ namespace Logic.Services.Interfaces
 {
     public interface IPaymentService
     {
-        public bool ProceedPayment();
+        public bool ProceedPayment(Payment payment);
     }
 }
