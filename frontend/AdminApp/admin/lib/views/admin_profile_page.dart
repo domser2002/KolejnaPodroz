@@ -1,22 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:admin/classes/complaint.dart';
-import 'package:admin/classes/user_provider.dart';
+import 'package:admin/classes/admin_provider.dart';
 import 'package:admin/utils/http_requests.dart';
-import 'package:admin/views/complaint/edit_complaint_page.dart';
-
-import 'package:admin/views/complaint/make_complaint_page.dart';
-import 'package:admin/views/user_profile_subpages/user_info_page.dart';
+import 'package:admin/views/complaint/review_complaint_page.dart';
 import 'package:provider/provider.dart';
 
-class UserProfilePage extends StatefulWidget {
-  UserProfilePage({super.key});
+class AdminProfilePage extends StatefulWidget {
+  AdminProfilePage({super.key});
 
   @override
   // ignore: library_private_types_in_public_api
-  _UserProfilePageState createState() => _UserProfilePageState();
+  _AdminProfilePageState createState() => _AdminProfilePageState();
 }
 
-class _UserProfilePageState extends State<UserProfilePage>
+class _AdminProfilePageState extends State<AdminProfilePage>
     with TickerProviderStateMixin {
   late TabController _tabController;
 
@@ -96,7 +93,7 @@ class _UserProfilePageState extends State<UserProfilePage>
                       borderRadius: BorderRadius.circular(40)),
                   child: Column(
                     children: [
-                      const Text("Moje konto",
+                      const Text("Admin Actions",
                           style: TextStyle(
                               fontSize: 24,
                               fontWeight: FontWeight.w600,
@@ -126,15 +123,15 @@ class _UserProfilePageState extends State<UserProfilePage>
                           labelColor: Colors.orange[700],
                           tabs: [
                             Tab(
-                                text: 'Dane użytkownika',
+                                text: 'Przewoźnicy',
                                 icon: Icon(
-                                  Icons.person,
+                                  Icons.train,
                                   color: Colors.grey.shade500.withOpacity(0.9),
                                 )),
                             Tab(
-                                text: 'Bilety',
+                                text: 'Użytkownicy',
                                 icon: Icon(
-                                  Icons.train,
+                                  Icons.person,
                                   color: Colors.grey.shade500.withOpacity(0.9),
                                 )),
                             Tab(
@@ -144,15 +141,15 @@ class _UserProfilePageState extends State<UserProfilePage>
                                   color: Colors.grey.shade500.withOpacity(0.9),
                                 )),
                             Tab(
-                                text: 'Statystyki',
+                                text: 'Administratorzy',
                                 icon: Icon(
-                                  Icons.bar_chart,
+                                  Icons.card_membership,
                                   color: Colors.grey.shade500.withOpacity(0.9),
                                 )),
                             Tab(
-                                text: 'Osiągnięcia',
+                                text: 'Baza danych',
                                 icon: Icon(
-                                  Icons.star,
+                                  Icons.book,
                                   color: Colors.grey.shade500.withOpacity(0.9),
                                 )),
                           ],
@@ -178,11 +175,11 @@ class _UserProfilePageState extends State<UserProfilePage>
                           child: TabBarView(
                             controller: _tabController,
                             children: [
-                              UserInfoPage(),
-                              TicketsPage(),
+                              ProvidersPage(),
+                              UsersPage(),
                               ComplaintsPage(),
-                              StatisticsPage(),
-                              AchievementsPage(),
+                              AdminsPage(),
+                              DatabasePage(),
                             ],
                           ),
                         ),
@@ -216,19 +213,9 @@ class _ComplaintsPageState extends State<ComplaintsPage> {
   }
 
   Future<List<Complaint>> _fetchComplaints() async {
-    int userId = Provider.of<UserProvider>(context, listen: false).user!.id;
     HttpRequests request = HttpRequests();
 
-    return request.getComplaintsByUser(userId);
-  }
-
-  void _removeComplaint(String complaintId) async {
-    HttpRequests request = HttpRequests();
-    await request.removeComplaint(complaintId);
-    setState(() {
-      // Ponowne pobranie listy reklamacji po usunięciu reklamacji
-      _complaintsFuture = _fetchComplaints();
-    });
+    return request.getAllComplaints();
   }
 
   @override
@@ -260,21 +247,18 @@ class _ComplaintsPageState extends State<ComplaintsPage> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     IconButton(
-                      icon: Icon(Icons.edit),
+                      icon: Icon(Icons.check),
                       onPressed: () {
                         // Navigator to edit complaint page
                         Navigator.of(context).push(
                           MaterialPageRoute(
-                            builder: (context) =>
-                                EditComplaintPage(complaintId: complaint.id),
+                            builder: (context) => ReviewComplaintPage(
+                              complaintId: complaint.id,
+                              title: complaint.title,
+                              reason: complaint.content,
+                            ),
                           ),
                         );
-                      },
-                    ),
-                    IconButton(
-                      icon: Icon(Icons.delete),
-                      onPressed: () {
-                        _removeComplaint(complaint.id.toString());
                       },
                     ),
                   ],
@@ -291,8 +275,8 @@ class _ComplaintsPageState extends State<ComplaintsPage> {
   }
 }
 
-class TicketsPage extends StatelessWidget {
-  TicketsPage({super.key});
+class UsersPage extends StatelessWidget {
+  UsersPage({super.key});
 
   String ticket = "Bilet nr 2137";
   @override
@@ -302,33 +286,36 @@ class TicketsPage extends StatelessWidget {
       children: [
         TextButton(
           child: Text(ticket),
-          onPressed: () {
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) => MakeComplaintPage(ticketId: ticket),
-              ),
-            );
-          },
+          onPressed: () {},
         )
       ],
     ));
   }
 }
 
-class StatisticsPage extends StatelessWidget {
-  StatisticsPage({super.key});
+class ProvidersPage extends StatelessWidget {
+  ProvidersPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Center(child: Text('Statystyki'));
+    return Center(child: Text('Providers'));
   }
 }
 
-class AchievementsPage extends StatelessWidget {
-  AchievementsPage({super.key});
+class DatabasePage extends StatelessWidget {
+  DatabasePage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Center(child: Text('Osiągnięcia'));
+    return Center(child: Text('DB'));
+  }
+}
+
+class AdminsPage extends StatelessWidget {
+  AdminsPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(child: Text('Admin'));
   }
 }

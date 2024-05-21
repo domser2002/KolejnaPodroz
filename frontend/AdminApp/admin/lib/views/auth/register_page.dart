@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:admin/classes/user.dart';
-import 'package:admin/classes/user_provider.dart';
+import 'package:admin/classes/admin.dart';
+import 'package:admin/classes/admin_provider.dart';
 import 'package:admin/utils/http_requests.dart';
 import 'package:admin/views/auth/login_page.dart';
 import 'package:admin/widgets/input_button_widget.dart';
@@ -28,25 +28,25 @@ class RegistrationPage extends StatelessWidget {
           password: passwordController.text,
         );
 
-        var userData = {
+        var adminData = {
           'firstName': firstNameController.text,
           'lastName': lastNameController.text,
           'email': emailController.text,
           'firebaseID': FirebaseAuth.instance.currentUser!.uid,
         };
 
-        var createdUser = await request.createUser(userData);
+        var createdAdmin = await request.createAdmin(adminData);
 
-        if (createdUser != null) {
-          MyUser user = MyUser.fromJson(createdUser);
+        if (createdAdmin != null) {
+          MyAdmin admin = MyAdmin.fromJson(createdAdmin);
 
-          // Save user details to the provider
-          Provider.of<UserProvider>(context, listen: false).setUser(user);
+          // Save admin details to the provider
+          Provider.of<AdminProvider>(context, listen: false).setAdmin(admin);
 
           Navigator.of(context).popUntil((route) => route.isFirst);
         }
 
-        request.authoriseUser(FirebaseAuth.instance.currentUser!.uid);
+        request.authoriseAdmin(FirebaseAuth.instance.currentUser!.uid);
       } on FirebaseAuthException catch (e) {
         print(e.message);
       }
@@ -125,7 +125,7 @@ class RegistrationPage extends StatelessWidget {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         const Text(
-                          'Zarejestruj się',
+                          'Zgłoś się',
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 24,
@@ -189,11 +189,11 @@ class RegistrationPage extends StatelessWidget {
                             foregroundColor: Colors.white,
                             backgroundColor: Colors.orange,
                           ),
-                          child: const Text('Zarejestruj się'),
+                          child: const Text('Wyślij zgłoszenie'),
                         ),
                         TextButton(
                           child: const Text(
-                            'Masz już konto? Zaloguj się',
+                            'Masz już konto administratora? Zaloguj się',
                             style: TextStyle(color: Colors.white),
                           ),
                           onPressed: () {

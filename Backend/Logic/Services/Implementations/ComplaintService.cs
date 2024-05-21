@@ -37,4 +37,9 @@ public class ComplaintService(IDataRepository repository) : Interfaces.IComplain
         IEnumerable<Complaint> complaints = _repository.ComplaintRepository.GetAll();
         return complaints.Where(c => c.ComplainantID == complaintUserID).ToList();
     }
+    public List<Complaint> GetAllComplaints()
+    {
+       return _repository.ComplaintRepository.GetAll().ToList();
+        
+    }
 }

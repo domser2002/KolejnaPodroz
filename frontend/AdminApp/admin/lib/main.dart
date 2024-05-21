@@ -3,7 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:admin/firebase_options.dart';
 import 'package:provider/provider.dart';
-import 'classes/user_provider.dart';
+import 'classes/admin_provider.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -20,7 +20,7 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => UserProvider(),
+      create: (context) => AdminProvider(),
       child: MaterialApp(
         title: 'Kolejna Podróż',
         theme: ThemeData(

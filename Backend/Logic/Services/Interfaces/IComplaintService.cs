@@ -9,4 +9,6 @@ public interface IComplaintService
     public bool EditComplaint(Complaint newComplaint);
     public Complaint? GetComplaintByID(int complaintID);
     public List<Complaint> GetComplaintsByUserID(int complaintUserID);
+
+    public List<Complaint> GetAllComplaints();
 }
