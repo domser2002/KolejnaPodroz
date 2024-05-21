@@ -75,16 +75,20 @@ namespace InfrastructureTests
         {
             // Arrange
             fakeRepository = new();
-            Complaint complaint = new();
-            complaint.ID = fakeRepository.Add(complaint);
-            complaint.Content = "Test";
+            Complaint oldComplaint = new();
+            oldComplaint.ID = fakeRepository.Add(oldComplaint);
+            Complaint newComplaint = new()
+            {
+                ID = oldComplaint.ID,
+                Content = "Test"
+            };
             // Act 
-            var result = fakeRepository.Update(complaint);
+            var result = fakeRepository.Update(oldComplaint,newComplaint);
             // Assert
             Assert.Multiple(() =>
             {
                 Assert.That(result, Is.True);
-                Assert.That(fakeRepository.GetByID(complaint.ID)?.Content, Is.EqualTo("Test"));
+                Assert.That(fakeRepository.GetByID(oldComplaint.ID)?.Content, Is.EqualTo("Test"));
             });
         }
 
@@ -139,21 +143,26 @@ namespace InfrastructureTests
         {
             // Arrange
             User user = new();
-            Complaint complaint = new();
+            Complaint oldComplaint = new();
             user.ID = userRepository.Add(user);
-            complaint.ComplainantID = user.ID;
-            complaint.ID = repository.Add(complaint);
-            complaint.Content = "Test";
+            oldComplaint.ComplainantID = user.ID;
+            oldComplaint.ID = repository.Add(oldComplaint);
+            Complaint newComplaint = new()
+            {
+                ID = oldComplaint.ID,
+                ComplainantID = oldComplaint.ComplainantID,
+                Content = "Test"
+            };
             // Act 
-            var result = repository.Update(complaint);
+            var result = repository.Update(oldComplaint,newComplaint);
             // Assert
             Assert.Multiple(() =>
             {
                 Assert.That(result, Is.True);
-                Assert.That(repository.GetByID(complaint.ID)?.Content, Is.EqualTo("Test"));
+                Assert.That(repository.GetByID(oldComplaint.ID)?.Content, Is.EqualTo("Test"));
             });
             // Clean
-            repository.Delete(complaint);
+            repository.Delete(newComplaint);
             userRepository.Delete(user);
         }
     }
