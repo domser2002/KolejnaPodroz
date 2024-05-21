@@ -58,7 +58,7 @@ public class ComplaintController(IComplaintService complaintService) : Controlle
         return NoContent();
     }
 
-    [HttpPatch("edit/{id}")]
+    [HttpPatch("edit")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]

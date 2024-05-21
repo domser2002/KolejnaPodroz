@@ -25,6 +25,13 @@ public class AdminService(IDataRepository repository) : IAdminService
         admin.Verified = true;
         return _repository.AdminRepository.Update(admin);
     }
+    public bool AcceptNewAdmin(int adminID)
+    {
+        Admin? admin = _repository.AdminRepository.GetByID(adminID);
+        if (admin is null) return false;
+        admin.Accepted = true;
+        return _repository.AdminRepository.Update(admin);
+    }
     public Admin? AuthoriseAdmin(string firebaseID,string token)
     {
         Admin? admin = _repository.AdminRepository.GetAll().Where(a => a.FirebaseID == firebaseID).FirstOrDefault();

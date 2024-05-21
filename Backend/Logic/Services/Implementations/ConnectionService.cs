@@ -60,6 +60,34 @@ namespace Logic.Services.Implementations
                 connections.Add(col_connection);
             }
 
+
+            List<Connection> trimmedConnection = new List<Connection>();
+            foreach (Connection conn in connections)
+            {
+                int idx_origin = conn.Stations.IndexOf(from);
+                int idx_destination = conn.Stations.IndexOf(to);
+
+                Connection newCon = new Connection();
+                for (int i = idx_origin; i <= idx_destination; i++)
+                {
+                    newCon.Stations.Add(conn.Stations[i]);
+                    newCon.DepartureTimes.Add(conn.DepartureTimes[i]);
+                    newCon.ArrivalTimes.Add(conn.ArrivalTimes[i]);
+                }
+
+                for (int i = 0; i < conn.Providers.Count; i++)
+                {
+                    newCon.Providers.Add(conn.Providers[i]);
+                }
+
+                newCon.ID = conn.ID;
+
+                trimmedConnection.Add(newCon);
+            }
+
+            // return connections;
+            return trimmedConnection;
+
             return connections;
         }
     }
