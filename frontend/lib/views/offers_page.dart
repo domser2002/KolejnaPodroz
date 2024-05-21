@@ -1,11 +1,13 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:frontend/classes/train_offer.dart';
+import 'package:frontend/utils/http_requests.dart';
 import 'package:frontend/views/auth/login_page.dart';
 import 'package:frontend/views/auth/register_page.dart';
 import 'package:frontend/views/user_profile_page.dart';
 
 class ViewOffersPage extends StatelessWidget {
-  var offers;
+  List<TrainOffer> offers;
   ViewOffersPage({super.key, required this.offers});
 
   @override
@@ -13,7 +15,7 @@ class ViewOffersPage extends StatelessWidget {
     final PageController controller = PageController(viewportFraction: 0.4);
 
     return Scaffold(
-        bottomNavigationBar: const BottomAppBar(
+        bottomNavigationBar: BottomAppBar(
             color: Colors.white,
             height: 50,
             child: Center(
@@ -25,69 +27,76 @@ class ViewOffersPage extends StatelessWidget {
               ],
             ))),
         appBar: AppBar(
-          title: const Text('Wybierz pociąg!'),
+          title: Text('Wybierz pociąg!'),
           actions: [
-          StreamBuilder<User?>(
-            stream: FirebaseAuth.instance.authStateChanges(),
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-        // Użytkownik jest zalogowany
-        return Row(
-          children: [
-            IconButton(
-              icon: const Icon(Icons.person, color: Colors.black),
-              onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) =>  UserProfilePage(),
-                  ),
-                );
-              },
-            ),
-            IconButton(
-              icon: const Icon(Icons.exit_to_app, color: Colors.red),
-              onPressed: () {
-                FirebaseAuth.instance.signOut();
+            StreamBuilder<User?>(
+              stream: FirebaseAuth.instance.authStateChanges(),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  // Użytkownik jest zalogowany
+                  return Row(
+                    children: [
+                      IconButton(
+                        icon: const Icon(Icons.person, color: Colors.black),
+                        onPressed: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => UserProfilePage(),
+                            ),
+                          );
+                        },
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.exit_to_app, color: Colors.red),
+                        onPressed: () {
+                          FirebaseAuth.instance.signOut();
+                        },
+                      ),
+                    ],
+                  );
+                } else {
+                  // Użytkownik jest wylogowany
+                  return Row(
+                    children: [
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => LoginPage(),
+                            ),
+                          );
+                        },
+                        child: const Text('Zaloguj się',
+                            style: TextStyle(color: Colors.black)),
+                      ),
+                      const VerticalDivider(
+                          color: Colors.black,
+                          thickness: 1,
+                          width: 20,
+                          indent: 18,
+                          endIndent: 16),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => RegistrationPage(),
+                            ),
+                          );
+                        },
+                        child: const Text('Zarejestruj się',
+                            style: TextStyle(color: Colors.black)),
+                      ),
+                    ],
+                  );
+                }
               },
             ),
           ],
-        );
-      } else {
-                // Użytkownik jest wylogowany
-                return Row(
-                  children: [
-                    TextButton(
-                      onPressed: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => LoginPage(),
-                          ),
-                        );
-                      },
-                      child: const Text('Zaloguj się', style: TextStyle(color: Colors.black)),
-                    ),
-                    const VerticalDivider(color: Colors.black, thickness: 1, width: 20, indent: 18, endIndent: 16),
-                    TextButton(
-                      onPressed: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => RegistrationPage(),
-                          ),
-                        );
-                      },
-                      child: const Text('Zarejestruj się', style: TextStyle(color: Colors.black)),
-                    ),
-                  ],
-                );
-              }
-            },
-          ),
-        ],
-      ),
+        ),
         body: Stack(
           children: [
             Container(
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
                 image: DecorationImage(
                   image: AssetImage('lib/assets/photos/background2.jpg'),
                   fit: BoxFit.cover,
@@ -96,7 +105,7 @@ class ViewOffersPage extends StatelessWidget {
             ),
             Center(
               child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 24.0),
+                padding: EdgeInsets.symmetric(vertical: 24.0),
                 child: AspectRatio(
                   aspectRatio: 2.0,
                   child: Cards(controller: controller, offers: offers),
@@ -116,11 +125,11 @@ class Cards extends StatelessWidget {
   });
 
   PageController controller;
-  var offers;
+  List<TrainOffer> offers;
 
   @override
   Widget build(BuildContext context) {
-    if (offers != null) {
+    if (offers.isNotEmpty) {
       return PageView.builder(
         controller: controller,
         itemCount: offers.length,
@@ -152,12 +161,12 @@ class Cards extends StatelessWidget {
     } else {
       return Center(
         child: SizedBox(
+          child: Container(
+            child: Center(child: Text("Nie ma takich przejazdów")),
+            decoration: BoxDecoration(color: Colors.green),
+          ),
           width: 200,
           height: 100,
-          child: Container(
-            decoration: const BoxDecoration(color: Colors.green),
-            child:  const Center(child: Text("Nie ma takich przejazdów")),
-          ),
         ),
       );
     }
@@ -167,7 +176,7 @@ class Cards extends StatelessWidget {
 class TrainOfferCard extends StatelessWidget {
   final bool isLarge;
   final double elevation;
-  var trainOffer;
+  TrainOffer trainOffer;
   TrainOfferCard(
       {Key? key,
       this.isLarge = false,
@@ -177,20 +186,33 @@ class TrainOfferCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String departureTime = trainOffer.DepartureTimes.first.toString();
-    String departureStation = trainOffer.stations.first;
-    String arrivalTime = trainOffer.DepartureTimes.last.toString();
-    String arrivalStation = trainOffer.stations.last;
-    String time = trainOffer.ArrivalTimes.last
-        .difference(trainOffer.DepartureTimes.first)
-        .toString();
+    int dmin = trainOffer.departure.first.minute;
+    String d_min = dmin < 10
+        ? "0" + trainOffer.departure.first.minute.toString()
+        : trainOffer.departure.first.minute.toString();
+    int amin = trainOffer.arrival.last.minute;
+    String a_min = amin < 10
+        ? "0" + trainOffer.arrival.last.minute.toString()
+        : trainOffer.arrival.last.minute.toString();
+
+    String departure_time =
+        trainOffer.departure.first.hour.toString() + ':' + d_min;
+
+    String departure_station = trainOffer.stations.first;
+    String arrival_time = trainOffer.arrival.last.hour.toString() + ':' + a_min;
+    String arrival_station = trainOffer.stations.last;
+    String time = trainOffer.arrival.last
+            .difference(trainOffer.departure.first)
+            .inMinutes
+            .toString() +
+        "min";
 
     return Card(
       color: Colors.transparent,
       elevation: elevation,
-      margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+      margin: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
       child: Container(
-        padding: const EdgeInsets.all(16),
+        padding: EdgeInsets.all(16),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
           gradient: LinearGradient(
@@ -212,39 +234,39 @@ class TrainOfferCard extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    const Text('ODJAZD', style: TextStyle(color: Colors.white)),
-                    Text(departureTime,
-                        style: const TextStyle(fontSize: 26, color: Colors.white)),
+                    Text('ODJAZD', style: TextStyle(color: Colors.white)),
+                    Text(departure_time,
+                        style: TextStyle(fontSize: 26, color: Colors.white)),
                     Text(
-                      departureStation,
-                      style: const TextStyle(color: Colors.white),
+                      departure_station,
+                      style: TextStyle(color: Colors.white),
                     ),
                   ],
                 ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    const Text('PRZYJAZD', style: TextStyle(color: Colors.white)),
-                    Text(arrivalTime,
-                        style: const TextStyle(fontSize: 26, color: Colors.white)),
-                    Text(arrivalStation,
-                        style: const TextStyle(color: Colors.white)),
+                    Text('PRZYJAZD', style: TextStyle(color: Colors.white)),
+                    Text(arrival_time,
+                        style: TextStyle(fontSize: 26, color: Colors.white)),
+                    Text(arrival_station,
+                        style: TextStyle(color: Colors.white)),
                   ],
                 ),
               ],
             ),
-            const SizedBox(height: 8),
+            SizedBox(height: 8),
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
-                const Icon(Icons.access_time, color: Colors.white),
-                const SizedBox(width: 8),
-                Text(time, style: const TextStyle(fontSize: 22, color: Colors.white)),
+                Icon(Icons.access_time, color: Colors.white),
+                SizedBox(width: 8),
+                Text(time, style: TextStyle(fontSize: 22, color: Colors.white)),
               ],
             ),
-            const  SizedBox(height: 8),
-            const Divider(),
-            const Row(
+            SizedBox(height: 8),
+            Divider(),
+            Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Icon(Icons.train, color: Colors.white),
@@ -255,11 +277,11 @@ class TrainOfferCard extends StatelessWidget {
                         color: Colors.white)),
               ],
             ),
-            const Text('Klasa 1: od 90,00 zł',
+            Text('Klasa 1: od 90,00 zł',
                 style: TextStyle(fontSize: 25, color: Colors.white)),
-            const Text('Klasa 2: od 58,65 zł',
+            Text('Klasa 2: od 58,65 zł',
                 style: TextStyle(fontSize: 25, color: Colors.white)),
-            const SizedBox(height: 50),
+            SizedBox(height: 50),
             ElevatedButton(
               onPressed: () {},
               style: ElevatedButton.styleFrom(
@@ -269,7 +291,7 @@ class TrainOfferCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(18.0),
                 ),
               ),
-              child: const Text('Wybierz'),
+              child: Text('Wybierz'),
             ),
           ],
         ),
