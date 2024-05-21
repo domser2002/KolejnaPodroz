@@ -23,7 +23,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Provider", "Provider", "{A6
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProviderApi", "Providers\Provider1\Api\ProviderApi.csproj", "{ED9EFA45-BE84-4630-867B-4F3A56CEAD33}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "Providers\Provider1\Domain\Domain.csproj", "{3AABA2B2-E81A-418A-B191-2C9BF6FE279A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProviderDomain", "Providers\Provider1\Domain\ProviderDomain.csproj", "{3AABA2B2-E81A-418A-B191-2C9BF6FE279A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProviderLogic", "Providers\Provider1\Logic\ProviderLogic.csproj", "{515CCE60-0890-4A1E-9263-3D1DAAB5456E}"
 EndProject
