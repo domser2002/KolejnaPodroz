@@ -18,5 +18,7 @@ namespace Logic.Services.Interfaces
         public bool GiveAdminPermissions(Admin admin);
         public bool RemoveUserByID(int userID);
         public List<User> GetAllUsers();
+        public bool EditUser(EditUser editedUser);
+        public User? GetUserByID(int userID);
     }
 }

@@ -5,6 +5,8 @@ using Logic.Services.Interfaces;
 using Domain.Common;
 using System;
 using System.Net.Mime;
+using Domain.User;
+using Microsoft.EntityFrameworkCore;
 
 namespace Api.Controllers
 {
@@ -135,6 +137,32 @@ namespace Api.Controllers
                 return Ok(users);
             }
             catch(Exception)
+            {
+                return StatusCode(500);
+            }
+        }
+        [HttpPut("editUser")]
+        [Consumes(MediaTypeNames.Application.Json)]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(User))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public ActionResult<User> EditUser([FromBody] EditUser editedUser)
+        {
+            try
+            {
+                var result = _adminService.EditUser(editedUser);
+                if (result)
+                {
+                    var updatedUser = _adminService.GetUserByID(editedUser.Id);
+                    return Ok(updatedUser);
+                }
+                else
+                {
+                    return BadRequest();
+                }
+            }
+            catch (Exception)
             {
                 return StatusCode(500);
             }
