@@ -1,6 +1,7 @@
 ﻿using Domain.Common;
 using Infrastructure.DataContexts;
 using Infrastructure.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,9 +37,10 @@ namespace Infrastructure.DataRepositories
             return _context.Complaint.FirstOrDefault(a => a.ID == id);
         }
 
-        public bool Update(Complaint Complaint)
+        public bool Update(Complaint oldComplaint, Complaint newComplaint)
         {
-            _context.Complaint.Update(Complaint);
+            _context.Entry(oldComplaint).State = EntityState.Detached;
+            _context.Complaint.Update(newComplaint);
             return _context.SaveChanges() == 1;
         }
     }
