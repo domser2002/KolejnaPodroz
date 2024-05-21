@@ -1,13 +1,16 @@
-﻿using Infrastructure.Interfaces;
+﻿using Domain.Common;
+using Infrastructure.Interfaces;
 using Logic.Services.Interfaces;
 
 namespace Logic.Services.Implementations;
 
-public class PaymentService(IDataRepository repository) : IPaymentService
+public class PaymentService : IPaymentService
 {
-    private readonly IDataRepository _repository = repository; 
-    public bool ProceedPayment()
+    public bool ProceedPayment(Payment payment)
     {
-        throw new NotImplementedException();
+        Thread.Sleep(1000);
+        if(payment.Code.Length != 6) return false;
+        Thread.Sleep(2000);
+        return true;
     }
 }
