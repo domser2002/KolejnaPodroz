@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/classes/complaint.dart';
+import 'package:frontend/classes/user_provider.dart';
 import 'package:frontend/utils/http_requests.dart';
+import 'package:provider/provider.dart';
 
 
 class EditComplaintPage extends StatelessWidget {
@@ -17,7 +19,8 @@ class EditComplaintPage extends StatelessWidget {
     double winWidth = screenSize.width;
     double winHeight = screenSize.height;
     HttpRequests request = HttpRequests();
-
+    UserProvider userProvider = Provider.of<UserProvider>(context);
+    
     return Scaffold(
       bottomNavigationBar: BottomAppBar(
           color: Colors.white,
@@ -129,7 +132,9 @@ class EditComplaintPage extends StatelessWidget {
                             if (complaint != null) {
                               // Update the complaint's content with the new reason
                               complaint.content = reasonController.text;
-
+                              complaint.title = titleController.text;
+                              complaint.complainantID = userProvider.user!.id;
+                              
                               // Prepare the updated data as a Map
                               Map<String, dynamic> updatedData = {
                                 'ticketId': complaint.ticketId,
