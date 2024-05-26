@@ -19,7 +19,6 @@ public partial class DomainDBContext : DbContext, IDataContext
     public virtual DbSet<Station> Station { get; set; }
     public virtual DbSet<StopDetails> StopDetails { get; set; }
     public virtual DbSet<Statistics> Statistics { get; set; }
-
     public virtual DbSet<StatisticCategory> StatisticCategory { get; set; }
     public DomainDBContext() { }
     public DomainDBContext(DbContextOptions<DomainDBContext> options) : base(options) {}
