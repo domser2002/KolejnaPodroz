@@ -1,4 +1,5 @@
-﻿using Domain.Common;
+﻿using Domain.Admin;
+using Domain.Common;
 using Domain.User;
 using Infrastructure.DataContexts;
 using Infrastructure.Interfaces;
@@ -10,37 +11,7 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.DataRepositories
 {
-    public class TicketRepository(DomainDBContext context) : ITicketRepository
+    public class TicketRepository(DomainDBContext context) : Repository<Ticket>(context), ITicketRepository
     {
-        private readonly DomainDBContext _context = context;
-        public int Add(Ticket Ticket)
-        {
-            int id = !GetAll().Any() ? 1 : GetAll().Max(x => x.ID) +1;
-            Ticket.ID = id; // temporary solution
-            _context.Ticket.Add(Ticket);
-            return (_context.SaveChanges() == 1) ? id : -1;
-        }
-
-        public bool Delete(Ticket Ticket)
-        {
-            _context.Ticket.Remove(Ticket);
-            return _context.SaveChanges() == 1;
-        }
-
-        public IEnumerable<Ticket> GetAll()
-        {
-            return [.. _context.Ticket];
-        }
-
-        public Ticket? GetByID(int id)
-        {
-            return _context.Ticket.FirstOrDefault(a => a.ID == id);
-        }
-
-        public bool Update(Ticket Ticket)
-        {
-            _context.Ticket.Update(Ticket);
-            return _context.SaveChanges() == 1;
-        }
     }
 }
