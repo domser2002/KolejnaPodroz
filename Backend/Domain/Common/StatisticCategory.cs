@@ -11,6 +11,6 @@ namespace Domain.Common
     {
         [Required]
         [MaxLength(100)]
-        public string CategoryName { get; set; }
+        public string CategoryName { get; set; } = string.Empty;
     }
 }
