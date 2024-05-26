@@ -1,4 +1,5 @@
-﻿using Infrastructure.DataContexts;
+﻿using Domain.Common;
+using Infrastructure.DataContexts;
 using Infrastructure.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.DataRepositories
 {
-    public class Repository<T> : IRepository<T> where T : class
+    public class Repository<T> : IRepository<T> where T : Base
     {
         private readonly DomainDBContext _context;
         private readonly DbSet<T> _dbSet;
