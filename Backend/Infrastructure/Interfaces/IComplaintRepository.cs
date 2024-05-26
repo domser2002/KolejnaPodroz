@@ -7,12 +7,5 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Interfaces
 {
-    public interface IComplaintRepository
-    {
-        public IEnumerable<Complaint> GetAll();
-        public Complaint? GetByID(int id);
-        public int Add(Complaint Complaint);
-        public bool Update(Complaint oldComplaint, Complaint newComplaint);
-        public bool Delete(Complaint Complaint);
-    }
+    public interface IComplaintRepository : IRepository<Complaint> { }
 }
