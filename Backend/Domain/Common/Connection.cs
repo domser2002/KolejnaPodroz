@@ -6,11 +6,7 @@ namespace Domain.Common;
 public class Connection : Base
 {
 
-    public List<string> Stations { get; set; } = new();
+    public List<StopDetails> Stops { get; set; } = [];
 
-    public List<DateTime> DepartureTimes { get; set; } = new();
-
-    public List<DateTime> ArrivalTimes { get; set; } = new();
-
-    public List<Provider> Providers { get; set; } = new();
+    public List<Provider> Providers { get; set; } = [];
 }
