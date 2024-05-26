@@ -18,5 +18,6 @@ namespace Infrastructure.Interfaces
         public IStationRepository StationRepository { get; set; }
         public IStopDetailsRepository StopDetailsRepository { get; set; }
         public IStatisticsRepository StatisticsRepository { get; set; }
+        public IStatisticsCategoryRepository StatisticsCategoryRepository { get; set; }
     }
 }
