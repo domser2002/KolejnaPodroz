@@ -7,6 +7,6 @@ public class Connection : Base
 {
 
     public List<StopDetails> Stops { get; set; } = [];
-
-    public List<Provider> Providers { get; set; } = [];
+    [Required]
+    public int ProviderID { get; set; }
 }

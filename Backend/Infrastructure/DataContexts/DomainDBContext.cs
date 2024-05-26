@@ -16,6 +16,8 @@ public partial class DomainDBContext : DbContext, IDataContext
     public virtual DbSet<Discount> Discount { get; set; }
     public virtual DbSet<UserDiscount> UserDiscount { get; set; }
     public virtual DbSet<Connection> Connection { get; set; }
+    public virtual DbSet<Station> Station { get; set; }
+    public virtual DbSet<StopDetails> StopDetails { get; set; }
     public virtual DbSet<Statistics> Statistics { get; set; }
 
     public virtual DbSet<StatisticCategory> StatisticCategory { get; set; }
@@ -33,16 +35,20 @@ public partial class DomainDBContext : DbContext, IDataContext
         {
             entity.HasKey(k => k.ID);
             entity.Property(k => k.ID).ValueGeneratedOnAdd();
+            entity.HasOne<User>().WithMany().HasForeignKey(c => c.ComplainantID);
         });
-        modelBuilder.Entity<Complaint>()
-        .HasOne<User>()
-        .WithMany()
-        .HasForeignKey(c => c.ComplainantID);
 
         modelBuilder.Entity<Provider>(entity =>
         {
             entity.HasKey(k => k.ID);
             entity.Property(k => k.ID).ValueGeneratedOnAdd();
+        });
+
+        modelBuilder.Entity<Ticket>(entity =>
+        {
+            entity.HasKey(k => k.ID);
+            entity.Property(k => k.ID).ValueGeneratedOnAdd();
+            entity.HasOne<User>().WithMany().HasForeignKey(t => t.OwnerID);
         });
 
         modelBuilder.Entity<User>(entity =>
@@ -68,31 +74,36 @@ public partial class DomainDBContext : DbContext, IDataContext
                   .HasForeignKey(ud => ud.DiscountID);
         });
 
-        modelBuilder.Entity<Ticket>(entity =>
+        modelBuilder.Entity<Connection>(entity =>
+        {
+            entity.HasKey(k => k.ID);
+            entity.Property(k => k.ID).ValueGeneratedOnAdd();
+            entity.HasOne<Provider>().WithMany().HasForeignKey(c => c.ProviderID);
+        });
+
+        modelBuilder.Entity<Station>(entity =>
         {
             entity.HasKey(k => k.ID);
             entity.Property(k => k.ID).ValueGeneratedOnAdd();
         });
-        modelBuilder.Entity<Ticket>()
-        .HasOne<User>()
-        .WithMany()
-        .HasForeignKey(t => t.OwnerID);
-   
+
+        modelBuilder.Entity<StopDetails>(entity =>
+        {
+            entity.HasKey(k => k.ID);
+            entity.Property(k => k.ID).ValueGeneratedOnAdd();
+            entity.HasOne<Station>().WithMany().HasForeignKey(sd => sd.StationID);
+            entity.HasOne<Connection>().WithMany().HasForeignKey(sd => sd.ConnectionID);
+            entity.Property("ArrivalTime").HasColumnType("datetime");
+            entity.Property("DepartureTime").HasColumnType("datetime");
+        });
 
         modelBuilder.Entity<Statistics>(entity =>
         {
             entity.HasKey(k => k.ID);
             entity.Property(k => k.ID).ValueGeneratedOnAdd();
+            entity.HasOne<User>().WithMany().HasForeignKey(st => st.UserID);
+            entity.HasOne<StatisticCategory>().WithMany().HasForeignKey(st => st.CategoryID);
         });
-        modelBuilder.Entity<Statistics>()
-        .HasOne<User>()
-        .WithMany()
-        .HasForeignKey(t => t.UserID);
-
-        modelBuilder.Entity<Statistics>()
-        .HasOne<StatisticCategory>()
-        .WithMany()
-        .HasForeignKey(t => t.CategoryID);
 
         modelBuilder.Entity<StatisticCategory>(entity =>
         {
@@ -100,36 +111,7 @@ public partial class DomainDBContext : DbContext, IDataContext
             entity.Property(k => k.ID).ValueGeneratedOnAdd();
         });
         
-   
-
         OnModelCreatingPartial(modelBuilder);
-
-        modelBuilder.Entity<Connection>(entity =>
-        {
-            entity.HasKey(k => k.ID);
-            entity.Property(k => k.ID).ValueGeneratedOnAdd();
-
-            entity.Property(c => c.Stations)
-                    .HasConversion(
-                        v => JsonConvert.SerializeObject(v),
-                        v => JsonConvert.DeserializeObject<List<string>>(v));
-
-            entity.Property(c => c.DepartureTimes)
-                    .HasConversion(
-                        v => JsonConvert.SerializeObject(v),
-                        v => JsonConvert.DeserializeObject<List<DateTime>>(v));
-
-            entity.Property(c => c.ArrivalTimes)
-                .HasConversion(
-                    v => JsonConvert.SerializeObject(v),
-                    v => JsonConvert.DeserializeObject<List<DateTime>>(v));
-
-            entity.Property(c => c.Providers)
-                .HasConversion(
-                    v => JsonConvert.SerializeObject(v),
-                    v => JsonConvert.DeserializeObject<List<Provider>>(v));
-
-        });
     }
 
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);

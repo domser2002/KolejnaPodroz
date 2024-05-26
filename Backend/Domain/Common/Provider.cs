@@ -12,5 +12,5 @@ public class Provider : Base
     [Required]
     [MaxLength(50)]
     public string Email { get; set; } = string.Empty;
-    // may need additional fields
+    public List<Connection> Connections { get; set; } = [];
 }
