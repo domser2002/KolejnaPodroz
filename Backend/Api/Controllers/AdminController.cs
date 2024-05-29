@@ -5,6 +5,8 @@ using Logic.Services.Interfaces;
 using Domain.Common;
 using System;
 using System.Net.Mime;
+using Domain.User;
+using Microsoft.EntityFrameworkCore;
 
 namespace Api.Controllers
 {
@@ -99,6 +101,66 @@ namespace Api.Controllers
             {
                 var removed = _adminService.RemoveAdminAccount(adminID);
                 return removed ? Ok() : BadRequest();
+            }
+            catch (Exception)
+            {
+                return StatusCode(500);
+            }
+        }
+        [HttpDelete("deleteUserByID/{userID}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType (StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public ActionResult<int> deleteUserByID(int userID)
+        {
+            try
+            {
+                var removed = _adminService.RemoveUserByID(userID);
+                return removed ? Ok() : BadRequest();
+            }
+            catch (Exception)
+            {
+                return StatusCode(500);
+            }
+        }
+        [HttpGet("getAllUsers")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public ActionResult GetAllUsers()
+        {
+            try
+            {
+                var users = _adminService.GetAllUsers();
+                if(users == null)
+                    return BadRequest();
+                return Ok(users);
+            }
+            catch(Exception)
+            {
+                return StatusCode(500);
+            }
+        }
+        [HttpPut("editUser")]
+        [Consumes(MediaTypeNames.Application.Json)]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(User))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public ActionResult<User> EditUser([FromBody] EditUser editedUser)
+        {
+            try
+            {
+                var result = _adminService.EditUser(editedUser);
+                if (result)
+                {
+                    var updatedUser = _adminService.GetUserByID(editedUser.Id);
+                    return Ok(updatedUser);
+                }
+                else
+                {
+                    return BadRequest();
+                }
             }
             catch (Exception)
             {
