@@ -16,30 +16,32 @@ class LoginPage extends StatelessWidget {
   LoginPage({Key? key}) : super(key: key);
 
   Future<void> signInWithEmailAndPassword(BuildContext context) async {
-    //try {
-    // UserCredential adminCredential =
-    //     await FirebaseAuth.instance.signInWithEmailAndPassword(
-    //   email: emailController.text,
-    //   password: passwordController.text,
-    // );
+    try {
+      UserCredential adminCredential =
+          await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: emailController.text,
+        password: passwordController.text,
+      );
 
-    // Fetch admin details from your backend using HttpRequests
-    //var loggedAdmin = await request.authoriseAdmin(adminCredential.user!.uid);
+      //Fetch admin details from your backend using HttpRequests
+      //var loggedAdmin = await request.authoriseAdmin(adminCredential.user!.uid);
 
-    //if (loggedAdmin == true) {
-    // Save admin details to the provider
+      if (
+          //loggedAdmin ==
+          true) {
+        //Save admin details to the provider
 
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => AdminProfilePage(),
-      ),
-    );
-    // } else {
-    //     print('Failed to load admin data');
-    //   }
-    // } on FirebaseAuthException catch (e) {
-    //   print(e.message);
-    // }
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => AdminProfilePage(),
+          ),
+        );
+      } else {
+        print('Failed to load admin data');
+      }
+    } on FirebaseAuthException catch (e) {
+      print(e.message);
+    }
   }
 
   @override
