@@ -1,6 +1,9 @@
 import 'package:admin/views/admin_profile_page.dart';
+import 'package:admin/views/admin_profile_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:admin/classes/admin.dart';
+import 'package:admin/classes/admin_provider.dart';
 import 'package:admin/classes/admin.dart';
 import 'package:admin/classes/admin_provider.dart';
 import 'package:admin/utils/http_requests.dart';
@@ -149,6 +152,7 @@ class LoginPage extends StatelessWidget {
                         ),
                         TextButton(
                           child: const Text(
+                            'Chcesz zostac administratorem? wyślij zgłoszenie',
                             'Chcesz zostac administratorem? wyślij zgłoszenie',
                             style: TextStyle(color: Colors.white),
                           ),

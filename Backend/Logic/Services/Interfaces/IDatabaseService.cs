@@ -8,7 +8,7 @@ namespace Logic.Services.Interfaces
 {
     public interface IDatabaseService
     {
-        public void ExecuteSQL(string sql);
+        public List<Object[]> ExecuteSQL(string sql);
         public void Backup();
     }
 }

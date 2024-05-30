@@ -1,6 +1,8 @@
 ﻿using Domain.Admin;
+using Domain.User;
 using Infrastructure.Interfaces;
 using Logic.Services.Interfaces;
+using System.ComponentModel.DataAnnotations;
 
 namespace Logic.Services.Implementations;
 
@@ -43,5 +45,64 @@ public class AdminService(IDataRepository repository) : IAdminService
     {
         admin.Accepted = true;
         return _repository.AdminRepository.Update(admin);
+    }
+
+    public bool RemoveUserByID(int userID)
+    {
+        User? user = _repository.UserRepository.GetByID(userID);
+        if (user is null) return false;
+        return _repository.UserRepository.Delete(user);
+    }
+    public List<User>? GetAllUsers()
+    {
+        List<User> users = new List<User>(_repository.UserRepository.GetAll().ToList());
+        if (users.Count == 0) return null;
+        return users;
+    }
+    public User? GetUserByID(int userID)
+    {
+        return _repository.UserRepository.GetByID(userID);
+    }
+    public bool EditUser(EditUser editedUser)
+    {
+        User? user = _repository.UserRepository.GetByID(editedUser.Id);
+        if (user == null) return false;
+
+        if (!string.IsNullOrEmpty(editedUser.FirebaseID))
+        {
+            user.FirebaseID = editedUser.FirebaseID;
+        }
+
+        if (editedUser.BirthDate.HasValue)
+        {
+            user.BirthDate = editedUser.BirthDate;
+        }
+
+        if (editedUser.PreferedSeatType != 0) // Assuming 0 is not a valid value for PreferedSeatType
+        {
+            user.PreferedSeatType = editedUser.PreferedSeatType;
+        }
+
+        if (editedUser.PreferedSeatLocation != 0) // Assuming 0 is not a valid value for PreferedSeatLocation
+        {
+            user.PreferedSeatLocation = editedUser.PreferedSeatLocation;
+        }
+
+        if (!string.IsNullOrEmpty(editedUser.FirstName))
+        {
+            user.FirstName = editedUser.FirstName;
+        }
+
+        if (!string.IsNullOrEmpty(editedUser.LastName))
+        {
+            user.LastName = editedUser.LastName;
+        }
+
+        if (!string.IsNullOrEmpty(editedUser.Email) && new EmailAddressAttribute().IsValid(editedUser.Email))
+        {
+            user.Email = editedUser.Email;
+        }
+
+        return _repository.UserRepository.Update(user);
     }
 }
