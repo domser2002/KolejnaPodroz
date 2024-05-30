@@ -36,7 +36,7 @@ public class AdminService(IDataRepository repository) : IAdminService
     }
     public Admin? AuthoriseAdmin(string firebaseID,string token)
     {
-        Admin? admin = _repository.AdminRepository.GetAll().Where(a => a.FirebaseID == firebaseID).FirstOrDefault();
+        Admin? admin = _repository.AdminRepository.GetAll().Where(a => a.FirebaseID == firebaseID && a.Accepted==true).FirstOrDefault();
         if(admin is null) return null;
         Server.CreateAdminSession(admin.ID, token);
         return admin;
@@ -58,6 +58,11 @@ public class AdminService(IDataRepository repository) : IAdminService
         List<User> users = new List<User>(_repository.UserRepository.GetAll().ToList());
         if (users.Count == 0) return null;
         return users;
+    }
+
+    public Admin? GetAdminByID(int adminID)
+    {
+        return _repository.AdminRepository.GetByID(adminID);
     }
     public User? GetUserByID(int userID)
     {

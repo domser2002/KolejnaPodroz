@@ -27,11 +27,9 @@ class LoginPage extends StatelessWidget {
       );
 
       //Fetch admin details from your backend using HttpRequests
-      //var loggedAdmin = await request.authoriseAdmin(adminCredential.user!.uid);
+      var loggedAdmin = await request.authoriseAdmin(adminCredential.user!.uid);
 
-      if (
-          //loggedAdmin ==
-          true) {
+      if (loggedAdmin == true) {
         //Save admin details to the provider
 
         Navigator.of(context).push(
@@ -152,7 +150,6 @@ class LoginPage extends StatelessWidget {
                         ),
                         TextButton(
                           child: const Text(
-                            'Chcesz zostac administratorem? wyślij zgłoszenie',
                             'Chcesz zostac administratorem? wyślij zgłoszenie',
                             style: TextStyle(color: Colors.white),
                           ),

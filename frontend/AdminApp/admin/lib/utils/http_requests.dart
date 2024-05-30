@@ -2,6 +2,7 @@ import 'package:admin/classes/complaint.dart';
 import 'package:admin/classes/admin.dart';
 import 'package:admin/classes/train_offer.dart';
 import 'package:admin/classes/user.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -248,6 +249,27 @@ class HttpRequests {
       print(e.toString());
       return false;
     }
+  }
+
+  Future<List<MyUser>?> getAllUsers() async {
+    try {
+      var url = Uri.parse('$host/Admin/getAll');
+      var response = await http.get(url);
+
+      if (response.statusCode == 200) {
+        var usersObjsJson = jsonDecode(response.body) as List;
+        List<MyUser> result = usersObjsJson
+            .map((usersJson) => MyUser.fromJson(usersJson))
+            .toList();
+        print("uers loaded");
+        return result;
+      } else {
+        print('Failed to load users');
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+    return []; // Return null if there's an error or if the complaint doesn't load
   }
 
   Future<MyUser?> getUser(String userId) async {
