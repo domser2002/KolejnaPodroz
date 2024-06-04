@@ -1,6 +1,9 @@
 import 'package:admin/views/admin_profile_page.dart';
+import 'package:admin/views/admin_profile_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:admin/classes/admin.dart';
+import 'package:admin/classes/admin_provider.dart';
 import 'package:admin/classes/admin.dart';
 import 'package:admin/classes/admin_provider.dart';
 import 'package:admin/utils/http_requests.dart';
@@ -16,30 +19,30 @@ class LoginPage extends StatelessWidget {
   LoginPage({Key? key}) : super(key: key);
 
   Future<void> signInWithEmailAndPassword(BuildContext context) async {
-    //try {
-    // UserCredential adminCredential =
-    //     await FirebaseAuth.instance.signInWithEmailAndPassword(
-    //   email: emailController.text,
-    //   password: passwordController.text,
-    // );
+    try {
+      UserCredential adminCredential =
+          await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: emailController.text,
+        password: passwordController.text,
+      );
 
-    // Fetch admin details from your backend using HttpRequests
-    //var loggedAdmin = await request.authoriseAdmin(adminCredential.user!.uid);
+      //Fetch admin details from your backend using HttpRequests
+      //var loggedAdmin = await request.authoriseAdmin(adminCredential.user!.uid);
+      var loggedAdmin = true;
+      if (loggedAdmin == true) {
+        //Save admin details to the provider
 
-    //if (loggedAdmin == true) {
-    // Save admin details to the provider
-
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => AdminProfilePage(),
-      ),
-    );
-    // } else {
-    //     print('Failed to load admin data');
-    //   }
-    // } on FirebaseAuthException catch (e) {
-    //   print(e.message);
-    // }
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => AdminProfilePage(),
+          ),
+        );
+      } else {
+        print('Failed to load admin data');
+      }
+    } on FirebaseAuthException catch (e) {
+      print(e.message);
+    }
   }
 
   @override
@@ -62,10 +65,6 @@ class LoginPage extends StatelessWidget {
           ))),
       appBar: AppBar(
         title: const Text(''),
-        leading: IconButton(
-          icon: const Icon(Icons.close),
-          onPressed: () => Navigator.pop(context),
-        ),
       ),
       body: Stack(
         fit: StackFit.expand,

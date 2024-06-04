@@ -224,7 +224,7 @@ class _ComplaintsPageState extends State<ComplaintsPage> {
 
   void _removeComplaint(String complaintId) async {
     HttpRequests request = HttpRequests();
-    await request.removeComplaint(complaintId);
+    //await request.removeComplaint(complaintId);
     setState(() {
       // Ponowne pobranie listy reklamacji po usunięciu reklamacji
       _complaintsFuture = _fetchComplaints();

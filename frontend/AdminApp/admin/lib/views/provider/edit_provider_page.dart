@@ -1,25 +1,17 @@
-import 'package:admin/classes/admin_provider.dart';
+import 'package:admin/classes/my_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:admin/classes/complaint.dart';
 import 'package:admin/classes/user_provider.dart';
 import 'package:admin/utils/http_requests.dart';
 import 'package:provider/provider.dart';
 
-class ReviewComplaintPage extends StatelessWidget {
-  final TextEditingController reasonController = TextEditingController();
-  final TextEditingController responseController = TextEditingController();
-  final TextEditingController titleController = TextEditingController();
+class EditProviderPage extends StatelessWidget {
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController infoController = TextEditingController();
 
-  final int complaintId;
-  final String title;
-  final String reason;
-  String response = "";
-  ReviewComplaintPage(
-      {required this.complaintId,
-      required this.title,
-      required this.reason,
-      Key? key})
-      : super(key: key);
+  final MyProvider provider;
+
+  EditProviderPage({required this.provider, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -27,9 +19,8 @@ class ReviewComplaintPage extends StatelessWidget {
     double winWidth = screenSize.width;
     double winHeight = screenSize.height;
     HttpRequests request = HttpRequests();
-    AdminProvider userProvider = Provider.of<AdminProvider>(context);
-    reasonController.text = reason;
-    titleController.text = title;
+    nameController.text = provider.name;
+    infoController.text = provider.info;
 
     return Scaffold(
       bottomNavigationBar: BottomAppBar(
@@ -93,7 +84,7 @@ class ReviewComplaintPage extends StatelessWidget {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         const Text(
-                          'Rozważ reklamację',
+                          'Edytuj przewoźnika',
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 24,
@@ -102,7 +93,7 @@ class ReviewComplaintPage extends StatelessWidget {
                         ),
                         SizedBox(height: winHeight * 0.027),
                         Text(
-                          "ID reklamacji: $complaintId",
+                          "ID przewoźnika: ${provider.id}",
                           style: const TextStyle(
                             color: Colors.white,
                             fontSize: 18,
@@ -110,78 +101,74 @@ class ReviewComplaintPage extends StatelessWidget {
                         ),
                         SizedBox(height: winHeight * 0.027),
                         TextField(
-                          readOnly: true,
-                          controller: titleController,
+                          controller: nameController,
                           decoration: const InputDecoration(
                             filled: true,
                             fillColor: Colors.white,
-                            labelText: "Tytuł reklamacji",
+                            labelText: "nazwa przewoźnika",
                           ),
                           obscureText: false,
                           maxLines: 1,
                           maxLength: 50,
                         ),
                         TextField(
-                          readOnly: true,
-                          controller: reasonController,
+                          controller: infoController,
                           decoration: const InputDecoration(
                             filled: true,
                             fillColor: Colors.white,
-                            labelText: "Powód",
                           ),
                           obscureText: false,
                           maxLines: 8,
                           maxLength: 500,
                         ),
                         SizedBox(height: winHeight * 0.027),
-                        TextField(
-                          controller: responseController,
-                          decoration: const InputDecoration(
-                            filled: true,
-                            fillColor: Colors.white,
-                            labelText: "Odpowiedź",
-                          ),
-                          obscureText: false,
-                          maxLines: 8,
-                          maxLength: 500,
-                        ),
+                        Text("email : ${provider.email}"),
                         SizedBox(height: winHeight * 0.027),
-                        IconButton(
-                          icon: Icon(Icons.check),
-                          onPressed: () async {
-                            if (responseController.text.isNotEmpty) {
-                              // Fetch the existing complaint
-                              Complaint? complaint = await request
-                                  .getComplaint(complaintId.toString());
-                              if (complaint != null) {
-                                // Update the complaint's content with the new reason
-                                complaint.content = reasonController.text;
-                                complaint.title = titleController.text;
-                                complaint.response = responseController.text;
-                                complaint.isResponded = true;
-                                complaint.complainantID = 1;
-                                // Prepare the updated data as a Map
-                                Map<String, dynamic> updatedData = {
-                                  'ticketId': complaint.ticketId,
-                                  'content': complaint.content,
-                                  'isResponded': complaint.isResponded,
-                                  'title': complaint.title,
-                                  'response': complaint.response,
-                                  'complainantID': complaint.complainantID,
-                                  'id': complaint.id
-                                };
-                                // Update the complaint on the server
-                                await request.editComplaint(
-                                    complaintId.toString(), updatedData);
-                                // Navigate back
+                        Row(
+                          children: [
+                            ElevatedButton(
+                                onPressed: () async {
+                                  await request
+                                      .deleteProvider(provider.id.toString());
+                                  Navigator.pop(context);
+                                },
+                                child: Text("usuń")),
+                            ElevatedButton(
+                              onPressed: () async {
+                                MyProvider? prov = await request
+                                    .getProvider(provider.id.toString());
+                                if (prov != null) {
+                                  // Update the complaint's content with the new reason
+                                  prov.info = infoController.text;
+                                  prov.name = infoController.text;
 
-                                Navigator.pop(context);
-                              } else {
-                                print("No complaint found with that ID");
-                                Navigator.pop(context);
-                              }
-                            }
-                          },
+                                  // Prepare the updated data as a Map
+                                  Map<String, dynamic> updatedData = {
+                                    'name': prov.name,
+                                    'info': prov.info,
+                                    'email': prov.email,
+                                    'id': prov.id
+                                  };
+
+                                  // Update the complaint on the server
+                                  await request.editProvider(
+                                      provider.id.toString(), updatedData);
+
+                                  // Navigate back
+
+                                  Navigator.pop(context);
+                                } else {
+                                  print("No provider found with that ID");
+                                  Navigator.pop(context);
+                                }
+                              },
+                              style: ElevatedButton.styleFrom(
+                                foregroundColor: Colors.white,
+                                backgroundColor: Colors.orange,
+                              ),
+                              child: const Text('zakończ edycję'),
+                            ),
+                          ],
                         ),
                       ],
                     ),
