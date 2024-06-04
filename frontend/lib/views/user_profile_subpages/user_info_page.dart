@@ -16,7 +16,7 @@ class UserInfoPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            Center(
+            const Center(
               child: Text(
                 'Dane użytkownika:',
                 style: TextStyle(
@@ -28,17 +28,17 @@ class UserInfoPage extends StatelessWidget {
             SizedBox(height: MediaQuery.of(context).size.height * 0.02),
             Text(
               'Imię: ${user?.firstName ?? "Brak danych"}',
-              style: TextStyle(fontSize: 18),
+              style: const TextStyle(fontSize: 18),
             ),
             SizedBox(height: MediaQuery.of(context).size.height * 0.02),
             Text(
               'Nazwisko: ${user?.lastName ?? "Brak danych"}',
-              style: TextStyle(fontSize: 18),
+              style: const TextStyle(fontSize: 18),
             ),
             SizedBox(height: MediaQuery.of(context).size.height * 0.02),
             Text(
               'Email: ${user?.email ?? "Brak danych"}',
-              style: TextStyle(fontSize: 18),
+              style: const TextStyle(fontSize: 18),
             ),
           ],
         ),
