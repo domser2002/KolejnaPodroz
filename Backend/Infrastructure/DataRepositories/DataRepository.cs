@@ -20,5 +20,8 @@ namespace Infrastructure.DataRepositories
         public IConnectionRepository ConnectionRepository { get; set; } = new ConnectionRepository(context);
 
         public IStatisticsRepository StatisticsRepository { get; set; } = new StatisticsRepository(context);
+        public IStationRepository StationRepository { get; set; } = new StationRepository(context);
+        public IStopDetailsRepository StopDetailsRepository { get; set; } = new StopDetailsRepository(context);
+        public IStatisticsCategoryRepository StatisticsCategoryRepository { get; set; } = new StatisticsCategoryRepository(context);
     }
 }

@@ -1,5 +1,7 @@
 ﻿using Domain.Admin;
 using Domain.User;
+using Infrastructure.DataContexts;
+using Infrastructure.DataRepositories;
 using Infrastructure.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -9,43 +11,7 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.FakeDataRepositories
 {
-    public class FakeAdminRepository : IAdminRepository
+    public class FakeAdminRepository : FakeRepository<Admin>, IAdminRepository
     {
-        private static int nextID = 1;
-        private readonly List<Admin> Admins = [];
-
-        public IEnumerable<Admin> GetAll()
-        {
-            return Admins;
-        }
-
-        public Admin? GetByID(int id)
-        {
-            return Admins.FirstOrDefault(a => a.ID == id);
-        }
-
-        public int Add(Admin Admin)
-        {
-            Admin.ID = nextID++;
-            Admins.Add(Admin);
-            return Admin.ID;
-        }
-
-        public bool Update(Admin Admin)
-        {
-            int index = Admins.FindIndex(u => u.ID == Admin.ID);
-            if (index != -1)
-            {
-                Admins.RemoveAt(index);
-                Admins.Add(Admin);
-                return true;
-            }
-            return false;
-        }
-
-        public bool Delete(Admin Admin)
-        {
-            return Admins.Remove(Admin);
-        }
     }
 }

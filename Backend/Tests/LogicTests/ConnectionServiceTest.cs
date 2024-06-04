@@ -13,6 +13,7 @@ public class ConnectionServiceTests
 {
     ConnectionService fakeConnectionService;
     ConnectionService connectionService;
+    DataRepository dataRepository;
     string? connectionString;
     [SetUp]
     public void Setup()
@@ -25,7 +26,7 @@ public class ConnectionServiceTests
         connectionString = configurationRoot.GetConnectionString("DefaultConnection");
         var optionsBuilder = new DbContextOptionsBuilder<DomainDBContext>();
         optionsBuilder.UseSqlServer(connectionString);
-        DataRepository dataRepository = new(new DomainDBContext(optionsBuilder.Options));
+        dataRepository = new(new DomainDBContext(optionsBuilder.Options));
         connectionService = new ConnectionService(dataRepository);
     }
 
@@ -92,6 +93,9 @@ public class ConnectionServiceTests
     {
         // Arrange
         Connection connection = new();
+        Provider provider = new();
+        int id = dataRepository.ProviderRepository.Add(provider);
+        connection.ProviderID = id;
         // Act
         connection.ID = connectionService.AddConnection(connection);
         Connection? connection1 = connectionService.GetConnectionByID(connection.ID);
@@ -99,6 +103,7 @@ public class ConnectionServiceTests
         Assert.That(connection1, Is.EqualTo(connection));
         // Clean 
         connectionService.RemoveConnection(connection.ID);
+        dataRepository.ProviderRepository.Delete(provider);
     }
 
     [Test]
@@ -117,11 +122,16 @@ public class ConnectionServiceTests
     {
         // Arrange
         Connection connection = new();
+        Provider provider = new();
+        int id = dataRepository.ProviderRepository.Add(provider);
+        connection.ProviderID = id;
         connection.ID = connectionService.AddConnection(connection);
         // Act
         bool returnValue = connectionService.RemoveConnection(connection.ID);
         // Assert
         Assert.That(returnValue, Is.EqualTo(true));
+        // Clean
+        dataRepository.ProviderRepository.Delete(provider);
     }
 
     [Test]

@@ -7,12 +7,5 @@ using Domain.User;
 
 namespace Infrastructure.Interfaces
 {
-    public interface IUserRepository
-    {
-        public IEnumerable<User> GetAll();
-        public User? GetByID(int id);
-        public int Add(User user);
-        public bool Update(User user);
-        public bool Delete(User user);
-    }
+    public interface IUserRepository : IRepository<User> { }
 }

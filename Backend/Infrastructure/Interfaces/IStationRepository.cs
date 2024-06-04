@@ -7,5 +7,7 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Interfaces
 {
-    public interface IComplaintRepository : IRepository<Complaint> { }
+    public interface IStationRepository : IRepository<Station>
+    {
+    }
 }

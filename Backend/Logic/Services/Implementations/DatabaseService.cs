@@ -1,5 +1,6 @@
 ﻿using Domain.Common;
 using Infrastructure.DataContexts;
+using Infrastructure.DataRepositories;
 using Infrastructure.Interfaces;
 using Logic.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -20,7 +21,7 @@ public class DatabaseService(IDataRepository repository, DomainDBContext context
 
     public List<Object[]> ExecuteSQL(string sql)
     {
-        if(!(_repository is IDataRepository))
+        if(_repository is not DataRepository)
         {
             throw new Exception("Can not execute SQL query on Data Repository that is not connected to SQL server");
         }

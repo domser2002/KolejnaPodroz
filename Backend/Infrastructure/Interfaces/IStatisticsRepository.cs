@@ -7,12 +7,5 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Interfaces
 {
-    public interface IStatisticsRepository
-    {
-        public IEnumerable<Statistics> GetAll();
-        public Statistics? GetByID(int id);
-        public int Add(Statistics statistics);
-        public bool Update(Statistics statistics);
-        public bool Delete(Statistics statistics);
-    }
+    public interface IStatisticsRepository : IRepository<Statistics> { }
 }
