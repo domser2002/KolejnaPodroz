@@ -1,4 +1,5 @@
-﻿using Domain.Common;
+﻿using Domain.Admin;
+using Domain.Common;
 using Domain.User;
 using Infrastructure.DataContexts;
 using Infrastructure.Interfaces;
@@ -10,37 +11,7 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.DataRepositories
 {
-    public class DiscountRepository(DomainDBContext context) : IDiscountRepository
+    public class DiscountRepository(DomainDBContext context) : Repository<Discount>(context), IDiscountRepository
     {
-        private readonly DomainDBContext _context = context;
-        public int Add(Discount Discount)
-        {
-            int id = !GetAll().Any() ? 1 : GetAll().Max(x => x.ID) + 1;
-            Discount.ID = id; // temporary solution
-            _context.Discount.Add(Discount);
-            return (_context.SaveChanges() == 1) ? id : -1;
-        }
-
-        public bool Delete(Discount Discount)
-        {
-            _context.Discount.Remove(Discount);
-            return _context.SaveChanges() == 1;
-        }
-
-        public IEnumerable<Discount> GetAll()
-        {
-            return [.. _context.Discount];
-        }
-
-        public Discount? GetByID(int id)
-        {
-            return _context.Discount.FirstOrDefault(a => a.ID == id);
-        }
-
-        public bool Update(Discount Discount)
-        {
-            _context.Discount.Update(Discount);
-            return _context.SaveChanges() == 1;
-        }
     }
 }

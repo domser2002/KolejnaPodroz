@@ -1,4 +1,5 @@
-﻿using Domain.Common;
+﻿using Domain.Admin;
+using Domain.Common;
 using Infrastructure.DataContexts;
 using Infrastructure.Interfaces;
 using System;
@@ -9,38 +10,7 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.DataRepositories
 {
-    public class ConnectionRepository(DomainDBContext context) : IConnectionRepository
+    public class ConnectionRepository(DomainDBContext context) : Repository<Connection>(context), IConnectionRepository
     {
-        private readonly DomainDBContext _context = context;
-
-        public int Add(Connection connection) 
-        {
-            //int id = !GetAll().Any() ? 1 : GetAll().Max(x => x.ID) + 1;
-            //connection.ID = id; // temporary solution
-            _context.Connection.Add(connection);
-            return (_context.SaveChanges() == 1) ? connection.ID : -1;
-        }
-
-        public bool Delete(Connection connection) 
-        {
-            _context.Connection.Remove(connection);
-            return _context.SaveChanges() == 1;
-        }
-
-        public IEnumerable<Connection> GetAll()
-        {
-            return [.. _context.Connection];
-        }
-
-        public Connection? GetByID(int id)
-        {
-            return _context.Connection.FirstOrDefault(a => a.ID == id);
-        }
-
-        public bool Update(Connection connection) 
-        {
-            _context.Connection.Update(connection);
-            return _context.SaveChanges() == 1;
-        }
     }
 }

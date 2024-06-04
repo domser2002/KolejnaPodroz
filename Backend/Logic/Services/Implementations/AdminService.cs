@@ -57,8 +57,7 @@ public class AdminService(IDataRepository repository) : IAdminService
     }
     public List<User> GetAllUsers()
     {
-        return _repository.UserRepository.GetAll().ToList();
-        
+        return _repository.UserRepository.GetAll().ToList();        
     }
 
     public List<Admin> GetAllAdmins()

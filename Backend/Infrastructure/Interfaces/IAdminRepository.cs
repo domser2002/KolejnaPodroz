@@ -7,12 +7,5 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Interfaces
 {
-    public interface IAdminRepository
-    {
-        public IEnumerable<Admin> GetAll();
-        public Admin? GetByID(int id);
-        public int Add(Admin Admin);
-        public bool Update(Admin Admin);
-        public bool Delete(Admin Admin);
-    }
+    public interface IAdminRepository : IRepository<Admin> { }
 }
