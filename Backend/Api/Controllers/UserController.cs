@@ -119,5 +119,31 @@ namespace Api.Controllers
                 return StatusCode(500);
             }
         }
+
+        [HttpPatch("edit")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public ActionResult<int> EditUser(User newUser)
+        {
+            bool success;
+            try
+            {
+                success = _userService.EditUser(newUser);
+            }
+            catch (TechnicalBreakException)
+            {
+                return StatusCode(430);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500);
+            }
+            if (!success)
+            {
+                return NotFound();
+            }
+            return Ok($"User {newUser.ID} has been successfully edited!");
+        }
     }
 }
