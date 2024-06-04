@@ -1,4 +1,5 @@
 ﻿using Domain.Admin;
+using Domain.Common;
 using Domain.User;
 using System;
 using System.Collections.Generic;
@@ -18,6 +19,8 @@ namespace Logic.Services.Interfaces
         public bool GiveAdminPermissions(Admin admin);
         public bool RemoveUserByID(int userID);
         public List<User> GetAllUsers();
+        public List<Admin> GetAllAdmins();
+        public List<Provider> GetAllProviders();
         public bool EditUser(EditUser editedUser);
         public User? GetUserByID(int userID);
     }

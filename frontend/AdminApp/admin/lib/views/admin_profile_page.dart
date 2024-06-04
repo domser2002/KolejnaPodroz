@@ -1,9 +1,15 @@
+import 'package:admin/classes/admin.dart';
+import 'package:admin/classes/user.dart';
+import 'package:admin/views/admin/edit_admin_page.dart';
+import 'package:admin/views/provider/edit_provider_page.dart';
 import 'package:flutter/material.dart';
 import 'package:admin/classes/complaint.dart';
 import 'package:admin/classes/admin_provider.dart';
+import 'package:admin/classes/my_provider.dart';
 import 'package:admin/utils/http_requests.dart';
 import 'package:admin/views/complaint/review_complaint_page.dart';
 import 'package:provider/provider.dart';
+import 'package:admin/views/user_profile_subpages/edit_user_page.dart';
 
 class AdminProfilePage extends StatefulWidget {
   AdminProfilePage({super.key});
@@ -47,14 +53,7 @@ class _AdminProfilePageState extends State<AdminProfilePage>
                   style: TextStyle(color: Colors.black)),
             ],
           ))),
-      appBar: AppBar(
-        title:
-            const Stack(alignment: AlignmentDirectional.centerEnd, children: [
-          Icon(Icons.person, size: 40, color: Colors.black),
-        ]),
-        backgroundColor: Colors.white,
-        elevation: 0,
-      ),
+      appBar: AppBar(),
       extendBodyBehindAppBar: true,
       body: Stack(
         children: [
@@ -236,6 +235,7 @@ class _ComplaintsPageState extends State<ComplaintsPage> {
         } else if (snapshot.hasData && snapshot.data!.isNotEmpty) {
           // Accessing data if the snapshot has data and it is not empty
           List<Complaint> complaints = snapshot.data!;
+          complaints.removeWhere((element) => element.isResponded == true);
           return ListView.builder(
             itemCount: complaints.length,
             itemBuilder: (context, index) {
@@ -275,30 +275,190 @@ class _ComplaintsPageState extends State<ComplaintsPage> {
   }
 }
 
-class UsersPage extends StatelessWidget {
-  UsersPage({super.key});
+class UsersPage extends StatefulWidget {
+  UsersPage({Key? key}) : super(key: key);
 
-  String ticket = "Bilet nr 2137";
+  @override
+  _UsersPageState createState() => _UsersPageState();
+}
+
+class _UsersPageState extends State<UsersPage> {
+  late Future<List<MyUser>?> _usersFuture;
+  HttpRequests request = HttpRequests();
+  @override
+  void initState() {
+    super.initState();
+    _usersFuture = _fetchUsers();
+  }
+
+  Future<List<MyUser>?> _fetchUsers() async {
+    return request.getAllUsers();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Center(
-        child: ListView(
-      children: [
-        TextButton(
-          child: Text(ticket),
-          onPressed: () {},
-        )
-      ],
-    ));
+    return FutureBuilder<List<MyUser>?>(
+      future: _usersFuture,
+      builder: (BuildContext context, AsyncSnapshot<List<MyUser>?> snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          // While the future is executing, show a loading indicator
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        } else if (snapshot.hasError) {
+          // If there's an error, display an error message
+          return Center(
+            child: Text('Error: ${snapshot.error.toString()}'),
+          );
+        } else if (snapshot.hasData && snapshot.data!.isNotEmpty) {
+          // Accessing data if the snapshot has data and it is not empty
+          List<MyUser> users = snapshot.data!;
+
+          return ListView.builder(
+            itemCount: users.length,
+            itemBuilder: (context, index) {
+              final user = users[index];
+              return ListTile(
+                title: Text(user.firstName! + " " + user.lastName!),
+                subtitle: Text(user.id.toString()),
+                trailing: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    IconButton(
+                      icon: Icon(Icons.check),
+                      onPressed: () {
+                        // Navigator to edit complaint page
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => EditUserPage(user: user),
+                          ),
+                        );
+                      },
+                    ),
+                    IconButton(
+                      icon: Icon(Icons.delete),
+                      onPressed: () async {
+                        await request.deleteUser(user.id);
+                      },
+                    ),
+                  ],
+                ),
+              );
+            },
+          );
+        } else {
+          // Handling the case where there are no complaints
+          return Center(child: Text('No users to display'));
+        }
+      },
+    );
   }
 }
 
-class ProvidersPage extends StatelessWidget {
-  ProvidersPage({super.key});
+class ProvidersPage extends StatefulWidget {
+  ProvidersPage({Key? key}) : super(key: key);
+
+  @override
+  _ProvidersPageState createState() => _ProvidersPageState();
+}
+
+class _ProvidersPageState extends State<ProvidersPage> {
+  late Future<List<MyProvider>?> _providersFuture;
+  HttpRequests request = HttpRequests();
+  @override
+  void initState() {
+    super.initState();
+    _providersFuture = _fetchProviders();
+  }
+
+  Future<List<MyProvider>?> _fetchProviders() async {
+    return request.getAllProviders();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Center(child: Text('Providers'));
+    return FutureBuilder<List<MyProvider>?>(
+      future: _providersFuture,
+      builder:
+          (BuildContext context, AsyncSnapshot<List<MyProvider>?> snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          // While the future is executing, show a loading indicator
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        } else if (snapshot.hasError) {
+          // If there's an error, display an error message
+          return Center(
+            child: Text('Error: ${snapshot.error.toString()}'),
+          );
+        } else if (snapshot.hasData && snapshot.data!.isNotEmpty) {
+          // Accessing data if the snapshot has data and it is not empty
+          List<MyProvider> providers = snapshot.data!;
+
+          return Column(
+            children: [
+              ListView.builder(
+                itemCount: providers.length,
+                itemBuilder: (context, index) {
+                  final provider = providers[index];
+                  return ListTile(
+                    title: Text(provider.name),
+                    subtitle: Text(provider.id.toString()),
+                    trailing: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        IconButton(
+                          icon: Icon(Icons.check),
+                          onPressed: () {
+                            // Navigator to edit complaint page
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    EditProviderPage(provider: provider),
+                              ),
+                            );
+                          },
+                        ),
+                        IconButton(
+                          icon: Icon(Icons.delete),
+                          onPressed: () async {
+                            // Navigator to edit complaint page
+                            await request
+                                .deleteProvider(provider.id.toString());
+                          },
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              ),
+              Center(
+                child: ElevatedButton(
+                  onPressed: () async {
+                    MyProvider p =
+                        MyProvider(name: "", info: "", email: "", id: 1);
+                    Map<String, dynamic> newData = {
+                      'name': p.name,
+                      'info': p.info,
+                      'email': p.email,
+                      'id': p.id
+                    };
+                    await request.addProvider(p.id.toString(), newData);
+
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => EditProviderPage(provider: p)));
+                  },
+                  child: Text("Dodaj nowego przewoźnika"),
+                ),
+              )
+            ],
+          );
+        } else {
+          // Handling the case where there are no complaints
+          return Center(child: Text('No providers to display'));
+        }
+      },
+    );
   }
 }
 
@@ -311,11 +471,86 @@ class DatabasePage extends StatelessWidget {
   }
 }
 
-class AdminsPage extends StatelessWidget {
-  AdminsPage({super.key});
+class AdminsPage extends StatefulWidget {
+  AdminsPage({Key? key}) : super(key: key);
+
+  @override
+  _AdminsPageState createState() => _AdminsPageState();
+}
+
+class _AdminsPageState extends State<AdminsPage> {
+  late Future<List<MyAdmin>?> _adminsFuture;
+  HttpRequests request = HttpRequests();
+  @override
+  void initState() {
+    super.initState();
+    _adminsFuture = _fetchAdmins();
+  }
+
+  Future<List<MyAdmin>?> _fetchAdmins() async {
+    return request.getAllAdmins();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Center(child: Text('Admin'));
+    return FutureBuilder<List<MyAdmin>?>(
+      future: _adminsFuture,
+      builder: (BuildContext context, AsyncSnapshot<List<MyAdmin>?> snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          // While the future is executing, show a loading indicator
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        } else if (snapshot.hasError) {
+          // If there's an error, display an error message
+          return Center(
+            child: Text('Error: ${snapshot.error.toString()}'),
+          );
+        } else if (snapshot.hasData && snapshot.data!.isNotEmpty) {
+          // Accessing data if the snapshot has data and it is not empty
+          List<MyAdmin> admins = snapshot.data!;
+          admins.removeWhere((e) => e.verified == true);
+          return Column(
+            children: [
+              ListView.builder(
+                itemCount: admins.length,
+                itemBuilder: (context, index) {
+                  final admin = admins[index];
+                  return ListTile(
+                    title: Text(admin.id.toString()),
+                    trailing: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        IconButton(
+                          icon: Icon(Icons.check),
+                          onPressed: () {
+                            // Navigator to edit complaint page
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      EditAdminPage(admin: admin)),
+                            );
+                          },
+                        ),
+                        IconButton(
+                          icon: Icon(Icons.delete),
+                          onPressed: () async {
+                            // Navigator to edit complaint page
+                            await request.deleteAdmin(admin.id.toString());
+                          },
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              ),
+            ],
+          );
+        } else {
+          // Handling the case where there are no complaints
+          return Center(child: Text('No admins to display'));
+        }
+      },
+    );
   }
 }

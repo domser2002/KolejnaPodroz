@@ -1,5 +1,6 @@
 import 'package:admin/classes/complaint.dart';
 import 'package:admin/classes/admin.dart';
+import 'package:admin/classes/my_provider.dart';
 import 'package:admin/classes/train_offer.dart';
 import 'package:admin/classes/user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -48,6 +49,24 @@ class HttpRequests {
     }
   }
 
+  Future<bool> acceptAdmin(String adminId) async {
+    try {
+      var url = Uri.parse('$host/Admin/accept/$adminId');
+      var response = await http.post(url);
+
+      if (response.statusCode == 200) {
+        print("admin accepted");
+        return true;
+      } else {
+        print('Failed to accept admin');
+        return false;
+      }
+    } catch (e) {
+      print(e.toString());
+      return false;
+    }
+  }
+
   Future<bool> authoriseAdmin(String adminId) async {
     try {
       var url = Uri.parse('$host/Admin/authorise/$adminId');
@@ -58,6 +77,24 @@ class HttpRequests {
         return true;
       } else {
         print('Failed to authorise admin');
+        return false;
+      }
+    } catch (e) {
+      print(e.toString());
+      return false;
+    }
+  }
+
+  Future<bool> deleteUser(int userID) async {
+    try {
+      var url = Uri.parse('$host/User/delete/$userID');
+      var response = await http.delete(url);
+
+      if (response.statusCode == 200) {
+        print("user deleted");
+        return true;
+      } else {
+        print('Failed to delete user');
         return false;
       }
     } catch (e) {
@@ -251,9 +288,30 @@ class HttpRequests {
     }
   }
 
+  Future<List<MyProvider>?> getAllProviders() async {
+    try {
+      var url = Uri.parse('$host/Admin/getAllProviders');
+      var response = await http.get(url);
+
+      if (response.statusCode == 200) {
+        var providersObjsJson = jsonDecode(response.body) as List;
+        List<MyProvider> result = providersObjsJson
+            .map((providersJson) => MyProvider.fromJson(providersJson))
+            .toList();
+        print("providers loaded");
+        return result;
+      } else {
+        print('Failed to load providers');
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+    return []; // Return null if there's an error or if the complaint doesn't load
+  }
+
   Future<List<MyUser>?> getAllUsers() async {
     try {
-      var url = Uri.parse('$host/Admin/getAll');
+      var url = Uri.parse('$host/Admin/getAllUsers');
       var response = await http.get(url);
 
       if (response.statusCode == 200) {
@@ -261,10 +319,31 @@ class HttpRequests {
         List<MyUser> result = usersObjsJson
             .map((usersJson) => MyUser.fromJson(usersJson))
             .toList();
-        print("uers loaded");
+        print("users loaded");
         return result;
       } else {
         print('Failed to load users');
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+    return []; // Return null if there's an error or if the complaint doesn't load
+  }
+
+  Future<List<MyAdmin>?> getAllAdmins() async {
+    try {
+      var url = Uri.parse('$host/Admin/getAllAdmins');
+      var response = await http.get(url);
+
+      if (response.statusCode == 200) {
+        var usersObjsJson = jsonDecode(response.body) as List;
+        List<MyAdmin> result = usersObjsJson
+            .map((usersJson) => MyAdmin.fromJson(usersJson))
+            .toList();
+        print("admins loaded");
+        return result;
+      } else {
+        print('Failed to load admins');
       }
     } catch (e) {
       print(e.toString());

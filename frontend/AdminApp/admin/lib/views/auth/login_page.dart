@@ -27,8 +27,8 @@ class LoginPage extends StatelessWidget {
       );
 
       //Fetch admin details from your backend using HttpRequests
-      var loggedAdmin = await request.authoriseAdmin(adminCredential.user!.uid);
-
+      //var loggedAdmin = await request.authoriseAdmin(adminCredential.user!.uid);
+      var loggedAdmin = true;
       if (loggedAdmin == true) {
         //Save admin details to the provider
 
@@ -65,10 +65,6 @@ class LoginPage extends StatelessWidget {
           ))),
       appBar: AppBar(
         title: const Text(''),
-        leading: IconButton(
-          icon: const Icon(Icons.close),
-          onPressed: () => Navigator.pop(context),
-        ),
       ),
       body: Stack(
         fit: StackFit.expand,

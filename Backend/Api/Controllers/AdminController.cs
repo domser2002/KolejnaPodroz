@@ -141,6 +141,43 @@ namespace Api.Controllers
                 return StatusCode(500);
             }
         }
+
+        [HttpGet("getAllAdmins")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public ActionResult GetAllAdmins()
+        {
+            try
+            {
+                var users = _adminService.GetAllAdmins();
+                if (users == null)
+                    return BadRequest();
+                return Ok(users);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500);
+            }
+        }
+        [HttpGet("getAllProviders")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public ActionResult GetAllProviders()
+        {
+            try
+            {
+                var users = _adminService.GetAllProviders();
+                if (users == null)
+                    return BadRequest();
+                return Ok(users);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500);
+            }
+        }
         [HttpPut("editUser")]
         [Consumes(MediaTypeNames.Application.Json)]
         [Produces(MediaTypeNames.Application.Json)]

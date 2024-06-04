@@ -1,4 +1,5 @@
 ﻿using Domain.Admin;
+using Domain.Common;
 using Domain.User;
 using Infrastructure.Interfaces;
 using Logic.Services.Interfaces;
@@ -53,11 +54,20 @@ public class AdminService(IDataRepository repository) : IAdminService
         if (user is null) return false;
         return _repository.UserRepository.Delete(user);
     }
-    public List<User>? GetAllUsers()
+    public List<User> GetAllUsers()
     {
-        List<User> users = new List<User>(_repository.UserRepository.GetAll().ToList());
-        if (users.Count == 0) return null;
-        return users;
+        return _repository.UserRepository.GetAll().ToList();
+        
+    }
+
+    public List<Admin> GetAllAdmins()
+    {
+        return _repository.AdminRepository.GetAll().ToList();
+    }
+
+    public List<Provider> GetAllProviders()
+    {
+        return _repository.ProviderRepository.GetAll().ToList();
     }
 
     public Admin? GetAdminByID(int adminID)
@@ -110,4 +120,6 @@ public class AdminService(IDataRepository repository) : IAdminService
 
         return _repository.UserRepository.Update(user);
     }
+
+    
 }

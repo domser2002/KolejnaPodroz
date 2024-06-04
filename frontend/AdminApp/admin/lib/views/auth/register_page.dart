@@ -13,8 +13,6 @@ class RegistrationPage extends StatelessWidget {
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController repeatPasswordController =
       TextEditingController();
-  final TextEditingController firstNameController = TextEditingController();
-  final TextEditingController lastNameController = TextEditingController();
 
   final HttpRequests request = HttpRequests();
 
@@ -74,10 +72,6 @@ class RegistrationPage extends StatelessWidget {
       ),
       appBar: AppBar(
         title: const Text(''),
-        leading: IconButton(
-          icon: const Icon(Icons.close),
-          onPressed: () => Navigator.pop(context),
-        ),
       ),
       body: Stack(
         fit: StackFit.expand,
