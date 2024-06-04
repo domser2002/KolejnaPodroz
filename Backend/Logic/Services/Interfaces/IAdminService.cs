@@ -23,5 +23,8 @@ namespace Logic.Services.Interfaces
         public List<Provider> GetAllProviders();
         public bool EditUser(EditUser editedUser);
         public User? GetUserByID(int userID);
+        public bool StartTechnicalBreak();
+        public bool StopTechnicalBreak();
+        public bool IsTechnicalBreak();
     }
 }
