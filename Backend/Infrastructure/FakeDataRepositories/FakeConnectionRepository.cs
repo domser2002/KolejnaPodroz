@@ -16,7 +16,7 @@ namespace Infrastructure.FakeDataRepositories
         {
             Connection connection1 = new Connection();
             connection1.ID = 1;
-            connection1.Stations = new List<string> { "Warszawa, Lublin, Stalowa Wola" };
+            connection1.Stations = new List<string> { "Warszawa", "Lublin", "Stalowa Wola" };
             connection1.DepartureTimes = new List<DateTime> {
                 new DateTime(year:2024, month: 5, day: 8, hour:12, minute:10, second:0),
                 new DateTime(year:2024, month: 5, day: 8, hour:14, minute:10, second:0),

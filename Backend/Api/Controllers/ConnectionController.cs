@@ -3,14 +3,22 @@ using Microsoft.AspNetCore.Mvc;
 using Domain.Common;
 using System.Net.Mime;
 using Logic.Services.Implementations;
+using Microsoft.AspNetCore.Http;
+using System;
+using Logic.Services.Decorators;
 
 namespace Api.Controllers
 {
     [ApiController]
     [Route("Connection")]
-    public class ConnectionController(IConnectionService connectionService) : ControllerBase
+    public class ConnectionController : ControllerBase
     {
-        private readonly IConnectionService _connectionService = connectionService;
+        private readonly IConnectionService _connectionService;
+
+        public ConnectionController(IConnectionService connectionService)
+        {
+            _connectionService = connectionService;
+        }
 
         [HttpPost("add")]
         [Consumes(MediaTypeNames.Application.Json)]
@@ -23,6 +31,10 @@ namespace Api.Controllers
             try
             {
                 return_id = _connectionService.AddConnection(newConnection);
+            }
+            catch (TechnicalBreakException)
+            {
+                return StatusCode(430);
             }
             catch (Exception)
             {
@@ -47,7 +59,11 @@ namespace Api.Controllers
             {
                 success = _connectionService.RemoveConnection(id);
             }
-            catch(Exception) 
+            catch (TechnicalBreakException)
+            {
+                return StatusCode(430);
+            }
+            catch (Exception)
             {
                 return StatusCode(500);
             }
@@ -69,16 +85,21 @@ namespace Api.Controllers
             {
                 success = _connectionService.EditConnection(newConnection);
             }
-            catch(Exception) 
+            catch (TechnicalBreakException)
+            {
+                return StatusCode(430);
+            }
+            catch (Exception)
             {
                 return StatusCode(500);
             }
-            if(!success)
+            if (!success)
             {
                 return BadRequest();
             }
-            return Ok($"Connection {newConnection.ID} has been succesfully edited!");
+            return Ok($"Connection {newConnection.ID} has been successfully edited!");
         }
+
         [HttpGet("get/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Connection))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -89,7 +110,11 @@ namespace Api.Controllers
             {
                 result = _connectionService.GetConnectionByID(id);
             }
-            catch(Exception)
+            catch (TechnicalBreakException)
+            {
+                return StatusCode(430);
+            }
+            catch (Exception)
             {
                 return StatusCode(500);
             }
@@ -103,18 +128,22 @@ namespace Api.Controllers
         [HttpGet("searchConnections")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<Connection>))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public ActionResult<int>SearchConnections(string from, string to, DateTime when)
+        public ActionResult<int> SearchConnections(string from, string to, DateTime when)
         {
             List<Connection>? result;
             try
             {
                 result = _connectionService.SearchConnections(from, to, when);
             }
-            catch(Exception)
+            catch (TechnicalBreakException)
+            {
+                return StatusCode(430);
+            }
+            catch (Exception)
             {
                 return StatusCode(500);
             }
-            if(result is null)
+            if (result is null)
             {
                 return NotFound();
             }

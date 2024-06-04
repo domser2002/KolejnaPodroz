@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:frontend/classes/complaint.dart';
 import 'package:frontend/classes/user_provider.dart';
-import 'package:frontend/utils/http_requests.dart';
-import 'package:frontend/views/complaint/edit_complaint_page.dart';
-
-import 'package:frontend/views/complaint/make_complaint_page.dart';
+import 'package:frontend/views/user_profile_subpages/complaints_page.dart';
+import 'package:frontend/views/user_profile_subpages/tickets_page.dart';
 import 'package:frontend/views/user_profile_subpages/user_info_page.dart';
 import 'package:provider/provider.dart';
 
@@ -34,6 +31,7 @@ class _UserProfilePageState extends State<UserProfilePage>
 
   @override
   Widget build(BuildContext context) {
+    UserProvider userProvider = Provider.of<UserProvider>(context);
     Size screenSize = MediaQuery.of(context).size;
     double win_width = screenSize.width;
     double win_height = screenSize.height;
@@ -103,7 +101,7 @@ class _UserProfilePageState extends State<UserProfilePage>
                       SizedBox(height: win_height * 0.05),
                       Container(
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(10)),
+                          borderRadius: const BorderRadius.all(Radius.circular(10)),
                           gradient: LinearGradient(
                             begin: Alignment.topCenter,
                             end: Alignment.bottomCenter,
@@ -118,7 +116,7 @@ class _UserProfilePageState extends State<UserProfilePage>
                         child: TabBar(
                           indicatorWeight: 4,
                           padding:
-                              EdgeInsets.symmetric(horizontal: 2, vertical: 2),
+                              const EdgeInsets.symmetric(horizontal: 2, vertical: 2),
                           dividerHeight: 0,
                           controller: _tabController,
                           indicatorColor: Colors.orange[700],
@@ -161,10 +159,10 @@ class _UserProfilePageState extends State<UserProfilePage>
                       Expanded(
                         child: Container(
                           // Mniejsza wysokość tła
-                          padding: EdgeInsets.all(20),
+                          padding: const EdgeInsets.all(20),
                           height: win_height * 0.5,
                           decoration: BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(15)),
+                            borderRadius: const BorderRadius.all(Radius.circular(15)),
                             gradient: LinearGradient(
                               begin: Alignment.topCenter,
                               end: Alignment.bottomCenter,
@@ -198,123 +196,6 @@ class _UserProfilePageState extends State<UserProfilePage>
   }
 }
 
-class ComplaintsPage extends StatefulWidget {
-  ComplaintsPage({Key? key}) : super(key: key);
-
-  @override
-  _ComplaintsPageState createState() => _ComplaintsPageState();
-}
-
-class _ComplaintsPageState extends State<ComplaintsPage> {
-  late Future<List<Complaint>> _complaintsFuture;
-
-  @override
-  void initState() {
-    super.initState();
-    _complaintsFuture = _fetchComplaints();
-  }
-
-  Future<List<Complaint>> _fetchComplaints() async {
-    int userId = Provider.of<UserProvider>(context, listen: false).user!.id;
-    HttpRequests request = HttpRequests();
-
-    return request.getComplaintsByUser(userId);
-  }
-
-  void _removeComplaint(String complaintId) async {
-    HttpRequests request = HttpRequests();
-    await request.removeComplaint(complaintId);
-    setState(() {
-      // Ponowne pobranie listy reklamacji po usunięciu reklamacji
-      _complaintsFuture = _fetchComplaints();
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return FutureBuilder<List<Complaint>>(
-      future: _complaintsFuture,
-      builder: (BuildContext context, AsyncSnapshot<List<Complaint>> snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          // While the future is executing, show a loading indicator
-          return Center(
-            child: CircularProgressIndicator(),
-          );
-        } else if (snapshot.hasError) {
-          // If there's an error, display an error message
-          return Center(
-            child: Text('Error: ${snapshot.error.toString()}'),
-          );
-        } else if (snapshot.hasData && snapshot.data!.isNotEmpty) {
-          // Accessing data if the snapshot has data and it is not empty
-          List<Complaint> complaints = snapshot.data!;
-          return ListView.builder(
-            itemCount: complaints.length,
-            itemBuilder: (context, index) {
-              final complaint = complaints[index];
-              return ListTile(
-                title: Text(complaint.title),
-                subtitle: Text(complaint.content),
-                trailing: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    IconButton(
-                      icon: Icon(Icons.edit),
-                      onPressed: () {
-                        // Navigator to edit complaint page
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => EditComplaintPage(complaintId: complaint.id),
-                          ),
-                        );
-                      },
-                    ),
-                    IconButton(
-                      icon: Icon(Icons.delete),
-                      onPressed: () {
-                        _removeComplaint(complaint.id.toString());
-                      },
-                    ),
-                  ],
-                ),
-              );
-            },
-          );
-        } else {
-          // Handling the case where there are no complaints
-          return Center(child: Text('No complaints to display'));
-        }
-      },
-    );
-  }
-}
-
-
-
-
-class TicketsPage extends StatelessWidget {
-  TicketsPage({super.key});
-
-  String ticket = "Bilet nr 2137";
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-        child: ListView(
-      children: [
-        TextButton(
-          child: Text(ticket),
-          onPressed: () {
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) => MakeComplaintPage(ticketId: ticket),
-              ),
-            );
-          },
-        )
-      ],
-    ));
-  }
-}
 
 class StatisticsPage extends StatelessWidget {
   StatisticsPage({super.key});

@@ -1,93 +1,123 @@
 ﻿using Domain.Common;
 using Domain.User;
+using Logic.Services.Decorators;
 using Logic.Services.Implementations;
 using Logic.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Net.Mime;
 
-namespace Api.Controllers;
-
-[ApiController]
-[Route("User")]
-public class UserController(IUserService userService) : ControllerBase
+namespace Api.Controllers
 {
-    private readonly IUserService _userService = userService;
+    [ApiController]
+    [Route("User")]
+    public class UserController : ControllerBase
+    {
+        private readonly IUserService _userService;
 
-    [HttpGet("{userID}")]
-    public ActionResult<User> GetUserByID(int userID)
-    {
-        try
+        public UserController(IUserService userService)
         {
-            var user = _userService.GetUserByID(userID);
-            return user != null ? Ok(user) : NotFound();
+            _userService = userService;
         }
-        catch
-        {
-            return StatusCode(500);
-        }
-    }
 
-    [HttpPost("create")]
-    [Consumes(MediaTypeNames.Application.Json)]
-    [Produces(MediaTypeNames.Application.Json)]
-    [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(User))]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public ActionResult<User> CreateUser([FromBody] User newUser)
-    {
-        int return_id;
-        try
+        [HttpGet("{userID}")]
+        public ActionResult<User> GetUserByID(int userID)
         {
-            return_id = _userService.CreateUserAccount(newUser);
+            try
+            {
+                var user = _userService.GetUserByID(userID);
+                return user != null ? Ok(user) : NotFound();
+            }
+            catch (TechnicalBreakException)
+            {
+                return StatusCode(430);
+            }
+            catch
+            {
+                return StatusCode(500);
+            }
         }
-        catch (Exception)
-        {
-            return StatusCode(500);
-        }
-        if (return_id == -1)
-        {
-            return BadRequest();
-        }
-        newUser.ID = return_id;
-        return Ok(newUser);
-    }
 
-    [HttpPost("verify/{userID}")]
-    public ActionResult VerifyAccount(int userID)
-    {
-        try
+        [HttpPost("create")]
+        [Consumes(MediaTypeNames.Application.Json)]
+        [Produces(MediaTypeNames.Application.Json)]
+        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(User))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public ActionResult<User> CreateUser([FromBody] User newUser)
         {
-            var verified = _userService.VerifyUserAccount(userID);
-            return verified ? Ok() : BadRequest();
+            int return_id;
+            try
+            {
+                return_id = _userService.CreateUserAccount(newUser);
+            }
+            catch (TechnicalBreakException)
+            {
+                return StatusCode(430);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500);
+            }
+            if (return_id == -1)
+            {
+                return BadRequest();
+            }
+            newUser.ID = return_id;
+            return Ok(newUser);
         }
-        catch
+
+        [HttpPost("verify/{userID}")]
+        public ActionResult VerifyAccount(int userID)
         {
-            return StatusCode(500);
+            try
+            {
+                var verified = _userService.VerifyUserAccount(userID);
+                return verified ? Ok() : BadRequest();
+            }
+            catch (TechnicalBreakException)
+            {
+                return StatusCode(430);
+            }
+            catch
+            {
+                return StatusCode(500);
+            }
         }
-    }
-    [HttpPost("authorise/{firebaseID}")]
-    public ActionResult<User> AuthoriseUser(string firebaseID, string token)
-    {
-        try
+
+        [HttpPost("authorise/{firebaseID}")]
+        public ActionResult<User> AuthoriseUser(string firebaseID, string token)
         {
-            var user = _userService.AuthoriseUser(firebaseID, token);
-            return user is not null ? Ok(user) : BadRequest();
+            try
+            {
+                var user = _userService.AuthoriseUser(firebaseID, token);
+                return user is not null ? Ok(user) : BadRequest();
+            }
+            catch (TechnicalBreakException)
+            {
+                return StatusCode(430);
+            }
+            catch
+            {
+                return StatusCode(500);
+            }
         }
-        catch
+
+        [HttpDelete("delete/{userID}")]
+        public ActionResult DeleteAccount(int userID)
         {
-            return StatusCode(500);
-        }
-    }
-    [HttpDelete("delete/{userID}")]
-    public ActionResult DeleteAccount(int userID) 
-    { 
-        try
-        {
-            var removed = _userService.RemoveUserAccount(userID);
-            return removed ? Ok() : BadRequest();
-        }
-        catch
-        {
-            return StatusCode(500);
+            try
+            {
+                var removed = _userService.RemoveUserAccount(userID);
+                return removed ? Ok() : BadRequest();
+            }
+            catch (TechnicalBreakException)
+            {
+                return StatusCode(430);
+            }
+            catch
+            {
+                return StatusCode(500);
+            }
         }
     }
 }

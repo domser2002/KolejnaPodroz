@@ -1,4 +1,5 @@
 import 'package:frontend/classes/complaint.dart';
+import 'package:frontend/classes/ticket.dart';
 import 'package:frontend/classes/user.dart';
 import 'package:frontend/classes/train_offer.dart';
 import 'package:http/http.dart' as http;
@@ -153,21 +154,21 @@ class HttpRequests {
     }
   }
 
-  Future<void> getTicketsByUser(String userId) async {
+Future<List<Ticket>> getTicketsByUser(int userId) async {
     try {
-      var url = Uri.parse('$host/Ticket/byUser/$userId');
+      var url = Uri.parse('$host/Ticket/byUser/0?userID=$userId');
       var response = await http.get(url);
 
       if (response.statusCode == 200) {
-        var tickets = jsonDecode(response.body);
-        print("ticket found");
-        return tickets;
+        List<dynamic> ticketsJson = jsonDecode(response.body);
+        return ticketsJson.map((json) => Ticket.fromJson(json)).toList();
       } else {
         print('Nie udało się pobrać biletów użytkownika');
       }
     } catch (e) {
       print(e.toString());
     }
+    return [];
   }
 
   Future<dynamic> createTicket(Map<String, dynamic> ticketData) async {

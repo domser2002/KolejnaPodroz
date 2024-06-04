@@ -5,7 +5,7 @@ import 'package:frontend/classes/user_provider.dart';
 
 import 'package:frontend/utils/http_requests.dart';
 import 'package:frontend/views/auth/login_page.dart';
-import 'package:frontend/views/offers_page.dart';
+import 'package:frontend/views/offers/offers_page.dart';
 import 'package:frontend/views/auth/register_page.dart';
 import 'package:frontend/views/user_profile_page.dart';
 import 'package:frontend/widgets/button_widget.dart';

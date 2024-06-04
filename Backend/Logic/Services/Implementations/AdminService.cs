@@ -10,6 +10,7 @@ namespace Logic.Services.Implementations;
 public class AdminService(IDataRepository repository) : IAdminService
 {
     private readonly IDataRepository _repository = repository;
+    private bool isTechnicalBreak = false;
     public int CreateAdminAccount(Admin? admin)
     {
         if (admin == null) return -1;
@@ -121,5 +122,35 @@ public class AdminService(IDataRepository repository) : IAdminService
         return _repository.UserRepository.Update(user);
     }
 
-    
+    public bool StartTechnicalBreak()
+    {
+        if(isTechnicalBreak)
+        {
+            return false;
+        }
+        else
+        {
+            isTechnicalBreak = true;
+            return true;
+        }
+    }
+
+    public bool StopTechnicalBreak() 
+    {
+        if(isTechnicalBreak ) 
+        {
+            isTechnicalBreak = false;
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public bool IsTechnicalBreak()
+    {
+        return isTechnicalBreak;
+    }
+
 }
