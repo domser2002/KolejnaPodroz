@@ -21,7 +21,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 
-builder.Services.AddSingleton<IDataRepository, FakeDataRepository>();
+builder.Services.AddSingleton<IDataRepository, DataRepository>();
 builder.Services.AddSingleton<IDatabaseService, DatabaseService>();
 builder.Services.AddSingleton<IAdminService, AdminService>();
 builder.Services.AddSingleton<IComplaintService, ComplaintService>();
