@@ -60,6 +60,11 @@ class LandingPage extends StatelessWidget {
               style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
           ),
+          //Punkty
+            const Text(
+              '0',
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ),
             IconButton(
               icon: const Icon(Icons.person, color: Colors.black),
               onPressed: () {
