@@ -83,7 +83,7 @@ namespace InfrastructureTests
                 Content = "Test"
             };
             // Act 
-            var result = fakeRepository.Update(oldComplaint,newComplaint);
+            var result = fakeRepository.Update(newComplaint);
             // Assert
             Assert.Multiple(() =>
             {
@@ -143,26 +143,21 @@ namespace InfrastructureTests
         {
             // Arrange
             User user = new();
-            Complaint oldComplaint = new();
+            Complaint complaint = new();
             user.ID = userRepository.Add(user);
-            oldComplaint.ComplainantID = user.ID;
-            oldComplaint.ID = repository.Add(oldComplaint);
-            Complaint newComplaint = new()
-            {
-                ID = oldComplaint.ID,
-                ComplainantID = oldComplaint.ComplainantID,
-                Content = "Test"
-            };
+            complaint.ComplainantID = user.ID;
+            complaint.ID = repository.Add(complaint);
+            complaint.Content = "Test";
             // Act 
-            var result = repository.Update(oldComplaint,newComplaint);
+            var result = repository.Update(complaint);
             // Assert
             Assert.Multiple(() =>
             {
                 Assert.That(result, Is.True);
-                Assert.That(repository.GetByID(oldComplaint.ID)?.Content, Is.EqualTo("Test"));
+                Assert.That(repository.GetByID(complaint.ID)?.Content, Is.EqualTo("Test"));
             });
             // Clean
-            repository.Delete(newComplaint);
+            repository.Delete(complaint);
             userRepository.Delete(user);
         }
     }

@@ -1,4 +1,4 @@
-﻿using Domain.Admin;
+﻿using Domain.Common;
 using Infrastructure.DataContexts;
 using Infrastructure.Interfaces;
 using System;
@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.DataRepositories
 {
-    public class AdminRepository(DomainDBContext context) : Repository<Admin>(context),IAdminRepository
+    public class StopDetailsRepository(DomainDBContext context) : Repository<StopDetails>(context), IStopDetailsRepository
     {
     }
 }

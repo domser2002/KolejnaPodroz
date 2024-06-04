@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(DomainDBContext))]
-    [Migration("20240507215555_RefactorControllersMigration")]
-    partial class RefactorControllersMigration
+    [Migration("20240604191057_ReorganizeModelMigration")]
+    partial class ReorganizeModelMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -35,6 +35,10 @@ namespace Infrastructure.Migrations
 
                     b.Property<bool>("Accepted")
                         .HasColumnType("bit");
+
+                    b.Property<string>("FirebaseID")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("Verified")
                         .HasColumnType("bit");
@@ -88,7 +92,17 @@ namespace Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
 
+                    b.Property<int>("ProviderID")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ProviderID1")
+                        .HasColumnType("int");
+
                     b.HasKey("ID");
+
+                    b.HasIndex("ProviderID");
+
+                    b.HasIndex("ProviderID1");
 
                     b.ToTable("Connection");
                 });
@@ -119,6 +133,23 @@ namespace Infrastructure.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("Provider");
+                });
+
+            modelBuilder.Entity("Domain.Common.Station", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("Station");
                 });
 
             modelBuilder.Entity("Domain.Common.StatisticCategory", b =>
@@ -165,6 +196,45 @@ namespace Infrastructure.Migrations
                     b.ToTable("Statistics");
                 });
 
+            modelBuilder.Entity("Domain.Common.StopDetails", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+
+                    b.Property<DateTime?>("ArrivalTime")
+                        .HasColumnType("datetime");
+
+                    b.Property<int>("ConnectionID")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ConnectionID1")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("DepartureTime")
+                        .HasColumnType("datetime");
+
+                    b.Property<int>("StationID")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("StationID1")
+                        .HasColumnType("int");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("ConnectionID");
+
+                    b.HasIndex("ConnectionID1");
+
+                    b.HasIndex("StationID");
+
+                    b.HasIndex("StationID1");
+
+                    b.ToTable("StopDetails");
+                });
+
             modelBuilder.Entity("Domain.User.Discount", b =>
                 {
                     b.Property<int>("ID")
@@ -198,6 +268,9 @@ namespace Infrastructure.Migrations
                     b.Property<int>("OwnerID")
                         .HasColumnType("int");
 
+                    b.Property<bool>("Purchased")
+                        .HasColumnType("bit");
+
                     b.HasKey("ID");
 
                     b.HasIndex("OwnerID");
@@ -220,6 +293,10 @@ namespace Infrastructure.Migrations
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("FirebaseID")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
@@ -280,6 +357,19 @@ namespace Infrastructure.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Domain.Common.Connection", b =>
+                {
+                    b.HasOne("Domain.Common.Provider", null)
+                        .WithMany()
+                        .HasForeignKey("ProviderID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Common.Provider", null)
+                        .WithMany("Connections")
+                        .HasForeignKey("ProviderID1");
+                });
+
             modelBuilder.Entity("Domain.Common.Statistics", b =>
                 {
                     b.HasOne("Domain.Common.StatisticCategory", null)
@@ -293,6 +383,29 @@ namespace Infrastructure.Migrations
                         .HasForeignKey("UserID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Domain.Common.StopDetails", b =>
+                {
+                    b.HasOne("Domain.Common.Connection", null)
+                        .WithMany()
+                        .HasForeignKey("ConnectionID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Common.Connection", null)
+                        .WithMany("Stops")
+                        .HasForeignKey("ConnectionID1");
+
+                    b.HasOne("Domain.Common.Station", null)
+                        .WithMany()
+                        .HasForeignKey("StationID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Common.Station", null)
+                        .WithMany("StopDetails")
+                        .HasForeignKey("StationID1");
                 });
 
             modelBuilder.Entity("Domain.User.Ticket", b =>
@@ -317,6 +430,21 @@ namespace Infrastructure.Migrations
                         .HasForeignKey("UserID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Domain.Common.Connection", b =>
+                {
+                    b.Navigation("Stops");
+                });
+
+            modelBuilder.Entity("Domain.Common.Provider", b =>
+                {
+                    b.Navigation("Connections");
+                });
+
+            modelBuilder.Entity("Domain.Common.Station", b =>
+                {
+                    b.Navigation("StopDetails");
                 });
 #pragma warning restore 612, 618
         }

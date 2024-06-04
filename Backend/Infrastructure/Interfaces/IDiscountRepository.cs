@@ -7,12 +7,5 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Interfaces
 {
-    public interface IDiscountRepository
-    {
-        public IEnumerable<Discount> GetAll();
-        public Discount? GetByID(int id);
-        public int Add(Discount Discount);
-        public bool Update(Discount Discount);
-        public bool Delete(Discount Discount);
-    }
+    public interface IDiscountRepository : IRepository<Discount> { }
 }

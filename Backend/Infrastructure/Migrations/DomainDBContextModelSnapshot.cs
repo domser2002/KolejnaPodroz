@@ -89,23 +89,17 @@ namespace Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
 
-                    b.Property<string>("ArrivalTimes")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("ProviderID")
+                        .HasColumnType("int");
 
-                    b.Property<string>("DepartureTimes")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Providers")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Stations")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("ProviderID1")
+                        .HasColumnType("int");
 
                     b.HasKey("ID");
+
+                    b.HasIndex("ProviderID");
+
+                    b.HasIndex("ProviderID1");
 
                     b.ToTable("Connection");
                 });
@@ -123,9 +117,6 @@ namespace Infrastructure.Migrations
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)");
 
-                    b.Property<int?>("ConnectionID")
-                        .HasColumnType("int");
-
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -138,9 +129,24 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("ID");
 
-                    b.HasIndex("ConnectionID");
-
                     b.ToTable("Provider");
+                });
+
+            modelBuilder.Entity("Domain.Common.Station", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("Station");
                 });
 
             modelBuilder.Entity("Domain.Common.StatisticCategory", b =>
@@ -185,6 +191,45 @@ namespace Infrastructure.Migrations
                     b.HasIndex("UserID");
 
                     b.ToTable("Statistics");
+                });
+
+            modelBuilder.Entity("Domain.Common.StopDetails", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+
+                    b.Property<DateTime?>("ArrivalTime")
+                        .HasColumnType("datetime");
+
+                    b.Property<int>("ConnectionID")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ConnectionID1")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("DepartureTime")
+                        .HasColumnType("datetime");
+
+                    b.Property<int>("StationID")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("StationID1")
+                        .HasColumnType("int");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("ConnectionID");
+
+                    b.HasIndex("ConnectionID1");
+
+                    b.HasIndex("StationID");
+
+                    b.HasIndex("StationID1");
+
+                    b.ToTable("StopDetails");
                 });
 
             modelBuilder.Entity("Domain.User.Discount", b =>
@@ -309,11 +354,17 @@ namespace Infrastructure.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Domain.Common.Provider", b =>
+            modelBuilder.Entity("Domain.Common.Connection", b =>
                 {
-                    b.HasOne("Domain.Common.Connection", null)
-                        .WithMany("Providers")
-                        .HasForeignKey("ConnectionID");
+                    b.HasOne("Domain.Common.Provider", null)
+                        .WithMany()
+                        .HasForeignKey("ProviderID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Common.Provider", null)
+                        .WithMany("Connections")
+                        .HasForeignKey("ProviderID1");
                 });
 
             modelBuilder.Entity("Domain.Common.Statistics", b =>
@@ -329,6 +380,29 @@ namespace Infrastructure.Migrations
                         .HasForeignKey("UserID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Domain.Common.StopDetails", b =>
+                {
+                    b.HasOne("Domain.Common.Connection", null)
+                        .WithMany()
+                        .HasForeignKey("ConnectionID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Common.Connection", null)
+                        .WithMany("Stops")
+                        .HasForeignKey("ConnectionID1");
+
+                    b.HasOne("Domain.Common.Station", null)
+                        .WithMany()
+                        .HasForeignKey("StationID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Common.Station", null)
+                        .WithMany("StopDetails")
+                        .HasForeignKey("StationID1");
                 });
 
             modelBuilder.Entity("Domain.User.Ticket", b =>
@@ -357,7 +431,17 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("Domain.Common.Connection", b =>
                 {
-                    b.Navigation("Providers");
+                    b.Navigation("Stops");
+                });
+
+            modelBuilder.Entity("Domain.Common.Provider", b =>
+                {
+                    b.Navigation("Connections");
+                });
+
+            modelBuilder.Entity("Domain.Common.Station", b =>
+                {
+                    b.Navigation("StopDetails");
                 });
 #pragma warning restore 612, 618
         }

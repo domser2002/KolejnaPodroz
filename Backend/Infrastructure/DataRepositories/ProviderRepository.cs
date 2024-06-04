@@ -1,4 +1,5 @@
-﻿using Domain.Common;
+﻿using Domain.Admin;
+using Domain.Common;
 using Infrastructure.DataContexts;
 using Infrastructure.Interfaces;
 using System;
@@ -9,37 +10,7 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.DataRepositories
 {
-    public class ProviderRepository(DomainDBContext context) : IProviderRepository
+    public class ProviderRepository(DomainDBContext context) : Repository<Provider>(context), IProviderRepository
     {
-        private readonly DomainDBContext _context = context;
-        public int Add(Provider Provider)
-        {
-            int id = !GetAll().Any() ? 1 : GetAll().Max(x => x.ID) + 1;
-            Provider.ID = id; // temporary solution
-            _context.Provider.Add(Provider);
-            return (_context.SaveChanges() == 1) ? id : -1;
-        }
-
-        public bool Delete(Provider Provider)
-        {
-            _context.Provider.Remove(Provider);
-            return _context.SaveChanges() == 1;
-        }
-
-        public IEnumerable<Provider> GetAll()
-        {
-            return [.. _context.Provider];
-        }
-
-        public Provider? GetByID(int id)
-        {
-            return _context.Provider.FirstOrDefault(a => a.ID == id);
-        }
-
-        public bool Update(Provider Provider)
-        {
-            _context.Provider.Update(Provider);
-            return _context.SaveChanges() == 1;
-        }
     }
 }

@@ -1,7 +1,5 @@
-﻿using Domain.Admin;
-using Domain.Common;
+﻿using Domain.Common;
 using Infrastructure.Interfaces;
-using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.FakeDataRepositories
 {
-    public class FakeStatisticsRepository : FakeRepository<Statistics>, IStatisticsRepository
+    public class FakeStationRepository : FakeRepository<Station>, IStationRepository
     {
     }
 }

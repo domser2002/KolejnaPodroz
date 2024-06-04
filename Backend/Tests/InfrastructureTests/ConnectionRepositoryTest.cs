@@ -13,6 +13,7 @@ namespace InfrastructureTests
     {
         FakeConnectionRepository fakeRepository;
         ConnectionRepository repository;
+        ProviderRepository providerRepository;
         string? connectionString;
         [SetUp]
         public void Setup()
@@ -26,6 +27,7 @@ namespace InfrastructureTests
             var optionsBuilder = new DbContextOptionsBuilder<DomainDBContext>();
             optionsBuilder.UseSqlServer(connectionString);
             repository = new(new DomainDBContext(optionsBuilder.Options));
+            providerRepository = new(new DomainDBContext(optionsBuilder.Options));
         }
 
         [Test]
@@ -65,28 +67,13 @@ namespace InfrastructureTests
         }
 
         [Test]
-        public void UpdateConnection_UnitTest()
-        {
-            // Arrange
-            fakeRepository = new();
-            Connection connection = new();
-            connection.ID = fakeRepository.Add(connection);
-            connection.Stations.Add("Test");
-            // Act 
-            var result = fakeRepository.Update(connection);
-            // Assert
-            Assert.Multiple(() =>
-            {
-                Assert.That(result, Is.True);
-                Assert.That(fakeRepository.GetByID(connection.ID)?.Stations.Last(), Is.EqualTo("Test"));
-            });
-        }
-
-        [Test]
         public void AddConnection_IntegrationTest()
         {
             // Arrange
             Connection connection = new();
+            Provider provider = new();
+            int providerID = providerRepository.Add(provider);
+            connection.ProviderID = providerID;
             int count = repository.GetAll().Count();
             // Act 
             var result = repository.Add(connection);
@@ -99,6 +86,7 @@ namespace InfrastructureTests
             });
             // Clean
             repository.Delete(connection);
+            providerRepository.Delete(provider);
         }
 
         [Test]
@@ -106,7 +94,10 @@ namespace InfrastructureTests
         {
             // Arrange
             Connection connection = new();
-            connection.ID = repository.Add(connection);
+            Provider provider = new();
+            int providerID = providerRepository.Add(provider);
+            connection.ProviderID = providerID;
+            repository.Add(connection);
             // Act
             var result = repository.Delete(connection);
             // Assert
@@ -115,25 +106,8 @@ namespace InfrastructureTests
                 Assert.That(result, Is.True);
                 Assert.That(repository.GetByID(connection.ID), Is.Null);
             });
+            // Clean
+            providerRepository.Delete(provider);
         }
-        // connection database is temporary approach, to uncomment once we have final implementation of repository
-        //[Test]
-        //public void UpdateConnection_IntegrationTest()
-        //{
-        //    // Arrange
-        //    Connection connection = new();
-        //    repository.Add(connection);
-        //    connection.Stations.Add("Test");
-        //    // Act 
-        //    var result = repository.Update(connection);
-        //    // Assert
-        //    Assert.Multiple(() =>
-        //    {
-        //        Assert.That(result, Is.True);
-        //        Assert.That(repository.GetByID(connection.ID)?.Stations.Last(), Is.EqualTo("Test"));
-        //    });
-        //    // Clean
-        //    repository.Delete(connection);
-        //}
     }
 }
