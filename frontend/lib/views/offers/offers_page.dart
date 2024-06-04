@@ -1,20 +1,23 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/classes/train_offer.dart';
+import 'package:frontend/classes/user_provider.dart';
 import 'package:frontend/utils/http_requests.dart';
 import 'package:frontend/views/auth/login_page.dart';
 import 'package:frontend/views/auth/register_page.dart';
 import 'package:frontend/views/offers/buy_ticket.dart';
 import 'package:frontend/views/user_profile_page.dart';
+import 'package:provider/provider.dart';
 
 class ViewOffersPage extends StatelessWidget {
   final List<TrainOffer> offers;
+
   ViewOffersPage({super.key, required this.offers});
 
   @override
   Widget build(BuildContext context) {
     final PageController controller = PageController(viewportFraction: 0.4);
-
+    UserProvider userProvider = Provider.of<UserProvider>(context);
     return Scaffold(
         bottomNavigationBar: const BottomAppBar(
             color: Colors.white,
@@ -37,22 +40,36 @@ class ViewOffersPage extends StatelessWidget {
                   // Użytkownik jest zalogowany
                   return Row(
                     children: [
-                      IconButton(
-                        icon: const Icon(Icons.person, color: Colors.black),
-                        onPressed: () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) => UserProfilePage(),
-                            ),
-                          );
-                        },
-                      ),
-                      IconButton(
-                        icon: const Icon(Icons.exit_to_app, color: Colors.red),
-                        onPressed: () {
-                          FirebaseAuth.instance.signOut();
-                        },
-                      ),
+                     if (userProvider.user != null)
+          Padding(
+            padding: const EdgeInsets.only(right: 8.0),
+            child: Text(
+              'Cześć, ${userProvider.user!.firstName}',
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ),
+          ),
+          //Punkty
+            const Text(
+              'punkty lojalnościowe: 0',
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ),
+            IconButton(
+              icon: const Icon(Icons.person, color: Colors.black),
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => UserProfilePage(),
+                  ),
+                );
+              },
+            ),
+
+            IconButton(
+              icon: const Icon(Icons.exit_to_app, color: Colors.red),
+              onPressed: () {
+                FirebaseAuth.instance.signOut();
+              },
+            ),
                     ],
                   );
                 } else {

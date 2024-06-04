@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/classes/user_provider.dart';
 import 'package:frontend/views/user_profile_subpages/complaints_page.dart';
+import 'package:frontend/views/user_profile_subpages/super_points_page.dart';
 import 'package:frontend/views/user_profile_subpages/tickets_page.dart';
 import 'package:frontend/views/user_profile_subpages/user_info_page.dart';
 import 'package:provider/provider.dart';
@@ -9,7 +10,6 @@ class UserProfilePage extends StatefulWidget {
   UserProfilePage({super.key});
 
   @override
-  // ignore: library_private_types_in_public_api
   _UserProfilePageState createState() => _UserProfilePageState();
 }
 
@@ -38,24 +38,25 @@ class _UserProfilePageState extends State<UserProfilePage>
 
     return Scaffold(
       bottomNavigationBar: BottomAppBar(
-          color: Colors.white,
-          height: win_height * 0.07,
-          child: const Center(
-              child: Stack(
+        color: Colors.white,
+        height: win_height * 0.07,
+        child: const Center(
+          child: Stack(
             fit: StackFit.passthrough,
             children: [
-              Text("©Kolejna Podróż 2024",
-                  style: TextStyle(color: Colors.black)),
+              Text(
+                "©Kolejna Podróż 2024",
+                style: TextStyle(color: Colors.black),
+              ),
             ],
-          ))),
+          ),
+        ),
+      ),
       appBar: AppBar(
-        title: const Stack(alignment: AlignmentDirectional.centerEnd, children: [
-          Icon(Icons.person, size: 40, color: Colors.black),
-        ]),
+        title: const Text(''),
         backgroundColor: Colors.white,
         elevation: 0,
       ),
-      extendBodyBehindAppBar: true,
       body: Stack(
         children: [
           // Tło
@@ -69,7 +70,9 @@ class _UserProfilePageState extends State<UserProfilePage>
           Center(
             child: Padding(
               padding: EdgeInsets.symmetric(
-                  horizontal: win_width * 0.2, vertical: win_height * 0.14),
+                horizontal: win_width * 0.2,
+                vertical: win_height * 0.14,
+              ),
               child: Container(
                 width: win_width,
                 constraints: BoxConstraints(maxWidth: win_width * 0.78),
@@ -90,18 +93,24 @@ class _UserProfilePageState extends State<UserProfilePage>
                   color: Colors.transparent,
                   elevation: 8,
                   shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(40)),
+                    borderRadius: BorderRadius.circular(40),
+                  ),
                   child: Column(
                     children: [
-                     const  Text("Moje konto",
-                          style: TextStyle(
-                              fontSize: 24,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.white)),
+                      const Text(
+                        "Moje konto",
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.white,
+                        ),
+                      ),
                       SizedBox(height: win_height * 0.05),
                       Container(
                         decoration: BoxDecoration(
-                          borderRadius: const BorderRadius.all(Radius.circular(10)),
+                          borderRadius: const BorderRadius.all(
+                            Radius.circular(10),
+                          ),
                           gradient: LinearGradient(
                             begin: Alignment.topCenter,
                             end: Alignment.bottomCenter,
@@ -115,43 +124,50 @@ class _UserProfilePageState extends State<UserProfilePage>
                         width: 800,
                         child: TabBar(
                           indicatorWeight: 4,
-                          padding:
-                              const EdgeInsets.symmetric(horizontal: 2, vertical: 2),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 2,
+                            vertical: 2,
+                          ),
                           dividerHeight: 0,
                           controller: _tabController,
                           indicatorColor: Colors.orange[700],
                           labelColor: Colors.orange[700],
                           tabs: [
                             Tab(
-                                text: 'Dane użytkownika',
-                                icon: Icon(
-                                  Icons.person,
-                                  color: Colors.grey.shade500.withOpacity(0.9),
-                                )),
+                              text: 'Dane użytkownika',
+                              icon: Icon(
+                                Icons.person,
+                                color: Colors.grey.shade500.withOpacity(0.9),
+                              ),
+                            ),
                             Tab(
-                                text: 'Bilety',
-                                icon: Icon(
-                                  Icons.train,
-                                  color: Colors.grey.shade500.withOpacity(0.9),
-                                )),
+                              text: 'Bilety',
+                              icon: Icon(
+                                Icons.train,
+                                color: Colors.grey.shade500.withOpacity(0.9),
+                              ),
+                            ),
                             Tab(
-                                text: 'Reklamacje',
-                                icon: Icon(
-                                  Icons.sentiment_very_dissatisfied,
-                                  color: Colors.grey.shade500.withOpacity(0.9),
-                                )),
+                              text: 'Reklamacje',
+                              icon: Icon(
+                                Icons.sentiment_very_dissatisfied,
+                                color: Colors.grey.shade500.withOpacity(0.9),
+                              ),
+                            ),
                             Tab(
-                                text: 'Statystyki',
-                                icon: Icon(
-                                  Icons.bar_chart,
-                                  color: Colors.grey.shade500.withOpacity(0.9),
-                                )),
+                              text: 'Statystyki',
+                              icon: Icon(
+                                Icons.bar_chart,
+                                color: Colors.grey.shade500.withOpacity(0.9),
+                              ),
+                            ),
                             Tab(
-                                text: 'Osiągnięcia',
-                                icon: Icon(
-                                  Icons.star,
-                                  color: Colors.grey.shade500.withOpacity(0.9),
-                                )),
+                              text: 'Zdobądź punkty',
+                              icon: Icon(
+                                Icons.star,
+                                color: Colors.grey.shade500.withOpacity(0.9),
+                              ),
+                            ),
                           ],
                         ),
                       ),
@@ -162,13 +178,15 @@ class _UserProfilePageState extends State<UserProfilePage>
                           padding: const EdgeInsets.all(20),
                           height: win_height * 0.5,
                           decoration: BoxDecoration(
-                            borderRadius: const BorderRadius.all(Radius.circular(15)),
+                            borderRadius: const BorderRadius.all(
+                              Radius.circular(15),
+                            ),
                             gradient: LinearGradient(
                               begin: Alignment.topCenter,
                               end: Alignment.bottomCenter,
                               colors: [
                                 Colors.grey.shade100.withOpacity(0.9),
-                                Colors.white
+                                Colors.white,
                               ],
                             ),
                           ),
@@ -179,7 +197,7 @@ class _UserProfilePageState extends State<UserProfilePage>
                               TicketsPage(),
                               ComplaintsPage(),
                               StatisticsPage(),
-                              AchievementsPage(),
+                              SuperPointsPage(),
                             ],
                           ),
                         ),
@@ -196,7 +214,6 @@ class _UserProfilePageState extends State<UserProfilePage>
   }
 }
 
-
 class StatisticsPage extends StatelessWidget {
   StatisticsPage({super.key});
 
@@ -205,14 +222,3 @@ class StatisticsPage extends StatelessWidget {
     return Center(child: Text('Statystyki'));
   }
 }
-
-class AchievementsPage extends StatelessWidget {
-  AchievementsPage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(child: Text('Osiągnięcia'));
-  }
-}
-
-

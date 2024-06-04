@@ -86,6 +86,16 @@ namespace Logic.Services.Decorators
             return _innerTicketService.GetTicketByID(ticketID);
         }
 
+        public double GetPrice(int ticketID)
+        {
+            if (!CheckCondition())
+            {
+                throw new TechnicalBreakException("Technical Break");
+            }
+
+            return _innerTicketService.GetPrice(ticketID);
+        }
+
         private bool CheckCondition()
         {
             return !_adminService.IsTechnicalBreak();

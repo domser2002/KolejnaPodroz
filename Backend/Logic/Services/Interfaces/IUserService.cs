@@ -14,5 +14,6 @@ namespace Logic.Services.Interfaces
         public bool VerifyUserAccount(int userID);
         public User? AuthoriseUser(string firebaseID, string token);
         public User? GetUserByID(int userID);
+        public bool EditUser(User user);
     }
 }

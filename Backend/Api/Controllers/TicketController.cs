@@ -56,6 +56,24 @@ namespace Api.Controllers
             }
         }
 
+        [HttpGet("price/{ticketID}")]
+        public ActionResult<double> GetPriceByTicketID(int ticketID)
+        {
+            try
+            {
+                var price = _ticketService.GetPrice(ticketID);
+                return Ok(price);
+            }
+            catch (TechnicalBreakException)
+            {
+                return StatusCode(430);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500);
+            }
+        }
+
         [HttpPost("create")]
         [Consumes(MediaTypeNames.Application.Json)]
         [Produces(MediaTypeNames.Application.Json)]

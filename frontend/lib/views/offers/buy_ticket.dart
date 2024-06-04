@@ -183,7 +183,7 @@ class _BuyTicketPageState extends State<BuyTicketPage> {
                               color: Colors.white),
                         ),
                         SizedBox(height: winHeight * 0.022),
-                        Text(
+                        const Text(
                           'Szczegóły biletu:',
                           style: TextStyle(color: Colors.white),
                         ),

@@ -27,9 +27,12 @@ class LoginPage extends StatelessWidget {
       );
 
       //Fetch admin details from your backend using HttpRequests
-      //var loggedAdmin = await request.authoriseAdmin(adminCredential.user!.uid);
-      var loggedAdmin = true;
-      if (loggedAdmin == true) {
+      print(adminCredential.user!.uid.toString());
+      var loggedAdmin = await request.authoriseAdmin(adminCredential.user!.uid);
+
+      if (
+          //loggedAdmin ==
+          true) {
         //Save admin details to the provider
 
         Navigator.of(context).push(
