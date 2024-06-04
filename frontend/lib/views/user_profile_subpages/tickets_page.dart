@@ -66,7 +66,7 @@ class _TicketsPageState extends State<TicketsPage> {
           );
         } else {
           // Handling the case where there are no tickets
-          return const Center(child: Text('No tickets to display'));
+          return const Center(child: Text('Brak biletów do wyświetlenia'));
         }
       },
     );
