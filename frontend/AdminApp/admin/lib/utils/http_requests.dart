@@ -67,9 +67,45 @@ class HttpRequests {
     }
   }
 
+  Future<bool> startTechnicalBreak() async {
+    try {
+      var url = Uri.parse('$host/Admin/beginTechnicalBreak');
+      var response = await http.patch(url);
+
+      if (response.statusCode == 200) {
+        print("technical break started");
+        return true;
+      } else {
+        print('Failed, the technical break is running');
+        return false;
+      }
+    } catch (e) {
+      print(e.toString());
+      return false;
+    }
+  }
+
+  Future<bool> stopTechnicalBreak() async {
+    try {
+      var url = Uri.parse('$host/Admin/stopTechnicalBreak');
+      var response = await http.patch(url);
+
+      if (response.statusCode == 200) {
+        print("technical break stopped");
+        return true;
+      } else {
+        print('Failed, there is no technical break');
+        return false;
+      }
+    } catch (e) {
+      print(e.toString());
+      return false;
+    }
+  }
+
   Future<bool> authoriseAdmin(String adminId) async {
     try {
-      var url = Uri.parse('$host/Admin/authorise/$adminId');
+      var url = Uri.parse('$host/Admin/authorise/$adminId?token=$adminId');
       var response = await http.post(url);
 
       if (response.statusCode == 200) {
@@ -227,7 +263,7 @@ class HttpRequests {
   Future<bool> addProvider(
       String providerId, Map<String, dynamic> providerData) async {
     try {
-      var url = Uri.parse('$host/Provider/add/$providerId');
+      var url = Uri.parse('$host/Provider/add');
       var response = await http.post(
         url,
         body: jsonEncode(providerData),
@@ -235,10 +271,10 @@ class HttpRequests {
       );
 
       if (response.statusCode == 200) {
-        print("provider loaded");
+        print("provider added");
         return true;
       } else {
-        print('Failed to add provider');
+        print('Failed to add provider: ${response.statusCode}');
         return false;
       }
     } catch (e) {
@@ -250,7 +286,7 @@ class HttpRequests {
   Future<bool> editProvider(
       String providerId, Map<String, dynamic> updatedData) async {
     try {
-      var url = Uri.parse('$host/Provider/edit/$providerId');
+      var url = Uri.parse('$host/Provider/edit');
       var response = await http.put(
         url,
         body: jsonEncode(updatedData),
@@ -271,6 +307,7 @@ class HttpRequests {
   }
 
   Future<bool> deleteProvider(String providerId) async {
+    print(providerId);
     try {
       var url = Uri.parse('$host/Provider/delete/$providerId');
       var response = await http.delete(url);
@@ -279,7 +316,7 @@ class HttpRequests {
         print("provider deleted");
         return true;
       } else {
-        print('Failed to delete provider');
+        print('Failed to delete provider: ${response.statusCode}');
         return false;
       }
     } catch (e) {
