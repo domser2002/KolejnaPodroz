@@ -41,51 +41,48 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyCldZAIlZf7ofhvOOZ1pNGFBSrDeALw7Vc',
-    appId: '1:337971858887:web:56379f453f23614b175de2',
-    messagingSenderId: '337971858887',
-    projectId: 'kolejnapodroz-ed096',
-    authDomain: 'kolejnapodroz-ed096.firebaseapp.com',
-    storageBucket: 'kolejnapodroz-ed096.appspot.com',
-    measurementId: 'G-Y278RTX31X',
+    apiKey: 'AIzaSyB6vOfOlTAtCXg5SnAbTf0TGHtY0SnYU-c',
+    appId: '1:407886094574:web:47176b6d607176f8db53ff',
+    messagingSenderId: '407886094574',
+    projectId: 'kolejna-podroz',
+    authDomain: 'kolejna-podroz.firebaseapp.com',
+    storageBucket: 'kolejna-podroz.appspot.com',
+    measurementId: 'G-7G979NJERD',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyBlZyPNYQWlYeyy7SDJ18GnhHmjIsxdphI',
-    appId: '1:337971858887:android:ce03933d1020d2b1175de2',
-    messagingSenderId: '337971858887',
-    projectId: 'kolejnapodroz-ed096',
-    storageBucket: 'kolejnapodroz-ed096.appspot.com',
+    apiKey: 'AIzaSyAjLAe_c07AvvMdxHwsPGtQvP4xgI0N_Os',
+    appId: '1:407886094574:android:87f18fb2c1655e14db53ff',
+    messagingSenderId: '407886094574',
+    projectId: 'kolejna-podroz',
+    storageBucket: 'kolejna-podroz.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyA57rJQ12BCR1XHMwYCnHClcjIfg6fobcY',
-    appId: '1:337971858887:ios:166f5711889636c3175de2',
-    messagingSenderId: '337971858887',
-    projectId: 'kolejnapodroz-ed096',
-    storageBucket: 'kolejnapodroz-ed096.appspot.com',
-    iosClientId: '337971858887-8qbocvs727ggjhgo26vfffpebp94nig1.apps.googleusercontent.com',
-    iosBundleId: 'com.example.frontend',
+    apiKey: 'AIzaSyDD09ieh9wjwtYAXdgPJ2mfTil7RmL0rww',
+    appId: '1:407886094574:ios:649fce10fa2b00e7db53ff',
+    messagingSenderId: '407886094574',
+    projectId: 'kolejna-podroz',
+    storageBucket: 'kolejna-podroz.appspot.com',
+    iosBundleId: 'com.example.admin',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyA57rJQ12BCR1XHMwYCnHClcjIfg6fobcY',
-    appId: '1:337971858887:ios:166f5711889636c3175de2',
-    messagingSenderId: '337971858887',
-    projectId: 'kolejnapodroz-ed096',
-    storageBucket: 'kolejnapodroz-ed096.appspot.com',
-    iosClientId: '337971858887-8qbocvs727ggjhgo26vfffpebp94nig1.apps.googleusercontent.com',
-    iosBundleId: 'com.example.frontend',
+    apiKey: 'AIzaSyDD09ieh9wjwtYAXdgPJ2mfTil7RmL0rww',
+    appId: '1:407886094574:ios:649fce10fa2b00e7db53ff',
+    messagingSenderId: '407886094574',
+    projectId: 'kolejna-podroz',
+    storageBucket: 'kolejna-podroz.appspot.com',
+    iosBundleId: 'com.example.admin',
   );
 
   static const FirebaseOptions windows = FirebaseOptions(
-    apiKey: 'AIzaSyCldZAIlZf7ofhvOOZ1pNGFBSrDeALw7Vc',
-    appId: '1:337971858887:web:c8df03fcc5e86f9f175de2',
-    messagingSenderId: '337971858887',
-    projectId: 'kolejnapodroz-ed096',
-    authDomain: 'kolejnapodroz-ed096.firebaseapp.com',
-    storageBucket: 'kolejnapodroz-ed096.appspot.com',
-    measurementId: 'G-32KE36GLVT',
+    apiKey: 'AIzaSyB6vOfOlTAtCXg5SnAbTf0TGHtY0SnYU-c',
+    appId: '1:407886094574:web:82feec127768ed19db53ff',
+    messagingSenderId: '407886094574',
+    projectId: 'kolejna-podroz',
+    authDomain: 'kolejna-podroz.firebaseapp.com',
+    storageBucket: 'kolejna-podroz.appspot.com',
+    measurementId: 'G-9TNVN22MBF',
   );
-
 }

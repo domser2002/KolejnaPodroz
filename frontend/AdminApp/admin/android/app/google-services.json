@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "407886094574",
+    "project_id": "kolejna-podroz",
+    "storage_bucket": "kolejna-podroz.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:407886094574:android:87f18fb2c1655e14db53ff",
+        "android_client_info": {
+          "package_name": "com.example.admin"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAjLAe_c07AvvMdxHwsPGtQvP4xgI0N_Os"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

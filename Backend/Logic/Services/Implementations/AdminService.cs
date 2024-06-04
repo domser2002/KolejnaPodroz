@@ -1,4 +1,5 @@
 ﻿using Domain.Admin;
+using Domain.Common;
 using Domain.User;
 using Infrastructure.Interfaces;
 using Logic.Services.Interfaces;
@@ -36,7 +37,7 @@ public class AdminService(IDataRepository repository) : IAdminService
     }
     public Admin? AuthoriseAdmin(string firebaseID,string token)
     {
-        Admin? admin = _repository.AdminRepository.GetAll().Where(a => a.FirebaseID == firebaseID).FirstOrDefault();
+        Admin? admin = _repository.AdminRepository.GetAll().Where(a => a.FirebaseID == firebaseID && a.Accepted==true).FirstOrDefault();
         if(admin is null) return null;
         Server.CreateAdminSession(admin.ID, token);
         return admin;
@@ -53,11 +54,25 @@ public class AdminService(IDataRepository repository) : IAdminService
         if (user is null) return false;
         return _repository.UserRepository.Delete(user);
     }
-    public List<User>? GetAllUsers()
+    public List<User> GetAllUsers()
     {
-        List<User> users = new List<User>(_repository.UserRepository.GetAll().ToList());
-        if (users.Count == 0) return null;
-        return users;
+        return _repository.UserRepository.GetAll().ToList();
+        
+    }
+
+    public List<Admin> GetAllAdmins()
+    {
+        return _repository.AdminRepository.GetAll().ToList();
+    }
+
+    public List<Provider> GetAllProviders()
+    {
+        return _repository.ProviderRepository.GetAll().ToList();
+    }
+
+    public Admin? GetAdminByID(int adminID)
+    {
+        return _repository.AdminRepository.GetByID(adminID);
     }
     public User? GetUserByID(int userID)
     {
@@ -105,4 +120,6 @@ public class AdminService(IDataRepository repository) : IAdminService
 
         return _repository.UserRepository.Update(user);
     }
+
+    
 }

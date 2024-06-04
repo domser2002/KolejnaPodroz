@@ -13,8 +13,6 @@ class RegistrationPage extends StatelessWidget {
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController repeatPasswordController =
       TextEditingController();
-  final TextEditingController firstNameController = TextEditingController();
-  final TextEditingController lastNameController = TextEditingController();
 
   final HttpRequests request = HttpRequests();
 
@@ -29,9 +27,6 @@ class RegistrationPage extends StatelessWidget {
         );
 
         var adminData = {
-          'firstName': firstNameController.text,
-          'lastName': lastNameController.text,
-          'email': emailController.text,
           'firebaseID': FirebaseAuth.instance.currentUser!.uid,
         };
 
@@ -77,10 +72,6 @@ class RegistrationPage extends StatelessWidget {
       ),
       appBar: AppBar(
         title: const Text(''),
-        leading: IconButton(
-          icon: const Icon(Icons.close),
-          onPressed: () => Navigator.pop(context),
-        ),
       ),
       body: Stack(
         fit: StackFit.expand,
@@ -133,30 +124,6 @@ class RegistrationPage extends StatelessWidget {
                           ),
                         ),
                         SizedBox(height: winHeight * 0.027),
-                        Row(
-                          children: [
-                            Expanded(
-                              child: InputButton(
-                                controller: firstNameController,
-                                hintText: 'Imię',
-                                icon: const Icon(Icons.person),
-                                obscureText: false,
-                                backgroundColor: Colors.white,
-                              ),
-                            ),
-                            SizedBox(width: winWidth * 0.02),
-                            Expanded(
-                              child: InputButton(
-                                controller: lastNameController,
-                                hintText: 'Nazwisko',
-                                icon: const Icon(Icons.person),
-                                obscureText: false,
-                                backgroundColor: Colors.white,
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: winHeight * 0.022),
                         InputButton(
                           controller: emailController,
                           hintText: 'E-mail',
