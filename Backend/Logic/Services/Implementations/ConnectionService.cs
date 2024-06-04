@@ -40,13 +40,15 @@ namespace Logic.Services.Implementations
 
         public List<Connection> SearchConnections(string from, string to, DateTime when)
         {
-            List<Connection> connections = new List<Connection>();
+            List<Connection> connections = [];
 
             IEnumerable<Connection> col_connections = _repository.ConnectionRepository.GetAll();
+            List<Station> stations = _repository.StationRepository.GetAll().ToList();
+            int idx_origin = stations.FindIndex(s => s.Name == from);
+            int idx_destination = stations.FindIndex(s => s.Name == to);
             foreach (Connection col_connection in col_connections) 
             {
-                int idx_origin = col_connection.Stations.IndexOf(from);
-                int idx_destination = col_connection.Stations.IndexOf(to);
+
 
                 if(idx_origin < 0 || idx_destination < 0) continue;
                 if(idx_origin >= idx_destination) continue;
