@@ -25,14 +25,7 @@ namespace Infrastructure.DataRepositories
         {
             _dbSet.Add(entity);
             if (_context.SaveChanges() != 1) return -1;
-
-            var propertyInfo = entity.GetType().GetProperty("ID");
-            object? value;
-            if (propertyInfo != null && (value = propertyInfo.GetValue(entity)) != null)
-            {
-                return (int)value;
-            }
-            throw new InvalidOperationException("The entity does not have an ID property.");
+            return entity.ID;
         }
 
         public bool Delete(T entity)
