@@ -44,51 +44,54 @@ namespace Logic.Services.Implementations
 
             IEnumerable<Connection> col_connections = _repository.ConnectionRepository.GetAll();
             List<Station> stations = _repository.StationRepository.GetAll().ToList();
-            int idx_origin = stations.FindIndex(s => s.Name == from);
-            int idx_destination = stations.FindIndex(s => s.Name == to);
+            int idx_station_from = stations.FindIndex(s => s.Name == from);
+            //idx_origin = col_connections.FindIndex(c => c.StopDetails)
+            int idx_station_to = stations.FindIndex(s => s.Name == to);
             foreach (Connection col_connection in col_connections) 
             {
-
+                int idx_origin = col_connection.Stops.FindIndex(st => st.StationID == stations[idx_station_from].ID);
+                int idx_destination = col_connection.Stops.FindIndex(st => st.StationID == stations[idx_station_to].ID);
 
                 if(idx_origin < 0 || idx_destination < 0) continue;
                 if(idx_origin >= idx_destination) continue;
 
-                DateTime originDepartureTime = col_connection.DepartureTimes[idx_origin];
-
-                if (originDepartureTime.Year != when.Year ||
-                    originDepartureTime.Month != when.Month ||
-                    originDepartureTime.Day != when.Day) ; //continue;
+                DateTime? originDepartureTime = col_connection.Stops[idx_origin].DepartureTime;
+                if (originDepartureTime == null) continue;
+                DateTime originDeparture = (DateTime)originDepartureTime;
+                if (originDeparture.Year != when.Year ||
+                    originDeparture.Month != when.Month ||
+                    originDeparture.Day != when.Day) continue;
 
                 connections.Add(col_connection);
             }
 
 
-            List<Connection> trimmedConnection = new List<Connection>();
-            foreach (Connection conn in connections)
-            {
-                int idx_origin = conn.Stations.IndexOf(from);
-                int idx_destination = conn.Stations.IndexOf(to);
+            //List<Connection> trimmedConnection = [];
+            //foreach (Connection conn in connections)
+            //{
+            //    int idx_origin = conn.Stations.IndexOf(from);
+            //    int idx_destination = conn.Stations.IndexOf(to);
 
-                Connection newCon = new Connection();
-                for (int i = idx_origin; i <= idx_destination; i++)
-                {
-                    newCon.Stations.Add(conn.Stations[i]);
-                    newCon.DepartureTimes.Add(conn.DepartureTimes[i]);
-                    newCon.ArrivalTimes.Add(conn.ArrivalTimes[i]);
-                }
+            //    Connection newCon = new Connection();
+            //    for (int i = idx_origin; i <= idx_destination; i++)
+            //    {
+            //        newCon.Stations.Add(conn.Stations[i]);
+            //        newCon.DepartureTimes.Add(conn.DepartureTimes[i]);
+            //        newCon.ArrivalTimes.Add(conn.ArrivalTimes[i]);
+            //    }
 
-                for (int i = 0; i < conn.Providers.Count; i++)
-                {
-                    newCon.Providers.Add(conn.Providers[i]);
-                }
+            //    for (int i = 0; i < conn.Providers.Count; i++)
+            //    {
+            //        newCon.Providers.Add(conn.Providers[i]);
+            //    }
 
-                newCon.ID = conn.ID;
+            //    newCon.ID = conn.ID;
 
-                trimmedConnection.Add(newCon);
-            }
+            //    trimmedConnection.Add(newCon);
+            //}
 
-            // return connections;
-            return trimmedConnection;
+            //// return connections;
+            //return trimmedConnection;
 
             return connections;
         }

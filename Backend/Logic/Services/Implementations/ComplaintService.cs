@@ -10,7 +10,7 @@ public class ComplaintService(IDataRepository repository) : Interfaces.IComplain
 
     public int MakeComplaint(Complaint? complaint)
     {
-        if(complaint == null) return -1;
+        if (complaint == null) return -1;
         return _repository.ComplaintRepository.Add(complaint);
     }
     public bool RemoveComplaint(int complaintID)
@@ -22,12 +22,7 @@ public class ComplaintService(IDataRepository repository) : Interfaces.IComplain
     }
     public bool EditComplaint(Complaint newComplaint)
     {
-        Complaint? oldComplaint = _repository.ComplaintRepository.GetByID(newComplaint.ID);
-        if (oldComplaint != null)
-        {
-            return _repository.ComplaintRepository.Update(oldComplaint, newComplaint);
-        }
-        return false;
+        return _repository.ComplaintRepository.Update(newComplaint);
     }
     public Complaint? GetComplaintByID(int complaintID)
     {
@@ -40,7 +35,7 @@ public class ComplaintService(IDataRepository repository) : Interfaces.IComplain
     }
     public List<Complaint> GetAllComplaints()
     {
-       return _repository.ComplaintRepository.GetAll().ToList();
-        
+        return _repository.ComplaintRepository.GetAll().ToList();
+
     }
 }
