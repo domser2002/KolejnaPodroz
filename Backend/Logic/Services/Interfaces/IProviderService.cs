@@ -11,7 +11,7 @@ namespace Logic.Services.Interfaces
     {
         public int AddProvider(Provider? provider);
         public bool RemoveProvider(int providerID);
-        public bool EditProvider(Provider newProvider);
+        public bool EditProvider(Provider newProvider);       
         public Provider? GetProviderByID(int id);
     }
 }
