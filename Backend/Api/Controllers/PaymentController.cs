@@ -1,32 +1,44 @@
 ﻿using Domain.Common;
+using Logic.Services.Decorators;
 using Logic.Services.Implementations;
 using Logic.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using System;
 
-namespace Api.Controllers;
-
-[ApiController]
-[Route("Payment")]
-public class PaymentController(IPaymentService paymentService) : ControllerBase
+namespace Api.Controllers
 {
-    private readonly IPaymentService _paymentService = paymentService;
-
-    [HttpPost("process")]
-    public ActionResult ProcessPayment([FromBody] Payment payment)
+    [ApiController]
+    [Route("Payment")]
+    public class PaymentController : ControllerBase
     {
-        bool success;
-        try
+        private readonly IPaymentService _paymentService;
+
+        public PaymentController(IPaymentService paymentService)
         {
-            success = _paymentService.ProceedPayment(payment);
+            _paymentService = paymentService;
         }
-        catch (Exception) 
+
+        [HttpPost("process")]
+        public ActionResult ProcessPayment([FromBody] Payment payment)
         {
-            return BadRequest();
+            bool success;
+            try
+            {
+                success = _paymentService.ProceedPayment(payment);
+            }
+            catch (TechnicalBreakException)
+            {
+                return StatusCode(430);
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+            if (!success)
+            {
+                return BadRequest();
+            }
+            return Ok();
         }
-        if(!success) 
-        { 
-            return BadRequest();
-        }
-        return Ok();
     }
 }
