@@ -91,7 +91,7 @@ class _ComplaintsPageState extends State<ComplaintsPage> {
           );
         } else {
           // Handling the case where there are no complaints
-          return const Center(child: Text('No complaints to display'));
+          return const Center(child: Text('Brak reklamacji do wyświetlenia'));
         }
       },
     );
