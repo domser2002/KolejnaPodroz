@@ -59,15 +59,16 @@ public class TicketService(IDataRepository repository) : ITicketService
     {
         Ticket? ticket = _repository.TicketRepository.GetByID(ticketID);
         if(ticket == null) return 0;
-        Connection? connection = _repository.ConnectionRepository.GetByID(ticket.ConnectionID);
-        if(connection == null) return 0;
-        int count = connection.Stops.Count;
-        double price = count * 20;
+        //Connection? connection = _repository.ConnectionRepository.GetByID(ticket.ConnectionID);
+        //if(connection == null) return 0;
+        //int count = connection.Stops.Count;
+        //double price = count * 20;
+        double price = 50.0;
         User? user = _repository.UserRepository.GetByID(ticket.OwnerID);
         double discountPercentage = 0;
         if (user != null)
         {
-            if (user.LoyaltyPoints > 0) discountPercentage += (1000 - (double)1000/user.LoyaltyPoints)*0.02;
+            discountPercentage = (user.LoyaltyPoints > 1000) ? 20 : (user.LoyaltyPoints/50);
         }
         return price - (discountPercentage * price) / 100;
     }
