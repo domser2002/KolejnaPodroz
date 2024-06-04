@@ -167,5 +167,61 @@ namespace Api.Controllers
                 return StatusCode(500);
             }
         }
+
+        [HttpPatch("beginTechnicalBreak")]
+        public ActionResult StartTechnicalBreak()
+        {
+            try
+            {
+                bool res = _adminService.StartTechnicalBreak();
+                if (res)
+                {
+                    return StatusCode(200);
+                }
+                else
+                {
+                    return BadRequest();
+                }
+            }
+            catch (Exception) 
+            {
+                return StatusCode(500);
+            }
+        }
+        
+        [HttpPatch("stopTechnicalBreak")]
+        public ActionResult StopTechnicalBreak() 
+        {
+            try
+            {
+                bool res = _adminService.StopTechnicalBreak();
+                if (res)
+                {
+                    return StatusCode(200);
+                }
+                else
+                {
+                    return BadRequest();
+                }
+            }
+            catch (Exception)
+            {
+                return StatusCode(500);
+            }
+        }
+
+        [HttpGet("isTechnicalBreak")]
+        public ActionResult<bool> IsTechnicalBreak()
+        {
+            try
+            {
+                bool res = _adminService.IsTechnicalBreak();
+                return Ok(res);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500);
+            }
+        }
     }
 }

@@ -1,5 +1,6 @@
 using Logic.Services.Implementations;
 using Logic.Services.Interfaces;
+using Logic.Services.Decorators;
 using Infrastructure.DataContexts;
 using Microsoft.EntityFrameworkCore;
 using Infrastructure.DataRepositories;
@@ -30,6 +31,14 @@ builder.Services.AddSingleton<IStatisticsService,StatisticsService>();
 builder.Services.AddSingleton<ITicketService,TicketService>();
 builder.Services.AddSingleton<IUserService,UserService>();
 builder.Services.AddSingleton<IConnectionService, ConnectionService>();
+
+builder.Services.Decorate<IComplaintService, ComplaintServiceDecorator>();
+builder.Services.Decorate<IPaymentService, PaymentServiceDecorator>();
+builder.Services.Decorate<IProviderService, ProviderServiceDecorator>();
+builder.Services.Decorate<IStatisticsService, StatisticsServiceDecorator>();
+builder.Services.Decorate<ITicketService,  TicketServiceDecorator>();
+builder.Services.Decorate<IUserService, UserServiceDecorator>();
+builder.Services.Decorate<IConnectionService, ConnectionServiceDecorator>();
 
 var app = builder.Build();
 
