@@ -6,7 +6,8 @@ class MyUser {
   final DateTime birthDate;
   final int preferedSeatType;
   final int preferedSeatLocation;
-
+  int loyaltyPoints;
+  
   MyUser({
     required this.id,
     required this.firstName,
@@ -15,6 +16,7 @@ class MyUser {
     required this.birthDate,
     required this.preferedSeatType,
     required this.preferedSeatLocation,
+    required this.loyaltyPoints
   });
 
   // Metoda fromJson do parsowania danych JSON na obiekt User
@@ -28,6 +30,7 @@ class MyUser {
        DateTime.parse(json['birthDate']) : DateTime.now(), //backend zwraca null, więc jeśli jest null to zwracamy aktualną datę
       preferedSeatType: json['preferedSeatType'],
       preferedSeatLocation: json['preferedSeatLocation'],
+      loyaltyPoints: json['loyaltyPoints']
     );
   }
 }

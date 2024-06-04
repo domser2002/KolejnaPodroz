@@ -1,5 +1,8 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:frontend/utils/http_requests.dart';
+import 'package:provider/provider.dart';
+import 'package:frontend/classes/user_provider.dart';
 
 class SuperPointsPage extends StatefulWidget {
   SuperPointsPage({super.key});
@@ -14,12 +17,38 @@ class _SuperPointsPageState extends State<SuperPointsPage> {
     'lib/assets/photos/lidl-czy-biedronka-reklamy.jpg',
   ];
   String? selectedImage;
+  HttpRequests request = HttpRequests();
 
-  void _getRandomImage() {
+  void _getRandomImage() async {
     final Random random = Random();
-    setState(() {
-      selectedImage = images[random.nextInt(images.length)];
-    });
+    var userProvider = Provider.of<UserProvider>(context, listen: false);
+    var user = userProvider.user;
+
+    // Naliczenie punktów
+    if (user != null) {
+      int newPoints = user.loyaltyPoints + 1;
+      await request.updateLoyaltyPoints(
+        user.id,
+        newPoints,
+        user!.firstName,
+        user!.lastName,
+        user!.email,
+      );
+
+      // Aktualizacja userProvider o nowe punkty
+      user.loyaltyPoints = newPoints;
+      userProvider.setUser(user);
+
+      // Zaktualizowanie stanu widoku
+      setState(() {
+        selectedImage = images[random.nextInt(images.length)];
+      });
+
+      // Wyświetlenie SnackBar z informacją o naliczeniu punktów
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Zdobyłeś jeden punkt!')),
+      );
+    }
   }
 
   @override
@@ -30,7 +59,8 @@ class _SuperPointsPageState extends State<SuperPointsPage> {
         leading: null,
         automaticallyImplyLeading: false,
         backgroundColor: Colors.transparent,
-        title: const Center(child: Text('Zdobądź jeden punkt za wyświetlenie reklamy!')),
+        title: const Center(
+            child: Text('Zdobądź jeden punkt za wyświetlenie reklamy!')),
       ),
       body: Center(
         child: Column(
