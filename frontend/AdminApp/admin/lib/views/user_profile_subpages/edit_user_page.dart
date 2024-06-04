@@ -80,7 +80,7 @@ class EditUserPage extends StatelessWidget {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Text(
-                          "edytuj użytkownika o id:${user.id}",
+                          "Podgląd użytkownika o id:${user.id}",
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 24,
@@ -88,20 +88,17 @@ class EditUserPage extends StatelessWidget {
                           ),
                         ),
                         SizedBox(height: winHeight * 0.027),
-                        Row(
-                          children: [
-                            Text("Imię: ${user.firstName}"),
-                            SizedBox(width: winWidth * 0.027),
-                            Text("Nazwisko: ${user.lastName}"),
-                          ],
-                        ),
+                        Text("Imię: ${user.firstName}"),
+                        SizedBox(width: winWidth * 0.027),
+                        Text("Nazwisko: ${user.lastName}"),
                         Text("email: ${user.email}"),
                         SizedBox(height: winHeight * 0.027),
                         Text(
                             "Preferowany rodzaj miejsca: ${user.preferedSeatType}"),
                         Text(
                             "Preferowana lokalizacja miejsca: ${user.preferedSeatLocation}"),
-                        Text("data urodzenia: ${user.birthDate}"),
+                        Text(
+                            "data urodzenia: ${user.birthDate.day}-${user.birthDate.month}-${user.birthDate.year}"),
                         SizedBox(height: winHeight * 0.027),
                         IconButton(
                             icon: Icon(Icons.delete),

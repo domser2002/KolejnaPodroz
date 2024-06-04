@@ -8,10 +8,13 @@ import 'package:provider/provider.dart';
 class EditProviderPage extends StatelessWidget {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController infoController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
 
   final MyProvider provider;
+  final bool editable;
 
-  EditProviderPage({required this.provider, Key? key}) : super(key: key);
+  EditProviderPage({required this.provider, required this.editable, Key? key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +24,7 @@ class EditProviderPage extends StatelessWidget {
     HttpRequests request = HttpRequests();
     nameController.text = provider.name;
     infoController.text = provider.info;
-
+    emailController.text = provider.email;
     return Scaffold(
       bottomNavigationBar: BottomAppBar(
           color: Colors.white,
@@ -101,6 +104,7 @@ class EditProviderPage extends StatelessWidget {
                         ),
                         SizedBox(height: winHeight * 0.027),
                         TextField(
+                          readOnly: editable,
                           controller: nameController,
                           decoration: const InputDecoration(
                             filled: true,
@@ -112,19 +116,32 @@ class EditProviderPage extends StatelessWidget {
                           maxLength: 50,
                         ),
                         TextField(
+                          readOnly: editable,
                           controller: infoController,
                           decoration: const InputDecoration(
                             filled: true,
                             fillColor: Colors.white,
+                            labelText: "dodatkowe informacje",
                           ),
                           obscureText: false,
                           maxLines: 8,
                           maxLength: 500,
                         ),
                         SizedBox(height: winHeight * 0.027),
-                        Text("email : ${provider.email}"),
+                        TextField(
+                          controller: emailController,
+                          readOnly: editable,
+                          decoration: const InputDecoration(
+                              filled: true,
+                              fillColor: Colors.white,
+                              labelText: "email"),
+                          obscureText: false,
+                          maxLines: 1,
+                          maxLength: 50,
+                        ),
                         SizedBox(height: winHeight * 0.027),
                         Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             ElevatedButton(
                                 onPressed: () async {
@@ -135,8 +152,10 @@ class EditProviderPage extends StatelessWidget {
                                 child: Text("usuń")),
                             ElevatedButton(
                               onPressed: () async {
+                                print(provider.id.toString());
                                 MyProvider? prov = await request
                                     .getProvider(provider.id.toString());
+
                                 if (prov != null) {
                                   // Update the complaint's content with the new reason
                                   prov.info = infoController.text;

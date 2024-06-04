@@ -8,6 +8,8 @@ import 'package:admin/classes/admin_provider.dart';
 import 'package:admin/classes/my_provider.dart';
 import 'package:admin/utils/http_requests.dart';
 import 'package:admin/views/complaint/review_complaint_page.dart';
+import 'package:flutter/widgets.dart';
+import 'package:http/http.dart';
 import 'package:provider/provider.dart';
 import 'package:admin/views/user_profile_subpages/edit_user_page.dart';
 
@@ -397,46 +399,50 @@ class _ProvidersPageState extends State<ProvidersPage> {
 
           return Column(
             children: [
-              ListView.builder(
-                itemCount: providers.length,
-                itemBuilder: (context, index) {
-                  final provider = providers[index];
-                  return ListTile(
-                    title: Text(provider.name),
-                    subtitle: Text(provider.id.toString()),
-                    trailing: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        IconButton(
-                          icon: Icon(Icons.check),
-                          onPressed: () {
-                            // Navigator to edit complaint page
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    EditProviderPage(provider: provider),
-                              ),
-                            );
-                          },
-                        ),
-                        IconButton(
-                          icon: Icon(Icons.delete),
-                          onPressed: () async {
-                            // Navigator to edit complaint page
-                            await request
-                                .deleteProvider(provider.id.toString());
-                          },
-                        ),
-                      ],
-                    ),
-                  );
-                },
+              Expanded(
+                child: ListView.builder(
+                  itemCount: providers.length,
+                  itemBuilder: (context, index) {
+                    final provider = providers[index];
+                    return ListTile(
+                      title: Text(provider.name),
+                      subtitle: Text(provider.id.toString()),
+                      trailing: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          IconButton(
+                            icon: Icon(Icons.check),
+                            onPressed: () {
+                              // Navigator to edit complaint page
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => EditProviderPage(
+                                    provider: provider,
+                                    editable: false,
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                          IconButton(
+                            icon: Icon(Icons.delete),
+                            onPressed: () async {
+                              // Navigator to edit complaint page
+                              await request
+                                  .deleteProvider(provider.id.toString());
+                            },
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                ),
               ),
               Center(
                 child: ElevatedButton(
                   onPressed: () async {
                     MyProvider p =
-                        MyProvider(name: "", info: "", email: "", id: 1);
+                        MyProvider(name: " ", info: " ", email: " ", id: 1);
                     Map<String, dynamic> newData = {
                       'name': p.name,
                       'info': p.info,
@@ -446,7 +452,10 @@ class _ProvidersPageState extends State<ProvidersPage> {
                     await request.addProvider(p.id.toString(), newData);
 
                     Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => EditProviderPage(provider: p)));
+                        builder: (context) => EditProviderPage(
+                              provider: p,
+                              editable: false,
+                            )));
                   },
                   child: Text("Dodaj nowego przewoźnika"),
                 ),
@@ -455,7 +464,33 @@ class _ProvidersPageState extends State<ProvidersPage> {
           );
         } else {
           // Handling the case where there are no complaints
-          return Center(child: Text('No providers to display'));
+          return Column(
+            children: [
+              Center(child: Text('No providers to display')),
+              Center(
+                child: ElevatedButton(
+                  onPressed: () async {
+                    MyProvider p =
+                        MyProvider(name: " ", info: " ", email: " ", id: 1);
+                    Map<String, dynamic> newData = {
+                      'name': p.name,
+                      'info': p.info,
+                      'email': p.email,
+                      'id': p.id
+                    };
+                    await request.addProvider(p.id.toString(), newData);
+
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => EditProviderPage(
+                              provider: p,
+                              editable: false,
+                            )));
+                  },
+                  child: Text("Dodaj nowego przewoźnika"),
+                ),
+              )
+            ],
+          );
         }
       },
     );
@@ -463,11 +498,27 @@ class _ProvidersPageState extends State<ProvidersPage> {
 }
 
 class DatabasePage extends StatelessWidget {
+  HttpRequests request = HttpRequests();
   DatabasePage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Center(child: Text('DB'));
+    return Center(
+      child: Column(
+        children: [
+          ElevatedButton(
+              onPressed: () async {
+                await request.startTechnicalBreak();
+              },
+              child: Text("rozpocznij przerwe techniczną")),
+          ElevatedButton(
+              onPressed: () async {
+                await request.stopTechnicalBreak();
+              },
+              child: Text("zakończ przerwe techniczną"))
+        ],
+      ),
+    );
   }
 }
 
@@ -510,41 +561,37 @@ class _AdminsPageState extends State<AdminsPage> {
           // Accessing data if the snapshot has data and it is not empty
           List<MyAdmin> admins = snapshot.data!;
           admins.removeWhere((e) => e.verified == true);
-          return Column(
-            children: [
-              ListView.builder(
-                itemCount: admins.length,
-                itemBuilder: (context, index) {
-                  final admin = admins[index];
-                  return ListTile(
-                    title: Text(admin.id.toString()),
-                    trailing: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        IconButton(
-                          icon: Icon(Icons.check),
-                          onPressed: () {
-                            // Navigator to edit complaint page
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      EditAdminPage(admin: admin)),
-                            );
-                          },
-                        ),
-                        IconButton(
-                          icon: Icon(Icons.delete),
-                          onPressed: () async {
-                            // Navigator to edit complaint page
-                            await request.deleteAdmin(admin.id.toString());
-                          },
-                        ),
-                      ],
+          return ListView.builder(
+            itemCount: admins.length,
+            itemBuilder: (context, index) {
+              final admin = admins[index];
+              return ListTile(
+                title: Text(admin.id.toString()),
+                trailing: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    IconButton(
+                      icon: Icon(Icons.check),
+                      onPressed: () {
+                        // Navigator to edit complaint page
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  EditAdminPage(admin: admin)),
+                        );
+                      },
                     ),
-                  );
-                },
-              ),
-            ],
+                    IconButton(
+                      icon: Icon(Icons.delete),
+                      onPressed: () async {
+                        // Navigator to edit complaint page
+                        await request.deleteAdmin(admin.id.toString());
+                      },
+                    ),
+                  ],
+                ),
+              );
+            },
           );
         } else {
           // Handling the case where there are no complaints

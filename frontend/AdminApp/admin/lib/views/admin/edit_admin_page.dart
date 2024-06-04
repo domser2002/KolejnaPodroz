@@ -81,7 +81,7 @@ class EditAdminPage extends StatelessWidget {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Text(
-                          "edytuj admina o id:${admin.id}",
+                          "Podgląd admina o id:${admin.id}",
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 24,
@@ -96,17 +96,20 @@ class EditAdminPage extends StatelessWidget {
                             "Zweryfikowany: ${admin.verified ? "tak" : "nie"}"),
                         SizedBox(height: winHeight * 0.027),
                         Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             ElevatedButton(
                                 onPressed: () async {
                                   await request
                                       .acceptAdmin(admin.id.toString());
+                                  Navigator.pop(context);
                                 },
                                 child: Text("zaakceptuj")),
                             ElevatedButton(
                                 onPressed: () async {
                                   await request
                                       .verifyAdmin(admin.id.toString());
+                                  Navigator.pop(context);
                                 },
                                 child: Text("zweryfikuj"))
                           ],
