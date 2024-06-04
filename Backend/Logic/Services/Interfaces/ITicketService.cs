@@ -16,5 +16,6 @@ namespace Logic.Services.Interfaces
         public int Add(Ticket? ticket);
         public bool ChangeDetails(int ticketId, Ticket ticket);
         public Ticket? GetTicketByID(int ticketID);
+        public double GetPrice(int ticketID);
     }
 }

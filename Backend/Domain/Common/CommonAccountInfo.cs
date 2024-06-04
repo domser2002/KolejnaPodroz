@@ -20,4 +20,5 @@ public class CommonAccountInfo : Base
     public string Email { get; set; } = string.Empty;
     [Required]
     public bool Verified { get; set; }
+    public int LoyaltyPoints { get; set; }
 }

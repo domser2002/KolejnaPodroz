@@ -66,6 +66,16 @@ namespace Logic.Services.Decorators
             return _innerUserService.GetUserByID(userID);
         }
 
+        public bool EditUser(User user)
+        {
+            if (!CheckCondition())
+            {
+                throw new TechnicalBreakException("Technical Break");
+            }
+
+            return _innerUserService.EditUser(user);
+        }
+
         private bool CheckCondition()
         {
             return !_adminService.IsTechnicalBreak();

@@ -40,4 +40,8 @@ public class UserService(IDataRepository repository) : IUserService
     {
         return _repository.UserRepository.GetByID(userID);
     }
+    public bool EditUser(User user)
+    {
+        return _repository.UserRepository.Update(user);
+    }
 }

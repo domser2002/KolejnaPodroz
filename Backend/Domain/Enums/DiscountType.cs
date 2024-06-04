@@ -2,4 +2,7 @@
 
 public enum DiscountType
 {
+    ChildDiscount,
+    StudentDiscount,
+    RetiredDiscount
 }
