@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:frontend/classes/user_provider.dart';
 import 'package:frontend/views/user_profile_subpages/complaints_page.dart';
@@ -147,7 +149,7 @@ class _UserProfilePageState extends State<UserProfilePage>
                                   color: Colors.grey.shade500.withOpacity(0.9),
                                 )),
                             Tab(
-                                text: 'Osiągnięcia',
+                                text: 'Zdobądź darmowe punkty',
                                 icon: Icon(
                                   Icons.star,
                                   color: Colors.grey.shade500.withOpacity(0.9),
@@ -179,7 +181,7 @@ class _UserProfilePageState extends State<UserProfilePage>
                               TicketsPage(),
                               ComplaintsPage(),
                               StatisticsPage(),
-                              AchievementsPage(),
+                              SuperPointsPage(),
                             ],
                           ),
                         ),
@@ -206,13 +208,43 @@ class StatisticsPage extends StatelessWidget {
   }
 }
 
-class AchievementsPage extends StatelessWidget {
-  AchievementsPage({super.key});
+
+class SuperPointsPage extends StatelessWidget {
+  SuperPointsPage({super.key});
+
+  final List<String> images = [
+    'assets/photos/reklama_1.jpg',
+    'assets/images/lidl-czy-biedronka-reklamy.jpg',
+  ];
 
   @override
   Widget build(BuildContext context) {
-    return Center(child: Text('Osiągnięcia'));
+    final Random random = Random();
+    int numberOfImages = random.nextInt(2) + 1; // 1 or 2
+    List<String> selectedImages = [];
+
+    for (int i = 0; i < numberOfImages; i++) {
+      selectedImages.add(images[random.nextInt(images.length)]);
+    }
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(''),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: selectedImages.map((image) {
+            return Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Image.asset(image),
+            );
+          }).toList(),
+        ),
+      ),
+    );
   }
 }
+
 
 

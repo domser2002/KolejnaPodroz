@@ -62,7 +62,7 @@ class LandingPage extends StatelessWidget {
           ),
           //Punkty
             const Text(
-              '0',
+              'punkty lojalnościowe: 0',
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
             IconButton(
@@ -75,6 +75,7 @@ class LandingPage extends StatelessWidget {
                 );
               },
             ),
+
             IconButton(
               icon: const Icon(Icons.exit_to_app, color: Colors.red),
               onPressed: () {
