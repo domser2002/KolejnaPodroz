@@ -31,6 +31,7 @@ builder.Services.AddSingleton<IStatisticsService,StatisticsService>();
 builder.Services.AddSingleton<ITicketService,TicketService>();
 builder.Services.AddSingleton<IUserService,UserService>();
 builder.Services.AddSingleton<IConnectionService, ConnectionService>();
+builder.Services.AddSingleton<IStationService, StationService>();
 
 builder.Services.Decorate<IComplaintService, ComplaintServiceDecorator>();
 builder.Services.Decorate<IPaymentService, PaymentServiceDecorator>();
