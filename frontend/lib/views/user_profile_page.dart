@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/classes/user_provider.dart';
 import 'package:frontend/views/user_profile_subpages/complaints_page.dart';
@@ -219,6 +220,11 @@ class StatisticsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(child: Text('Statystyki'));
+    var user = Provider.of<UserProvider>(context).user;
+    return Center(child:   
+            Text(
+              'Punkty lojalnościowe: ${user?.loyaltyPoints ?? "Brak danych"}',
+              style: const TextStyle(fontSize: 18),
+            ),);
   }
 }

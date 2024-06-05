@@ -26,42 +26,83 @@ class HttpRequests {
     }
   }
 
-  Future<List<TrainOffer>> searchTrains(
-      String departure, String destination, String date) async {
-    if (departure.isEmpty || destination.isEmpty || date.isEmpty) {
-      print("Wszystkie pola muszą być wypełnione.");
-      return List.empty();
-    }
-
-    try {
-      var uri = Uri.parse('$host/Connection/searchConnections')
-          .replace(queryParameters: {
-        'from': departure,
-        'to': destination,
-        'when': date,
-      });
-      var response = await http.get(
-        uri,
-        headers: <String, String>{
-          'Content-Type': 'application/json',
-        },
-      );
-
-      if (response.statusCode == 200) {
-        var jsonResponse = json.decode(response.body) as List<dynamic>;
-        print("connection found");
-        var d = parseTrainOffers(jsonResponse);
-        print(d.length);
-        return parseTrainOffers(jsonResponse);
-      } else {
-        print("Błąd serwera: ${response.statusCode}");
-        return List.empty();
-      }
-    } catch (e) {
-      print("Błąd połączenia: $e");
-      return List.empty();
+Future<List<String>> getStationNames(List<int> stationIds, String host) async {
+  List<String> stationNames = [];
+  for (var stationId in stationIds) {
+    var response = await http.get(
+      Uri.parse('$host/Station/get/$stationId'),
+      headers: <String, String>{
+        'Content-Type': 'application/json',
+      },
+    );
+    if (response.statusCode == 200) {
+      var jsonResponse = json.decode(response.body);
+      stationNames.add(jsonResponse['name']);
+    } else {
+      stationNames.add('Unknown');
     }
   }
+  return stationNames;
+}
+
+Future<List<TrainOffer>> searchTrains(
+    String departure, String destination, String date, String host) async {
+  if (departure.isEmpty || destination.isEmpty || date.isEmpty) {
+    print("Wszystkie pola muszą być wypełnione.");
+    return List.empty();
+  }
+
+  try {
+    var uri = Uri.parse('$host/Connection/searchConnections').replace(queryParameters: {
+      'from': departure,
+      'to': destination,
+      'when': date,
+    });
+    var response = await http.get(
+      uri,
+      headers: <String, String>{
+        'Content-Type': 'application/json',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      var jsonResponse = json.decode(response.body) as List<dynamic>;
+      print("connection found");
+
+      List<List<String>> allStationNames = [];
+      for (var connection in jsonResponse) {
+        List<int> stationIds = (connection['stops'] as List<dynamic>)
+            .map((stop) => stop['stationID'] as int)
+            .toList();
+        List<String> stationNames = await getStationNames(stationIds, host);
+        allStationNames.add(stationNames);
+      }
+
+      List<TrainOffer> trainOffers = [];
+      for (int i = 0; i < jsonResponse.length; i++) {
+        trainOffers.add(TrainOffer.fromJson(jsonResponse[i], allStationNames[i]));
+      }
+
+      print(trainOffers.length);
+      return trainOffers;
+    } else {
+      print("Błąd serwera: ${response.statusCode}");
+      return List.empty();
+    }
+  } catch (e) {
+    print("Błąd połączenia: $e");
+    return List.empty();
+  }
+}
+
+
+List<TrainOffer> parseTrainOffers(List<dynamic> jsonList, List<List<String>> stations) {
+  return jsonList.asMap().entries.map((entry) {
+    int idx = entry.key;
+    var json = entry.value;
+    return TrainOffer.fromJson(json, stations[idx]);
+  }).toList();
+}
 
   Future<dynamic> createUser(Map<String, dynamic> userData) async {
     try {
@@ -593,17 +634,22 @@ Future<Complaint?> getComplaint(String complaintId) async {
       return null; // Zwróć null, jeśli wystąpi błąd
     }
   }
-  Future<void> updateLoyaltyPoints(int userID, int newPoints, String? firstName, String? lastName, String? email) async {
+  Future<void> updateLoyaltyPoints(int userID, int newPoints, String firstName, String lastName, String email, String firebaseID) async {
     final url = Uri.parse('$host/User/edit');
 
     final Map<String, dynamic> requestBody = {
       'userID': userID,
-      'loyaltyPoints': newPoints,
       'firstName': firstName,
       'lastName': lastName,
       'email': email,
+      "verified": true,
+      'loyaltyPoints': newPoints,
+      "firebaseID": firebaseID,
+      "birthDate": null,
+      "preferedSeatType": 0,
+      "preferedSeatLocation": 0
     };
-
+ 
     final response = await http.patch(
       url,
       headers: {

@@ -1,24 +1,24 @@
-// landing_page.dart
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/classes/user_provider.dart';
-
 import 'package:frontend/utils/http_requests.dart';
 import 'package:frontend/views/auth/login_page.dart';
 import 'package:frontend/views/offers/offers_page.dart';
 import 'package:frontend/views/auth/register_page.dart';
 import 'package:frontend/views/user_profile_page.dart';
-import 'package:frontend/widgets/button_widget.dart';
-import 'package:frontend/widgets/date_picker_widget.dart';
 import 'package:provider/provider.dart';
 
 import '../widgets/input_button_widget.dart';
+import '../widgets/date_picker_widget.dart';
+import '../widgets/button_widget.dart';
 
 class LandingPage extends StatelessWidget {
   final TextEditingController departureController = TextEditingController();
   final TextEditingController destinationController = TextEditingController();
   final TextEditingController dateController = TextEditingController();
   final request = HttpRequests();
+  String host = "https://localhost:7006"; 
+
   LandingPage({super.key});
 
   @override
@@ -27,7 +27,6 @@ class LandingPage extends StatelessWidget {
     double winWidth = screenSize.width;
     double winHeight = screenSize.height;
     UserProvider userProvider = Provider.of<UserProvider>(context);
-
 
     return Scaffold(
       bottomNavigationBar: BottomAppBar(
@@ -49,42 +48,37 @@ class LandingPage extends StatelessWidget {
             stream: FirebaseAuth.instance.authStateChanges(),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-        // Użytkownik jest zalogowany
-        return Row(
-          children: [
-            if (userProvider.user != null)
-          Padding(
-            padding: const EdgeInsets.only(right: 8.0),
-            child: Text(
-              'Cześć, ${userProvider.user!.firstName}',
-              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-            ),
-          ),
-          //Punkty
-            //  Text(
-            //   'punkty lojalnościowe: ${userProvider.user!.loyaltyPoints}',
-            //   style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-            // ),
-            IconButton(
-              icon: const Icon(Icons.person, color: Colors.black),
-              onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => UserProfilePage(),
-                  ),
+                // Użytkownik jest zalogowany
+                return Row(
+                  children: [
+                    if (userProvider.user != null)
+                      Padding(
+                        padding: const EdgeInsets.only(right: 8.0),
+                        child: Text(
+                          'Cześć, ${userProvider.user!.firstName}',
+                          style: const TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    IconButton(
+                      icon: const Icon(Icons.person, color: Colors.black),
+                      onPressed: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => UserProfilePage(),
+                          ),
+                        );
+                      },
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.exit_to_app, color: Colors.red),
+                      onPressed: () {
+                        FirebaseAuth.instance.signOut();
+                      },
+                    ),
+                  ],
                 );
-              },
-            ),
-
-            IconButton(
-              icon: const Icon(Icons.exit_to_app, color: Colors.red),
-              onPressed: () {
-                FirebaseAuth.instance.signOut();
-              },
-            ),
-          ],
-        );
-      } else {
+              } else {
                 // Użytkownik jest wylogowany
                 return Row(
                   children: [
@@ -96,9 +90,15 @@ class LandingPage extends StatelessWidget {
                           ),
                         );
                       },
-                      child: const Text('Zaloguj się', style: TextStyle(color: Colors.black)),
+                      child: const Text('Zaloguj się',
+                          style: TextStyle(color: Colors.black)),
                     ),
-                    const VerticalDivider(color: Colors.black, thickness: 1, width: 20, indent: 18, endIndent: 16),
+                    const VerticalDivider(
+                        color: Colors.black,
+                        thickness: 1,
+                        width: 20,
+                        indent: 18,
+                        endIndent: 16),
                     TextButton(
                       onPressed: () {
                         Navigator.of(context).push(
@@ -107,7 +107,8 @@ class LandingPage extends StatelessWidget {
                           ),
                         );
                       },
-                      child: const Text('Zarejestruj się', style: TextStyle(color: Colors.black)),
+                      child: const Text('Zarejestruj się',
+                          style: TextStyle(color: Colors.black)),
                     ),
                   ],
                 );
@@ -206,14 +207,20 @@ class LandingPage extends StatelessWidget {
                 departureController.text,
                 destinationController.text,
                 dateController.text,
+                host,
               );
-              if (offers != 0) {
+              if (offers.isNotEmpty) {
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context) => ViewOffersPage(offers: offers),
                   ),
                 );
-              } else {}
+              } else {
+                // obsługa przypadku, gdy nie ma ofert
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Nie znaleziono ofert')),
+                );
+              }
             },
             title: 'Wyszukaj',
           ),
@@ -230,13 +237,20 @@ class LandingPage extends StatelessWidget {
                 departureController.text,
                 destinationController.text,
                 dateController.text,
+                host,
               );
-
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                builder: (context) => ViewOffersPage(offers: offers),
-               ),
-              );
+              if (offers.isNotEmpty) {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => ViewOffersPage(offers: offers),
+                  ),
+                );
+              } else {
+                // obsługa przypadku, gdy nie ma ofert
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Nie znaleziono ofert')),
+                );
+              }
             },
             title: 'Wyszukaj',
           ),

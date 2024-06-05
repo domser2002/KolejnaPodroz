@@ -48,11 +48,6 @@ class ViewOffersPage extends StatelessWidget {
               style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
           ),
-          //Punkty
-            const Text(
-              'punkty lojalnościowe: 0',
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-            ),
             IconButton(
               icon: const Icon(Icons.person, color: Colors.black),
               onPressed: () {
@@ -214,21 +209,21 @@ class TrainOfferCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    int dmin = trainOffer.departure.first.minute;
+    int dmin = trainOffer.stops.first.departureTime.minute;
     String dMin = dmin < 10
-        ? "0${trainOffer.departure.first.minute}"
-        : trainOffer.departure.first.minute.toString();
-    int amin = trainOffer.arrival.last.minute;
+        ? "0${trainOffer.stops.first.departureTime.minute}"
+        : trainOffer.stops.first.departureTime.minute.toString();
+    int amin = trainOffer.stops.last.arrivalTime.minute;
     String aMin = amin < 10
-        ? "0${trainOffer.arrival.last.minute}"
-        : trainOffer.arrival.last.minute.toString();
+        ? "0${trainOffer.stops.last.arrivalTime.minute}"
+        : trainOffer.stops.last.arrivalTime.minute.toString();
 
-    String departureTime = '${trainOffer.departure.first.hour}:$dMin';
-    String departureStation = trainOffer.stations.first;
-    String arrivalTime = '${trainOffer.arrival.last.hour}:$aMin';
-    String arrivalStation = trainOffer.stations.last;
+    String departureTime = '${trainOffer.stops.first.departureTime.hour}:$dMin';
+    String departureStation = trainOffer.stops.first.stationID.toString(); // Change to appropriate station name
+    String arrivalTime = '${trainOffer.stops.last.arrivalTime.hour}:$aMin';
+    String arrivalStation = trainOffer.stops.last.stationID.toString(); // Change to appropriate station name
     String time =
-        "${trainOffer.arrival.last.difference(trainOffer.departure.first).inMinutes}min";
+        "${trainOffer.stops.last.arrivalTime.difference(trainOffer.stops.first.departureTime).inMinutes}min";
 
     return Card(
       color: Colors.transparent,
