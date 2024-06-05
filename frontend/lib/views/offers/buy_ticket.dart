@@ -238,6 +238,7 @@ class _BuyTicketPageState extends State<BuyTicketPage> {
                                     "purchased": true,
                                     "id": 0
                                   };
+
                                   int newPoints = userProvider.user!.loyaltyPoints + 1;
                                   await request.deleteUser(userProvider.user!.id);
                                   var userData = {
@@ -257,6 +258,7 @@ class _BuyTicketPageState extends State<BuyTicketPage> {
 
                                 }
                                 }
+                                request.createTicket(ticketData);
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     const SnackBar(
                                       content: Text(
