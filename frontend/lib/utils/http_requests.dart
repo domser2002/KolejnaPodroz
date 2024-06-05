@@ -26,42 +26,70 @@ class HttpRequests {
     }
   }
 
-  Future<List<TrainOffer>> searchTrains(
-      String departure, String destination, String date) async {
-    if (departure.isEmpty || destination.isEmpty || date.isEmpty) {
-      print("Wszystkie pola muszą być wypełnione.");
-      return List.empty();
-    }
-
-    try {
-      var uri = Uri.parse('$host/Connection/searchConnections')
-          .replace(queryParameters: {
-        'from': departure,
-        'to': destination,
-        'when': date,
-      });
-      var response = await http.get(
-        uri,
-        headers: <String, String>{
-          'Content-Type': 'application/json',
-        },
-      );
-
-      if (response.statusCode == 200) {
-        var jsonResponse = json.decode(response.body) as List<dynamic>;
-        print("connection found");
-        var d = parseTrainOffers(jsonResponse);
-        print(d.length);
-        return parseTrainOffers(jsonResponse);
-      } else {
-        print("Błąd serwera: ${response.statusCode}");
-        return List.empty();
-      }
-    } catch (e) {
-      print("Błąd połączenia: $e");
-      return List.empty();
+  Future<List<String>> getStationNames(List<int> stationIds, String host) async {
+  List<String> stationNames = [];
+  for (var stationId in stationIds) {
+    var response = await http.get(
+      Uri.parse('$host/Station/get/$stationId'),
+      headers: <String, String>{
+        'Content-Type': 'application/json',
+      },
+    );
+    if (response.statusCode == 200) {
+      var jsonResponse = json.decode(response.body);
+      stationNames.add(jsonResponse['name']);
+    } else {
+      stationNames.add('Unknown');
     }
   }
+  return stationNames;
+}
+
+Future<List<TrainOffer>> searchTrains(
+    String departure, String destination, String date) async {
+  if (departure.isEmpty || destination.isEmpty || date.isEmpty) {
+    print("Wszystkie pola muszą być wypełnione.");
+    return List.empty();
+  }
+
+  try {
+    var uri = Uri.parse('$host/Connection/searchConnections').replace(queryParameters: {
+      'from': departure,
+      'to': destination,
+      'when': date,
+    });
+    var response = await http.get(
+      uri,
+      headers: <String, String>{
+        'Content-Type': 'application/json',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      var jsonResponse = json.decode(response.body) as List<dynamic>;
+      print("connection found");
+
+      List<List<String>> allStationNames = [];
+      for (var connection in jsonResponse) {
+        List<int> stationIds = (connection['stops'] as List<dynamic>)
+            .map((stop) => stop['stationID'] as int)
+            .toList();
+        List<String> stationNames = await getStationNames(stationIds, host);
+        allStationNames.add(stationNames);
+      }
+
+      var trainOffers = parseTrainOffers(jsonResponse, allStationNames);
+      print(trainOffers.length);
+      return trainOffers;
+    } else {
+      print("Błąd serwera: ${response.statusCode}");
+      return List.empty();
+    }
+  } catch (e) {
+    print("Błąd połączenia: $e");
+    return List.empty();
+  }
+}
 
   Future<dynamic> createUser(Map<String, dynamic> userData) async {
     try {

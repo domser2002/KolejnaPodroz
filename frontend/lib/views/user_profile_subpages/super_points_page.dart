@@ -4,6 +4,7 @@ import 'package:frontend/utils/http_requests.dart';
 import 'package:provider/provider.dart';
 import 'package:frontend/classes/user_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:frontend/classes/user.dart';
 
 class SuperPointsPage extends StatefulWidget {
   SuperPointsPage({super.key});
@@ -28,14 +29,26 @@ class _SuperPointsPageState extends State<SuperPointsPage> {
     // Naliczenie punktów
     if (user != null) {
       int newPoints = user.loyaltyPoints + 1;
-      await request.updateLoyaltyPoints(
-        user.id,
-        newPoints,
-        user.firstName!,
-        user.lastName!,
-        user.email!,
-        FirebaseAuth.instance.currentUser!.uid,
-      );
+      await request.deleteUser(user.id);
+
+        var userData = {
+          'firstName': user.firstName,
+          'lastName': user.lastName,
+          'email': user.email,
+          'firebaseID': FirebaseAuth.instance.currentUser!.uid,
+          'loyaltyPoints': newPoints,
+        };
+
+        var createdUser = await request.createUser(userData);
+
+        if (createdUser != null) {
+
+          MyUser user = MyUser.fromJson(createdUser);
+
+          // Save user details to the provider
+          Provider.of<UserProvider>(context, listen: false).setUser(user);
+
+        }
 
       // Aktualizacja userProvider o nowe punkty
       user.loyaltyPoints = newPoints;
