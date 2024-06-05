@@ -26,7 +26,7 @@ class HttpRequests {
     }
   }
 
-  Future<List<String>> getStationNames(List<int> stationIds, String host) async {
+Future<List<String>> getStationNames(List<int> stationIds, String host) async {
   List<String> stationNames = [];
   for (var stationId in stationIds) {
     var response = await http.get(
@@ -46,7 +46,7 @@ class HttpRequests {
 }
 
 Future<List<TrainOffer>> searchTrains(
-    String departure, String destination, String date) async {
+    String departure, String destination, String date, String host) async {
   if (departure.isEmpty || destination.isEmpty || date.isEmpty) {
     print("Wszystkie pola muszą być wypełnione.");
     return List.empty();
@@ -78,7 +78,11 @@ Future<List<TrainOffer>> searchTrains(
         allStationNames.add(stationNames);
       }
 
-      var trainOffers = parseTrainOffers(jsonResponse, allStationNames);
+      List<TrainOffer> trainOffers = [];
+      for (int i = 0; i < jsonResponse.length; i++) {
+        trainOffers.add(TrainOffer.fromJson(jsonResponse[i], allStationNames[i]));
+      }
+
       print(trainOffers.length);
       return trainOffers;
     } else {
@@ -89,6 +93,15 @@ Future<List<TrainOffer>> searchTrains(
     print("Błąd połączenia: $e");
     return List.empty();
   }
+}
+
+
+List<TrainOffer> parseTrainOffers(List<dynamic> jsonList, List<List<String>> stations) {
+  return jsonList.asMap().entries.map((entry) {
+    int idx = entry.key;
+    var json = entry.value;
+    return TrainOffer.fromJson(json, stations[idx]);
+  }).toList();
 }
 
   Future<dynamic> createUser(Map<String, dynamic> userData) async {

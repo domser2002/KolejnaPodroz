@@ -28,21 +28,21 @@ class _BuyTicketPageState extends State<BuyTicketPage> {
     double winHeight = screenSize.height;
     UserProvider userProvider = Provider.of<UserProvider>(context);
 
-    int dmin = widget.trainOffer.departure.first.minute;
+    int dmin = widget.trainOffer.stops.first.departureTime.minute;
     String dMin = dmin < 10
-        ? "0${widget.trainOffer.departure.first.minute}"
-        : widget.trainOffer.departure.first.minute.toString();
-    int amin = widget.trainOffer.arrival.last.minute;
+        ? "0${widget.trainOffer.stops.first.departureTime.minute}"
+        : widget.trainOffer.stops.first.departureTime.minute.toString();
+    int amin = widget.trainOffer.stops.last.arrivalTime.minute;
     String aMin = amin < 10
-        ? "0${widget.trainOffer.arrival.last.minute}"
-        : widget.trainOffer.arrival.last.minute.toString();
+        ? "0${widget.trainOffer.stops.last.arrivalTime.minute}"
+        : widget.trainOffer.stops.last.arrivalTime.minute.toString();
 
-    String departureTime = '${widget.trainOffer.departure.first.hour}:$dMin';
-    String departureStation = widget.trainOffer.stations.first;
-    String arrivalTime = '${widget.trainOffer.arrival.last.hour}:$aMin';
-    String arrivalStation = widget.trainOffer.stations.last;
+    String departureTime = '${widget.trainOffer.stops.first.departureTime.hour}:$dMin';
+    String departureStation = widget.trainOffer.stops.first.stationID.toString(); // Change to appropriate station name
+    String arrivalTime = '${widget.trainOffer.stops.last.arrivalTime.hour}:$aMin';
+    String arrivalStation = widget.trainOffer.stops.last.stationID.toString(); // Change to appropriate station name
     String time =
-        "${widget.trainOffer.arrival.last.difference(widget.trainOffer.departure.first).inMinutes}min";
+        "${widget.trainOffer.stops.last.arrivalTime.difference(widget.trainOffer.stops.first.departureTime).inMinutes}min";
 
     return Scaffold(
       bottomNavigationBar: BottomAppBar(
@@ -222,10 +222,10 @@ class _BuyTicketPageState extends State<BuyTicketPage> {
                         SizedBox(height: winHeight * 0.022),
                         ElevatedButton(
                           onPressed: _termsAccepted
-                              ? () {
+                              ? () async {
                                 var ticketData = {
                                   "ownerID": 0,
-                                  "connectionID": widget.trainOffer.offerID,
+                                  "connectionID": widget.trainOffer.id,
                                   "purchased": true,
                                   "id": 0
                                 };
@@ -233,12 +233,12 @@ class _BuyTicketPageState extends State<BuyTicketPage> {
                                 {
                                   ticketData = {
                                     "ownerID": userProvider.user!.id,
-                                    "connectionID": widget.trainOffer.offerID,
+                                    "connectionID": widget.trainOffer.id,
                                     "purchased": true,
                                     "id": 0
                                   };
                                 }
-                                request.createTicket(ticketData);
+                                await request.createTicket(ticketData);
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     const SnackBar(
                                       content: Text(

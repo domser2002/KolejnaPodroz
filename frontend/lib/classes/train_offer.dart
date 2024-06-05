@@ -1,46 +1,47 @@
-import 'dart:convert';
-import 'package:http/http.dart' as http;
+class Stop {
+  final int id;
+  final DateTime arrivalTime;
+  final DateTime departureTime;
+  final int stationID;
+  final int connectionID;
+
+  Stop({
+    required this.id,
+    required this.arrivalTime,
+    required this.departureTime,
+    required this.stationID,
+    required this.connectionID,
+  });
+
+  factory Stop.fromJson(Map<String, dynamic> json) {
+    return Stop(
+      id: json['id'],
+      arrivalTime: DateTime.parse(json['arrivalTime']),
+      departureTime: DateTime.parse(json['departureTime']),
+      stationID: json['stationID'],
+      connectionID: json['connectionID'],
+    );
+  }
+}
 
 class TrainOffer {
-  int offerID;
-  List<String> stations;
-  List<DateTime> arrival;
-  List<DateTime> departure;
-  List<dynamic> providers;
+  final int id;
+  final List<Stop> stops;
+  final int providerID;
 
-  TrainOffer(
-      {required this.offerID,
-      required this.stations,
-      required this.arrival,
-      required this.departure,
-      required this.providers});
+  TrainOffer({
+    required this.id,
+    required this.stops,
+    required this.providerID,
+  });
 
   factory TrainOffer.fromJson(Map<String, dynamic> json, List<String> stationNames) {
     return TrainOffer(
-      offerID: json['id'] as int? ?? 0,
-      stations: stationNames,
-      arrival: (json['arrivalTimes'] as List<dynamic>? ?? [])
-          .map((item) => DateTime.parse(item as String))
+      id: json['id'],
+      stops: (json['stops'] as List<dynamic>)
+          .map((stop) => Stop.fromJson(stop))
           .toList(),
-      departure: (json['departureTimes'] as List<dynamic>? ?? [])
-          .map((item) => DateTime.parse(item as String))
-          .toList(),
-      providers: json['providers'] as List<dynamic>? ?? [],
+      providerID: json['providerID'],
     );
   }
-
-  @override
-  String toString() {
-    return 'TrainOffer:{id: $offerID, stations: $stations, arrival times: $arrival, departure times: $departure, providers: $providers }';
-  }
 }
-
-List<TrainOffer> parseTrainOffers(List<dynamic> jsonList, List<List<String>> stations) {
-  return jsonList.asMap().entries.map((entry) {
-    int idx = entry.key;
-    var json = entry.value;
-    return TrainOffer.fromJson(json, stations[idx]);
-  }).toList();
-}
-
-
