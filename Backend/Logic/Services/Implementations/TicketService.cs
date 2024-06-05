@@ -31,15 +31,39 @@ public class TicketService(IDataRepository repository) : ITicketService
     }
     public int Add(Ticket? ticket)
     {
-        if(ticket is null) return -1;
-        User? user = _repository.UserRepository.GetByID(ticket.OwnerID);
-        if(user != null)
+        if (ticket is null)
         {
-            user.LoyaltyPoints += 50;
-            _repository.UserRepository.Update(user);
+            Console.WriteLine("Ticket is null");
+            return -1;
         }
-        return _repository.TicketRepository.Add(ticket);
+
+        try
+        {
+            User? user = _repository.UserRepository.GetByID(ticket.OwnerID);
+            if (user != null)
+            {
+                user.LoyaltyPoints += 50;
+                _repository.UserRepository.Update(user);
+            }
+            else
+            {
+                Console.WriteLine($"User with ID {ticket.OwnerID} not found.");
+            }
+
+            int ticketId = _repository.TicketRepository.Add(ticket);
+            return ticketId;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error adding ticket: {ex.Message}");
+            if (ex.InnerException != null)
+            {
+                Console.WriteLine($"Inner exception: {ex.InnerException.Message}");
+            }
+            return -1;
+        }
     }
+
     public bool ChangeDetails(int ticketID, Ticket newTicket)
     {
         Ticket? ticket = _repository.TicketRepository.GetByID(ticketID);
