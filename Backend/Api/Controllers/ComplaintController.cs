@@ -9,14 +9,9 @@ namespace Api.Controllers
 {
     [ApiController]
     [Route("Complaint")]
-    public class ComplaintController : ControllerBase
+    public class ComplaintController(IComplaintService complaintService) : ControllerBase
     {
-        private readonly IComplaintService _complaintService;
-
-        public ComplaintController(IComplaintService complaintService)
-        {
-            _complaintService = complaintService;
-        }
+        private readonly IComplaintService _complaintService = complaintService;
 
         [HttpPost("make")]
         [Consumes(MediaTypeNames.Application.Json)]
