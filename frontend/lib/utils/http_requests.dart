@@ -593,4 +593,30 @@ Future<Complaint?> getComplaint(String complaintId) async {
       return null; // Zwróć null, jeśli wystąpi błąd
     }
   }
+  Future<void> updateLoyaltyPoints(int userID, int newPoints, String? firstName, String? lastName, String? email) async {
+    final url = Uri.parse('$host/User/edit');
+
+    final Map<String, dynamic> requestBody = {
+      'userID': userID,
+      'loyaltyPoints': newPoints,
+      'firstName': firstName,
+      'lastName': lastName,
+      'email': email,
+    };
+
+    final response = await http.patch(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: json.encode(requestBody),
+    );
+
+    if (response.statusCode == 200) {
+      print('Loyalty points updated successfully');
+    } else {
+      print('Failed to update loyalty points: ${response.statusCode}');
+      print('Response body: ${response.body}');
+    }
+  }
 }
