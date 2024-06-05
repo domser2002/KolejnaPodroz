@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/classes/train_offer.dart';
+import 'package:frontend/classes/user.dart';
 import 'package:frontend/classes/user_provider.dart';
 import 'package:frontend/utils/http_requests.dart';
 import 'package:frontend/views/auth/login_page.dart';
@@ -237,14 +238,34 @@ class _BuyTicketPageState extends State<BuyTicketPage> {
                                     "purchased": true,
                                     "id": 0
                                   };
+                                  int newPoints = userProvider.user!.loyaltyPoints + 1;
+                                  await request.deleteUser(userProvider.user!.id);
+                                  var userData = {
+                                      'firstName': userProvider.user!.firstName,
+                                      'lastName': userProvider.user!.lastName,
+                                      'email':userProvider.user!.email,
+                                      'firebaseID': FirebaseAuth.instance.currentUser!.uid,
+                                      'loyaltyPoints': newPoints,
+                                    };
+                                   var createdUser  = await request.createUser(userData);
+                                  if (createdUser != null) {
+
+                                  MyUser user = MyUser.fromJson(createdUser);
+
+                                  // Save user details to the provider
+                                  Provider.of<UserProvider>(context, listen: false).setUser(user);
+
                                 }
-                                await request.createTicket(ticketData);
+                                }
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     const SnackBar(
                                       content: Text(
                                           'Bilet został pomyślnie zakupiony!'),
                                     ),
                                   );
+                                  
+
+
                                   // Przejście do zakładki "Moje konto" -> "Bilety"
                                   Navigator.of(context).pushAndRemoveUntil(
                                     MaterialPageRoute(
