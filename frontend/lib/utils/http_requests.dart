@@ -593,17 +593,22 @@ Future<Complaint?> getComplaint(String complaintId) async {
       return null; // Zwróć null, jeśli wystąpi błąd
     }
   }
-  Future<void> updateLoyaltyPoints(int userID, int newPoints, String? firstName, String? lastName, String? email) async {
+  Future<void> updateLoyaltyPoints(int userID, int newPoints, String firstName, String lastName, String email, String firebaseID) async {
     final url = Uri.parse('$host/User/edit');
 
     final Map<String, dynamic> requestBody = {
       'userID': userID,
-      'loyaltyPoints': newPoints,
       'firstName': firstName,
       'lastName': lastName,
       'email': email,
+      "verified": true,
+      'loyaltyPoints': newPoints,
+      "firebaseID": firebaseID,
+      "birthDate": null,
+      "preferedSeatType": 0,
+      "preferedSeatLocation": 0
     };
-
+ 
     final response = await http.patch(
       url,
       headers: {

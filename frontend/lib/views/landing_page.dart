@@ -60,11 +60,6 @@ class LandingPage extends StatelessWidget {
               style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
           ),
-          //Punkty
-            //  Text(
-            //   'punkty lojalnościowe: ${userProvider.user!.loyaltyPoints}',
-            //   style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-            // ),
             IconButton(
               icon: const Icon(Icons.person, color: Colors.black),
               onPressed: () {

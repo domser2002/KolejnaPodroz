@@ -76,11 +76,6 @@ class UserInfoPage extends StatelessWidget {
               'Email: ${user?.email ?? "Brak danych"}',
               style: const TextStyle(fontSize: 18),
             ),
-            SizedBox(height: MediaQuery.of(context).size.height * 0.02),
-            Text(
-              'Punkty lojalnościowe: ${user?.loyaltyPoints ?? "Brak danych"}',
-              style: const TextStyle(fontSize: 18),
-            ),
             SizedBox(height: MediaQuery.of(context).size.height * 0.05),
             Center(
               child: ElevatedButton(

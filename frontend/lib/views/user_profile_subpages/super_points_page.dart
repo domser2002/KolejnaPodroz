@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:frontend/utils/http_requests.dart';
 import 'package:provider/provider.dart';
 import 'package:frontend/classes/user_provider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class SuperPointsPage extends StatefulWidget {
   SuperPointsPage({super.key});
@@ -30,9 +31,10 @@ class _SuperPointsPageState extends State<SuperPointsPage> {
       await request.updateLoyaltyPoints(
         user.id,
         newPoints,
-        user!.firstName,
-        user!.lastName,
-        user!.email,
+        user.firstName!,
+        user.lastName!,
+        user.email!,
+        FirebaseAuth.instance.currentUser!.uid,
       );
 
       // Aktualizacja userProvider o nowe punkty
