@@ -1,12 +1,13 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:frontend/classes/auth_service.dart';
+import 'package:frontend/classes/http_service.dart';
 import 'package:frontend/classes/user.dart';
+import 'package:provider/provider.dart';
 import 'package:frontend/classes/user_provider.dart';
-import 'package:frontend/utils/http_requests.dart';
-import 'package:frontend/views/auth/login_page.dart';
 import 'package:frontend/widgets/input_button_widget.dart';
 import 'package:frontend/widgets/socialmedia_button.dart';
-import 'package:provider/provider.dart';
+import 'package:frontend/views/auth/login_page.dart';
 
 class RegistrationPage extends StatelessWidget {
   final TextEditingController emailController = TextEditingController();
@@ -14,27 +15,28 @@ class RegistrationPage extends StatelessWidget {
   final TextEditingController repeatPasswordController = TextEditingController();
   final TextEditingController firstNameController = TextEditingController();
   final TextEditingController lastNameController = TextEditingController();
-  
-  final HttpRequests request = HttpRequests();
 
   RegistrationPage({Key? key}) : super(key: key);
 
   Future<void> signUpWithEmailAndPassword(BuildContext context) async {
+    final authService = Provider.of<AuthService>(context, listen: false);
+    final httpService = Provider.of<HttpService>(context, listen: false);
+
     if (passwordController.text == repeatPasswordController.text) {
       try {
-        await FirebaseAuth.instance.createUserWithEmailAndPassword(
-          email: emailController.text,
-          password: passwordController.text,
+        await authService.registerWithEmailAndPassword(
+          emailController.text,
+          passwordController.text,
         );
 
         var userData = {
           'firstName': firstNameController.text,
           'lastName': lastNameController.text,
           'email': emailController.text,
-          'firebaseID': FirebaseAuth.instance.currentUser!.uid,
+          'firebaseID': authService.currentUser?.uid ?? '',
         };
 
-        var createdUser = await request.createUser(userData);
+        var createdUser = await httpService.createUser(userData);
 
         if (createdUser != null) {
           MyUser user = MyUser.fromJson(createdUser);
@@ -44,8 +46,8 @@ class RegistrationPage extends StatelessWidget {
 
           Navigator.of(context).popUntil((route) => route.isFirst);
         }
-        
-        request.authoriseUser(FirebaseAuth.instance.currentUser!.uid);
+
+        await httpService.authoriseUser(authService.currentUser?.uid ?? '');
 
       } on FirebaseAuthException catch (e) {
         print(e.message);

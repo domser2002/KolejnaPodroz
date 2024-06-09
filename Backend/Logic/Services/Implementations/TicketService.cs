@@ -43,7 +43,7 @@ public class TicketService(IDataRepository repository) : ITicketService
             if (user != null)
             {
                 user.LoyaltyPoints += 50;
-                _repository.UserRepository.Update(user);
+                //_repository.UserRepository.Update(user);
             }
             else
             {
