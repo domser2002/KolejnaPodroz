@@ -252,7 +252,7 @@ class _BuyTicketPageState extends State<BuyTicketPage> {
                                   if (createdUser != null) {
 
                                   MyUser user = MyUser.fromJson(createdUser);
-
+                                  request.createTicket(ticketData);
                                   // Save user details to the provider
                                   Provider.of<UserProvider>(context, listen: false).setUser(user);
 
