@@ -5,14 +5,14 @@ using Logic.Services.Interfaces;
 
 namespace Logic.Services.Implementations;
 
-public class ProviderService(IDataRepository repository, IDatabaseService dbService) : IProviderService
+public class ProviderService(IDataRepository repository, IDatabaseService? dbService) : IProviderService
 {
     private readonly IDataRepository _repository = repository;
-    private readonly IDatabaseService _dbService = dbService;
+    private readonly IDatabaseService? _dbService = dbService;
     public int AddProvider(Provider? provider)
     {
         if (provider is null) return -1;
-        if(_repository is DataRepository)
+        if(_repository is DataRepository && _dbService != null)
         {
             String query = $"INSERT INTO [dbo].[Provider] ([Name], [AdditionalInfo], [Email])\r\nVALUES ('{provider.Name}', '{provider.AdditionalInfo}', '{provider.Email}');\r\n";
             List<object[]> response = _dbService.ExecuteSQL(query);
@@ -26,7 +26,7 @@ public class ProviderService(IDataRepository repository, IDatabaseService dbServ
     }
     public bool RemoveProvider(int providerID)
     {
-        if(_repository is DataRepository)
+        if(_repository is DataRepository && _dbService is not null)
         {
             String query = $"DELETE FROM [dbo].[Provider]\r\nWHERE [ID] = {providerID};\r\n";
             List<object[]> response = _dbService.ExecuteSQL(query);
