@@ -187,6 +187,7 @@ class RegistrationPage extends StatelessWidget {
                         ),
                         SizedBox(height: winHeight * 0.027),
                         ElevatedButton(
+                           key: const Key('signUpButton'),
                           onPressed: () async {
                             await signUpWithEmailAndPassword(context);
                           },

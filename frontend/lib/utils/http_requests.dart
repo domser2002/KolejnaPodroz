@@ -105,7 +105,7 @@ class HttpRequests implements HttpService {
   }
 
   @override
-  Future<Map<String, dynamic>?> createUser(Map<String, dynamic> userData) async {
+  Future<Map<String, dynamic>?> createUser(Map<String, dynamic>? userData) async {
     try {
       var url = Uri.parse('$host/User/create');
       var response = await http.post(
