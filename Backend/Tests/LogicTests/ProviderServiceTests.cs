@@ -17,7 +17,7 @@ public class ProviderServiceTests
     [SetUp]
     public void Setup()
     {
-        fakeProviderService = new ProviderService(new FakeDataRepository());
+        fakeProviderService = new ProviderService(new FakeDataRepository(), null);
         IConfigurationRoot configurationRoot = new ConfigurationBuilder()
 .SetBasePath(Directory.GetCurrentDirectory())
 .AddJsonFile("appsettings.json")
@@ -26,7 +26,7 @@ public class ProviderServiceTests
         var optionsBuilder = new DbContextOptionsBuilder<DomainDBContext>();
         optionsBuilder.UseSqlServer(connectionString);
         DataRepository dataRepository = new(new DomainDBContext(optionsBuilder.Options));
-        providerService = new ProviderService(dataRepository);
+        providerService = new ProviderService(dataRepository, null);
     }
 
     [Test]
