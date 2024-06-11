@@ -103,6 +103,26 @@ class HttpRequests {
     }
   }
 
+  Future<bool> isTechnicalBreak() async {
+    try {
+      var url = Uri.parse('$host/Admin/isTechnicalBreak');
+      var response = await http.get(url);
+
+      if (response.statusCode == 200) {
+        var responseBody = jsonDecode(response.body);
+        print(responseBody);
+        return responseBody
+            as bool; // Assuming the response contains a boolean field
+      } else {
+        print('Error: ${response.statusCode}');
+        return false;
+      }
+    } catch (e) {
+      print('Exception: $e');
+      return false;
+    }
+  }
+
   Future<bool> authoriseAdmin(String adminId) async {
     try {
       var url = Uri.parse('$host/Admin/authorise/$adminId?token=$adminId');
@@ -160,7 +180,7 @@ class HttpRequests {
   Future<bool> editComplaint(
       String complaintId, Map<String, dynamic> updatedData) async {
     try {
-      var url = Uri.parse('$host/Complaint/edit/$complaintId');
+      var url = Uri.parse('$host/Complaint/edit');
       var response = await http.patch(
         url,
         body: jsonEncode(updatedData),
@@ -211,6 +231,7 @@ class HttpRequests {
         List<Complaint> result = complaintsObjsJson
             .map((complaintJson) => Complaint.fromJson(complaintJson))
             .toList();
+        result.removeWhere((element) => element.isResponded == true);
         print("complaints loaded");
         return result;
       } else {
@@ -243,17 +264,19 @@ class HttpRequests {
     return []; // Add a return statement here
   }
 
-  Future<dynamic> getProvider(String providerId) async {
+  Future<MyProvider?> getProvider(String providerId) async {
     try {
-      var url = Uri.parse('$host/Provider/$providerId');
+      var url = Uri.parse('$host/Provider/get/$providerId');
       var response = await http.get(url);
 
       if (response.statusCode == 200) {
         var provider = jsonDecode(response.body);
+        MyProvider prov = MyProvider.fromJson(provider);
         print("provider loaded");
-        return provider;
+        return prov;
       } else {
-        return ('Failed to load provider');
+        print("failed to load");
+        return null;
       }
     } catch (e) {
       print(e.toString());
@@ -264,6 +287,7 @@ class HttpRequests {
       String providerId, Map<String, dynamic> providerData) async {
     try {
       var url = Uri.parse('$host/Provider/add');
+      print(jsonEncode(providerData).toString());
       var response = await http.post(
         url,
         body: jsonEncode(providerData),
@@ -377,6 +401,7 @@ class HttpRequests {
         List<MyAdmin> result = usersObjsJson
             .map((usersJson) => MyAdmin.fromJson(usersJson))
             .toList();
+        result.removeWhere((e) => e.verified == true);
         print("admins loaded");
         return result;
       } else {
