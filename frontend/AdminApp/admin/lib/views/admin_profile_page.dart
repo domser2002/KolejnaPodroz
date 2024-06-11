@@ -475,6 +475,9 @@ class _ProvidersPageState extends State<ProvidersPage> {
                   child: Text("Dodaj nowego przewoźnika"),
                 ),
               ),
+              SizedBox(
+                height: 5,
+              )
             ],
           );
         } else {
@@ -516,9 +519,29 @@ class _ProvidersPageState extends State<ProvidersPage> {
   }
 }
 
-class DatabasePage extends StatelessWidget {
-  HttpRequests request = HttpRequests();
+class DatabasePage extends StatefulWidget {
   DatabasePage({super.key});
+
+  @override
+  _DatabasePageState createState() => _DatabasePageState();
+}
+
+class _DatabasePageState extends State<DatabasePage> {
+  HttpRequests request = HttpRequests();
+  bool? isTechnicalBreakActive;
+
+  @override
+  void initState() {
+    super.initState();
+    _checkTechnicalBreakStatus();
+  }
+
+  Future<void> _checkTechnicalBreakStatus() async {
+    bool status = await request.isTechnicalBreak();
+    setState(() {
+      isTechnicalBreakActive = status;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -528,16 +551,42 @@ class DatabasePage extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           ElevatedButton(
-              onPressed: () async {
-                await request.startTechnicalBreak();
-              },
-              child: Text("rozpocznij przerwe techniczną")),
+            onPressed: () async {
+              await request.startTechnicalBreak();
+              _checkTechnicalBreakStatus(); // Refresh the status
+            },
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text("rozpocznij przerwe techniczną"),
+              ],
+            ),
+          ),
           SizedBox(height: 7),
           ElevatedButton(
-              onPressed: () async {
-                await request.stopTechnicalBreak();
-              },
-              child: Text("zakończ przerwe techniczną"))
+            onPressed: () async {
+              await request.stopTechnicalBreak();
+              _checkTechnicalBreakStatus(); // Refresh the status
+            },
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text("zakończ przerwe techniczną"),
+              ],
+            ),
+          ),
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text("Czy jest przerwa techniczna:"),
+              SizedBox(width: 10),
+              if (isTechnicalBreakActive != null)
+                Icon(
+                  isTechnicalBreakActive! ? Icons.check : Icons.close,
+                  color: isTechnicalBreakActive! ? Colors.green : Colors.red,
+                ),
+            ],
+          ),
         ],
       ),
     );

@@ -159,7 +159,8 @@ class ReviewComplaintPage extends StatelessWidget {
                                 complaint.title = titleController.text;
                                 complaint.response = responseController.text;
                                 complaint.isResponded = true;
-                                complaint.complainantID = 1;
+                                complaint.complainantID =
+                                    complaint.complainantID;
                                 // Prepare the updated data as a Map
                                 Map<String, dynamic> updatedData = {
                                   'ticketId': complaint.ticketId,

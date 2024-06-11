@@ -103,6 +103,26 @@ class HttpRequests {
     }
   }
 
+  Future<bool> isTechnicalBreak() async {
+    try {
+      var url = Uri.parse('$host/Admin/isTechnicalBreak');
+      var response = await http.get(url);
+
+      if (response.statusCode == 200) {
+        var responseBody = jsonDecode(response.body);
+        print(responseBody);
+        return responseBody
+            as bool; // Assuming the response contains a boolean field
+      } else {
+        print('Error: ${response.statusCode}');
+        return false;
+      }
+    } catch (e) {
+      print('Exception: $e');
+      return false;
+    }
+  }
+
   Future<bool> authoriseAdmin(String adminId) async {
     try {
       var url = Uri.parse('$host/Admin/authorise/$adminId?token=$adminId');
@@ -160,7 +180,7 @@ class HttpRequests {
   Future<bool> editComplaint(
       String complaintId, Map<String, dynamic> updatedData) async {
     try {
-      var url = Uri.parse('$host/Complaint/edit/$complaintId');
+      var url = Uri.parse('$host/Complaint/edit');
       var response = await http.patch(
         url,
         body: jsonEncode(updatedData),
