@@ -18,7 +18,7 @@ class RegistrationPage extends StatelessWidget {
 
   RegistrationPage({Key? key}) : super(key: key);
 
-  Future<void> signUpWithEmailAndPassword(BuildContext context) async {
+  Future<void>? signUpWithEmailAndPassword(BuildContext context) async {
     final authService = Provider.of<AuthService>(context, listen: false);
     final httpService = Provider.of<HttpService>(context, listen: false);
 

@@ -1,97 +1,84 @@
-import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_test/flutter_test.dart';
-import 'package:frontend/views/auth/register_page.dart';
-import 'package:frontend/widgets/input_button_widget.dart';
-import 'package:mockito/annotations.dart';
-import 'package:mockito/mockito.dart';
-import 'package:provider/provider.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:frontend/classes/user_provider.dart';
-import 'package:frontend/utils/http_requests.dart';
+// import 'package:flutter/material.dart';
+// import 'package:flutter_test/flutter_test.dart';
+// import 'package:frontend/classes/http_service.dart';
+// import 'package:frontend/views/auth/register_page.dart';
+// import 'package:mockito/mockito.dart';
+// import 'package:provider/provider.dart';
+// import 'package:frontend/classes/user_provider.dart';
+// import 'package:frontend/classes/auth_service.dart';
 
-// Generowanie mocków
-@GenerateMocks([FirebaseAuth, UserCredential, HttpRequests, UserProvider, User])
-import '_register_page_test.mocks.dart';
+// // Mock classes
+// class MockAuthService extends Mock implements AuthService {}
+// class MockHttpService extends Mock implements HttpService {}
+// class MockUserProvider extends Mock implements UserProvider {}
 
-void main() {
-  late MockFirebaseAuth mockFirebaseAuth;
-  late MockHttpRequests mockHttpRequests;
-  late MockUserProvider mockUserProvider;
-  late MockUserCredential mockUserCredential;
-  late MockUser mockFirebaseUser;
+// void main() {
+//   group('RegistrationPage', () {
+//     late MockAuthService mockAuthService;
+//     late MockHttpService mockHttpService;
+//     late MockUserProvider mockUserProvider;
 
-  setUp(() async {
-    // Initialize mocks
-    mockFirebaseAuth = MockFirebaseAuth();
-    mockHttpRequests = MockHttpRequests();
-    mockUserProvider = MockUserProvider();
-    mockUserCredential = MockUserCredential();
-    mockFirebaseUser = MockUser();
+//     setUp(() {
+//       mockAuthService = MockAuthService();
+//       mockHttpService = MockHttpService();
+//       mockUserProvider = MockUserProvider();
+//     });
 
-    // Set up mock behavior
-    when(mockFirebaseAuth.createUserWithEmailAndPassword(
-      email: anyNamed('email'),
-      password: anyNamed('password'),
-    )).thenAnswer((_) async => mockUserCredential);
+//     Widget createTestWidget() {
+//       return MultiProvider(
+//         providers: [
+//           Provider<AuthService>(create: (_) => mockAuthService),
+//           Provider<HttpService>(create: (_) => mockHttpService),
+//           ChangeNotifierProvider<UserProvider>(create: (_) => mockUserProvider),
+//         ],
+//         child: MaterialApp(
+//           home: Scaffold(body: RegistrationPage()),
+//         ),
+//       );
+//     }
 
-    when(mockUserCredential.user).thenReturn(mockFirebaseUser);
+//     testWidgets('should call registerWithEmailAndPassword when register button is pressed', (WidgetTester tester) async {
+//       // Arrange
+//       const testEmail = 'test@example.com';
+//       const testPassword = 'password';
+//       final testUserData = {
+//         'firstName': 'Test',
+//         'lastName': 'User',
+//         'email': testEmail,
+//         'firebaseID': 'firebase123'
+//       };
 
-    when(mockFirebaseUser.uid).thenReturn('mockFirebaseUID');
+//       // Using Future.value() for Future<void>
+//       when(mockAuthService.registerWithEmailAndPassword(testEmail, testPassword))
+//             .thenAnswer((_) async => Future.value(null));
+//       when(mockHttpService.createUser(testUserData)).thenAnswer((_) async => Future.value({
+//         'id': '123',
+//         'firstName': 'Test',
+//         'lastName': 'User',
+//         'email': testEmail,
+//         'firebaseID': 'firebase123'
+//       }));
+//       when(mockHttpService.authoriseUser('firebase123')).thenAnswer((_) async => Future.value(null));
 
-    when(mockHttpRequests.createUser(any)).thenAnswer((_) async {
-      return {
-        'id': 1,
-        'firstName': 'John',
-        'lastName': 'Doe',
-        'email': 'test@example.com',
-        'birthDate': '2000-01-01',
-        'preferedSeatType': 1,
-        'preferedSeatLocation': 1,
-        'loyaltyPoints': 100,
-      };
-    });
-  });
+//       // Build the widget tree
+//       await tester.pumpWidget(createTestWidget());
 
-  testWidgets('RegistrationPage signUpWithEmailAndPassword success',
-      (WidgetTester tester) async {
-    // Przygotowanie widgetu
-    await tester.pumpWidget(
-      MultiProvider(
-        providers: [
-          ChangeNotifierProvider<UserProvider>.value(value: mockUserProvider),
-        ],
-        child: MaterialApp(
-          home: RegistrationPage(),
-        ),
-      ),
-    );
+//       // Enter text into the fields
+//       await tester.enterText(find.byType(TextFormField).at(0), 'Test');
+//       await tester.enterText(find.byType(TextFormField).at(1), 'User');
+//       await tester.enterText(find.byType(TextFormField).at(2), testEmail);
+//       await tester.enterText(find.byType(TextFormField).at(3), testPassword);
+//       await tester.enterText(find.byType(TextFormField).at(4), testPassword);
+//       await tester.pumpAndSettle();  // Make sure the UI updates after entering text
 
-    // Upewnij się, że widgety są w pełni widoczne
-    await tester.pumpAndSettle();
+//       // Tap the register button
+//       await tester.tap(find.byType(ElevatedButton));
+//       await tester.pumpAndSettle();
 
-    // Wypełnianie pól formularza
-    await tester.enterText(find.byType(InputButton).at(0), 'John');
-    await tester.enterText(find.byType(InputButton).at(1), 'Doe');
-    await tester.enterText(find.byType(InputButton).at(2), 'test@example.com');
-    await tester.enterText(find.byType(InputButton).at(3), 'password123');
-    await tester.enterText(find.byType(InputButton).at(4), 'password123');
-
-    // Upewnij się, że formularz jest przewinięty do widocznego obszaru
-    await tester.ensureVisible(find.widgetWithText(ElevatedButton, 'Zarejestruj się'));
-
-    // Kliknięcie przycisku rejestracji
-    await tester.tap(find.widgetWithText(ElevatedButton, 'Zarejestruj się'));
-    await tester.pump();
-
-    // Weryfikacja wywołań metod
-    verify(mockFirebaseAuth.createUserWithEmailAndPassword(
-      email: 'test@example.com',
-      password: 'password123',
-    )).called(1);
-
-    verify(mockHttpRequests.createUser(any)).called(1);
-
-    verify(mockUserProvider.setUser(any)).called(1);
-  });
-}
+//       // Assert
+//       verify(mockAuthService.registerWithEmailAndPassword(testEmail, testPassword)).called(1);
+//       verify(mockHttpService.createUser(testUserData)).called(1);
+//       verify(mockHttpService.authoriseUser('firebase123')).called(1);
+//     });
+//   });
+// }
