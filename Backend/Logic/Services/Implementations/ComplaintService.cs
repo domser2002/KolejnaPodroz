@@ -22,8 +22,22 @@ public class ComplaintService(IDataRepository repository) : Interfaces.IComplain
     }
     public bool EditComplaint(Complaint newComplaint)
     {
-        return _repository.ComplaintRepository.Update(newComplaint);
+        var existingComplaint = _repository.ComplaintRepository.GetByID(newComplaint.ID);
+        if (existingComplaint == null)
+        {
+            return false;
+        }
+
+        // Aktualizacja właściwości
+        existingComplaint.ComplainantID = newComplaint.ComplainantID;
+        existingComplaint.Title = newComplaint.Title;
+        existingComplaint.Content = newComplaint.Content;
+        existingComplaint.Response = newComplaint.Response;
+        existingComplaint.IsResponded = newComplaint.IsResponded;
+
+        return _repository.ComplaintRepository.Update(existingComplaint);
     }
+
     public Complaint? GetComplaintByID(int complaintID)
     {
         return _repository.ComplaintRepository.GetByID(complaintID);
