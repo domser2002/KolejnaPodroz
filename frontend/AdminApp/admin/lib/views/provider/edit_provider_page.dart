@@ -153,20 +153,20 @@ class EditProviderPage extends StatelessWidget {
                             ElevatedButton(
                               onPressed: () async {
                                 print(provider.id.toString());
-                                MyProvider? prov = await request
-                                    .getProvider(provider.id.toString());
+                                var prov = await request.getProvider(
+                                    provider.id.toString()) as MyProvider?;
                                 print("lol");
                                 if (prov != null) {
                                   // Update the complaint's content with the new reason
                                   prov.info = infoController.text;
-                                  prov.name = infoController.text;
-
+                                  prov.name = nameController.text;
+                                  prov.email = emailController.text;
                                   // Prepare the updated data as a Map
                                   Map<String, dynamic> updatedData = {
                                     'name': prov.name,
-                                    'info': prov.info,
+                                    'additionalInfo': prov.info,
                                     'email': prov.email,
-                                    'id': prov.id
+                                    'id': prov.id,
                                   };
 
                                   // Update the complaint on the server

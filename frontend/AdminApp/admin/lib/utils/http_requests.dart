@@ -264,18 +264,19 @@ class HttpRequests {
     return []; // Add a return statement here
   }
 
-  Future<dynamic> getProvider(String providerId) async {
+  Future<MyProvider?> getProvider(String providerId) async {
     try {
       var url = Uri.parse('$host/Provider/get/$providerId');
       var response = await http.get(url);
 
       if (response.statusCode == 200) {
         var provider = jsonDecode(response.body);
-        print(provider.toString());
+        MyProvider prov = MyProvider.fromJson(provider);
         print("provider loaded");
-        return provider;
+        return prov;
       } else {
-        return ('Failed to load provider');
+        print("failed to load");
+        return null;
       }
     } catch (e) {
       print(e.toString());
@@ -286,6 +287,7 @@ class HttpRequests {
       String providerId, Map<String, dynamic> providerData) async {
     try {
       var url = Uri.parse('$host/Provider/add');
+      print(jsonEncode(providerData).toString());
       var response = await http.post(
         url,
         body: jsonEncode(providerData),

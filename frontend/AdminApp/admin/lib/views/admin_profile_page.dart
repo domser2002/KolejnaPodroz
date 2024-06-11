@@ -1,4 +1,5 @@
 import 'package:admin/classes/admin.dart';
+import 'package:admin/classes/train_offer.dart';
 import 'package:admin/classes/user.dart';
 import 'package:admin/views/admin/edit_admin_page.dart';
 import 'package:admin/views/provider/edit_provider_page.dart';
@@ -453,7 +454,7 @@ class _ProvidersPageState extends State<ProvidersPage> {
                 child: ElevatedButton(
                   onPressed: () async {
                     MyProvider p =
-                        MyProvider(name: " ", info: " ", email: " ", id: 1);
+                        MyProvider(name: "a", info: "a", email: "a", id: 0);
                     Map<String, dynamic> newData = {
                       'name': p.name,
                       'info': p.info,
@@ -461,7 +462,9 @@ class _ProvidersPageState extends State<ProvidersPage> {
                       'id': p.id
                     };
                     await request.addProvider(p.id.toString(), newData);
-
+                    p.name = " ";
+                    p.info = " ";
+                    p.email = " ";
                     await Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (context) => EditProviderPage(
@@ -489,15 +492,25 @@ class _ProvidersPageState extends State<ProvidersPage> {
                 child: ElevatedButton(
                   onPressed: () async {
                     MyProvider p =
-                        MyProvider(name: " ", info: " ", email: " ", id: 1);
+                        MyProvider(name: "a", info: "a", email: "a", id: 0);
+                    print(p.name + p.id.toString());
                     Map<String, dynamic> newData = {
                       'name': p.name,
-                      'info': p.info,
+                      'additionalInfo': p.info,
                       'email': p.email,
-                      'id': p.id
+                      'id': p.id,
+
+                      //  TrainOffer(
+                      //     offerID: 0,
+                      //     stations: List.empty(),
+                      //     arrival: List.empty(),
+                      //     departure: List.empty(),
+                      //     providers: List.empty())
                     };
                     await request.addProvider(p.id.toString(), newData);
-
+                    p.name = " ";
+                    p.info = " ";
+                    p.email = " ";
                     await Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (context) => EditProviderPage(
