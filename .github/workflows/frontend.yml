@@ -8,9 +8,6 @@ on:
 jobs:
   build_and_test:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: frontend/webapp
 
     steps:
       - name: Clone repository
@@ -23,12 +20,16 @@ jobs:
 
       - name: Install dependencies
         run: flutter pub get
+        working-directory: frontend
 
       - name: Generate mocks
         run: flutter pub run build_runner build --delete-conflicting-outputs
+        working-directory: frontend
 
       - name: Run tests
         run: flutter test test/_register_page_test.dart
+        working-directory: frontend
 
       - name: Build Flutter app
         run: flutter build web --release
+        working-directory: frontend
