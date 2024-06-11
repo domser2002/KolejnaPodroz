@@ -1,4 +1,4 @@
-name: Test and Deploy Frontend App 
+name: Test and Deploy Frontend App
 
 on:
   workflow_dispatch:
@@ -20,10 +20,12 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: stable
-      - run: flutter --version
 
-      - name: Get Flutter dependencies
+      - name: Install dependencies
         run: flutter pub get
+
+      - name: Generate mocks
+        run: flutter pub run build_runner build --delete-conflicting-outputs
 
       - name: Run tests
         run: flutter test test/_register_page_test.dart
