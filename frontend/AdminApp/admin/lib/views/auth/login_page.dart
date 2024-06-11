@@ -28,7 +28,7 @@ class LoginPage extends StatelessWidget {
 
       //Fetch admin details from your backend using HttpRequests
       print(adminCredential.user!.uid.toString());
-      var loggedAdmin = await request.authoriseAdmin(adminCredential.user!.uid);
+      //var loggedAdmin = await request.authoriseAdmin(adminCredential.user!.uid);
 
       if (
           //loggedAdmin ==

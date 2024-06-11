@@ -211,6 +211,7 @@ class HttpRequests {
         List<Complaint> result = complaintsObjsJson
             .map((complaintJson) => Complaint.fromJson(complaintJson))
             .toList();
+        result.removeWhere((element) => element.isResponded == true);
         print("complaints loaded");
         return result;
       } else {
@@ -245,11 +246,12 @@ class HttpRequests {
 
   Future<dynamic> getProvider(String providerId) async {
     try {
-      var url = Uri.parse('$host/Provider/$providerId');
+      var url = Uri.parse('$host/Provider/get/$providerId');
       var response = await http.get(url);
 
       if (response.statusCode == 200) {
         var provider = jsonDecode(response.body);
+        print(provider.toString());
         print("provider loaded");
         return provider;
       } else {
@@ -377,6 +379,7 @@ class HttpRequests {
         List<MyAdmin> result = usersObjsJson
             .map((usersJson) => MyAdmin.fromJson(usersJson))
             .toList();
+        result.removeWhere((e) => e.verified == true);
         print("admins loaded");
         return result;
       } else {

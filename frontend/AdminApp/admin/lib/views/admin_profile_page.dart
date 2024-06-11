@@ -210,13 +210,13 @@ class _ComplaintsPageState extends State<ComplaintsPage> {
   @override
   void initState() {
     super.initState();
-    _complaintsFuture = _fetchComplaints();
+    _fetchComplaints();
   }
 
-  Future<List<Complaint>> _fetchComplaints() async {
-    HttpRequests request = HttpRequests();
-
-    return request.getAllComplaints();
+  void _fetchComplaints() {
+    setState(() {
+      _complaintsFuture = HttpRequests().getAllComplaints();
+    });
   }
 
   @override
@@ -237,7 +237,8 @@ class _ComplaintsPageState extends State<ComplaintsPage> {
         } else if (snapshot.hasData && snapshot.data!.isNotEmpty) {
           // Accessing data if the snapshot has data and it is not empty
           List<Complaint> complaints = snapshot.data!;
-          complaints.removeWhere((element) => element.isResponded == true);
+          print(complaints.length);
+
           return ListView.builder(
             itemCount: complaints.length,
             itemBuilder: (context, index) {
@@ -250,9 +251,9 @@ class _ComplaintsPageState extends State<ComplaintsPage> {
                   children: [
                     IconButton(
                       icon: Icon(Icons.check),
-                      onPressed: () {
-                        // Navigator to edit complaint page
-                        Navigator.of(context).push(
+                      onPressed: () async {
+                        // Navigator to review complaint page
+                        await Navigator.of(context).push(
                           MaterialPageRoute(
                             builder: (context) => ReviewComplaintPage(
                               complaintId: complaint.id,
@@ -261,6 +262,7 @@ class _ComplaintsPageState extends State<ComplaintsPage> {
                             ),
                           ),
                         );
+                        _fetchComplaints(); // Refresh complaints after reviewing
                       },
                     ),
                   ],
@@ -287,14 +289,17 @@ class UsersPage extends StatefulWidget {
 class _UsersPageState extends State<UsersPage> {
   late Future<List<MyUser>?> _usersFuture;
   HttpRequests request = HttpRequests();
+
   @override
   void initState() {
     super.initState();
-    _usersFuture = _fetchUsers();
+    _fetchUsers();
   }
 
-  Future<List<MyUser>?> _fetchUsers() async {
-    return request.getAllUsers();
+  void _fetchUsers() {
+    setState(() {
+      _usersFuture = request.getAllUsers();
+    });
   }
 
   @override
@@ -328,19 +333,21 @@ class _UsersPageState extends State<UsersPage> {
                   children: [
                     IconButton(
                       icon: Icon(Icons.check),
-                      onPressed: () {
-                        // Navigator to edit complaint page
-                        Navigator.of(context).push(
+                      onPressed: () async {
+                        // Navigator to edit user page
+                        await Navigator.of(context).push(
                           MaterialPageRoute(
                             builder: (context) => EditUserPage(user: user),
                           ),
                         );
+                        _fetchUsers(); // Refresh users after editing
                       },
                     ),
                     IconButton(
                       icon: Icon(Icons.delete),
                       onPressed: () async {
                         await request.deleteUser(user.id);
+                        _fetchUsers(); // Refresh users after deletion
                       },
                     ),
                   ],
@@ -349,7 +356,7 @@ class _UsersPageState extends State<UsersPage> {
             },
           );
         } else {
-          // Handling the case where there are no complaints
+          // Handling the case where there are no users
           return Center(child: Text('No users to display'));
         }
       },
@@ -367,14 +374,17 @@ class ProvidersPage extends StatefulWidget {
 class _ProvidersPageState extends State<ProvidersPage> {
   late Future<List<MyProvider>?> _providersFuture;
   HttpRequests request = HttpRequests();
+
   @override
   void initState() {
     super.initState();
-    _providersFuture = _fetchProviders();
+    _fetchProviders();
   }
 
-  Future<List<MyProvider>?> _fetchProviders() async {
-    return request.getAllProviders();
+  void _fetchProviders() {
+    setState(() {
+      _providersFuture = request.getAllProviders();
+    });
   }
 
   @override
@@ -412,9 +422,9 @@ class _ProvidersPageState extends State<ProvidersPage> {
                         children: [
                           IconButton(
                             icon: Icon(Icons.check),
-                            onPressed: () {
-                              // Navigator to edit complaint page
-                              Navigator.of(context).push(
+                            onPressed: () async {
+                              // Navigator to edit provider page
+                              await Navigator.of(context).push(
                                 MaterialPageRoute(
                                   builder: (context) => EditProviderPage(
                                     provider: provider,
@@ -422,14 +432,15 @@ class _ProvidersPageState extends State<ProvidersPage> {
                                   ),
                                 ),
                               );
+                              _fetchProviders(); // Refresh providers after editing
                             },
                           ),
                           IconButton(
                             icon: Icon(Icons.delete),
                             onPressed: () async {
-                              // Navigator to edit complaint page
                               await request
                                   .deleteProvider(provider.id.toString());
+                              _fetchProviders(); // Refresh providers after deletion
                             },
                           ),
                         ],
@@ -451,19 +462,23 @@ class _ProvidersPageState extends State<ProvidersPage> {
                     };
                     await request.addProvider(p.id.toString(), newData);
 
-                    Navigator.of(context).push(MaterialPageRoute(
+                    await Navigator.of(context).push(
+                      MaterialPageRoute(
                         builder: (context) => EditProviderPage(
-                              provider: p,
-                              editable: false,
-                            )));
+                          provider: p,
+                          editable: false,
+                        ),
+                      ),
+                    );
+                    _fetchProviders(); // Refresh providers after adding a new provider
                   },
                   child: Text("Dodaj nowego przewoźnika"),
                 ),
-              )
+              ),
             ],
           );
         } else {
-          // Handling the case where there are no complaints
+          // Handling the case where there are no providers
           return Column(
             children: [
               Center(child: Text('No providers to display')),
@@ -480,15 +495,19 @@ class _ProvidersPageState extends State<ProvidersPage> {
                     };
                     await request.addProvider(p.id.toString(), newData);
 
-                    Navigator.of(context).push(MaterialPageRoute(
+                    await Navigator.of(context).push(
+                      MaterialPageRoute(
                         builder: (context) => EditProviderPage(
-                              provider: p,
-                              editable: false,
-                            )));
+                          provider: p,
+                          editable: false,
+                        ),
+                      ),
+                    );
+                    _fetchProviders(); // Refresh providers after adding a new provider
                   },
                   child: Text("Dodaj nowego przewoźnika"),
                 ),
-              )
+              ),
             ],
           );
         }
@@ -505,12 +524,15 @@ class DatabasePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           ElevatedButton(
               onPressed: () async {
                 await request.startTechnicalBreak();
               },
               child: Text("rozpocznij przerwe techniczną")),
+          SizedBox(height: 7),
           ElevatedButton(
               onPressed: () async {
                 await request.stopTechnicalBreak();
@@ -532,14 +554,17 @@ class AdminsPage extends StatefulWidget {
 class _AdminsPageState extends State<AdminsPage> {
   late Future<List<MyAdmin>?> _adminsFuture;
   HttpRequests request = HttpRequests();
+
   @override
   void initState() {
     super.initState();
-    _adminsFuture = _fetchAdmins();
+    _fetchAdmins();
   }
 
-  Future<List<MyAdmin>?> _fetchAdmins() async {
-    return request.getAllAdmins();
+  void _fetchAdmins() {
+    setState(() {
+      _adminsFuture = request.getAllAdmins();
+    });
   }
 
   @override
@@ -560,7 +585,7 @@ class _AdminsPageState extends State<AdminsPage> {
         } else if (snapshot.hasData && snapshot.data!.isNotEmpty) {
           // Accessing data if the snapshot has data and it is not empty
           List<MyAdmin> admins = snapshot.data!;
-          admins.removeWhere((e) => e.verified == true);
+
           return ListView.builder(
             itemCount: admins.length,
             itemBuilder: (context, index) {
@@ -572,20 +597,21 @@ class _AdminsPageState extends State<AdminsPage> {
                   children: [
                     IconButton(
                       icon: Icon(Icons.check),
-                      onPressed: () {
-                        // Navigator to edit complaint page
-                        Navigator.of(context).push(
+                      onPressed: () async {
+                        // Navigator to edit admin page
+                        await Navigator.of(context).push(
                           MaterialPageRoute(
-                              builder: (context) =>
-                                  EditAdminPage(admin: admin)),
+                            builder: (context) => EditAdminPage(admin: admin),
+                          ),
                         );
+                        _fetchAdmins(); // Refresh admins after editing
                       },
                     ),
                     IconButton(
                       icon: Icon(Icons.delete),
                       onPressed: () async {
-                        // Navigator to edit complaint page
                         await request.deleteAdmin(admin.id.toString());
+                        _fetchAdmins(); // Refresh admins after deletion
                       },
                     ),
                   ],
@@ -594,7 +620,7 @@ class _AdminsPageState extends State<AdminsPage> {
             },
           );
         } else {
-          // Handling the case where there are no complaints
+          // Handling the case where there are no admins
           return Center(child: Text('No admins to display'));
         }
       },

@@ -155,7 +155,7 @@ class EditProviderPage extends StatelessWidget {
                                 print(provider.id.toString());
                                 MyProvider? prov = await request
                                     .getProvider(provider.id.toString());
-
+                                print("lol");
                                 if (prov != null) {
                                   // Update the complaint's content with the new reason
                                   prov.info = infoController.text;
