@@ -258,7 +258,6 @@ class _BuyTicketPageState extends State<BuyTicketPage> {
 
                                 }
                                 }
-                                request.createTicket(ticketData);
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     const SnackBar(
                                       content: Text(
