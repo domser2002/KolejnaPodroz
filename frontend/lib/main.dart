@@ -1,33 +1,46 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:frontend/firebase_options.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:frontend/auth.dart';
+import 'package:frontend/classes/auth_service.dart';
+import 'package:frontend/classes/http_service.dart';
+import 'package:frontend/views/auth/register_page.dart';
 import 'package:frontend/views/landing_page.dart';
 import 'package:provider/provider.dart';
-import 'classes/user_provider.dart';
+import 'package:frontend/classes/user_provider.dart';
+import 'package:frontend/utils/http_requests.dart';
+import 'package:frontend/views/auth/login_page.dart';
+import 'firebase_options.dart';  // Ensure you have this file with Firebase web options
 
-Future<void> main() async {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(const MainApp());
+
+  runApp(
+    MultiProvider(
+      providers: [
+        Provider<HttpService>(create: (_) => HttpRequests()),
+        Provider<AuthService>(
+          create: (context) => FirebaseAuthService(context.read<HttpService>()),
+        ),
+        ChangeNotifierProvider(create: (_) => UserProvider()),
+      ],
+      child: MyApp(),
+    ),
+  );
 }
 
-class MainApp extends StatelessWidget {
-  const MainApp({super.key});
-  final host = 'http://localhost:7006';
-
+class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => UserProvider(),
-      child: MaterialApp(
-        title: 'Kolejna Podróż',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
-        home: LandingPage(),
+    return MaterialApp(
+      title: 'My App',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
       ),
+      home: LandingPage(), // Change to your initial page if needed
     );
   }
 }

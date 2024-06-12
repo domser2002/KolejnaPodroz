@@ -1,27 +1,35 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:frontend/classes/auth_service.dart';
+import 'package:frontend/classes/http_service.dart';
 import 'package:frontend/utils/http_requests.dart';
-class Auth{
 
+class FirebaseAuthService implements AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  
-  final HttpRequests request = HttpRequests();
+  final HttpService _httpService;
 
+  FirebaseAuthService(this._httpService);
+
+  @override
   User? get currentUser => _auth.currentUser;
   
+  @override
   Stream<User?> get authStateChanges => _auth.authStateChanges();
 
+  @override
   Future<void> logInWithEmailAndPassword(String email, String password) async {
     UserCredential userCredential = await _auth.signInWithEmailAndPassword(email: email, password: password);
-    await request.authoriseUser(userCredential.user!.uid);  
+    await _httpService.authoriseUser(userCredential.user!.uid);  
   }
 
+  @override
   Future<void> registerWithEmailAndPassword(String email, String password) async {
-        UserCredential userCredential = await _auth.createUserWithEmailAndPassword(email: email, password: password);
-    // Assuming you have an authoriseUser method that takes a UID and handles backend authorization
-    await request.authoriseUser(userCredential.user!.uid);
+    UserCredential userCredential = await _auth.createUserWithEmailAndPassword(email: email, password: password);
+    await _httpService.authoriseUser(userCredential.user!.uid);
   }
 
+  @override
   Future<void> signOut() async {
     await _auth.signOut();
   }
 }
+
